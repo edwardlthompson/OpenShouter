@@ -1,0 +1,40 @@
+{
+  "mode": "product",
+  "name": "OpenShouter",
+  "short_name": "OpenShouter",
+  "tagline": "Speak notifications, calls, and system events — privately, on your device.",
+  "pitch": "OpenShouter is a FOSS Android announcer that reads notifications aloud, loops incoming caller ID until the ring stops, and speaks battery, power, and location-aware events. It combines Voice Notify-style notification TTS with classic Shouter hardware and telephony features, using only open Android APIs — no Google Play Services, Firebase, or tracking.",
+  "features": [
+    "Notification reader with custom TTS format strings, per-app filters, and regex ignore/replace rules",
+    "Looping caller ID announcements that stop on answer, reject, or missed call",
+    "Battery, charger, shake-to-silence, flip-to-mute, and screen on/off mute controls",
+    "Quiet hours, headset/Bluetooth-only mode, and FOSS geofence rules (no Play Services)",
+    "Foreground service, Quick Settings tile, and home-screen master on/off widget",
+    "Local-only history via Room; MIT licensed and F-Droid-friendly"
+  ],
+  "quick_start": [
+    "Read `docs/START_HERE.md`, `docs/CURSOR_MODES.md`, and `BUILD_PLAN.md` Sequential lane.",
+    "Install Android Studio (or SDK 34+) with JDK 17; open `examples/android/`.",
+    "Follow Sprint 1 in `BUILD_PLAN.md` to scaffold the app modules (do not copy proprietary SDKs).",
+    "On a device or emulator, enable Notification Listener and required runtime permissions (`[ADB]`)."
+  ],
+  "install": "Requires JDK 17 and Android SDK (compile/target 35, min 26). Clone the repo, open `examples/android/`, and run `./gradlew assembleDebug` (or `gradlew.bat` on Windows). Sideload the debug APK or wait for GitHub Releases / F-Droid once Sprint 1+ ships. No Play Store In-App Updates.",
+  "usage": "Work from `BUILD_PLAN.md` (🔲/✅/❌ + AGENT/HUMAN/ADB/AUTO). Type `/` in Cursor Agent chat for `/bootstrap`, `/build`, `/verify`, and `/ship`. ADRs live in `docs/adr/`. Product rules: `.cursor/rules/openshouter.mdc`. After first GitHub push, poll CI with `pwsh scripts/check-github-ci.ps1 -WaitSeconds 300`.",
+  "urls": {
+    "docs": "docs/START_HERE.md",
+    "contributing": "CONTRIBUTING.md",
+    "security": "SECURITY.md",
+    "license": "LICENSE",
+    "design": "docs/DESIGN_GUIDE.md",
+    "branding": "branding/BRANDING.md"
+  },
+  "badge": {
+    "primary": "e94560",
+    "secondary": "4A5F82",
+    "license": "2ea043",
+    "foss": "656d76"
+  },
+  "stacks": [
+    "android"
+  ]
+}

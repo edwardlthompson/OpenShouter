@@ -1,0 +1,14 @@
+---
+description: OpenShouter product constraints (FOSS Android announcer)
+alwaysApply: true
+---
+
+# OpenShouter
+
+- Kotlin + Compose + Hilt + Room/DataStore; package `org.openshouter` after Sprint 1
+- minSdk 26, targetSdk 35; strings in `res/values/strings.xml` only
+- No Google Play Services, Firebase, Play Core, or closed telemetry (ADR-0002)
+- Geofences: `LocationManager` + in-process radius checks, never `play-services-location`
+- Do not log notification text, phone numbers, contact names, or coordinates
+- Task board: `BUILD_PLAN.md`; ADRs: `docs/adr/`; memory: `AGENT_MEMORY.md`
+- Sequential schema lock before Parallel agents; composition roots stay small

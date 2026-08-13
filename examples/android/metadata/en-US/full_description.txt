@@ -1,0 +1,3 @@
+OpenShouter speaks notifications, looping incoming caller ID, battery and power events, and geofence mode changes using on-device Text-to-Speech.
+
+It is a FOSS recreation of classic Shouter features plus Voice Notify-style notification reading. No Google Play Services, no tracking, MIT licensed.

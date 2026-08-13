@@ -1,0 +1,13 @@
+---
+description: Kotlin and Gradle conventions for OpenShouter
+globs: "**/*.{kt,kts}"
+alwaysApply: false
+---
+
+# Kotlin / Gradle
+
+- Prefer `val`, explicit types at public API boundaries, and coroutine `Flow`
+- Domain/use-case files stay JVM-pure (no `android.*` imports) so unit tests skip Robolectric
+- ViewModels expose immutable UI state; no TTS or Telephony calls from Composables
+- Hilt modules live next to the adapter they bind; do not use `object` service locators
+- Gradle: version catalog only; fail if `com.google.android.gms` appears in dependencies
