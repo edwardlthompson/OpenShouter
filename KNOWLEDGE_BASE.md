@@ -109,3 +109,30 @@
 | **Cause** | Node 25+ enables a global Web Storage stub without `--localstorage-file`; jsdom skips installing real Storage and the stub shadows it |
 | **Fix** | Vitest `setupFiles: ["src/test/setup-localStorage.ts"]` installs in-memory Storage when `getItem` is missing |
 | **Prevention** | Keep the setup file; do not rely on Node’s experimental `localStorage` in browser-unit tests |
+
+### KB-012 — Gitleaks first-push parent SHA
+
+| Field | Detail |
+|-------|--------|
+| **Symptom** | Security Scan fails on the first `main` push: `ambiguous argument '<root>^..<head>'` |
+| **Cause** | Gitleaks diffs `before^..after`. The bootstrap commit is a root commit, so `before^` does not exist |
+| **Fix** | Re-run Security Scan via `workflow_dispatch` (full-repo scan). Later pushes use a real parent |
+| **Prevention** | Do not treat the first-push Gitleaks failure as a leak; confirm “no leaks found in partial scan” |
+
+### KB-013 — Pruned-stack CI jobs still run
+
+| Field | Detail |
+|-------|--------|
+| **Symptom** | Child Android-only repo: `Web - Lint, Test, Build` and `Node - Lint, Test` fail; CodeQL `javascript-typescript` exits 32 |
+| **Cause** | Those CI/CodeQL jobs are not gated on `examples/web` / `examples/node` presence |
+| **Fix** | Add `if: hashFiles('examples/web/package-lock.json') != ''` (and node equivalent) on the jobs; drop JS from CodeQL when web is pruned |
+| **Prevention** | Child-repo `/prune` should leave CI job `if:` guards in place |
+
+### KB-014 — Emulator `CallMonitor` needs READ_PHONE_STATE
+
+| Field | Detail |
+|-------|--------|
+| **Symptom** | `connectedDebugAndroidTest` crashes: `SecurityException: listen` in `CallMonitor.start` |
+| **Cause** | `AnnouncerService.onCreate` registers a telephony callback before the emulator grants `READ_PHONE_STATE` |
+| **Fix** | Grant the permission in the instrumented test (or skip `CallMonitor.start` when the permission is missing) |
+| **Prevention** | Never register `TelephonyCallback` without a permission check |
