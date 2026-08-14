@@ -72,7 +72,7 @@ dependencies {
     testImplementation("junit:junit:4.13.2")
     testImplementation("org.robolectric:robolectric:4.16.1")
     testImplementation(libs.coroutines.test)
-    testImplementation("com.google.dagger:hilt-android-testing:2.59.2")
+    testImplementation("com.google.dagger:hilt-android-testing:2.60.1")
     kspTest(libs.hilt.compiler)
 
     androidTestImplementation("androidx.test.ext:junit:1.3.0")
