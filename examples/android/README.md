@@ -1,10 +1,10 @@
 <p align="center">
-  <img src="../../branding/assets/logo-mark.svg" alt="Golden Path" width="64" />
+  <img src="../../branding/assets/logo-mark.png" alt="OpenShouter" width="64" />
 </p>
 
-# Golden Path Android (FOSS)
+# OpenShouter (FOSS Android)
 
-FOSS apps with a clear path from idea to release — FOSS-only Gradle/Kotlin skeleton (no Google Play Services or Firebase). Brand kit: [`branding/BRANDING.md`](../../branding/BRANDING.md).
+FOSS Android TTS announcer (GitHub Releases). Hear chosen alerts without looking — for people who cannot see or read a screen, and for anyone silencing the phone to check it less. No Google Play Services. Brand kit: [`branding/BRANDING.md`](../../branding/BRANDING.md).
 
 ## Repository layout
 
@@ -55,6 +55,6 @@ Before running instrumented tests or manual QA:
 - `SOURCE_DATE_EPOCH` for reproducible builds
 - Pinned Gradle wrapper SHA-256 in `gradle/wrapper/gradle-wrapper.properties`
 
-## F-Droid notes
+## GitHub Releases
 
-Document dependency hashes and reproducible build verification steps in your project's `AGENT_MEMORY.md` when activating module A.
+Download APKs from GitHub Releases. This project is not listed on F-Droid or the Play Store.

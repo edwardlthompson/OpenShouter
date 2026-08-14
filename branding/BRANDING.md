@@ -10,22 +10,23 @@ Replaceable product identity for projects bootstrapped from **agent-project-boot
 | Logos / favicon / heroes | [`branding/assets/`](assets/) | `python3 scripts/sync-design-tokens.py` |
 | Name, pitch, README copy | [`branding/product.json`](product.json) | `python3 scripts/generate-project-readme.py` |
 | Voice guidelines | [`branding/voice.md`](voice.md) | (docs only) |
-
 Official color stylesheet (generated): [`official-colors.css`](official-colors.css).
 
 ## Asset inventory
 
 | File | Use |
 |------|-----|
-| `assets/logo-mark.svg` | App mark; synced to web `icon.svg` / `logo.svg` |
+| `assets/logo-mark.png` | Flat app / launcher mark (source of truth for tiles and icons) |
+| `assets/logo-mark.svg` | SVG wrapper around the PNG for tools that want SVG |
 | `assets/logo-mark-mono.svg` | Monochrome / print |
+| `assets/logo-mark-photo.jpg` | Photorealistic 3D mark for splash (not the launcher icon) |
 | `assets/logo-wordmark.svg` | Wordmark only |
 | `assets/logo-lockup.svg` | Mark + wordmark |
 | `assets/favicon.svg` | Browser tab |
-| `assets/app-icon-512.svg` | Export to store `icon.png` 512×512 (`[HUMAN]`/`[ADB]`) |
-| `assets/readme-hero.svg` | README banner |
+| `assets/app-icon-512.svg` | Wrapper; PNG twin is `logo-mark.png` |
+| `assets/readme-hero.jpg` | Photorealistic README banner |
+| `assets/readme-hero.svg` | Thin SVG wrapper around `readme-hero.jpg` |
 | `assets/social-preview.svg` | GitHub / OG 1280×640 (upload PNG export in repo Settings → Social preview) |
-
 ## Clear space & contrast
 
 - Keep at least 1/8 of the mark’s width as padding around the mark.

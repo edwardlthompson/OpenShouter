@@ -23,6 +23,9 @@ for brand_file in \
   branding/product.schema.json \
   branding/voice.md \
   branding/assets/logo-mark.svg \
+  branding/assets/logo-mark.png \
+  branding/assets/logo-mark-photo.jpg \
+  branding/assets/readme-hero.jpg \
   branding/official-colors.css \
   branding/generated/README.preview.md \
   branding/templates/README.product.md
@@ -126,6 +129,7 @@ if [ -d examples/android ]; then
   REQUIRED_OUTPUTS+=(
     examples/android/app/src/main/java/dev/foss/goldenpath/ui/theme/Color.kt
     examples/android/app/src/main/res/drawable/ic_brand_mark.xml
+    examples/android/app/src/main/res/drawable/ic_splash_mark.xml
   )
 fi
 for out in "${REQUIRED_OUTPUTS[@]}"; do

@@ -9,9 +9,8 @@
 | ------- | --------------- | ---------------------------------------------------------- |
 | `AGENT` | Cursor Agent    | Code, docs, scaffolding, tests, CI config                  |
 | `HUMAN` | Human developer | Approvals, credentials, GitHub settings, product decisions |
-| `ADB`   | Human (Android) | Android SDK, emulator/device testing, F-Droid submission   |
+| `ADB`   | Human (Android) | Android SDK, emulator/device testing                       |
 | `AUTO`  | CI/scripts/bots | GitHub Actions, Dependabot, pre-commit, update checker     |
-
 ## Status markers
 
 Use **emoji markers** (not `- [ ]` GitHub checkboxes) so task state reads clearly in Markdown source and Preview. **Applies repo-wide** — `BUILD_PLAN.md`, module checklists, PR template, feature specs, and security triage.
@@ -21,7 +20,6 @@ Use **emoji markers** (not `- [ ]` GitHub checkboxes) so task state reads clearl
 | 🔲     | Open    | Default for new tasks; work or leave queued                           |
 | ✅      | Done    | Replace 🔲 when complete; archive sprint rows to `COMPLETED_TASKS.md` |
 | ❌      | Blocked | Replace 🔲 when blocked; add brief reason after the description       |
-
 **Task format:** `🔲 [OWNER] Description` · done: `✅ [OWNER] Description` · blocked: `❌ [OWNER] Description — reason`
 
 ```bash
@@ -29,6 +27,7 @@ grep '\[AGENT\]' BUILD_PLAN.md
 grep '\[HUMAN\]' BUILD_PLAN.md
 grep '\[ADB\]' BUILD_PLAN.md
 grep '\[AUTO\]' BUILD_PLAN.md
+
 ```
 
 **Agent rule:** Execute all `[AGENT]` **Sequential** items first, then dispatch **Parallel** agents with isolated file scopes (`docs/PARALLEL_AGENT_SCOPES.md`). Shared schema/types are Sequential-only.
@@ -42,32 +41,28 @@ grep '\[AUTO\]' BUILD_PLAN.md
 | 3    | Run `bash scripts/plan-parallel-dispatch.sh` → read **agent_count**                                                                                                        |
 | 4    | If `agent_count >= 2`, run `/scope` (auto Task dispatch); if `1`, execute inline; if `0`, run `--suggest` and expand the Parallel table (or document `parallel_exception`) |
 | 5    | Sequential owner merges results, runs `watch-agent-gates.sh`, updates BUILD_PLAN (Parallel agents never edit BUILD_PLAN)                                                   |
-
 **Planning (Plan Mode):** Every BUILD_PLAN proposal must include `### Parallelization` with `agent_count_target`, decomposition table, and dry-run from `plan-parallel-dispatch.sh`. Run `check-build-plan-parallel.sh` before human approval.
 
 **Autonomous `/build`:** Runs all `[AGENT]`/`[AUTO]` and Parallel work first, then attempts the grouped **Human & device (after automation)** section via `scripts/attempt-build-plan-row.sh`. Success marks ✅; failure appends `HUMAN_BACKLOG.md` and continues — never halts on human labels.
 
 ---
 
-## Sprint 0 — Bootstrap & identity
+## Child Repo Playbook
 
-<!-- agent_count_target: 2 -->
+> **Sprint Audit — 2026-08-13** archived in COMPLETED_TASKS.md.
+> **Sprints 3–5 and 8** archived in COMPLETED_TASKS.md @ `247faf2`.
+> **Sprint 11 app speak list** archived in COMPLETED_TASKS.md @ `247faf2`.
+
+### Sprint 0 — Bootstrap & identity
+
+<!-- parallel_exception: AGENT parallel listing copy archived to COMPLETED_TASKS.md -->
+
+> Local AGENT/AUTO gates archived in COMPLETED_TASKS.md @ `247faf2`.
 
 ### Sequential (must complete in order)
 
-1. ✅ [AGENT] Copy agent-project-bootstrap v0.17.0 and run `init-project.ps1 -NonInteractive -Stack android -Prune -PruneOptional -DistributionTier foss`
-2. ✅ [AGENT] Fill `branding/product.json` (`mode: product`), ADRs, `AGENT_MEMORY.md`, privacy/threat stubs, and this playbook
-3. ✅ [AUTO] `validate-bootstrap.sh --quick` and `check-build-plan-parallel.sh` passed locally
-3b. ❌ [AUTO] `feature-gate.sh --stack android` — JAVA_HOME not set (unblocks with JDK 17 in Sprint 1)
-4. 🔲 [AUTO] After first push to `main`: `check-github-ci.sh --wait 300` (CI + Security Scan + CodeQL)
-5. 🔲 [AGENT] Run `scripts/setup-github-repo.sh` / `.ps1` when `gh` is authenticated (or leave for HUMAN)
-
-### Parallel (safe after Sequential step 2)
-
-| Task | Owner | Isolated scope |
-|------|-------|----------------|
-| F-Droid metadata copy | AGENT | `examples/android/metadata/` |
-| Fastlane listing copy | AGENT | `examples/android/fastlane/` |
+1. 🔲 [AUTO] After first push to `main`: `check-github-ci.sh --wait 300` (CI + Security Scan + CodeQL)
+2. 🔲 [HUMAN] Run `scripts/setup-github-repo.sh` / `.ps1` after the GitHub remote exists
 
 ### Human & device (after automation)
 
@@ -81,193 +76,178 @@ grep '\[AUTO\]' BUILD_PLAN.md
 
 ---
 
-## Sprint 1 — Android Gradle scaffold
+### Sprint 1 — Android Gradle scaffold
 
-<!-- agent_count_target: 2 -->
+<!-- parallel_exception: AGENT Gradle scaffold archived to COMPLETED_TASKS.md -->
 
-> User implementation plan step 2. Rebrand Golden Path stub to OpenShouter packages. **No feature services yet.**
+> AGENT/ADB rows archived in COMPLETED_TASKS.md @ `247faf2`.
 
 ### Sequential (must complete in order)
 
-1. 🔲 [AGENT] Draft/lock applicationId `org.openshouter`, minSdk 26, compile/targetSdk 35, namespace, and Hilt/Room/Compose catalog versions (schema lock)
-2. 🔲 [HUMAN] Approve package name, SDK targets, and DI choice (Hilt) per ADR-0001
-3. 🔲 [AGENT] Apply Gradle/manifest/permissions skeleton after approval
-
-### Parallel (safe after Sequential step 1)
-
-| Task | Owner | Isolated scope |
-|------|-------|----------------|
-| App module Gradle + AndroidManifest permissions | AGENT | `examples/android/app/build.gradle.kts` |
-| Root Gradle + libs catalog + wrapper pins | AGENT | `examples/android/gradle/` |
-| Unit-test placeholders for new packages | AGENT | `examples/android/app/src/test/java/org/openshouter/` |
+1. 🔲 [HUMAN] Approve package name, SDK targets, and DI choice (Hilt) per ADR-0001
 
 ### Human & device (after automation)
 
-1. 🔲 [ADB] `./gradlew assembleDebug test` on JDK 17
-2. 🔲 [HUMAN] Confirm F-Droid-friendly deps (no Play Services / Firebase) in Gradle manifests
+1. 🔲 [HUMAN] Confirm FOSS deps (no Play Services / Firebase) in Gradle manifests
 
 ---
 
-## Sprint 2 — TTS engine + notification listener
+### Sprint 2 — TTS engine + notification listener
 
-<!-- agent_count_target: 2 -->
+<!-- parallel_exception: AGENT TTS/listener work archived to COMPLETED_TASKS.md -->
+
+> AGENT/ADB rows archived in COMPLETED_TASKS.md @ `247faf2`.
 
 ### Sequential (must complete in order)
 
-1. 🔲 [AGENT] Lock domain models: `SpokenEvent`, `TtsFormatString`, `AppFilterRule`, `RegexRule`, Room entities (schema lock)
-2. 🔲 [AGENT] Implement `TextToSpeechManager` + `NotificationListenerService` against locked types
-
-### Parallel (safe after Sequential step 1)
-
-| Task | Owner | Isolated scope |
-|------|-------|----------------|
-| TTS manager + format-string engine + unit tests | AGENT | `examples/android/app/src/main/java/org/openshouter/tts/` |
-| Notification listener, filters, Room history | AGENT | `examples/android/app/src/main/java/org/openshouter/notification/` |
-| TTS/notification unit tests | AGENT | `examples/android/app/src/test/java/org/openshouter/tts/` |
-
-### Human & device (after automation)
-
-1. 🔲 [ADB] Enable Notification Listener; verify spoken notification + history row
-2. 🔲 [HUMAN] Approve default format string `%app: %title - %text`
+1. 🔲 [HUMAN] Approve default format string `%app: %title - %text`
 
 ---
 
-## Sprint 3 — Looping caller ID announcer
+### Sprint 6 — FOSS geofencing (no Play Services)
 
-<!-- agent_count_target: 2 -->
+<!-- parallel_exception: AGENT geofence work archived to COMPLETED_TASKS.md -->
+
+> AGENT/ADB rows archived in COMPLETED_TASKS.md @ `247faf2`.
 
 ### Sequential (must complete in order)
 
-1. 🔲 [AGENT] Lock `IncomingCallEvent` + start/stop loop contract (stop on OFFHOOK, IDLE, reject)
-2. 🔲 [AGENT] Implement `CallAnnouncerService` using `TelephonyCallback` (API 31+) with `PhoneStateListener` fallback
-
-### Parallel (safe after Sequential step 1)
-
-| Task | Owner | Isolated scope |
-|------|-------|----------------|
-| Telephony callback / phone state receiver | AGENT | `examples/android/app/src/main/java/org/openshouter/call/` |
-| Contacts lookup (`ContactsContract`) | AGENT | `examples/android/app/src/main/java/org/openshouter/contacts/` |
-
-### Human & device (after automation)
-
-1. 🔲 [ADB] Incoming call from known contact loops TTS until answer/reject
-2. 🔲 [ADB] Unknown number announces digits; loop stops on miss
+1. 🔲 [HUMAN] Confirm background location UX copy and privacy disclosure
 
 ---
 
-## Sprint 4 — Battery, power, and mute gestures
+### Sprint 7 — Compose settings UI
 
-<!-- agent_count_target: 2 -->
+<!-- parallel_exception: AGENT settings UI archived to COMPLETED_TASKS.md -->
+
+> AGENT/ADB rows archived in COMPLETED_TASKS.md @ `247faf2`.
 
 ### Sequential (must complete in order)
 
-1. 🔲 [AGENT] Lock `PowerEvent` + `MuteGesture` settings keys and interrupt API on `TextToSpeechManager`
-2. 🔲 [AGENT] Wire receivers/sensors to the interrupt API
-
-### Parallel (safe after Sequential step 1)
-
-| Task | Owner | Isolated scope |
-|------|-------|----------------|
-| Battery/power broadcast receiver + thresholds | AGENT | `examples/android/app/src/main/java/org/openshouter/power/` |
-| Shake, flip-down, screen on/off mute sensors | AGENT | `examples/android/app/src/main/java/org/openshouter/gesture/` |
-
-### Human & device (after automation)
-
-1. 🔲 [ADB] Low battery, charger connect/disconnect, 100% / 15% thresholds speak as configured
-2. 🔲 [ADB] Shake and face-down stop in-progress TTS
+1. 🔲 [HUMAN] Copy review for permission rationales
 
 ---
 
-## Sprint 5 — Quiet hours and audio routing
+### Sprint 9 — Notification TTS quality + unused settings UI
 
-<!-- agent_count_target: 2 -->
+<!-- agent_count_target: 4 -->
+
+> Inventory: `docs/features/parity-matrix.md`. Unlock DataStore/Room that already exists, then match Voice Notify playback/filter axes. **Do not start until this plan is approved in chat.**
 
 ### Sequential (must complete in order)
 
-1. 🔲 [AGENT] Lock `AnnouncementGate` (quiet hours, screen-off-only, headset/A2DP-only) as a pure function
-2. 🔲 [AGENT] Apply gate before every TTS speak
+1. 🔲 [AGENT] Lock `TtsPlaybackPolicy` (stream, delaySeconds, maxLength, audioFocus, speakEmojis, repeatMinutes) and `DeviceStatePolicy` (screen on/off, headset on/off, silent/vibrate, inCall) in `domain/`; persist on `AppSettings` + DataStore
+2. 🔲 [AGENT] Apply both policies in `AnnouncementGate` + `TtsController` before every speak (including call/power)
 
 ### Parallel (safe after Sequential step 1)
 
 | Task | Owner | Isolated scope |
 |------|-------|----------------|
-| Quiet-hours schedule + day-of-week logic/tests | AGENT | `examples/android/app/src/main/java/org/openshouter/gate/` |
-| Audio route detector (wired + Bluetooth A2DP) | AGENT | `examples/android/app/src/main/java/org/openshouter/audio/` |
-
+| Quiet-hours start/end/day picker UI | AGENT | `examples/android/app/src/main/java/org/openshouter/ui/quiet/` |
+| History viewer + clear (package + time; spoken text toggle) | AGENT | `examples/android/app/src/main/java/org/openshouter/ui/history/` |
+| Regex / ignore-require / empty-group-repeat filter UI | AGENT | `examples/android/app/src/main/java/org/openshouter/ui/filters/` |
+| TTS playback settings + voice test + system TTS shortcut | AGENT | `examples/android/app/src/main/java/org/openshouter/ui/tts/` |
 ### Human & device (after automation)
 
-1. 🔲 [ADB] Quiet hours suppress announcements; headset-only mode silent on speaker
+1. 🔲 [ADB] Quiet-hours custom window suppresses; history lists without leaking payloads to logcat
+2. 🔲 [ADB] Test notification speaks with delay/max-length; shake threshold change interrupts
+3. 🔲 [HUMAN] Approve ADR-0003 (message via notifications, no `READ_SMS`)
+
+### Critique
+
+| Issue | Resolution |
+|-------|------------|
+| Null/empty format or regex | Reject blank; `RegexFilter.MAX_PATTERN`; unit tests |
+| Network timeout | N/A — local settings only |
+| Race TTS vs call loop | Single `TtsController`; call still flush-queue |
+| Unhandled TTS/regex errors | `runCatching` skip event |
+| History PII | UI default: package + timestamp; no logcat of title/text |
+### Parallelization
+
+- Sequential lock: `TtsPlaybackPolicy`, `DeviceStatePolicy`, DataStore keys
+- `agent_count_target`: 4
+- Dry-run: four non-overlapping `ui/{quiet,history,filters,tts}/` AGENT rows
 
 ---
 
-## Sprint 6 — FOSS geofencing (no Play Services)
+### Sprint 10 — Shouter shout channels
 
-<!-- agent_count_target: 2 -->
+<!-- agent_count_target: 4 -->
+
+> Time, battery phrase UI, missed call, message-via-notifications, reminders. Requires Sprint 9 policies.
 
 ### Sequential (must complete in order)
 
-1. 🔲 [AGENT] Lock `GeofenceRule` (lat/lng/radius, enter/exit, mode toggle) per ADR-0002
-2. 🔲 [AGENT] Implement in-process geofence evaluator on `LocationManager` (not `play-services-location`)
+1. 🔲 [AGENT] Lock `TimeShoutSchedule`, `ReminderEntity`, `MessageChannelPolicy`, `MissedCallPolicy` (no SMS permissions)
+2. 🔲 [AGENT] Shared `AlarmScheduler` adapter (inexact default; exact opt-in)
 
 ### Parallel (safe after Sequential step 1)
 
 | Task | Owner | Isolated scope |
 |------|-------|----------------|
-| Location manager + fence evaluator + tests | AGENT | `examples/android/app/src/main/java/org/openshouter/geo/` |
-| Saved places (Home/Work) persistence | AGENT | `examples/android/app/src/main/java/org/openshouter/places/` |
-
+| Interval time announcer + format | AGENT | `examples/android/app/src/main/java/org/openshouter/time/` |
+| Voice reminders + optional notification | AGENT | `examples/android/app/src/main/java/org/openshouter/reminder/` |
+| Message channel (notification extras + contacts) | AGENT | `examples/android/app/src/main/java/org/openshouter/message/` |
+| Missed-call shout + unknown-number / contact rules | AGENT | `examples/android/app/src/main/java/org/openshouter/missed/` |
 ### Human & device (after automation)
 
-1. 🔲 [ADB] Enter/exit Home fence toggles announcement mode
-2. 🔲 [HUMAN] Confirm background location UX copy and privacy disclosure
+1. 🔲 [ADB] Time shout at interval; missed call after RING→IDLE; SMS app notification uses Message rules
+2. 🔲 [HUMAN] Approve `SCHEDULE_EXACT_ALARM` opt-in copy if “Announce accurately” ships
+3. 🔲 [ADB] Battery situation toggles + custom phrases without logging percents next to identity
+
+### Critique
+
+| Issue | Resolution |
+|-------|------------|
+| Null/empty reminder text | Require non-blank; skip empty TTS |
+| Alarm Doze / timeout | Inexact alarms by default; exact is opt-in + [HUMAN] copy |
+| Race reminder vs notification TTS | Same `TtsController` |
+| Unhandled AlarmManager | Catch and skip; no crash |
+| SMS permission creep | ADR-0003 — listener only |
+### Parallelization
+
+- Sequential lock: schedule/reminder/message/missed types + `AlarmScheduler`
+- `agent_count_target`: 4
+- Dry-run: `time/`, `reminder/`, `message/`, `missed/`
 
 ---
 
-## Sprint 7 — Compose settings UI
+### Sprint 11 — Per-app overrides + backup
 
 <!-- agent_count_target: 2 -->
 
+> **App speak list** archived in COMPLETED_TASKS.md @ `247faf2`.
+
 ### Sequential (must complete in order)
 
-1. 🔲 [AGENT] Lock navigation graph: Dashboard, App Rules, Audio/TTS, Gestures, Quiet Hours, Places, About
-2. 🔲 [AGENT] Wire screens to existing ViewModels (composition root stays small)
+1. 🔲 [AGENT] Lock backup file allowlist (DataStore + `app_speak_rules` only; exclude history payloads)
 
 ### Parallel (safe after Sequential step 1)
 
 | Task | Owner | Isolated scope |
 |------|-------|----------------|
-| Dashboard + permission status | AGENT | `examples/android/app/src/main/java/org/openshouter/ui/dashboard/` |
-| App list rules + TTS format editor | AGENT | `examples/android/app/src/main/java/org/openshouter/ui/rules/` |
-| Gesture / quiet-hours / audio settings | AGENT | `examples/android/app/src/main/java/org/openshouter/ui/settings/` |
-
+| Per-app override editor | AGENT | `examples/android/app/src/main/java/org/openshouter/ui/overrides/` |
+| Settings backup/restore zip (exclude history text) | AGENT | `examples/android/app/src/main/java/org/openshouter/backup/` |
 ### Human & device (after automation)
 
-1. 🔲 [ADB] TalkBack pass on primary settings screens
-2. 🔲 [HUMAN] Copy review for permission rationales
+1. 🔲 [ADB] Searchable app list; App name only vs Notification vs both; unlisted apps silent
+2. 🔲 [ADB] Backup zip restores toggles; history payloads absent from zip
+3. 🔲 [HUMAN] Confirm QUERY_ALL_PACKAGES Play-policy N/A (GitHub Releases only)
 
----
+### Critique
 
-## Sprint 8 — Quick Settings tile, widget, foreground service
+| Issue | Resolution |
+|-------|------------|
+| Null override fields | `merge(global, override)` treats null as inherit; tests |
+| Network timeout | N/A — SAF URI local file |
+| Race picker vs package install | Reload list on resume |
+| Unhandled zip I/O | Typed error snackbar; leave DB closed/reopened like VN pattern |
+| History in backup | Sequential lock: DataStore + `app_speak_rules` only |
+### Parallelization
 
-<!-- agent_count_target: 2 -->
-
-### Sequential (must complete in order)
-
-1. 🔲 [AGENT] Lock master `AnnouncerEnabled` DataStore key shared by tile, widget, and foreground service
-2. 🔲 [AGENT] Implement persistent foreground notification + tile + widget against that key
-
-### Parallel (safe after Sequential step 1)
-
-| Task | Owner | Isolated scope |
-|------|-------|----------------|
-| Foreground service + persistent notification | AGENT | `examples/android/app/src/main/java/org/openshouter/service/` |
-| QS tile + home-screen widget | AGENT | `examples/android/app/src/main/java/org/openshouter/quicksettings/` |
-
-### Human & device (after automation)
-
-1. 🔲 [ADB] Tile and widget toggle master on/off; service survives app swipe-away on API 34+
-2. 🔲 [ADB] Runtime permission flow: POST_NOTIFICATIONS, phone, contacts, location (fine then background)
-3. 🔲 [HUMAN] F-Droid metadata + reproducible APK when product-ready
+- Sequential lock: backup file allowlist
+- `agent_count_target`: 2
+- Dry-run: `ui/overrides/`, `backup/`
 
 ---
 
@@ -295,4 +275,7 @@ grep '\[AUTO\]' BUILD_PLAN.md
 
 | Sprint | Status | Archive |
 | ------ | ------ | ------- |
+| Sprint Audit — 2026-08-13 | Complete | `COMPLETED_TASKS.md` |
+| Sprints 3–5 and 8 | Complete | `COMPLETED_TASKS.md` |
+| Sprint 11 app speak list | Complete | `COMPLETED_TASKS.md` |
 | Template maintainer sprints (v0.9.0–v0.17.0) | Complete (upstream) | `COMPLETED_TASKS.md` (provenance from agent-project-bootstrap) |

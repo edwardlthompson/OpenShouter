@@ -1,4 +1,6 @@
-# Module A: Android / F-Droid Pure Compliance
+# Module A: Android / FOSS Compliance
+
+> This OpenShouter child repo ships **GitHub Releases only** (no F-Droid or Play listing). The rest of this module still forbids GMS/Firebase.
 
 > Activate when your stack includes Android or F-Droid distribution.
 

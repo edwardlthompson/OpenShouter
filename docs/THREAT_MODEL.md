@@ -8,8 +8,7 @@
 |------|-------|
 | Project | OpenShouter |
 | Stack | Android / Kotlin / Compose (minSdk 26, targetSdk 35) |
-| Distribution | GitHub Releases, F-Droid (planned), sideload |
-
+| Distribution | GitHub Releases only (sideload APK) |
 ## Trust Boundaries
 
 ```text
@@ -21,6 +20,7 @@
               +--> [TTS engine] --> [Audio HAL / Bluetooth A2DP]
               +--> [Room / DataStore] --> [App-private storage]
               +--> [GitHub Releases API] --> [Optional update metadata only]
+
 ```
 
 Other apps' notification payloads and the contact database are **untrusted input**. TTS output is user-audible and must not leak into logs.
@@ -35,7 +35,6 @@ Other apps' notification payloads and the contact database are **untrusted input
 | Information disclosure | Notification text in logcat | Never log title/body/phone; redact in crash paths | AGENT |
 | Denial of service | TTS loop + wake lock abuse | Call loop tied to RINGING only; gesture interrupt; quiet hours | AGENT |
 | Elevation of privilege | Using Notification Listener beyond speak/log | No accessibility-node scraping; no export without user action | AGENT |
-
 ## Top Abuse Cases
 
 1. **Notification content leak** via verbose logging or screenshots in bug reports — mitigate: default log level excludes payload; HISTORY is local and user-clearable

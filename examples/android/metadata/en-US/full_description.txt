@@ -1,3 +1,7 @@
-OpenShouter speaks notifications, looping incoming caller ID, battery and power events, and geofence mode changes using on-device Text-to-Speech.
+OpenShouter reads the notifications and calls you choose — out loud — so you do not have to look at the phone.
 
-It is a FOSS recreation of classic Shouter features plus Voice Notify-style notification reading. No Google Play Services, no tracking, MIT licensed.
+That helps people who cannot see a screen, or cannot read what is on it. It also helps anyone who wants to check the phone less. Silence ringtones and notification sounds, whitelist only the apps that matter, and let OpenShouter speak those. Everything else stays quiet.
+
+You still get looping caller ID, battery and power alerts, mute gestures (shake, flip, screen on/off), quiet hours, headset-only mode, and on-device geofences.
+
+FOSS. No Google Play Services. No tracking. MIT licensed. Download APKs from GitHub Releases only — there is no Play Store or F-Droid listing.

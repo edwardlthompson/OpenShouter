@@ -1,0 +1,5 @@
+OpenShouter reads the notifications and calls you choose — out loud — so you do not have to look at the phone.
+
+That helps people who cannot see a screen, or cannot read what is on it. It also helps anyone who wants to check the phone less. Silence ringtones and notification sounds, whitelist only the apps that matter, and let OpenShouter speak those. Everything else stays quiet.
+
+FOSS. No Google Play Services. Distributed via GitHub Releases only.

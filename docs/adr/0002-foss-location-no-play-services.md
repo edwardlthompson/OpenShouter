@@ -6,7 +6,7 @@
 
 ## Context
 
-The original product brief asked for Google Play Services Location / Geofencing APIs so users can auto-toggle announcement modes at Home/Work. `agent-project-bootstrap` Module A and `.cursor/rules/foss-compliance.mdc` forbid proprietary SDKs (`play-services-location`, Firebase, Play Core). F-Droid will reject GMS binaries.
+The original product brief asked for Google Play Services Location / Geofencing APIs so users can auto-toggle announcement modes at Home/Work. `agent-project-bootstrap` Module A and `.cursor/rules/foss-compliance.mdc` forbid proprietary SDKs (`play-services-location`, Firebase, Play Core). OpenShouter ships GitHub Releases only and still must not ship GMS binaries.
 
 ## Decision
 
@@ -30,6 +30,6 @@ The original Shouter-style *behavior* (Home/Work silent or announce modes) is in
 
 | Option | Rejected because |
 |--------|------------------|
-| `play-services-location` GeofencingClient | Proprietary; F-Droid / Module A violation |
+| `play-services-location` GeofencingClient | Proprietary; Module A / FOSS violation |
 | microG as a runtime dependency | Extra user setup; not hermetic FOSS in our APK |
 | Skip geofencing entirely | Drops a stated Shouter parity feature |

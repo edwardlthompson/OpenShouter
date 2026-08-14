@@ -14,5 +14,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "golden-path-android"
+rootProject.name = "openshouter"
 include(":app")

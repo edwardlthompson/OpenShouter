@@ -1,13 +1,10 @@
 package dev.foss.goldenpath.ui
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -15,7 +12,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import dev.foss.goldenpath.R
@@ -24,8 +20,6 @@ import dev.foss.goldenpath.ui.about.AboutScreen
 import dev.foss.goldenpath.ui.components.GoldenPathScaffold
 import dev.foss.goldenpath.ui.components.ThemeToggle
 import dev.foss.goldenpath.ui.settings.SettingsScreen
-import dev.foss.goldenpath.ui.theme.SpacingLg
-import dev.foss.goldenpath.ui.theme.SpacingMd
 import dev.foss.goldenpath.ui.theme.ThemeMode
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -50,6 +44,7 @@ fun GoldenPathScreen(
     onSettingsClose: () -> Unit,
     onUpdateCheckChange: (Boolean) -> Unit,
     onApplyUpdate: () -> Unit,
+    home: @Composable (Modifier) -> Unit,
 ) {
     GoldenPathScaffold(
         snackbarHostState = snackbarHostState,
@@ -97,37 +92,11 @@ fun GoldenPathScreen(
                     .fillMaxSize()
                     .padding(innerPadding),
             )
-            else -> Column(
-                modifier = Modifier
+            else -> home(
+                Modifier
                     .fillMaxSize()
-                    .padding(innerPadding)
-                    .padding(SpacingMd),
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center,
-            ) {
-                Text(
-                    text = stringResource(R.string.app_greeting),
-                    style = MaterialTheme.typography.headlineMedium,
-                    color = MaterialTheme.colorScheme.primary,
-                )
-                Text(
-                    text = stringResource(
-                        if (isOnline) R.string.app_status_online else R.string.app_status_offline,
-                    ),
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    modifier = Modifier.padding(top = SpacingLg),
-                )
-                val currentUpdateLabel = stringResource(R.string.about_update_current)
-                if (updateStatus != currentUpdateLabel) {
-                    Text(
-                        text = updateStatus,
-                        style = MaterialTheme.typography.bodySmall,
-                        color = MaterialTheme.colorScheme.tertiary,
-                        modifier = Modifier.padding(top = SpacingMd),
-                    )
-                }
-            }
+                    .padding(innerPadding),
+            )
         }
     }
 }

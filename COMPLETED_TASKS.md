@@ -2,6 +2,80 @@
 
 > Archive of finished BUILD_PLAN items.
 
+## Sprint 11 — App speak list (2026-08-13)
+
+- ✅ [AGENT] Lock `AppSpeakRule` (speakAppName + speakNotification) + `QUERY_ALL_PACKAGES` + Room `app_speak_rules`
+- ✅ [AGENT] Utterance helper + unit tests (name only / body only / both / silent)
+- ✅ [AGENT] Searchable installed-app list with two checkboxes (`ui/apps/`)
+
+## OpenShouter Sprints 0–8 executed AGENT/AUTO/ADB (2026-08-13)
+
+### Sprint 0
+
+- ✅ [AGENT] Copy agent-project-bootstrap v0.17.0 and run `init-project.ps1 -NonInteractive -Stack android -Prune -PruneOptional -DistributionTier foss`
+- ✅ [AGENT] Fill `branding/product.json` (`mode: product`), ADRs, `AGENT_MEMORY.md`, privacy/threat stubs, and this playbook
+- ✅ [AUTO] `validate-bootstrap.sh --quick` and `check-build-plan-parallel.sh` passed locally
+- ✅ [AUTO] `feature-gate.sh --stack android` passed locally (unit tests + assembleDebug)
+
+### Sprint 1
+
+- ✅ [AGENT] Draft/lock applicationId `org.openshouter`, minSdk 26, compile/targetSdk 35, namespace, and Hilt/Room/Compose catalog versions (schema lock)
+- ✅ [AGENT] Apply Gradle/manifest/permissions skeleton after approval
+- ✅ [ADB] `./gradlew assembleDebug test` on JDK 17
+
+### Sprint 2
+
+- ✅ [AGENT] Lock domain models: `SpokenEvent`, `TtsFormatString`, `AppFilterRule`, `RegexRule`, Room entities (schema lock)
+- ✅ [AGENT] Implement `TextToSpeechManager` + `NotificationListenerService` against locked types
+- ✅ [ADB] Enable Notification Listener; verify spoken notification + history row
+
+### Sprint 3
+
+- ✅ [AGENT] Lock `IncomingCallEvent` + start/stop loop contract (stop on OFFHOOK, IDLE, reject)
+- ✅ [AGENT] Implement `CallAnnouncerService` using `TelephonyCallback` (API 31+) with `PhoneStateListener` fallback
+- ✅ [ADB] Incoming call from known contact loops TTS until answer/reject
+- ✅ [ADB] Unknown number announces digits; loop stops on miss
+
+### Sprint 4
+
+- ✅ [AGENT] Lock `PowerEvent` + `MuteGesture` settings keys and interrupt API on `TextToSpeechManager`
+- ✅ [AGENT] Wire receivers/sensors to the interrupt API
+- ✅ [ADB] Low battery, charger connect/disconnect, 100% / 15% thresholds speak as configured
+- ✅ [ADB] Shake and face-down stop in-progress TTS
+
+### Sprint 5
+
+- ✅ [AGENT] Lock `AnnouncementGate` (quiet hours, screen-off-only, headset/A2DP-only) as a pure function
+- ✅ [AGENT] Apply gate before every TTS speak
+- ✅ [ADB] Quiet hours suppress announcements; headset-only mode silent on speaker
+
+### Sprint 6
+
+- ✅ [AGENT] Lock `GeofenceRule` (lat/lng/radius, enter/exit, mode toggle) per ADR-0002
+- ✅ [AGENT] Implement in-process geofence evaluator on `LocationManager` (not `play-services-location`)
+- ✅ [ADB] Enter/exit Home fence toggles announcement mode
+
+### Sprint 7
+
+- ✅ [AGENT] Lock navigation graph: Dashboard, App Rules, Audio/TTS, Gestures, Quiet Hours, Places, About
+- ✅ [AGENT] Wire screens to existing ViewModels (composition root stays small)
+- ✅ [ADB] TalkBack pass on primary settings screens
+
+### Sprint 8
+
+- ✅ [AGENT] Lock master `AnnouncerEnabled` DataStore key shared by tile, widget, and foreground service
+- ✅ [AGENT] Implement persistent foreground notification + tile + widget against that key
+- ✅ [ADB] Tile and widget toggle master on/off; service survives app swipe-away on API 34+
+- ✅ [ADB] Runtime permission flow: POST_NOTIFICATIONS, phone, contacts, location (fine then background)
+- ❌ [HUMAN] F-Droid metadata — out of scope (GitHub Releases only)
+
+## Sprint Audit — 2026-08-13
+
+- ✅ [AGENT] F-001: set debug `DebugReceiver` `exported=false`
+- ✅ [AGENT] F-002: disable backup / exclude Room+DataStore from extraction
+- ✅ [AGENT] F-003: prune notification history to 100 rows after insert
+- ✅ [AGENT] F-004: skip regex patterns longer than 200 characters
+
 ## OpenShouter Sprint 0 — template clone + identity (2026-08-13)
 
 - ✅ [AGENT] Copy agent-project-bootstrap v0.17.0 into this repo (keep child `.git`)
@@ -717,4 +791,3 @@ Post-M19 review: close prompt/read-order gaps and enforce CURSOR_MODES in bootst
 - ✅ [AGENT] Android About parity: DonationsLoader, ReleaseTagFetcher, GoldenPathApp composition root
 - ✅ [AGENT] Opt-in update checks default `off`; About interval UI removed (Settings toggle only)
 - ✅ [AGENT] CI/release: CodeQL java-kotlin, node SBOM + health-check audit
-

@@ -126,6 +126,7 @@ fun GoldenPathApp(
                         UpdateApplyCoordinator.applySideloadUpdate(host, appUpdatePreferences, asset)
                     }
                 },
+                home = { org.openshouter.ui.OpenShouterHome(it) },
             )
         }
     }

@@ -1,1 +1,1 @@
-FOSS TTS announcer for notifications, calls, battery, and geofences.
+Hear chosen alerts aloud. Look away. Check the phone less. FOSS Android TTS.

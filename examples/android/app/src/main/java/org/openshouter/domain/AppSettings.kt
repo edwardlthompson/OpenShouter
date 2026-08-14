@@ -1,0 +1,29 @@
+package org.openshouter.domain
+
+enum class FilterMode { WHITELIST, BLACKLIST }
+
+data class AppSettings(
+    val announcerEnabled: Boolean = true,
+    val notificationsEnabled: Boolean = true,
+    val callsEnabled: Boolean = true,
+    val ttsFormat: String = TtsFormat.DEFAULT,
+    val filterMode: FilterMode = FilterMode.BLACKLIST,
+    val listedPackages: Set<String> = emptySet(),
+    val quietHoursEnabled: Boolean = false,
+    val quietStartMinutes: Int = 22 * 60,
+    val quietEndMinutes: Int = 7 * 60,
+    val quietDays: Set<Int> = setOf(1, 2, 3, 4, 5, 6, 7),
+    val screenOffOnly: Boolean = false,
+    val headsetOnly: Boolean = false,
+    val shakeToSilence: Boolean = true,
+    val flipToMute: Boolean = true,
+    val muteOnScreenOn: Boolean = false,
+    val muteOnScreenOff: Boolean = false,
+    val lowBatteryAlert: Boolean = true,
+    val powerConnectAlert: Boolean = true,
+    val batteryFullPercent: Int = 100,
+    val batteryLowPercent: Int = 15,
+    val setupComplete: Boolean = false,
+    val timeShoutEnabled: Boolean = false,
+    val timeShoutIntervalMinutes: Int = TimeShout.INTERVAL_HOUR,
+)

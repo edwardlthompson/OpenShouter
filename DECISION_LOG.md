@@ -12,9 +12,45 @@
 - **Decision:** ...
 - **Alternatives considered:** ...
 - **Consequences:** ...
+
 ```
 
 ## Entries
+
+### 2026-08-14 — Photoreal splash/README vs flat launcher mark
+- **Status:** Accepted
+- **Context:** Generated flat bugdroid-head mark works as the launcher icon. User wanted a photorealistic render for splash and README only.
+- **Decision:** Keep `logo-mark.png` as the app/tile icon. Ship JPEG photoreal twins (`logo-mark-photo.jpg`, `readme-hero.jpg`) under the 500KB tracked-file budget. Android 12+ splash via `androidx.core:core-splashscreen`. Skip About feature-gate when `examples/web` is pruned. First product tag is v0.1.0.
+- **Alternatives considered:** Photoreal PNG at 1–2MB (rejected: hygiene 500KB gate); replace launcher with photoreal (rejected: user kept the flat icon)
+- **Consequences:** `sync-design-tokens.py` copies the photo JPEG to `drawable-nodpi/openshouter_splash.jpg`. README hero is `branding/assets/readme-hero.jpg`.
+
+### 2026-08-13 — Welcome permissions + exact hourly shout
+- **Status:** Accepted
+- **Context:** Welcome needed one-tap paths for every permission, including OEM battery Unrestricted. Hourly time shout must fire on the clock after Doze.
+- **Decision:** First-run `SetupScreen` with per-permission Activate buttons (`REQUEST_IGNORE_BATTERY_OPTIMIZATIONS`, app details, `SCHEDULE_EXACT_ALARM`). Time shout uses `AlarmManager.setAlarmClock` plus sticky FGS and boot/replace restart. GitHub Releases only — Play policy N/A for ignore-battery.
+- **Alternatives considered:** Inexact `setAndAllowWhileIdle` only (rejected: late after Doze); `USE_EXACT_ALARM` install-time grant (rejected: clock-app policy surface)
+- **Consequences:** Toggle **Announce the time on the hour** in announcer settings. Quiet hours still apply via `SpeakGate`.
+
+### 2026-08-13 — Branding: eyes-free and digital quiet
+- **Status:** Accepted (copy + SVG mark; PNG exports still HUMAN/ADB)
+- **Context:** Assets still said Golden Path. User asked for a pitch that serves people who cannot see or read a screen, and people cutting down on phone-checking (silent ringer, whitelist, less noise).
+- **Decision:** Tagline “Hear what matters without looking.” Mark is a speaker + sound waves (not a shout). README/listing copy leads with both audiences. No medical or addiction claims.
+- **Alternatives considered:** Keep developer-first pitch (rejected: hides the product); megaphone-yell mark (rejected: fights “calm, not shouty” voice)
+- **Consequences:** `branding/product.json` is the README source; regenerate with `generate-project-readme.py`. GitHub About and Fastlane/metadata aligned. In-app greeting + pitch strings on the dashboard.
+
+### 2026-08-13 — Feature parity plan (Shouter Pro + Voice Notify)
+- **Status:** Proposed (awaiting chat approval before AGENT coding)
+- **Context:** User asked for a granular matrix from installed Shouter Pro (page-by-page on CPH2583) and Voice Notify, then a plan to add gaps. Voice Notify is not installed; used GitHub source. Shouter APK includes GMS/Firebase keys and Placebook — both forbidden here.
+- **Decision:** Port behavior, not UI. Sprint 9 = VN-class TTS/filters + unused settings UI; Sprint 10 = Shouter channels (time, missed call, message-via-notifications, reminders, battery UI); Sprint 11 = app picker, per-app overrides, settings zip. Message shout without `READ_SMS` (ADR-0003). Skip Placebook, GMS analytics, store growth links. Keep flip-to-mute, silent geofences, GitHub updates.
+- **Alternatives considered:** Pixel-clone Shouter preference screens (rejected: Compose + token limits); `READ_SMS` (rejected: policy/privacy); Placebook dependency (rejected: ADR-0002)
+- **Consequences:** `BUILD_PLAN.md` Sprints 9–11 stay 🔲 until the human approves; inventory lives in `docs/features/parity-matrix.md`
+
+### 2026-08-13 — GitHub Releases only
+- **Status:** Accepted (product direction; ADRs 0001/0002 still Proposed for HUMAN)
+- **Context:** OpenShouter is FOSS Android; user confirmed distribution is GitHub download only
+- **Decision:** Ship APKs via GitHub Releases. No Play Store listing, no F-Droid listing, no Play Core. Still forbid GMS/Firebase
+- **Alternatives considered:** F-Droid (rejected: out of scope); Play Store (rejected: proprietary update/billing path)
+- **Consequences:** Listing copy lives under `examples/android/metadata/` and Fastlane for GitHub About/Releases; `release_repo` is filled after the first push
 
 ### 2026-08-12 — Ship v0.17.0 branding kit (/ship)
 - **Status:** Accepted
