@@ -17,6 +17,13 @@
 
 ## Entries
 
+### 2026-08-15 — /ship v0.2.0
+- **Status:** Accepted
+- **Context:** Release Please merged #3 as v0.2.0. CI/CodeQL were red on the first-push SHA until Web/Node jobs and CodeQL JS were gated (KB-013). About unit tests failed on CI because they expected gitignored live assets.
+- **Decision:** Ship v0.2.0 with in-scope parity, dynamic CodeQL matrix, tolerant About tests, SBOM assets, and a debug-signed `OpenShouter-0.2.0.apk`.
+- **Alternatives considered:** Block ship until old SHA turned green (impossible). Job-level `if: matrix.language` for CodeQL (rejected: Actions treats it as a workflow-file error).
+- **Consequences:** HUMAN/ADB backlog remains. Next updates must keep the same debug signing key.
+
 ### 2026-08-15 — /ship v0.2.0 prep
 - **Status:** Accepted
 - **Context:** `/prerelease` local gates passed; remote CI/CodeQL on `2ea76a1` were red because Web/Node and CodeQL JS still ran on the pruned Android-only tree (KB-013).

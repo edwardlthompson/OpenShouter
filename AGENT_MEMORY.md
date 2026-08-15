@@ -77,6 +77,7 @@ OpenShouter is a FOSS recreation/enhancement of classic Shouter (`com.bhkapps.sh
 | 2026-08-14 | `/build` Sprints 9–11 | TtsPlaybackPolicy, quiet hours, history/filters/TTS, shout channels, backup allowlist, overrides | Reminder alarms not scheduled; backup is cache zip; CI red until `/push` |
 | 2026-08-14 | Parity closeout plan | Sprints 12–13 added to BUILD_PLAN for 100% in-scope No/Partial | Skip rows stay out (Placebook, GMS, Facebook, in-app language, READ_SMS) |
 | 2026-08-15 | Sprint 14 Partial close-out | Live g-meter, language chips, channel grid, reminder intervals | ADB still needed for meter/chips/alarms on device |
+| 2026-08-15 | `/ship` v0.2.0 | feat + CI/CodeQL KB-013 fixes; Release Please #3; APK + SBOM on GitHub Release | About tests must not require gitignored live assets |
 ## Template Provenance
 
 - **Source template:** `edwardlthompson/agent-project-bootstrap`

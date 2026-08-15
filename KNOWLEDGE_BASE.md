@@ -125,8 +125,8 @@
 |-------|--------|
 | **Symptom** | Child Android-only repo: `Web - Lint, Test, Build` and `Node - Lint, Test` fail; CodeQL `javascript-typescript` exits 32 |
 | **Cause** | Those CI/CodeQL jobs are not gated on `examples/web` / `examples/node` presence |
-| **Fix** | Add `if: hashFiles('examples/web/package-lock.json') != ''` (and node equivalent) on the jobs; drop JS from CodeQL when web is pruned |
-| **Prevention** | Child-repo `/prune` should leave CI job `if:` guards in place |
+| **Fix** | Gate Web/Node CI jobs on `needs.stack-presence.outputs.*`. For CodeQL, emit a dynamic `matrix.include` from stack presence — do not use a job-level `if:` on `matrix.language` (Actions treats that as a workflow-file error and the run fails in 0s). |
+| **Prevention** | Child-repo `/prune` should leave CI job `if:` guards in place; CodeQL languages must be built as JSON matrix output |
 
 ### KB-014 — Emulator `CallMonitor` needs READ_PHONE_STATE
 

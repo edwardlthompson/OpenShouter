@@ -31,14 +31,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-### Added
-
-* **openshouter:** Sprints 9–14 in-scope Shouter / Voice Notify parity — TTS playback policy, quiet-hours grid, history + ignore reasons, regex filters, shout channels (call/message/time/battery/reminders), per-app overrides, SAF backup, OEM autostart, live shake g-meter, engine language picker, per-channel device-state grid, reminder hour/day/week/month/year intervals
-
-### Fixed
-
-* **ci:** skip Web/Node jobs and CodeQL JavaScript when those stacks are pruned (KB-013)
-
 ## [0.1.0] - 2026-08-14
 
 First OpenShouter product release (Android APK). Scaffolded from agent-project-bootstrap 0.17.0.
