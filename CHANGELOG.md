@@ -6,6 +6,29 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.2.0](https://github.com/edwardlthompson/OpenShouter/compare/v0.1.0...v0.2.0) (2026-08-15)
+
+
+### Added
+
+* **openshouter:** prepare v0.2.0 release ([c832a1e](https://github.com/edwardlthompson/OpenShouter/commit/c832a1eb0188111ff4a89cc339f1b7779a1e0f03))
+
+
+### Fixed
+
+* **android:** tolerate missing About assets in unit tests ([ae0c29b](https://github.com/edwardlthompson/OpenShouter/commit/ae0c29b025b6fdeaa918a2e3885e1767bb4cf3c1))
+* **ci:** build CodeQL language matrix from stack presence ([abc8256](https://github.com/edwardlthompson/OpenShouter/commit/abc82562289be43b511739068719ce46767d0ea3))
+
+
+### Changed
+
+* **deps:** Bump the android-dependencies group ([#2](https://github.com/edwardlthompson/OpenShouter/issues/2)) ([b5711db](https://github.com/edwardlthompson/OpenShouter/commit/b5711db638b19faa633d107de5c533cbe53127a5))
+
+
+### Documentation
+
+* record v0.1.0 ship regressions ([2ea76a1](https://github.com/edwardlthompson/OpenShouter/commit/2ea76a1450a794c93bcc067877e8077cc517df23))
+
 ## [Unreleased]
 
 ### Added

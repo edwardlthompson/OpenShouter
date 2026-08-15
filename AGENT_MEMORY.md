@@ -80,6 +80,6 @@ OpenShouter is a FOSS recreation/enhancement of classic Shouter (`com.bhkapps.sh
 ## Template Provenance
 
 - **Source template:** `edwardlthompson/agent-project-bootstrap`
-- **Template version:** `0.17.0` (see `.template-version`)
+- **Template version:** `0.2.0` (see `.template-version`)
 - **Last update check:** See `.template-update.json`
 - **Stack selection:** `.cursor/stack-selection.json` (`android`, `foss`, pruned)
