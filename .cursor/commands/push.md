@@ -31,6 +31,8 @@ Create/update RELEASE_NOTES.md from CHANGELOG, BUILD_PLAN rows, recent commits (
 
 Read @.cursor/commands/cleanup.md — execute fully when sprint or release rows are complete.
 
+Refresh `docs/features/parity-matrix.md` and the IDE canvas `feature-parity-matrix.canvas.tsx` if this push includes feature work. Link the canvas in the push summary.
+
 Do not force-push, amend published tags, or disable hooks. Halt and escalate [HUMAN] on failure.
 
 Start executing now.

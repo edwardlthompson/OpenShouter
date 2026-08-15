@@ -78,8 +78,17 @@ class PowerMonitor @Inject constructor(
         if (event.kind == PowerKind.CONNECTED || event.kind == PowerKind.DISCONNECTED) {
             if (!snap.powerConnectAlert) return
         }
-        if (!gate.allow(snap)) return
-        tts.speak(SpokenEvent(SpokenEvent.Kind.POWER, PowerRules.spoken(event)))
+        if (!gate.allow(snap, org.openshouter.domain.ShoutChannel.BATTERY)) return
+        val phrase = snap.batteryPhrases.spoken(event)
+        if (phrase.isBlank()) return
+        tts.speak(
+            org.openshouter.domain.ChannelStates.spoken(
+                snap,
+                org.openshouter.domain.ShoutChannel.BATTERY,
+                SpokenEvent.Kind.POWER,
+                phrase,
+            ),
+        )
     }
 
     private fun percent(intent: Intent): Int? {

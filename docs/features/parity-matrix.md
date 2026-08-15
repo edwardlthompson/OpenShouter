@@ -8,7 +8,7 @@ Inventory of **Shouter Pro** (`com.bhkapps.proshouter`) vs **Voice Notify** (`co
 - Voice Notify is **not installed**; inventory is from GitHub `main` (`strings.xml`, `prefs/db/Settings.kt`, README).
 - OpenShouter from `examples/android/` domain, DataStore, and Compose screens.
 
-Interactive filterable table: Cursor canvas `feature-parity-matrix.canvas.tsx` (IDE-only; this file is the git source of truth).
+Interactive filterable table: Cursor canvas `feature-parity-matrix.canvas.tsx` (IDE-only; this file is the git source of truth). Refresh both after every `/build` wrap-up and `/push`.
 
 Status: **Yes** shipped · **Partial** logic or subset UI · **No** missing · **Skip** will not copy (FOSS / out of scope).
 
@@ -16,11 +16,10 @@ Status: **Yes** shipped · **Partial** logic or subset UI · **No** missing · *
 
 | Bucket | Count (OpenShouter) |
 |--------|---------------------|
-| Yes | Master enable, widget, QS tile, FGS, boot, mute gestures, notification TTS, call loop, silent geofences, theme, GitHub updates |
-| Partial | Quiet hours (stored times, hardcoded UI label), regex (Room, no UI), history (Room, no UI), battery events (no per-state UI), format tokens (`%app/%title/%text` only), screen/headset gates (global only) |
-| No | App picker, per-app overrides, VN filters, TTS stream/delay/length, time/reminder/message channels, missed call, shake sensitivity, backup zip |
+| Yes | Master enable, widget, QS tile, FGS, boot, mute gestures + live g-meter, notification TTS, call loop, missed-call RING→IDLE, silent geofences, theme, GitHub updates, searchable app-speak picker, 24-hour quiet grid, history + ignore-reason, regex + require/ignore lists, empty/group/repeat, extra format tokens, repeat count + screen-off loop, test notification, pause-media, pitch, OEM autostart, TTS/device-state settings, engine language picker, per-channel headphone/stream/repeat grid, 15/30/60 time shout + exact opt-in, nick/blacklist, call/message/time builders, battery situation phrases, reminder hour/day/week/month/year + also-notify, SAF backup, full AppOverride merge |
+| Partial | — |
+| No | — |
 | Skip | Placebook companion, GMS/Firebase analytics, Facebook/rate/share, in-app language clone, `READ_SMS` |
-
 ## Chosen add-in order
 
 Do not clone either UI. Port **behavior** into OpenShouter’s Compose settings.
@@ -28,6 +27,9 @@ Do not clone either UI. Port **behavior** into OpenShouter’s Compose settings.
 1. **Sprint 9 — Unlock and match Voice Notify notification quality.** Expose DataStore quiet hours; history + regex UIs; expand `AnnouncementGate`; TTS playback policy (stream, delay, max length, audio focus, test notification).
 2. **Sprint 10 — Shouter shout channels.** Time interval, battery phrase UI, missed call, message-via-notifications (ADR-0003), voice reminders.
 3. **Sprint 11 — Per-app control.** `QUERY_ALL_PACKAGES` picker, `AppOverride` merge, settings backup zip (no history payloads).
+4. **Sprint 12 — Close remaining VN notification/TTS gaps.** OEM autostart, shake threshold, 24-hour quiet grid, empty/group/repeat, test notification, repeat loops, pitch/locale, ignore reasons, extra tokens.
+5. **Sprint 13 — Finish Shouter channels + backup.** Nick/blacklist, call/message builders, reminder alarms, battery phrases, SAF picker, full per-app merge, per-channel device states.
+6. **Sprint 14 — Close remaining Partial rows.** Live shake g-meter, engine language picker, per-channel headphone/stream/repeat grid, reminder calendar intervals.
 
 Keep OpenShouter extras: flip-to-mute, silent-inside geofences, GitHub Releases updates.
 
@@ -45,7 +47,6 @@ Keep OpenShouter extras: flip-to-mute, silent-inside geofences, GitHub Releases 
 | `QUERY_ALL_PACKAGES` | Sprint 11 Sequential + manifest; GitHub Releases only (no Play policy review) |
 | Exact alarms (time/reminders) | Default inexact `AlarmManager`; opt-in exact with `SCHEDULE_EXACT_ALARM` rationale |
 | GMS / Firebase in Shouter APK | Forbidden to copy |
-
 ## Shouter screens (live)
 
 **Master control:** Enable, Silent hours (24-hour grid + day chips, RESET/PRESET), Muting (shake, screen off, screen on), Announcement History, Add widget.
@@ -66,7 +67,7 @@ Not copied: Play analytics.
 
 ## OpenShouter today
 
-Dashboard master + permission shortcuts · package textarea blacklist/whitelist · `%app %title %text` · Room regex (no UI) · looping caller ID · battery/plug phrases (no settings UI) · shake + flip + screen mute · quiet hours toggle labeled 10pm–7am (start/end/days already in DataStore) · screen-off-only · headset/A2DP-only · silent geofences · FGS · QS tile · widget · history DAO (no UI).
+Dashboard master + permission shortcuts · searchable app-speak list · extra format tokens · full AppOverride merge · regex + require/ignore + empty/group/repeat · looping caller ID + nick/blacklist + call format · missed-call RING→IDLE · message extras/sender (no `READ_SMS`) · battery situation phrases · shake slider + live g-meter + flip + screen mute · 24-hour quiet grid · TTS playback + engine language picker + test notification · per-channel headphone/stream/repeat grid · 15/30/60 time shout + `%time` builder · reminder hour/day/week/month/year + also-notify · SAF settings zip · OEM autostart · silent geofences · FGS · QS tile · widget · history + ignore-reason.
 
 ## Matrix
 
@@ -76,36 +77,35 @@ Dashboard master + permission shortcuts · package textarea blacklist/whitelist 
 | Master | Widget | Yes | Yes | Yes | Shipped |
 | Master | QS tile | No | Yes | Yes | Shipped |
 | Master | FGS / boot | Partial/Yes | Yes | Yes | Shipped |
-| Master | OEM autostart dialog | No | Yes | No | Sprint 9 |
-| Quiet hours | Hour grid + day chips | Yes | No | No | Sprint 9 window+days first |
-| Quiet hours | Start/end pickers | Partial | Yes | Partial | Sprint 9 UI |
-| Muting | Shake / screen on / screen off | Yes | Shake only | Yes | Sensitivity Sprint 9 |
+| Master | OEM autostart dialog | No | Yes | Yes | Shipped OemScreen + vendor Settings intent |
+| Quiet hours | Hour grid + day chips | Yes | No | Yes | Shipped 24-hour HourGrid + RESET/PRESET |
+| Quiet hours | Start/end pickers | Partial | Yes | Yes | Shipped 15-minute start/end + dynamic label |
+| Muting | Shake / screen on / screen off | Yes | Shake only | Yes | Sensitivity Sprint 12 |
 | Muting | Flip face-down | No | No | Yes | Keep |
 | Notifications | Listener TTS | Yes | Yes | Yes | Shipped |
-| Notifications | Installed-app picker | Yes | Yes | No | Sprint 11 |
-| Notifications | Format tokens | Prefixes | `#A` `#C` `#M`… | `%app` `%title` `%text` | Sprint 9 |
-| Notifications | Regex / ignore-require | No | Yes | Partial | Sprint 9 UI |
-| Notifications | Ignore empty/group/repeat | No | Yes | No | Sprint 9 |
-| Notifications | Per-app overrides | No | Yes | No | Sprint 11 |
-| Notifications | Repeat count | Yes | No | No | Sprint 9 |
-| Notifications | Delay / max length / screen-off repeat | No | Yes | No | Sprint 9 |
-| Notifications | Test notification | No | Yes | No | Sprint 9 |
+| Notifications | Installed-app picker | Yes | Yes | Yes | Shipped (Sprint 11 list) |
+| Notifications | Format tokens | Prefixes | `#A` `#C` `#M`… | `%app` `%title` `%text` `%ticker` `%subtext` `%bigtext` `%time` | Shipped |
+| Notifications | Regex / ignore-require | No | Yes | Yes | Shipped ignore/replace UI |
+| Notifications | Ignore empty/group/repeat | No | Yes | Yes | Shipped NotificationPolicy + Filters toggles |
+| Notifications | Per-app overrides | No | Yes | Yes | Shipped AppOverride merge + OverrideScreen |
+| Notifications | Repeat count | Yes | No | Yes | Shipped repeatCount 0–3 |
+| Notifications | Delay / max length / screen-off repeat | No | Yes | Yes | Shipped delay/max + screen-off loop |
+| Notifications | Test notification | No | Yes | Yes | Shipped TestNotification.post |
 | Device states | Global screen-off / headset-only | Yes | Yes | Yes | Shipped |
-| Device states | Per-channel headphone/silent | Yes | No | No | Sprint 10 |
-| Device states | Silent/vibrate + in-call flags | Yes | Yes | No/Partial | Sprint 9 |
-| TTS | Stream / audio focus / pitch / voice test | Stream | Stream+focus | No | Sprint 9 |
+| Device states | Per-channel headphone/silent | Yes | No | Yes | Shipped ChannelStateScreen grid + stream/repeat |
+| Device states | Silent/vibrate + in-call flags | Yes | Yes | Yes | Shipped DeviceStatePolicy toggles |
+| TTS | Stream / audio focus / pitch / voice test | Stream | Stream+focus | Yes | Pitch + pause-media + `availableLanguages` chips |
 | Call | Looping ID + contacts | Yes | No | Yes | Shipped |
-| Call | Unknown toggle, nick/blacklist, missed | Yes | No | No | Sprint 10 |
-| Message | Dedicated SMS/MMS shout | Yes | Via apps | No | Sprint 10, ADR-0003 |
-| Time | Interval + exact opt-in | Yes | No | No | Sprint 10 |
-| Battery | Events + custom phrases | Yes | No | Partial | Sprint 10 UI |
-| Reminders | Recurring voice list | Yes | No | No | Sprint 10 |
+| Call | Unknown toggle, nick/blacklist, missed | Yes | No | Yes | Shipped ContactRules + speakUnknown + missed RING→IDLE |
+| Message | Dedicated SMS/MMS shout | Yes | Via apps | Yes | Extras/sender parse; no `READ_SMS` |
+| Time | Interval + exact opt-in | Yes | No | Yes | 15/30/60 chips + `timeShoutExact` |
+| Battery | Events + custom phrases | Yes | No | Yes | Shipped situation picker + `%level` phrases |
+| Reminders | Recurring voice list | Yes | No | Yes | Hour/day/week/month/year chips + AlarmManager sync |
 | Location | Placebook proximity | Yes | No | Skip | Keep silent fences |
-| History | Viewer + ignore reasons | Yes | Yes | Partial | Sprint 9 |
-| Backup | Settings zip | No | Yes | No | Sprint 11 |
+| History | Viewer + ignore reasons | Yes | Yes | Yes | Shipped ignore-reason enum only |
+| Backup | Settings zip | No | Yes | Yes | Shipped SAF CreateDocument/OpenDocument; history excluded |
 | Distro | GMS analytics / Facebook | Yes | Play analytics | Skip | Forbidden |
 | Distro | GitHub update check | No | No | Yes | Keep |
-
 ## Parallelization (implementation, after plan approval)
 
 | Sprint | Sequential lock | Parallel scopes |
@@ -113,7 +113,9 @@ Dashboard master + permission shortcuts · package textarea blacklist/whitelist 
 | 9 | `TtsPlaybackPolicy`, `DeviceStatePolicy` in `domain/` | `ui/quiet/`, `ui/history/`, `ui/filters/`, `ui/tts/` |
 | 10 | `TimeShout`, `ReminderEntity`, `MessageChannelPolicy` | `time/`, `reminder/`, `message/`, `missed/` |
 | 11 | `AppOverride` entity + `QUERY_ALL_PACKAGES` | `ui/apps/`, `data/backup/`, override unit tests |
+| 12 | `NotificationPolicy`, `IgnoreReason`, `ShakeThreshold`, `TtsVoice` | `oem/`, `gesture/`, `ui/quiet/`, `notification/`, `tts/`, `ui/tts/`, `ui/history/`, `ui/filters/` |
+| 13 | `ContactRule`, `ChannelDeviceState`, full `AppOverride`, `BatterySituation` | `contacts/`, `call/`, `message/`, `time/`, `power/`, `reminder/`, `backup/`, `ui/overrides/` |
+| 14 | `ReminderInterval`, `SpokenEvent.stream`, `ChannelStates.spoken` | `gesture/`, `ui/channel/`, `ui/tts/`, `reminder/`, `call/` |
+`agent_count_target`: 4, 4, 3, 8, 8, 5. Wiring stays in `OpenShouterHome` (≤10 lines per feature). One feature row per agent.
 
-`agent_count_target`: 4, 4, 3. Wiring stays in `OpenShouterHome` (≤10 lines per feature). One feature row per agent.
-
-Do not implement until the human approves this plan in chat.
+Sprints 12–14 added 2026-08-14/15 to reach 100% in-scope parity. Skip rows stay out of BUILD_PLAN.

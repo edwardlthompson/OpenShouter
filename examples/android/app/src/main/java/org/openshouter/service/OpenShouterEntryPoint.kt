@@ -21,4 +21,7 @@ interface OpenShouterEntryPoint {
     fun gate(): SpeakGate
     fun calls(): org.openshouter.call.CallMonitor
     fun timeShout(): org.openshouter.time.TimeShoutScheduler
+    fun reminders(): org.openshouter.data.ReminderDao
+    fun sprint13(): org.openshouter.data.Sprint13Settings
+    fun alarms(): org.openshouter.alarm.AlarmScheduler
 }

@@ -74,6 +74,9 @@ OpenShouter is a FOSS recreation/enhancement of classic Shouter (`com.bhkapps.sh
 | 2026-08-13 | Branding + README pitch | Replaced Golden Path SVGs; accessibility + digital-quiet voice | PNG store/social exports still [HUMAN]/[ADB] |
 | 2026-08-13 | `/cleanup` | Archived Sprints 3–5, 8 + Sprint 11 app-speak AGENT rows | HUMAN/ADB backlog stays 🔲; Sprint 11 overrides + backup remain |
 | 2026-08-13 | Welcome + hourly shout | Setup permission buttons including battery/exact; setAlarmClock keep-alive | ADB: Unrestricted battery on CPH2583; hour-boundary speak |
+| 2026-08-14 | `/build` Sprints 9–11 | TtsPlaybackPolicy, quiet hours, history/filters/TTS, shout channels, backup allowlist, overrides | Reminder alarms not scheduled; backup is cache zip; CI red until `/push` |
+| 2026-08-14 | Parity closeout plan | Sprints 12–13 added to BUILD_PLAN for 100% in-scope No/Partial | Skip rows stay out (Placebook, GMS, Facebook, in-app language, READ_SMS) |
+| 2026-08-15 | Sprint 14 Partial close-out | Live g-meter, language chips, channel grid, reminder intervals | ADB still needed for meter/chips/alarms on device |
 ## Template Provenance
 
 - **Source template:** `edwardlthompson/agent-project-bootstrap`

@@ -2,6 +2,77 @@
 
 > Archive of finished BUILD_PLAN items.
 
+## Sprint 14 — Close remaining Partial rows (2026-08-15)
+
+- ✅ [AGENT] Lock `ReminderInterval`, `SpokenEvent.stream`, `ChannelStates.spoken`, `TtsVoice.MAX_TAG`, and `ShakeThreshold.gForce`
+- ✅ [AGENT] Live shake g-meter on the sensitivity slider
+- ✅ [AGENT] Per-channel headphone/screen/silent/in-call grid + stream/repeat
+- ✅ [AGENT] TTS language chips from `engine.availableLanguages`
+- ✅ [AGENT] Call/channel stream + repeat applied on `SpokenEvent`
+- ✅ [AGENT] Reminder hour/day/week/month/year intervals
+
+## Sprint 13 — Finish shout channels + backup (2026-08-14)
+
+- ✅ [AGENT] Lock `ContactRule` (nick/blacklist; never log numbers) and `ChannelDeviceState` (per-channel `DeviceStatePolicy` + stream/repeat)
+- ✅ [AGENT] Lock full `AppOverride` merge keys, `BatterySituation` + phrase templates, `ReminderReceiver` contract, and call/message/time format strings
+- ✅ [AGENT] Contact nick/blacklist + unknown-number toggles
+- ✅ [AGENT] Call prefix builder + per-channel stream/repeat
+- ✅ [AGENT] Message extras/sender parse + body/known/unknown UI
+- ✅ [AGENT] Time `%time` message builder
+- ✅ [AGENT] Battery situation picker + custom phrases
+- ✅ [AGENT] Reminder AlarmManager sync + also-notify
+- ✅ [AGENT] SAF document picker backup/restore
+- ✅ [AGENT] Full per-app TTS/filter override merge
+
+## Sprint 12 — Close notification + TTS quality (2026-08-14)
+
+- ✅ [AGENT] Lock `NotificationPolicy` (empty/group/repeat), `IgnoreReason`, and `HistoryEntity.ignoreReason` Room migrate
+- ✅ [AGENT] Lock `ShakeThreshold`, `TtsVoice` (pitch + locale), extra `TtsFormat` tokens (`%ticker` `%subtext` `%bigtext`), and `RepeatCount` on `SpokenEvent`
+- ✅ [AGENT] OEM autostart Settings intent (no extra SDKs)
+- ✅ [AGENT] Shake sensitivity slider + g-force helper
+- ✅ [AGENT] 24-hour quiet-hours cell grid + RESET/PRESET
+- ✅ [AGENT] Apply empty/group/repeat + VN test notification
+- ✅ [AGENT] Repeat count + screen-off loop + pause-media focus
+- ✅ [AGENT] Pitch/locale controls + token help
+- ✅ [AGENT] Ignore-reason column (never log payloads)
+- ✅ [AGENT] Dedicated require/ignore text lists
+
+## Sprint 11 — Overrides + backup (2026-08-14)
+
+- ✅ [AGENT] Lock backup file allowlist (DataStore + `app_speak_rules` only; exclude history payloads)
+- ✅ [AGENT] Per-app override editor
+- ✅ [AGENT] Settings backup/restore zip (exclude history text)
+
+## Sprint 10 — Shouter shout channels (2026-08-14)
+
+- ✅ [AGENT] Lock `TimeShoutSchedule`, `ReminderEntity`, `MessageChannelPolicy`, `MissedCallPolicy` (no SMS permissions)
+- ✅ [AGENT] Shared `AlarmScheduler` adapter (inexact default; exact opt-in)
+- ✅ [AGENT] Interval time announcer + format
+- ✅ [AGENT] Voice reminders + optional notification
+- ✅ [AGENT] Message channel (notification extras + contacts)
+- ✅ [AGENT] Missed-call shout + unknown-number / contact rules
+
+## Sprint 9 — Notification TTS quality (2026-08-14)
+
+- ✅ [AGENT] Lock `TtsPlaybackPolicy` (stream, delaySeconds, maxLength, audioFocus, speakEmojis, repeatMinutes) and `DeviceStatePolicy` (screen on/off, headset on/off, silent/vibrate, inCall) in `domain/`; persist on `AppSettings` + DataStore
+- ✅ [AGENT] Apply both policies in `AnnouncementGate` + `TtsController` before every speak (including call/power)
+- ✅ [AGENT] Quiet-hours start/end/day picker UI
+- ✅ [AGENT] History viewer + clear (package + time; spoken text toggle)
+- ✅ [AGENT] Regex / ignore-require / empty-group-repeat filter UI
+- ✅ [AGENT] TTS playback settings + voice test + system TTS shortcut
+- ✅ [HUMAN] Approve ADR-0003 (message via notifications, no `READ_SMS`)
+
+## Sprint 0 — Autonomous /build HUMAN (2026-08-14)
+
+- ✅ [HUMAN] Branch protection on `main`: required checks CI, Security Scan, CodeQL, Repo Hygiene, Feature Gate; linear history; no force-push
+- ✅ [HUMAN] Fill `.app-update.json` `release_repo` and `donations.json` links (or keep donations disabled)
+- ✅ [HUMAN] Approve ADR-0001 and ADR-0002
+
+## Sprint 9 — Quiet hours picker (2026-08-14)
+
+- ✅ [AGENT] Lock `TtsPlaybackPolicy` + `DeviceStatePolicy` and apply in `AnnouncementGate` / `TtsController`
+- ✅ [AGENT] Quiet-hours start/end/day picker (`ui/quiet/` + `QuietHours` labels; 15-minute steps)
+
 ## Sprint 11 — App speak list (2026-08-13)
 
 - ✅ [AGENT] Lock `AppSpeakRule` (speakAppName + speakNotification) + `QUERY_ALL_PACKAGES` + Room `app_speak_rules`

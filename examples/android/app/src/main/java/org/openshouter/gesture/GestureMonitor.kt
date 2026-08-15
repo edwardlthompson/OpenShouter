@@ -9,7 +9,6 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 import javax.inject.Singleton
 import kotlin.math.abs
-import kotlin.math.sqrt
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -17,6 +16,7 @@ import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
 import org.openshouter.data.SettingsRepository
 import org.openshouter.domain.AppSettings
+import org.openshouter.domain.ShakeThreshold
 import org.openshouter.tts.TtsController
 
 @Singleton
@@ -48,9 +48,9 @@ class GestureMonitor @Inject constructor(
         val x = event.values[0]
         val y = event.values[1]
         val z = event.values[2]
-        val g = sqrt((x * x + y * y + z * z).toDouble()) / SensorManager.GRAVITY_EARTH
+        val g = ShakeThreshold.gForce(x, y, z).toDouble()
         val now = event.timestamp
-        if (g > 2.4 && now - lastShakeNs > 600_000_000L) {
+        if (ShakeThreshold.isShake(g, cached.shakeThreshold, now, lastShakeNs)) {
             lastShakeNs = now
             if (cached.shakeToSilence) tts.interrupt()
         }

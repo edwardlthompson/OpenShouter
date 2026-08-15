@@ -61,7 +61,7 @@ grep '\[AUTO\]' BUILD_PLAN.md
 
 ### Sequential (must complete in order)
 
-1. 🔲 [AUTO] After first push to `main`: `check-github-ci.sh --wait 300` (CI + Security Scan + CodeQL)
+1. ❌ [AUTO] After first push to `main`: `check-github-ci.sh --wait 300` (CI + Security Scan + CodeQL) — Web/Node + CodeQL JS red on pruned stacks; local `if:` guards pending `/push`
 2. 🔲 [HUMAN] Run `scripts/setup-github-repo.sh` / `.ps1` after the GitHub remote exists
 
 ### Human & device (after automation)
@@ -69,10 +69,7 @@ grep '\[AUTO\]' BUILD_PLAN.md
 > Address after `/build` completes AGENT/AUTO work above. `/build` attempts each row via automation; failures land in `HUMAN_BACKLOG.md`.
 
 1. 🔲 [HUMAN] Create GitHub repo, set remote, and enable Dependabot alerts + security updates + private vulnerability reporting (`docs/SECURITY_TRIAGE.md`)
-2. 🔲 [HUMAN] Branch protection on `main`: required checks CI, Security Scan, CodeQL, Repo Hygiene, Feature Gate; linear history; no force-push
-3. 🔲 [HUMAN] Paste `docs/GITHUB_ABOUT.md` into GitHub → Settings → General → About
-4. 🔲 [HUMAN] Fill `.app-update.json` `release_repo` and `donations.json` links (or keep donations disabled)
-5. 🔲 [HUMAN] Approve ADR-0001 and ADR-0002
+2. 🔲 [HUMAN] Paste `docs/GITHUB_ABOUT.md` into GitHub → Settings → General → About
 
 ---
 
@@ -130,65 +127,23 @@ grep '\[AUTO\]' BUILD_PLAN.md
 
 ### Sprint 9 — Notification TTS quality + unused settings UI
 
-<!-- agent_count_target: 4 -->
+<!-- parallel_exception: AGENT TTS quality + settings UI archived to COMPLETED_TASKS.md -->
 
-> Inventory: `docs/features/parity-matrix.md`. Unlock DataStore/Room that already exists, then match Voice Notify playback/filter axes. **Do not start until this plan is approved in chat.**
+> **Sprint 9** AGENT/HUMAN archived in COMPLETED_TASKS.md @ `2ea76a1`.
 
-### Sequential (must complete in order)
-
-1. 🔲 [AGENT] Lock `TtsPlaybackPolicy` (stream, delaySeconds, maxLength, audioFocus, speakEmojis, repeatMinutes) and `DeviceStatePolicy` (screen on/off, headset on/off, silent/vibrate, inCall) in `domain/`; persist on `AppSettings` + DataStore
-2. 🔲 [AGENT] Apply both policies in `AnnouncementGate` + `TtsController` before every speak (including call/power)
-
-### Parallel (safe after Sequential step 1)
-
-| Task | Owner | Isolated scope |
-|------|-------|----------------|
-| Quiet-hours start/end/day picker UI | AGENT | `examples/android/app/src/main/java/org/openshouter/ui/quiet/` |
-| History viewer + clear (package + time; spoken text toggle) | AGENT | `examples/android/app/src/main/java/org/openshouter/ui/history/` |
-| Regex / ignore-require / empty-group-repeat filter UI | AGENT | `examples/android/app/src/main/java/org/openshouter/ui/filters/` |
-| TTS playback settings + voice test + system TTS shortcut | AGENT | `examples/android/app/src/main/java/org/openshouter/ui/tts/` |
 ### Human & device (after automation)
 
 1. 🔲 [ADB] Quiet-hours custom window suppresses; history lists without leaking payloads to logcat
 2. 🔲 [ADB] Test notification speaks with delay/max-length; shake threshold change interrupts
-3. 🔲 [HUMAN] Approve ADR-0003 (message via notifications, no `READ_SMS`)
-
-### Critique
-
-| Issue | Resolution |
-|-------|------------|
-| Null/empty format or regex | Reject blank; `RegexFilter.MAX_PATTERN`; unit tests |
-| Network timeout | N/A — local settings only |
-| Race TTS vs call loop | Single `TtsController`; call still flush-queue |
-| Unhandled TTS/regex errors | `runCatching` skip event |
-| History PII | UI default: package + timestamp; no logcat of title/text |
-### Parallelization
-
-- Sequential lock: `TtsPlaybackPolicy`, `DeviceStatePolicy`, DataStore keys
-- `agent_count_target`: 4
-- Dry-run: four non-overlapping `ui/{quiet,history,filters,tts}/` AGENT rows
 
 ---
 
 ### Sprint 10 — Shouter shout channels
 
-<!-- agent_count_target: 4 -->
+<!-- parallel_exception: AGENT shout-channel work archived to COMPLETED_TASKS.md -->
 
-> Time, battery phrase UI, missed call, message-via-notifications, reminders. Requires Sprint 9 policies.
+> **Sprint 10** AGENT archived in COMPLETED_TASKS.md (2026-08-14).
 
-### Sequential (must complete in order)
-
-1. 🔲 [AGENT] Lock `TimeShoutSchedule`, `ReminderEntity`, `MessageChannelPolicy`, `MissedCallPolicy` (no SMS permissions)
-2. 🔲 [AGENT] Shared `AlarmScheduler` adapter (inexact default; exact opt-in)
-
-### Parallel (safe after Sequential step 1)
-
-| Task | Owner | Isolated scope |
-|------|-------|----------------|
-| Interval time announcer + format | AGENT | `examples/android/app/src/main/java/org/openshouter/time/` |
-| Voice reminders + optional notification | AGENT | `examples/android/app/src/main/java/org/openshouter/reminder/` |
-| Message channel (notification extras + contacts) | AGENT | `examples/android/app/src/main/java/org/openshouter/message/` |
-| Missed-call shout + unknown-number / contact rules | AGENT | `examples/android/app/src/main/java/org/openshouter/missed/` |
 ### Human & device (after automation)
 
 1. 🔲 [ADB] Time shout at interval; missed call after RING→IDLE; SMS app notification uses Message rules
@@ -214,20 +169,10 @@ grep '\[AUTO\]' BUILD_PLAN.md
 
 ### Sprint 11 — Per-app overrides + backup
 
-<!-- agent_count_target: 2 -->
+<!-- parallel_exception: AGENT override + backup work archived to COMPLETED_TASKS.md -->
 
-> **App speak list** archived in COMPLETED_TASKS.md @ `247faf2`.
+> **Sprint 11** AGENT archived in COMPLETED_TASKS.md (2026-08-14). App speak list @ `247faf2`.
 
-### Sequential (must complete in order)
-
-1. 🔲 [AGENT] Lock backup file allowlist (DataStore + `app_speak_rules` only; exclude history payloads)
-
-### Parallel (safe after Sequential step 1)
-
-| Task | Owner | Isolated scope |
-|------|-------|----------------|
-| Per-app override editor | AGENT | `examples/android/app/src/main/java/org/openshouter/ui/overrides/` |
-| Settings backup/restore zip (exclude history text) | AGENT | `examples/android/app/src/main/java/org/openshouter/backup/` |
 ### Human & device (after automation)
 
 1. 🔲 [ADB] Searchable app list; App name only vs Notification vs both; unlisted apps silent
@@ -248,6 +193,95 @@ grep '\[AUTO\]' BUILD_PLAN.md
 - Sequential lock: backup file allowlist
 - `agent_count_target`: 2
 - Dry-run: `ui/overrides/`, `backup/`
+
+---
+
+### Sprint 12 — Close notification + TTS quality gaps
+
+<!-- parallel_exception: AGENT notification/TTS quality work archived to COMPLETED_TASKS.md -->
+
+> **Sprint 12** AGENT archived in COMPLETED_TASKS.md (2026-08-14).
+
+### Human & device (after automation)
+
+1. 🔲 [ADB] Quiet-hours 24-hour grid + RESET/PRESET; shake threshold interrupts; test notification posts without PII in logcat
+2. 🔲 [ADB] Empty/group/repeat skips; ignore-reason column shows enum only
+3. 🔲 [HUMAN] Confirm OEM autostart copy for vendor Settings intents (no extra SDKs)
+
+### Critique
+
+| Issue | Resolution |
+|-------|------------|
+| Null/empty notification or ignore reason | `NotificationPolicy` skips blank; `IgnoreReason.NONE` default; tests in `domain/` |
+| Network timeout | N/A — OEM intent and TTS are local |
+| Race repeat-loop vs new notification | Single `TtsController` queue; screen-on cancels loop |
+| Unhandled TTS/AlarmManager | Catch and skip; no crash |
+| History PII | Ignore-reason enum only; never log title/text/spoken |
+### Parallelization
+
+- Sequential lock: `NotificationPolicy`, `IgnoreReason`, `ShakeThreshold`, `TtsVoice`, extra tokens, `RepeatCount`
+- `agent_count_target`: 8
+- Dry-run: `oem/`, `gesture/`, `ui/quiet/`, `notification/`, `tts/`, `ui/tts/`, `ui/history/`, `ui/filters/`
+
+---
+
+### Sprint 13 — Finish shout channels + backup + overrides
+
+<!-- parallel_exception: AGENT shout-channel + backup work archived to COMPLETED_TASKS.md -->
+
+> **Sprint 13** AGENT archived in COMPLETED_TASKS.md (2026-08-14).
+
+### Human & device (after automation)
+
+1. 🔲 [ADB] Nick/blacklist skips without logging numbers; unknown-number toggles on call and message
+2. 🔲 [ADB] Reminder alarm speaks + optional notification; SAF zip restores toggles and excludes history
+3. 🔲 [ADB] Battery situation phrases fire without logging percent next to identity
+4. 🔲 [HUMAN] Confirm `SCHEDULE_EXACT_ALARM` copy still covers reminder exact opt-in
+
+### Critique
+
+| Issue | Resolution |
+|-------|------------|
+| Null/empty nick, format, or reminder text | Reject blank; inherit global override when null; skip empty TTS |
+| Network timeout | N/A — SAF URI is local |
+| Race reminder vs notification TTS | Same `TtsController`; reminder uses `QUEUE_ADD` |
+| Unhandled AlarmManager / zip I/O | Catch and skip; typed snackbar; leave DB closed/reopened |
+| SMS permission creep | ADR-0003 — listener extras only; no `READ_SMS` |
+| Contact / battery PII | Never log numbers, names, or percent next to identity |
+### Parallelization
+
+- Sequential lock: `ContactRule`, `ChannelDeviceState`, full `AppOverride`, `BatterySituation`, `ReminderReceiver`
+- `agent_count_target`: 8
+- Dry-run: `contacts/`, `call/`, `message/`, `time/`, `power/`, `reminder/`, `backup/`, `ui/overrides/`
+
+---
+
+### Sprint 14 — Close remaining Partial rows
+
+<!-- parallel_exception: AGENT parity close-out archived to COMPLETED_TASKS.md -->
+
+> **Sprint 14** AGENT archived in COMPLETED_TASKS.md (2026-08-15).
+
+### Human & device (after automation)
+
+1. 🔲 [ADB] Live shake g-meter moves with the device; language chips match `engine.availableLanguages`
+2. 🔲 [ADB] Per-channel headphone/silent/stream/repeat apply to a call shout
+3. 🔲 [ADB] Reminder day/week/month/year reschedules after fire
+
+### Critique
+
+| Issue | Resolution |
+|-------|------------|
+| Null/empty language list | Chips when `availableLanguages` is ready; BCP-47 field fallback if empty |
+| Sensor leak | `DisposableEffect` unregisters the accelerometer listener |
+| Stale channel map on toggle | `onSave(settings.channelStates + (channel to state))`; parent recomposes from DataStore |
+| Reminder month/year | 30 / 365 day minutes; `ReminderInterval.nextAt` |
+| File caps | Channel grid in `ui/channel/`; prefs stay under 150 |
+### Parallelization
+
+- Sequential lock: `ReminderInterval`, `SpokenEvent.stream`, `ChannelStates.spoken`, `TtsVoice.MAX_TAG`, `ShakeThreshold.gForce`
+- `agent_count_target`: 5
+- Dry-run: `gesture/`, `ui/channel/`, `ui/tts/`, `reminder/`, `call/`
 
 ---
 
@@ -277,5 +311,11 @@ grep '\[AUTO\]' BUILD_PLAN.md
 | ------ | ------ | ------- |
 | Sprint Audit — 2026-08-13 | Complete | `COMPLETED_TASKS.md` |
 | Sprints 3–5 and 8 | Complete | `COMPLETED_TASKS.md` |
+| Sprint 9 — Notification TTS quality | Complete (AGENT) | `COMPLETED_TASKS.md` |
+| Sprint 10 — Shouter shout channels | Complete (AGENT) | `COMPLETED_TASKS.md` |
+| Sprint 11 — Overrides + backup | Complete (AGENT) | `COMPLETED_TASKS.md` |
+| Sprint 12 — Close notification + TTS quality | Complete (AGENT) | `COMPLETED_TASKS.md` |
+| Sprint 13 — Finish shout channels + backup | Complete (AGENT) | `COMPLETED_TASKS.md` |
+| Sprint 14 — Close remaining Partial rows | Complete (AGENT) | `COMPLETED_TASKS.md` |
 | Sprint 11 app speak list | Complete | `COMPLETED_TASKS.md` |
 | Template maintainer sprints (v0.9.0–v0.17.0) | Complete (upstream) | `COMPLETED_TASKS.md` (provenance from agent-project-bootstrap) |

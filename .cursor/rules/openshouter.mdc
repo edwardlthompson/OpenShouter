@@ -12,3 +12,4 @@ alwaysApply: true
 - Do not log notification text, phone numbers, contact names, or coordinates
 - Task board: `BUILD_PLAN.md`; ADRs: `docs/adr/`; memory: `AGENT_MEMORY.md`
 - Sequential schema lock before Parallel agents; composition roots stay small
+- After every `/build` wrap-up or `/push`, refresh `docs/features/parity-matrix.md` and the IDE canvas `feature-parity-matrix.canvas.tsx` from shipped `examples/android/` code (Yes / Partial / No / Skip). Never leave the canvas stale vs BUILD_PLAN ✅ rows.

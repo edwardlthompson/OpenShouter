@@ -13,8 +13,33 @@ on:
   workflow_dispatch:
 
 jobs:
+  stack-presence:
+    name: Detect active stacks
+    runs-on: ubuntu-latest
+    outputs:
+      web: ${{ steps.stacks.outputs.web }}
+      node: ${{ steps.stacks.outputs.node }}
+    steps:
+      - uses: actions/checkout@v7
+      - id: stacks
+        run: |
+          for spec in web:examples/web/package-lock.json node:examples/node/package-lock.json; do
+            key="${spec%%:*}"
+            path="${spec#*:}"
+            if [ -f "$path" ]; then
+              echo "${key}=true" >> "$GITHUB_OUTPUT"
+            else
+              echo "${key}=false" >> "$GITHUB_OUTPUT"
+            fi
+          done
+
   analyze:
     name: Analyze
+    needs: stack-presence
+    if: >
+      matrix.language != 'javascript-typescript' ||
+      needs.stack-presence.outputs.web == 'true' ||
+      needs.stack-presence.outputs.node == 'true'
     runs-on: ubuntu-latest
     permissions:
       actions: read

@@ -27,7 +27,14 @@ fun DashboardScreen(
     onOpenSetup: () -> Unit,
     onOpenRules: () -> Unit,
     onOpenAnnouncerSettings: () -> Unit,
+    onOpenHistory: () -> Unit,
+    onOpenFilters: () -> Unit,
+    onOpenTts: () -> Unit,
+    onOpenReminders: () -> Unit,
+    onOpenBackup: () -> Unit,
+    onOpenOverrides: () -> Unit,
     onOpenPlaces: () -> Unit,
+    onOpenOem: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Column(
@@ -50,6 +57,13 @@ fun DashboardScreen(
         Button(onClick = onOpenSetup) { Text(stringResource(R.string.dashboard_open_setup)) }
         Button(onClick = onOpenRules) { Text(stringResource(R.string.nav_rules)) }
         Button(onClick = onOpenAnnouncerSettings) { Text(stringResource(R.string.nav_announcer)) }
+        Button(onClick = onOpenHistory) { Text(stringResource(R.string.nav_history)) }
+        Button(onClick = onOpenFilters) { Text(stringResource(R.string.nav_filters)) }
+        Button(onClick = onOpenTts) { Text(stringResource(R.string.nav_tts)) }
+        Button(onClick = onOpenReminders) { Text(stringResource(R.string.nav_reminders)) }
+        Button(onClick = onOpenBackup) { Text(stringResource(R.string.nav_backup)) }
+        Button(onClick = onOpenOverrides) { Text(stringResource(R.string.nav_overrides)) }
         Button(onClick = onOpenPlaces) { Text(stringResource(R.string.nav_places)) }
+        Button(onClick = onOpenOem) { Text(stringResource(R.string.oem_title)) }
     }
 }

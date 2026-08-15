@@ -6,6 +6,7 @@ import androidx.room.Insert
 import androidx.room.PrimaryKey
 import androidx.room.Query
 import kotlinx.coroutines.flow.Flow
+import org.openshouter.domain.IgnoreReason
 
 @Entity(tableName = "notification_history")
 data class HistoryEntity(
@@ -15,6 +16,7 @@ data class HistoryEntity(
     val title: String,
     val text: String,
     val spoken: String,
+    val ignoreReason: String = IgnoreReason.NONE.name,
 )
 
 @Entity(tableName = "regex_rules")

@@ -1,7 +1,9 @@
 package org.openshouter.service
 
 import android.content.Context
+import android.media.AudioManager
 import android.os.PowerManager
+import android.telephony.TelephonyManager
 import dagger.hilt.android.qualifiers.ApplicationContext
 import java.util.Calendar
 import javax.inject.Inject
@@ -9,6 +11,8 @@ import javax.inject.Singleton
 import org.openshouter.audio.AudioRouteMonitor
 import org.openshouter.domain.AnnouncementGate
 import org.openshouter.domain.AppSettings
+import org.openshouter.domain.ChannelStates
+import org.openshouter.domain.ShoutChannel
 import org.openshouter.geo.GeoMonitor
 
 @Singleton
@@ -17,11 +21,28 @@ class SpeakGate @Inject constructor(
     private val audio: AudioRouteMonitor,
     private val geo: GeoMonitor,
 ) {
-    suspend fun allow(settings: AppSettings): Boolean {
+    suspend fun allow(settings: AppSettings, channel: ShoutChannel? = null): Boolean {
         val cal = Calendar.getInstance()
         val minute = cal.get(Calendar.HOUR_OF_DAY) * 60 + cal.get(Calendar.MINUTE)
         val day = cal.get(Calendar.DAY_OF_WEEK)
         val pm = context.getSystemService(Context.POWER_SERVICE) as PowerManager
+        val am = context.getSystemService(Context.AUDIO_SERVICE) as AudioManager
+        val silent = am.ringerMode != AudioManager.RINGER_MODE_NORMAL
+        val inCall = runCatching {
+            val tm = context.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
+            @Suppress("DEPRECATION")
+            tm.callState != TelephonyManager.CALL_STATE_IDLE
+        }.getOrDefault(false)
+        val device = if (channel == null) {
+            settings.deviceState
+        } else {
+            ChannelStates.resolve(
+                settings.channelStates,
+                channel,
+                settings.deviceState,
+                settings.ttsPlayback,
+            ).device
+        }
         return AnnouncementGate.allow(
             settings,
             minute,
@@ -29,6 +50,9 @@ class SpeakGate @Inject constructor(
             pm.isInteractive,
             audio.headsetConnected(),
             geo.insideSilent(),
+            silent,
+            inCall,
+            device,
         )
     }
 }

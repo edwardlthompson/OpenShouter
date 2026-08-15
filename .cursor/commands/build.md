@@ -17,6 +17,7 @@ Execute the BUILD_PLAN **without asking the user questions, presenting options, 
 
 ```bash
 python3 scripts/agent-run.py build-sprint-status --json --lane child
+
 ```
 
 Write `.cursor-session-state.json` fields: `active_sprint`, `build_plan_lane`, `autonomous_mode: true`.
@@ -31,6 +32,7 @@ Repeat until `sprint_agent_auto_complete`:
 
 ```bash
 python3 scripts/agent-run.py build-sprint-status --json --lane child
+
 ```
 
 - If `next_row` is null and `sprint_agent_auto_complete` → go to Step 2 (sprint wrap-up).
@@ -43,11 +45,11 @@ python3 scripts/agent-run.py build-sprint-status --json --lane child
 | `execute` | Implement the task; for post-Parallel step 3 skip if `parallel_steps_completed` includes `tests`; for step 4 skip if includes `view`; gate; mark ✅ |
 | `parallel_dispatch` | Run @.cursor/commands/scope.md fully, then `python3 scripts/agent-run.py agent-progress set-parallel-sprint-done --sprint "<sprint title>"` |
 | AUTO rows | Run listed scripts/commands to completion; mark ✅ on exit 0 |
-
 ### 1c. Gate autofix (every AGENT step)
 
 ```bash
 python3 scripts/agent-run.py watch-agent-gates --once --autofix
+
 ```
 
 Exit 1 → fix in scope and re-run (3-strike max). Exit 2 after 3 strikes → halt with evidence; do not ask user.
@@ -64,7 +66,8 @@ When `sprint_agent_auto_complete` for current sprint:
 
 1. @.cursor/commands/gates.md — full local validation
 2. @.cursor/commands/cleanup.md — archive ✅ rows (including auto-completed HUMAN/ADB); backlog items stay open on board
-3. Print brief summary: sprint name, rows completed, rows automated, rows backlogged (`HUMAN_BACKLOG.md`), and pointer to grouped **Human & device (after automation)** section for manual follow-up
+3. Refresh feature parity: update `docs/features/parity-matrix.md` and the IDE canvas at `~/.cursor/projects/<workspace>/canvases/feature-parity-matrix.canvas.tsx` from shipped `examples/android/` code. Link the canvas in the wrap-up.
+4. Print brief summary: sprint name, rows completed, rows automated, rows backlogged (`HUMAN_BACKLOG.md`), and pointer to grouped **Human & device (after automation)** section for manual follow-up
 
 ## Step 3 — Chain to next sprint
 

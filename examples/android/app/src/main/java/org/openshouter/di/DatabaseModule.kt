@@ -12,8 +12,11 @@ import org.openshouter.data.AppDatabase
 import org.openshouter.data.AppSpeakDao
 import org.openshouter.data.HistoryDao
 import org.openshouter.data.MIGRATION_1_2
+import org.openshouter.data.MIGRATION_2_3
+import org.openshouter.data.MIGRATION_3_4
 import org.openshouter.data.PlaceDao
 import org.openshouter.data.RegexDao
+import org.openshouter.data.ReminderDao
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -22,7 +25,7 @@ object DatabaseModule {
     @Singleton
     fun database(@ApplicationContext context: Context): AppDatabase =
         Room.databaseBuilder(context, AppDatabase::class.java, "openshouter.db")
-            .addMigrations(MIGRATION_1_2)
+            .addMigrations(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4)
             .build()
 
     @Provides
@@ -36,4 +39,7 @@ object DatabaseModule {
 
     @Provides
     fun appSpeak(db: AppDatabase): AppSpeakDao = db.appSpeak()
+
+    @Provides
+    fun reminders(db: AppDatabase): ReminderDao = db.reminders()
 }

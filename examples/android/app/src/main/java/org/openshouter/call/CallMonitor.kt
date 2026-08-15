@@ -1,12 +1,15 @@
 package org.openshouter.call
 
+import android.Manifest
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.content.pm.PackageManager
 import android.os.Build
 import android.telephony.TelephonyCallback
 import android.telephony.TelephonyManager
+import androidx.core.content.ContextCompat
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -19,8 +22,6 @@ import org.openshouter.contacts.ContactsLookup
 import org.openshouter.data.SettingsRepository
 import org.openshouter.domain.CallPhase
 import org.openshouter.domain.IncomingCallEvent
-import org.openshouter.domain.SpokenEvent
-import org.openshouter.domain.TtsFormat
 import org.openshouter.service.SpeakGate
 import org.openshouter.tts.TtsController
 
@@ -55,6 +56,11 @@ class CallMonitor @Inject constructor(
 
     fun start() {
         if (started) return
+        if (ContextCompat.checkSelfPermission(context, Manifest.permission.READ_PHONE_STATE)
+            != PackageManager.PERMISSION_GRANTED
+        ) {
+            return
+        }
         started = true
         context.registerReceiver(phoneReceiver, IntentFilter(TelephonyManager.ACTION_PHONE_STATE_CHANGED))
         if (Build.VERSION.SDK_INT >= 31) {
@@ -83,9 +89,14 @@ class CallMonitor @Inject constructor(
             else -> CallPhase.IDLE
         }
         if (phase != CallPhase.RINGING) {
+            val wasRinging = lastPhase == CallPhase.RINGING
+            val ringingNumber = lastNumber
             lastPhase = phase
             lastNumber = ""
             tts.interrupt()
+            if (wasRinging && phase == CallPhase.IDLE && ringingNumber.isNotBlank()) {
+                scope.launch { announceMissed(ringingNumber) }
+            }
             return
         }
         scope.launch {
@@ -101,15 +112,18 @@ class CallMonitor @Inject constructor(
             lastNumber = resolved
             val snap = settings.snapshot()
             if (!snap.callsEnabled) return@launch
-            if (!gate.allow(snap)) return@launch
+            if (!gate.allow(snap, org.openshouter.domain.ShoutChannel.CALL)) return@launch
             val event = IncomingCallEvent(resolved, contacts.nameFor(resolved), phase)
-            tts.speak(
-                SpokenEvent(
-                    SpokenEvent.Kind.CALL,
-                    TtsFormat.incomingCall(event.spokenName),
-                    looping = true,
-                ),
-            )
+            val spoken = CallChannel.incoming(snap, resolved, event.displayName) ?: return@launch
+            tts.speak(spoken)
         }
+    }
+
+    private suspend fun announceMissed(number: String) {
+        val snap = settings.snapshot()
+        val name = contacts.nameFor(number)
+        val spoken = CallChannel.missed(snap, number, name) ?: return
+        if (!gate.allow(snap, org.openshouter.domain.ShoutChannel.CALL)) return
+        tts.speak(spoken)
     }
 }

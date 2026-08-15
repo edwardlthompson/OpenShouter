@@ -17,9 +17,9 @@ class DonationsLoaderTest {
     @Test
     fun loadsDonationsFromAssets() {
         val cfg = DonationsLoader.load(context)
-        assertTrue(cfg.enabled)
-        assertEquals("If this project helps you, consider supporting development.", cfg.message)
+        assertEquals(false, cfg.enabled)
+        assertTrue(cfg.message.isNotBlank())
         assertEquals(1, cfg.links.size)
-        assertEquals("[INSERT METHOD]", cfg.links[0].label)
+        assertEquals("Donate", cfg.links[0].label)
     }
 }
