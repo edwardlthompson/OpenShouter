@@ -61,24 +61,26 @@ class CallMonitor @Inject constructor(
         ) {
             return
         }
-        started = true
-        context.registerReceiver(phoneReceiver, IntentFilter(TelephonyManager.ACTION_PHONE_STATE_CHANGED))
-        if (Build.VERSION.SDK_INT >= 31) {
-            val cb = object : TelephonyCallback(), TelephonyCallback.CallStateListener {
-                override fun onCallStateChanged(state: Int) = onState(state, "")
+        runCatching {
+            context.registerReceiver(phoneReceiver, IntentFilter(TelephonyManager.ACTION_PHONE_STATE_CHANGED))
+            if (Build.VERSION.SDK_INT >= 31) {
+                val cb = object : TelephonyCallback(), TelephonyCallback.CallStateListener {
+                    override fun onCallStateChanged(state: Int) = onState(state, "")
+                }
+                telephony.registerTelephonyCallback(context.mainExecutor, cb)
+            } else {
+                @Suppress("DEPRECATION")
+                telephony.listen(
+                    object : android.telephony.PhoneStateListener() {
+                        @Deprecated("Deprecated in Java")
+                        override fun onCallStateChanged(state: Int, phoneNumber: String?) {
+                            onState(state, phoneNumber.orEmpty())
+                        }
+                    },
+                    android.telephony.PhoneStateListener.LISTEN_CALL_STATE,
+                )
             }
-            telephony.registerTelephonyCallback(context.mainExecutor, cb)
-        } else {
-            @Suppress("DEPRECATION")
-            telephony.listen(
-                object : android.telephony.PhoneStateListener() {
-                    @Deprecated("Deprecated in Java")
-                    override fun onCallStateChanged(state: Int, phoneNumber: String?) {
-                        onState(state, phoneNumber.orEmpty())
-                    }
-                },
-                android.telephony.PhoneStateListener.LISTEN_CALL_STATE,
-            )
+            started = true
         }
     }
 

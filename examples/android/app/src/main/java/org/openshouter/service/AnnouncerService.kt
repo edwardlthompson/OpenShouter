@@ -69,15 +69,16 @@ class AnnouncerService : Service() {
             startForeground(41, notification)
         }
         tts.warmup()
-        calls.start()
-        power.start()
-        gestures.start()
-        geo.start()
-        audio.start { }
+        runCatching { calls.start() }
+        runCatching { power.start() }
+        runCatching { gestures.start() }
+        runCatching { geo.start() }
+        runCatching { audio.start { } }
         scope.launch { timeShout.sync(settings.snapshot()) }
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+        runCatching { calls.start() }
         if (BuildConfig.DEBUG) {
             when (intent?.action) {
                 ACTION_DEBUG_RING -> calls.onState(
