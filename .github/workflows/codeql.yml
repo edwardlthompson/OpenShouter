@@ -17,29 +17,20 @@ jobs:
     name: Detect active stacks
     runs-on: ubuntu-latest
     outputs:
-      web: ${{ steps.stacks.outputs.web }}
-      node: ${{ steps.stacks.outputs.node }}
+      matrix: ${{ steps.stacks.outputs.matrix }}
     steps:
       - uses: actions/checkout@v7
       - id: stacks
         run: |
-          for spec in web:examples/web/package-lock.json node:examples/node/package-lock.json; do
-            key="${spec%%:*}"
-            path="${spec#*:}"
-            if [ -f "$path" ]; then
-              echo "${key}=true" >> "$GITHUB_OUTPUT"
-            else
-              echo "${key}=false" >> "$GITHUB_OUTPUT"
-            fi
-          done
+          include='[{"language":"python"},{"language":"java-kotlin","paths":"examples/android"}]'
+          if [ -f examples/web/package-lock.json ] || [ -f examples/node/package-lock.json ]; then
+            include='[{"language":"javascript-typescript"},{"language":"python"},{"language":"java-kotlin","paths":"examples/android"}]'
+          fi
+          echo "matrix=$(jq -cn --argjson include "$include" '{include:$include}')" >> "$GITHUB_OUTPUT"
 
   analyze:
     name: Analyze
     needs: stack-presence
-    if: >
-      matrix.language != 'javascript-typescript' ||
-      needs.stack-presence.outputs.web == 'true' ||
-      needs.stack-presence.outputs.node == 'true'
     runs-on: ubuntu-latest
     permissions:
       actions: read
@@ -47,12 +38,7 @@ jobs:
       security-events: write
     strategy:
       fail-fast: false
-      matrix:
-        include:
-          - language: javascript-typescript
-          - language: python
-          - language: java-kotlin
-            paths: examples/android
+      matrix: ${{ fromJSON(needs.stack-presence.outputs.matrix) }}
     steps:
       - uses: actions/checkout@v7
       - name: Setup Java (Android)
