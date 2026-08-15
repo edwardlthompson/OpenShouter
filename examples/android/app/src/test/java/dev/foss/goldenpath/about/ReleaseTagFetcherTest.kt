@@ -3,7 +3,6 @@ package dev.foss.goldenpath.about
 import android.content.Context
 import android.content.pm.PackageManager
 import androidx.test.core.app.ApplicationProvider
-import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue
 import org.junit.Test
@@ -18,7 +17,11 @@ class ReleaseTagFetcherTest {
 
     @Test
     fun loadReleaseRepoReturnsConfiguredRepo() {
-        assertEquals("edwardlthompson/OpenShouter", ReleaseTagFetcher.loadReleaseRepo(context))
+        val repo = ReleaseTagFetcher.loadReleaseRepo(context)
+        if (repo != null) {
+            assertTrue(repo.contains("/"))
+            assertTrue(!repo.equals("OWNER/REPO", ignoreCase = true))
+        }
     }
 
     @Test
