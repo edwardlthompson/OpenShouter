@@ -2,6 +2,12 @@
 
 > Archive of finished BUILD_PLAN items.
 
+## /ship v0.2.1 (2026-08-16)
+
+- ✅ [AUTO] `pre-release-gate.sh` (local + push-SHA CI/CodeQL/Security Scan)
+- ✅ [HUMAN] Approve release tag when product-ready (`/ship`)
+- ✅ [AUTO] Release Please #4 merged (`v0.2.1`)
+
 ## Sprint 14 — Close remaining Partial rows (2026-08-15)
 
 - ✅ [AGENT] Lock `ReminderInterval`, `SpokenEvent.stream`, `ChannelStates.spoken`, `TtsVoice.MAX_TAG`, and `ShakeThreshold.gForce`

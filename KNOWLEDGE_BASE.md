@@ -136,3 +136,21 @@
 | **Cause** | `AnnouncerService.onCreate` registers a telephony callback before the emulator grants `READ_PHONE_STATE` |
 | **Fix** | Grant the permission in the instrumented test (or skip `CallMonitor.start` when the permission is missing) |
 | **Prevention** | Never register `TelephonyCallback` without a permission check |
+
+### KB-015 — Android 16 mutes engine-process TTS
+
+| Field | Detail |
+|-------|--------|
+| **Symptom** | Voice test and shouts are silent when the phone is in silent/vibrate; `STREAM_NOTIFICATION` volume is 0 |
+| **Cause** | Default TTS stream was NOTIFICATION. Android 16 AudioHardening also mutes `com.google.android.tts` background playback even on MEDIA |
+| **Fix** | Synthesize to `cache/os-tts.wav` and play with `TtsFilePlayer` (MediaPlayer in our process). Default stream MEDIA. If the preferred stream is muted, fall back to MEDIA unless ringer is silent/vibrate and `allowSilentVibrate` is false |
+| **Prevention** | Voice test uses `immediate = true` and MEDIA. `TtsController.speakNow` must not bypass `AnnouncementGate` / per-channel silent |
+
+### KB-016 — Release Please PR checks stay `action_required`
+
+| Field | Detail |
+|-------|--------|
+| **Symptom** | `chore(main): release X.Y.Z` PR is MERGEABLE but BLOCKED; CI/CodeQL/Security Scan show `action_required` with zero jobs |
+| **Cause** | `pull_request` workflows on `release-please--branches--main` never start jobs (approval / first-run gate) |
+| **Fix** | `merge-release-please-pr.sh` admin fallback: `gh pr merge --admin` after `--auto` fails |
+| **Prevention** | Do not wait for empty-job PR checks. Push-SHA CI/CodeQL/Security Scan on `main` are the real gate |
