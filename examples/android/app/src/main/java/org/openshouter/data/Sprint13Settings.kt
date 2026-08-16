@@ -12,6 +12,8 @@ import org.openshouter.domain.ChannelDeviceState
 import org.openshouter.domain.ChannelStates
 import org.openshouter.domain.ContactRule
 import org.openshouter.domain.ShoutChannel
+import org.openshouter.domain.TimeHourStyle
+import org.openshouter.domain.TtsFormat
 
 @Singleton
 class Sprint13Settings @Inject constructor(
@@ -34,15 +36,19 @@ class Sprint13Settings @Inject constructor(
     }
 
     suspend fun setCallFormat(value: String) = context.osDataStore.edit {
-        it[SettingsSprint13.CALL_FMT] = value.ifBlank { org.openshouter.domain.TtsFormat.CALL_DEFAULT }
+        it[SettingsSprint13.CALL_FMT] = value.ifBlank { TtsFormat.CALL_DEFAULT }
     }
 
     suspend fun setMessageFormat(value: String) = context.osDataStore.edit {
-        it[SettingsSprint13.MSG_FMT] = value.ifBlank { org.openshouter.domain.TtsFormat.MESSAGE_DEFAULT }
+        it[SettingsSprint13.MSG_FMT] = value.ifBlank { TtsFormat.MESSAGE_DEFAULT }
     }
 
     suspend fun setTimeFormat(value: String) = context.osDataStore.edit {
-        it[SettingsSprint13.TIME_FMT] = value.ifBlank { org.openshouter.domain.TtsFormat.TIME_DEFAULT }
+        it[SettingsSprint13.TIME_FMT] = value.ifBlank { TtsFormat.TIME_DEFAULT }
+    }
+
+    suspend fun setTimeHourStyle(style: TimeHourStyle) = context.osDataStore.edit {
+        it[SettingsSprint13.TIME_HOUR] = style.name
     }
 
     suspend fun setOverride(row: AppOverride) = context.osDataStore.edit { prefs ->

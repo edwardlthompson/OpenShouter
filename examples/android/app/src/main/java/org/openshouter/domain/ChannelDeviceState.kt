@@ -27,6 +27,19 @@ object ChannelStates {
         repeatCount = globalPlayback.repeatCount,
     )
 
+    fun channelFor(kind: SpokenEvent.Kind): ShoutChannel = when (kind) {
+        SpokenEvent.Kind.CALL -> ShoutChannel.CALL
+        SpokenEvent.Kind.MESSAGE -> ShoutChannel.MESSAGE
+        SpokenEvent.Kind.TIME -> ShoutChannel.TIME
+        SpokenEvent.Kind.REMINDER -> ShoutChannel.REMINDER
+        SpokenEvent.Kind.POWER -> ShoutChannel.BATTERY
+        SpokenEvent.Kind.NOTIFICATION, SpokenEvent.Kind.GEO -> ShoutChannel.NOTIFICATION
+    }
+
+    fun allowSilentVibrate(settings: AppSettings, kind: SpokenEvent.Kind): Boolean =
+        resolve(settings.channelStates, channelFor(kind), settings.deviceState, settings.ttsPlayback)
+            .device.allowSilentVibrate
+
     fun spoken(
         settings: AppSettings,
         channel: ShoutChannel,

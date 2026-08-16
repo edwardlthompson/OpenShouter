@@ -41,9 +41,23 @@ class OpenShouterNotificationListener : NotificationListenerService() {
         val ticker = extras.getCharSequence(EXTRA_TICKER_TEXT)?.toString().orEmpty()
         val sub = extras.getCharSequence(Notification.EXTRA_SUB_TEXT)?.toString().orEmpty()
         val big = extras.getCharSequence(Notification.EXTRA_BIG_TEXT)?.toString().orEmpty()
+        val info = extras.getCharSequence(Notification.EXTRA_INFO_TEXT)?.toString().orEmpty()
+        val bigTitle = extras.getCharSequence(Notification.EXTRA_TITLE_BIG)?.toString().orEmpty()
+        val bigSummary = extras.getCharSequence(Notification.EXTRA_SUMMARY_TEXT)?.toString().orEmpty()
+        val lines = extras.getCharSequenceArray(Notification.EXTRA_TEXT_LINES)
+            ?.joinToString(" ") { it.toString() }
+            .orEmpty()
         val isGroupSummary = (sbn.notification.flags and Notification.FLAG_GROUP_SUMMARY) != 0
         val app = sbn.packageName
-        val tokens = mapOf("ticker" to ticker, "subtext" to sub, "bigtext" to big)
+        val tokens = mapOf(
+            "ticker" to ticker,
+            "subtext" to sub,
+            "bigtext" to big,
+            "info" to info,
+            "bigtitle" to bigTitle,
+            "bigsummary" to bigSummary,
+            "lines" to lines,
+        )
         scope.launch {
             val settings = ep.settings().snapshot()
             if (!settings.notificationsEnabled) return@launch

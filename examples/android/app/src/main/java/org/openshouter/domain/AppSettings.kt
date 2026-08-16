@@ -40,5 +40,6 @@ data class AppSettings(
     val callFormat: String = TtsFormat.CALL_DEFAULT,
     val messageFormat: String = TtsFormat.MESSAGE_DEFAULT,
     val timeFormat: String = TtsFormat.TIME_DEFAULT,
+    val timeHourStyle: TimeHourStyle = TimeHourStyle.SYSTEM,
     val appOverrides: Map<String, AppOverride> = emptyMap(),
 )

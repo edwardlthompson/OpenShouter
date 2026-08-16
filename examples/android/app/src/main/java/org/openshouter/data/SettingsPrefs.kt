@@ -117,8 +117,8 @@ internal fun Preferences.toAppSettings(): AppSettings {
         appFormats = AppOverrides.parse(this[k.APP_FORMATS] ?: emptySet()),
         ttsPlayback = TtsPlaybackPolicy(
             stream = runCatching {
-                TtsStream.valueOf(this[k.TTS_STREAM] ?: TtsStream.NOTIFICATION.name)
-            }.getOrDefault(TtsStream.NOTIFICATION),
+                TtsStream.valueOf(this[k.TTS_STREAM] ?: TtsStream.MEDIA.name)
+            }.getOrDefault(TtsStream.MEDIA),
             delaySeconds = this[k.TTS_DELAY] ?: 0,
             maxLength = this[k.TTS_MAX] ?: 0,
             audioFocus = this[k.TTS_FOCUS] ?: true,

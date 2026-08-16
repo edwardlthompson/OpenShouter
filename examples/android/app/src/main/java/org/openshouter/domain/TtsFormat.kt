@@ -6,7 +6,9 @@ object TtsFormat {
     const val MISSED_DEFAULT = "Missed call from %name"
     const val MESSAGE_DEFAULT = "Message from %name: %text"
     const val TIME_DEFAULT = "The time is %time"
-    private val TOKEN = Regex("%(app|title|text|name|number|ticker|subtext|bigtext|time)")
+    private val TOKEN = Regex(
+        "%(app|title|text|name|number|ticker|subtext|bigtext|time|info|bigtitle|bigsummary|lines)",
+    )
 
     fun render(template: String, values: Map<String, String>): String {
         val filled = TOKEN.replace(template) { match ->

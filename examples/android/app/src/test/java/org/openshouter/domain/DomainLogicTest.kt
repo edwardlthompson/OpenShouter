@@ -104,6 +104,21 @@ class AnnouncementGateTest {
     }
 
     @Test
+    fun silentOrVibrateHonorsToggle() {
+        val off = AppSettings(deviceState = DeviceStatePolicy(allowSilentVibrate = false))
+        assertFalse(
+            AnnouncementGate.allow(off, 12 * 60, 2, true, true, false, silentOrVibrate = true),
+        )
+        assertTrue(
+            AnnouncementGate.allow(off, 12 * 60, 2, true, true, false, silentOrVibrate = false),
+        )
+        val on = AppSettings(deviceState = DeviceStatePolicy(allowSilentVibrate = true))
+        assertTrue(
+            AnnouncementGate.allow(on, 12 * 60, 2, true, true, false, silentOrVibrate = true),
+        )
+    }
+
+    @Test
     fun headsetOnlyRequiresRoute() {
         val settings = AppSettings(headsetOnly = true)
         assertFalse(

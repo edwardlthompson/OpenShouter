@@ -25,6 +25,7 @@ import dev.foss.goldenpath.R
 import dev.foss.goldenpath.ui.insets.bottomInsetPadding
 import dev.foss.goldenpath.ui.theme.SpacingMd
 import org.openshouter.domain.AppSettings
+import org.openshouter.domain.TimeHourStyle
 import org.openshouter.domain.TimeShout
 
 @OptIn(ExperimentalLayoutApi::class)
@@ -33,6 +34,7 @@ fun TimeShoutScreen(
     settings: AppSettings,
     onChange: (Boolean, Int, Boolean) -> Unit,
     onFormat: (String) -> Unit = {},
+    onHourStyle: (TimeHourStyle) -> Unit = {},
     onBack: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -79,10 +81,16 @@ fun TimeShoutScreen(
                 modifier = Modifier.semantics { contentDescription = exactLabel },
             )
         }
+        Text(stringResource(R.string.time_hour_style), style = MaterialTheme.typography.titleMedium)
+        FlowRow(horizontalArrangement = Arrangement.spacedBy(SpacingMd)) {
+            HourChip(TimeHourStyle.HOUR_12, R.string.time_hour_12, settings, onHourStyle)
+            HourChip(TimeHourStyle.HOUR_24, R.string.time_hour_24, settings, onHourStyle)
+            HourChip(TimeHourStyle.SYSTEM, R.string.time_hour_system, settings, onHourStyle)
+        }
         OutlinedTextField(
             value = settings.timeFormat,
             onValueChange = onFormat,
-            label = { Text("Time format (%time)") },
+            label = { Text(stringResource(R.string.time_phrase)) },
             modifier = Modifier.fillMaxWidth(),
             singleLine = true,
         )
@@ -102,6 +110,20 @@ private fun IntervalChip(
     FilterChip(
         selected = settings.timeShoutIntervalMinutes == minutes,
         onClick = { onChange(settings.timeShoutEnabled, minutes, settings.timeShoutExact) },
+        label = { Text(stringResource(labelRes)) },
+    )
+}
+
+@Composable
+private fun HourChip(
+    style: TimeHourStyle,
+    labelRes: Int,
+    settings: AppSettings,
+    onHourStyle: (TimeHourStyle) -> Unit,
+) {
+    FilterChip(
+        selected = settings.timeHourStyle == style,
+        onClick = { onHourStyle(style) },
         label = { Text(stringResource(labelRes)) },
     )
 }

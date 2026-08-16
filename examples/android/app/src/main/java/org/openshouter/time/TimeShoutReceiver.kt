@@ -5,7 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.text.format.DateFormat
 import dagger.hilt.android.AndroidEntryPoint
-import java.util.Date
+import java.time.ZonedDateTime
 import javax.inject.Inject
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -14,6 +14,7 @@ import org.openshouter.data.SettingsRepository
 import org.openshouter.domain.ChannelStates
 import org.openshouter.domain.ShoutChannel
 import org.openshouter.domain.SpokenEvent
+import org.openshouter.domain.TimeShout
 import org.openshouter.domain.TtsFormat
 import org.openshouter.service.OpenShouterRuntime
 import org.openshouter.service.SpeakGate
@@ -37,7 +38,11 @@ class TimeShoutReceiver : BroadcastReceiver() {
                 scheduler.sync(snap)
                 if (!snap.announcerEnabled || !snap.timeShoutEnabled) return@launch
                 if (!gate.allow(snap, ShoutChannel.TIME)) return@launch
-                val clock = DateFormat.getTimeFormat(app).format(Date())
+                val clock = TimeShout.formatClock(
+                    ZonedDateTime.now(),
+                    snap.timeHourStyle,
+                    DateFormat.is24HourFormat(app),
+                )
                 val phrase = TtsFormat.time(snap.timeFormat, clock)
                 if (phrase.isNotBlank()) {
                     tts.speak(ChannelStates.spoken(snap, ShoutChannel.TIME, SpokenEvent.Kind.TIME, phrase))

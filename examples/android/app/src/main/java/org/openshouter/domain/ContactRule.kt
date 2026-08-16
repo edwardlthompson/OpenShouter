@@ -13,7 +13,7 @@ data class ContactRule(
         val key = normalize(raw)
         nicknames[key]?.trim()?.takeIf { it.isNotEmpty() }?.let { return it.take(MAX_NICK) }
         contactName.trim().takeIf { it.isNotEmpty() }?.let { return it }
-        return unknown
+        return speakableNumber(raw).ifBlank { unknown }
     }
 
     override fun toString(): String =
@@ -25,6 +25,12 @@ data class ContactRule(
         const val MAX_RULES = 200
 
         fun normalize(raw: String): String = raw.filter { it.isDigit() }.takeLast(10)
+
+        fun speakableNumber(raw: String): String {
+            val digits = normalize(raw)
+            if (digits.isEmpty()) return ""
+            return digits.toList().joinToString(" ")
+        }
 
         fun parse(stored: Set<String>): ContactRule {
             val nicks = linkedMapOf<String, String>()

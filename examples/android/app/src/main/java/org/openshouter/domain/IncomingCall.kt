@@ -8,7 +8,8 @@ data class IncomingCallEvent(
     val phase: CallPhase,
 ) {
     val spokenName: String
-        get() = displayName?.takeIf { it.isNotBlank() } ?: number.ifBlank { "an unknown number" }
+        get() = displayName?.takeIf { it.isNotBlank() }
+            ?: ContactRule.speakableNumber(number).ifBlank { "an unknown number" }
 
     val shouldLoop: Boolean get() = phase == CallPhase.RINGING
     val shouldStop: Boolean get() = phase != CallPhase.RINGING

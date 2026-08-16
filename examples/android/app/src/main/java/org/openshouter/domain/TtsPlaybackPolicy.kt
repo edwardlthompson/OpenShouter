@@ -2,8 +2,20 @@ package org.openshouter.domain
 
 enum class TtsStream { NOTIFICATION, MEDIA, ALARM }
 
+fun TtsStream.playable(
+    thisMuted: Boolean,
+    mediaMuted: Boolean,
+    ringerSilent: Boolean = false,
+    allowSilentVibrate: Boolean = true,
+): TtsStream {
+    if (!thisMuted) return this
+    if (ringerSilent && !allowSilentVibrate) return this
+    if (!mediaMuted) return TtsStream.MEDIA
+    return this
+}
+
 data class TtsPlaybackPolicy(
-    val stream: TtsStream = TtsStream.NOTIFICATION,
+    val stream: TtsStream = TtsStream.MEDIA,
     val delaySeconds: Int = 0,
     val maxLength: Int = 0,
     val audioFocus: Boolean = true,

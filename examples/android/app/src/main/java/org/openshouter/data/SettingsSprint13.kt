@@ -9,6 +9,7 @@ import org.openshouter.domain.BatteryPhrases
 import org.openshouter.domain.BatterySituation
 import org.openshouter.domain.ChannelStates
 import org.openshouter.domain.ContactRule
+import org.openshouter.domain.TimeHourStyle
 import org.openshouter.domain.TtsFormat
 
 internal object SettingsSprint13 {
@@ -22,6 +23,7 @@ internal object SettingsSprint13 {
     val CALL_FMT = stringPreferencesKey("call_fmt")
     val MSG_FMT = stringPreferencesKey("msg_fmt")
     val TIME_FMT = stringPreferencesKey("time_fmt")
+    val TIME_HOUR = stringPreferencesKey("time_hour")
 
     fun apply(base: AppSettings, prefs: Preferences): AppSettings {
         val enabled = (prefs[BATT_ON] ?: emptySet()).mapNotNull {
@@ -40,6 +42,7 @@ internal object SettingsSprint13 {
             callFormat = prefs[CALL_FMT] ?: TtsFormat.CALL_DEFAULT,
             messageFormat = prefs[MSG_FMT] ?: TtsFormat.MESSAGE_DEFAULT,
             timeFormat = prefs[TIME_FMT] ?: TtsFormat.TIME_DEFAULT,
+            timeHourStyle = TimeHourStyle.parse(prefs[TIME_HOUR]),
             appOverrides = AppOverrides.parseFull(prefs[SettingsKeys.APP_FORMATS] ?: emptySet()),
         )
     }

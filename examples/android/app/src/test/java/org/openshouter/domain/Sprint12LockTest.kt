@@ -19,6 +19,34 @@ class ShakeThresholdTest {
     }
 }
 
+class TtsStreamPlayableTest {
+    @Test
+    fun mutedNotificationFallsBackToMedia() {
+        assertEquals(TtsStream.MEDIA, TtsStream.NOTIFICATION.playable(thisMuted = true, mediaMuted = false))
+        assertEquals(TtsStream.NOTIFICATION, TtsStream.NOTIFICATION.playable(thisMuted = false, mediaMuted = true))
+        assertEquals(TtsStream.NOTIFICATION, TtsStream.NOTIFICATION.playable(thisMuted = true, mediaMuted = true))
+        assertEquals(TtsStream.ALARM, TtsStream.ALARM.playable(thisMuted = false, mediaMuted = false))
+        assertEquals(
+            TtsStream.NOTIFICATION,
+            TtsStream.NOTIFICATION.playable(
+                thisMuted = true,
+                mediaMuted = false,
+                ringerSilent = true,
+                allowSilentVibrate = false,
+            ),
+        )
+        assertEquals(
+            TtsStream.MEDIA,
+            TtsStream.NOTIFICATION.playable(
+                thisMuted = true,
+                mediaMuted = false,
+                ringerSilent = true,
+                allowSilentVibrate = true,
+            ),
+        )
+    }
+}
+
 class TtsVoiceTest {
     @Test
     fun clampsPitchAndTag() {
@@ -32,12 +60,20 @@ class TtsFormatTokenTest {
     @Test
     fun rendersTickerSubtextAndTime() {
         val spoken = TtsFormat.notification(
-            "%app %ticker %subtext %time",
+            "%app %ticker %subtext %info %bigtitle %bigsummary %lines %time",
             "Mail",
             "Title",
             "Body",
-            mapOf("ticker" to "Tick", "subtext" to "Sub", "time" to "3:00"),
+            mapOf(
+                "ticker" to "Tick",
+                "subtext" to "Sub",
+                "info" to "Info",
+                "bigtitle" to "Big",
+                "bigsummary" to "Sum",
+                "lines" to "L1 L2",
+                "time" to "3:00",
+            ),
         )
-        assertEquals("Mail Tick Sub 3:00", spoken)
+        assertEquals("Mail Tick Sub Info Big Sum L1 L2 3:00", spoken)
     }
 }

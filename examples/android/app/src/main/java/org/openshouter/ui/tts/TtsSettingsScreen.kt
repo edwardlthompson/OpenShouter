@@ -1,5 +1,6 @@
 package org.openshouter.ui.tts
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
@@ -54,6 +55,7 @@ fun TtsSettingsScreen(
 ) {
     var showChannels by remember { mutableStateOf(false) }
     if (showChannels) {
+        BackHandler { showChannels = false }
         ChannelStateScreen(
             settings = settings,
             onSave = onChannelStates,

@@ -5,7 +5,7 @@ Inventory of **Shouter Pro** (`com.bhkapps.proshouter`) vs **Voice Notify** (`co
 **Sources (2026-08-13):**
 
 - Shouter Pro walked page-by-page on device CPH2583 (UI dumps of home, silent hours, muting, history, app notification, call, message, time, battery, reminder, voice settings, call device-states dialog) plus preference XML from the installed APK (`res/xml/*_settings.xml`). Spoken history rows were not copied into this repo.
-- Voice Notify is **not installed**; inventory is from GitHub `main` (`strings.xml`, `prefs/db/Settings.kt`, README).
+- Voice Notify is **not installed**; inventory is from GitHub `main` code (`prefs/db/Settings.kt`, `PreferenceHelper.kt`, `NotificationInfo.kt`, `IgnoreReason.kt`) — not the README.
 - OpenShouter from `examples/android/` domain, DataStore, and Compose screens.
 
 Interactive filterable table: Cursor canvas `feature-parity-matrix.canvas.tsx` (IDE-only; this file is the git source of truth). Refresh both after every `/build` wrap-up and `/push`.
@@ -16,7 +16,7 @@ Status: **Yes** shipped · **Partial** logic or subset UI · **No** missing · *
 
 | Bucket | Count (OpenShouter) |
 |--------|---------------------|
-| Yes | Master enable, widget, QS tile, FGS, boot, mute gestures + live g-meter, notification TTS, call loop, missed-call RING→IDLE, silent geofences, theme, GitHub updates, searchable app-speak picker, 24-hour quiet grid, history + ignore-reason, regex + require/ignore lists, empty/group/repeat, extra format tokens, repeat count + screen-off loop, test notification, pause-media, pitch, OEM autostart, TTS/device-state settings, engine language picker, per-channel headphone/stream/repeat grid, 15/30/60 time shout + exact opt-in, nick/blacklist, call/message/time builders, battery situation phrases, reminder hour/day/week/month/year + also-notify, SAF backup, full AppOverride merge |
+| Yes | Master enable, widget, QS tile, FGS, boot, mute gestures + live g-meter, notification TTS, call loop, missed-call RING→IDLE, silent geofences, theme, GitHub updates, searchable app-speak picker, 24-hour quiet grid, history + ignore-reason, regex + require/ignore lists, empty/group/repeat, extra format tokens, repeat count + screen-off loop, test notification, pause-media, pitch, OEM autostart, TTS/device-state settings, engine language picker, per-channel headphone/stream/repeat grid, 15/30/60 time shout + exact opt-in + 12/24 clock style, nick/blacklist, call/message/time builders, battery situation phrases, reminder hour/day/week/month/year + also-notify, SAF backup, full AppOverride merge |
 | Partial | — |
 | No | — |
 | Skip | Placebook companion, GMS/Firebase analytics, Facebook/rate/share, in-app language clone, `READ_SMS` |
@@ -61,13 +61,13 @@ Keep OpenShouter extras: flip-to-mute, silent-inside geofences, GitHub Releases 
 
 ## Voice Notify (source)
 
-QS tile + widget suspend · TTS message tokens (`#A` app, `#T` ticker, `#S` subtext, `#C` title, `#M` message, plus big-text/lines) · text replace · ignore/require text · ignore empty/group/repeats · TTS stream · screen/headset/silent/in-call flags · quiet start/end · shake threshold · max length · delay · repeat while screen off · **per-app overrides** · notification log + ignore reasons · test notification · backup/restore zip · pause/dim media · speak emojis · OEM autostart help.
+From `Settings.kt` + DataStore keys: audio focus · require/ignore strings · ignore empty/groups/repeats · speak screen on/off · headset on/off · silent · in-call · quiet start/end · TTS string · text replace · speak emojis · max length · stream · delay · repeat while screen off · per-app row merge · shake threshold · log ignored (notifications/apps) · app-list default enable · suspend · backup zip. Tokens in `NotificationInfo.kt`: `#A #T #S #C #M #I #H #Y #B #L`.
 
 Not copied: Play analytics.
 
 ## OpenShouter today
 
-Dashboard master + permission shortcuts · searchable app-speak list · extra format tokens · full AppOverride merge · regex + require/ignore + empty/group/repeat · looping caller ID + nick/blacklist + call format · missed-call RING→IDLE · message extras/sender (no `READ_SMS`) · battery situation phrases · shake slider + live g-meter + flip + screen mute · 24-hour quiet grid · TTS playback + engine language picker + test notification · per-channel headphone/stream/repeat grid · 15/30/60 time shout + `%time` builder · reminder hour/day/week/month/year + also-notify · SAF settings zip · OEM autostart · silent geofences · FGS · QS tile · widget · history + ignore-reason.
+Dashboard master + permission shortcuts · searchable app-speak list · extra format tokens · full AppOverride merge · regex + require/ignore + empty/group/repeat · looping caller ID + nick/blacklist + call format · missed-call RING→IDLE · unknown callers speak spaced digits · message extras/sender (no `READ_SMS`) · battery situation phrases · shake slider + live g-meter + flip + screen mute · 24-hour quiet grid · TTS in-process WAV + engine language picker + test notification · per-channel headphone/stream/repeat + silent/vibrate · 15/30/60 time shout + 12/24/system clock + `%time` builder · reminder hour/day/week/month/year + also-notify · SAF settings zip · OEM autostart · silent geofences · FGS · QS tile · widget · history + ignore-reason.
 
 ## Matrix
 
@@ -84,7 +84,7 @@ Dashboard master + permission shortcuts · searchable app-speak list · extra fo
 | Muting | Flip face-down | No | No | Yes | Keep |
 | Notifications | Listener TTS | Yes | Yes | Yes | Shipped |
 | Notifications | Installed-app picker | Yes | Yes | Yes | Shipped (Sprint 11 list) |
-| Notifications | Format tokens | Prefixes | `#A` `#C` `#M`… | `%app` `%title` `%text` `%ticker` `%subtext` `%bigtext` `%time` | Shipped |
+| Notifications | Format tokens | Prefixes | `#A` `#T` `#S` `#C` `#M` `#I` `#H` `#Y` `#B` `#L` | `%app` `%title` `%text` `%ticker` `%subtext` `%bigtext` `%info` `%bigtitle` `%bigsummary` `%lines` `%time` | Shipped |
 | Notifications | Regex / ignore-require | No | Yes | Yes | Shipped ignore/replace UI |
 | Notifications | Ignore empty/group/repeat | No | Yes | Yes | Shipped NotificationPolicy + Filters toggles |
 | Notifications | Per-app overrides | No | Yes | Yes | Shipped AppOverride merge + OverrideScreen |
@@ -98,7 +98,7 @@ Dashboard master + permission shortcuts · searchable app-speak list · extra fo
 | Call | Looping ID + contacts | Yes | No | Yes | Shipped |
 | Call | Unknown toggle, nick/blacklist, missed | Yes | No | Yes | Shipped ContactRules + speakUnknown + missed RING→IDLE |
 | Message | Dedicated SMS/MMS shout | Yes | Via apps | Yes | Extras/sender parse; no `READ_SMS` |
-| Time | Interval + exact opt-in | Yes | No | Yes | 15/30/60 chips + `timeShoutExact` |
+| Time | Interval + exact opt-in | Yes | No | Yes | 15/30/60 chips + `timeShoutExact` + 12/24/system hour style |
 | Battery | Events + custom phrases | Yes | No | Yes | Shipped situation picker + `%level` phrases |
 | Reminders | Recurring voice list | Yes | No | Yes | Hour/day/week/month/year chips + AlarmManager sync |
 | Location | Placebook proximity | Yes | No | Skip | Keep silent fences |

@@ -15,6 +15,7 @@ import org.openshouter.data.ReminderEntity
 import org.openshouter.domain.AppSettings
 import org.openshouter.domain.AppSpeakRule
 import org.openshouter.domain.SpokenEvent
+import org.openshouter.domain.TtsStream
 import org.openshouter.backup.BackupScreen
 import org.openshouter.backup.SettingsBackup
 import org.openshouter.contacts.ContactRulesScreen
@@ -30,7 +31,6 @@ import org.openshouter.ui.filters.FiltersScreen
 import org.openshouter.ui.history.HistoryScreen
 import org.openshouter.ui.places.PlacesScreen
 import org.openshouter.ui.quiet.QuietHoursScreen
-import org.openshouter.ui.settings.AnnouncerSettingsScreen
 import org.openshouter.ui.setup.SetupScreen
 import org.openshouter.reminder.ReminderScreen
 import org.openshouter.reminder.reminderDefaults
@@ -95,72 +95,14 @@ fun OpenShouterPanes(
             onBack = { onPane(Pane.Home) },
             modifier = modifier,
         )
-        pane == Pane.Announcer -> AnnouncerSettingsScreen(
-            settings = settings,
-            onQuiet = { on ->
-                scope.launch {
-                    ep.settings().setQuietHours(
-                        on,
-                        settings.quietStartMinutes,
-                        settings.quietEndMinutes,
-                        settings.quietDays,
-                    )
-                }
-            },
-            onScreenOffOnly = { on ->
-                scope.launch { ep.settings().setAudioGate(on, settings.headsetOnly) }
-            },
-            onHeadsetOnly = { on ->
-                scope.launch { ep.settings().setAudioGate(settings.screenOffOnly, on) }
-            },
-            onShake = { on ->
-                scope.launch {
-                    ep.settings().setGestures(on, settings.flipToMute, settings.muteOnScreenOn, settings.muteOnScreenOff)
-                }
-            },
-            onShakeThreshold = { g -> scope.launch { ep.settings().setShakeThreshold(g) } },
-            onFlip = { on ->
-                scope.launch {
-                    ep.settings().setGestures(settings.shakeToSilence, on, settings.muteOnScreenOn, settings.muteOnScreenOff)
-                }
-            },
-            onMuteScreenOn = { on ->
-                scope.launch {
-                    ep.settings().setGestures(settings.shakeToSilence, settings.flipToMute, on, settings.muteOnScreenOff)
-                }
-            },
-            onMuteScreenOff = { on ->
-                scope.launch {
-                    ep.settings().setGestures(settings.shakeToSilence, settings.flipToMute, settings.muteOnScreenOn, on)
-                }
-            },
-            onCalls = { on -> scope.launch { ep.settings().setCalls(on) } },
-            onNotifications = { on -> scope.launch { ep.settings().setNotifications(on) } },
-            onTimeShout = { on ->
-                scope.launch {
-                    ep.settings().setTimeShout(on, settings.timeShoutIntervalMinutes, settings.timeShoutExact)
-                }
-            },
-            onMissed = { on ->
-                scope.launch { ep.settings().setMissedCall(settings.missedCall.copy(enabled = on)) }
-            },
-            onMessages = { on ->
-                scope.launch { ep.settings().setMessageChannel(settings.messageChannel.copy(enabled = on)) }
-            },
-            onOpenQuiet = { onPane(Pane.Quiet) },
-            onOpenTime = { onPane(Pane.Time) },
-            onOpenContacts = { onPane(Pane.Contacts) },
-            onOpenMessages = { onPane(Pane.Messages) },
-            onOpenPower = { onPane(Pane.Power) },
-            onBack = { onPane(Pane.Home) },
-            modifier = modifier,
-        )
+        pane == Pane.Announcer -> AnnouncerPane(settings, ep, scope, onPane, modifier)
         pane == Pane.Time -> TimeShoutScreen(
             settings = settings,
             onChange = { enabled, interval, exact ->
                 scope.launch { ep.settings().setTimeShout(enabled, interval, exact) }
             },
             onFormat = { value -> scope.launch { ep.sprint13().setTimeFormat(value) } },
+            onHourStyle = { style -> scope.launch { ep.sprint13().setTimeHourStyle(style) } },
             onBack = { onPane(Pane.Announcer) },
             modifier = modifier,
         )
@@ -199,7 +141,12 @@ fun OpenShouterPanes(
             onDeviceState = { policy -> scope.launch { ep.settings().setDeviceState(policy) } },
             onTest = {
                 ep.tts().speak(
-                    SpokenEvent(SpokenEvent.Kind.NOTIFICATION, context.getString(R.string.tts_test_phrase)),
+                    SpokenEvent(
+                        SpokenEvent.Kind.NOTIFICATION,
+                        context.getString(R.string.tts_test_phrase),
+                        stream = TtsStream.MEDIA,
+                    ),
+                    immediate = true,
                 )
             },
             onPostTest = { TestNotification.post(context) },

@@ -12,6 +12,8 @@ class ContactRuleTest {
         assertEquals("Pat", rule.display("+1 (555) 1212", "Alice"))
         assertEquals("Alice", rule.display("5559990000", "Alice"))
         assertEquals(ContactRule.UNKNOWN, rule.display("", ""))
+        assertEquals("5 5 5 9 9 9 0 0 0 0", rule.display("5559990000", ""))
+        assertEquals("5 5 5 1 2 1 2 1 2 1", ContactRule.speakableNumber("555-121-2121"))
         assertTrue(rule.isBlocked("555-000-1111"))
         assertFalse(rule.isBlocked("5551212"))
         assertFalse(rule.toString().contains("555"))
@@ -40,6 +42,16 @@ class ChannelDeviceStateTest {
         )
         assertEquals(TtsStream.MEDIA, inherited.stream)
         assertEquals(2, inherited.repeatCount)
+        val blocked = AppSettings(
+            deviceState = DeviceStatePolicy(allowSilentVibrate = true),
+            channelStates = mapOf(
+                ShoutChannel.CALL to ChannelDeviceState(
+                    device = DeviceStatePolicy(allowSilentVibrate = false),
+                ),
+            ),
+        )
+        assertFalse(ChannelStates.allowSilentVibrate(blocked, SpokenEvent.Kind.CALL))
+        assertTrue(ChannelStates.allowSilentVibrate(blocked, SpokenEvent.Kind.NOTIFICATION))
     }
 }
 

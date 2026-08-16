@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -22,6 +23,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.luminance
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.Lifecycle
@@ -31,6 +33,7 @@ import dev.foss.goldenpath.R
 import dev.foss.goldenpath.ui.insets.bottomInsetPadding
 import dev.foss.goldenpath.ui.theme.SpacingMd
 import org.openshouter.setup.SetupChecks
+import org.openshouter.setup.SetupPalette
 
 @Composable
 fun SetupScreen(
@@ -106,8 +109,17 @@ private fun SetupRow(labelRes: Int, granted: Boolean, onClick: () -> Unit) {
             Text(label, style = MaterialTheme.typography.bodyLarge)
             Text(status, style = MaterialTheme.typography.bodySmall)
         }
-        Button(onClick = onClick) {
-            Text(stringResource(R.string.setup_activate))
+        val dark = MaterialTheme.colorScheme.background.luminance() < 0.5f
+        val colors = if (granted) {
+            ButtonDefaults.buttonColors(
+                containerColor = if (dark) SetupPalette.ActivatedDark else SetupPalette.ActivatedLight,
+                contentColor = SetupPalette.OnActivated,
+            )
+        } else {
+            ButtonDefaults.buttonColors()
+        }
+        Button(onClick = onClick, colors = colors) {
+            Text(stringResource(if (granted) R.string.setup_activated else R.string.setup_activate))
         }
     }
 }

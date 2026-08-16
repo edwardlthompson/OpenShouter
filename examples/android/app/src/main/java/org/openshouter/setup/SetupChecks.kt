@@ -63,9 +63,10 @@ object SetupChecks {
 
     fun requestExactAlarms(context: Context) {
         if (Build.VERSION.SDK_INT < 31) return
-        val intent = Intent(Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM)
-            .setData(Uri.parse("package:${context.packageName}"))
-        if (!launch(context, intent)) openAppDetails(context)
+        val pkg = Uri.parse("package:${context.packageName}")
+        val targeted = Intent(Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM).setData(pkg)
+        val list = Intent(Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM)
+        if (!launch(context, targeted) && !launch(context, list)) openAppDetails(context)
     }
 
     private fun launch(context: Context, intent: Intent): Boolean {

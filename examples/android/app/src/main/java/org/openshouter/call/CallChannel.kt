@@ -1,6 +1,7 @@
 package org.openshouter.call
 
 import org.openshouter.contacts.ContactRules
+import org.openshouter.domain.ContactRule
 import org.openshouter.domain.AppSettings
 import org.openshouter.domain.ChannelStates
 import org.openshouter.domain.ShoutChannel
@@ -14,7 +15,8 @@ object CallChannel {
         if (!resolved.known && !settings.missedCall.speakUnknown) return null
         return ChannelStates.spoken(
             settings, ShoutChannel.CALL, SpokenEvent.Kind.CALL,
-            TtsFormat.call(settings.callFormat, resolved.spoken), looping = true,
+            TtsFormat.call(settings.callFormat, resolved.spoken, ContactRule.speakableNumber(rawNumber)),
+            looping = true,
         )
     }
 
@@ -25,7 +27,7 @@ object CallChannel {
         val spoken = ContactRules.apply(settings.contactRule, rawNumber, contactName).spoken
         return ChannelStates.spoken(
             settings, ShoutChannel.CALL, SpokenEvent.Kind.CALL,
-            TtsFormat.call(TtsFormat.MISSED_DEFAULT, spoken),
+            TtsFormat.call(TtsFormat.MISSED_DEFAULT, spoken, ContactRule.speakableNumber(rawNumber)),
         )
     }
 }

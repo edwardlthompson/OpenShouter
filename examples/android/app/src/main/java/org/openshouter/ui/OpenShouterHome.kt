@@ -1,5 +1,6 @@
 package org.openshouter.ui
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -37,6 +38,9 @@ fun OpenShouterHome(modifier: Modifier = Modifier) {
     val installedApps = remember(context) { InstalledAppCatalog.list(context) }
     var pane by remember { mutableStateOf(Pane.Home) }
     var showSpoken by remember { mutableStateOf(false) }
+    BackHandler(enabled = pane != Pane.Home) {
+        pane = pane.backTarget()
+    }
     androidx.compose.runtime.LaunchedEffect(Unit) {
         ep.appSpeak().importWhitelist(ep.settings().snapshot())
     }
@@ -67,4 +71,10 @@ fun OpenShouterHome(modifier: Modifier = Modifier) {
         onShowSpoken = { showSpoken = it },
         modifier = modifier,
     )
+}
+
+private fun Pane.backTarget(): Pane = when (this) {
+    Pane.Home -> Pane.Home
+    Pane.Time, Pane.Quiet, Pane.Contacts, Pane.Messages, Pane.Power -> Pane.Announcer
+    else -> Pane.Home
 }

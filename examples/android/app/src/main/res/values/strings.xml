@@ -46,6 +46,7 @@
     <string name="setup_body">Each button opens a system screen. Unrestricted battery and exact alarms keep hourly shouts on time after the phone sleeps.</string>
     <string name="setup_continue">Continue</string>
     <string name="setup_activate">Activate</string>
+    <string name="setup_activated">Activated</string>
     <string name="setup_granted">On</string>
     <string name="setup_needed">Needed</string>
     <string name="setup_listener">Notification access</string>
@@ -57,7 +58,7 @@
     <string name="setup_background">Background location for geofences</string>
     <string name="setup_battery">Unrestricted battery (do not optimize)</string>
     <string name="setup_battery_settings">App battery settings (set Unrestricted)</string>
-    <string name="setup_exact_alarms">Exact alarms (speak on the hour)</string>
+    <string name="setup_exact_alarms">Allow setting alarms and reminders</string>
     <string name="announcer_time">Announce the time on the hour</string>
     <string name="time_shout_phrase">It\'s %1$s</string>
     <string name="dashboard_grant_background">Allow background location for geofences</string>
@@ -149,6 +150,11 @@
     <string name="time_30">Every 30 minutes</string>
     <string name="time_60">Every hour</string>
     <string name="time_exact">Announce on the exact minute</string>
+    <string name="time_hour_style">Read time as</string>
+    <string name="time_hour_12">12-hour</string>
+    <string name="time_hour_24">24-hour</string>
+    <string name="time_hour_system">Device default</string>
+    <string name="time_phrase">Time phrase (%time)</string>
     <string name="announcer_time_customize">Set time interval</string>
     <string name="announcer_missed">Announce missed calls</string>
     <string name="announcer_messages">Announce message notifications</string>
@@ -183,7 +189,7 @@
     <string name="shake_live">Threshold %1$.1f · now %2$.1f g</string>
     <string name="nav_channels">Per-channel device states</string>
     <string name="tts_language_default">System default</string>
-    <string name="tts_tokens" formatted="false">%app %title %text %ticker %subtext %bigtext %time</string>
+    <string name="tts_tokens" formatted="false">%app %title %text %ticker %subtext %bigtext %info %bigtitle %bigsummary %lines %time</string>
     <string name="quiet_reset">Reset quiet hours</string>
     <string name="quiet_preset">Preset night hours</string>
     <string name="tts_pitch">Voice pitch</string>
