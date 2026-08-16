@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.2.3](https://github.com/edwardlthompson/OpenShouter/compare/v0.2.2...v0.2.3) (2026-08-16)
+
+
+### Documentation
+
+* record v0.2.2 ship regressions ([e9bdf10](https://github.com/edwardlthompson/OpenShouter/commit/e9bdf10141c3dce4cea79216258520596d5b2b16))
+
 ## [0.2.2](https://github.com/edwardlthompson/OpenShouter/compare/v0.2.1...v0.2.2) (2026-08-16)
 
 
