@@ -2,27 +2,28 @@ package org.openshouter.ui.settings
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Switch
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.semantics.contentDescription
-import androidx.compose.ui.semantics.semantics
 import dev.foss.goldenpath.R
 import dev.foss.goldenpath.ui.insets.bottomInsetPadding
+import dev.foss.goldenpath.ui.theme.SpacingLg
 import dev.foss.goldenpath.ui.theme.SpacingMd
 import org.openshouter.domain.AppSettings
 import org.openshouter.domain.QuietHours
 import org.openshouter.gesture.ShakeSettings
+import org.openshouter.ui.menu.MenuBody
+import org.openshouter.ui.menu.MenuLink
+import org.openshouter.ui.menu.MenuRule
+import org.openshouter.ui.menu.MenuSection
+import org.openshouter.ui.menu.MenuToggle
 
 @Composable
 fun AnnouncerSettingsScreen(
@@ -52,56 +53,49 @@ fun AnnouncerSettingsScreen(
         modifier = modifier
             .verticalScroll(rememberScrollState())
             .padding(SpacingMd),
-        verticalArrangement = Arrangement.spacedBy(SpacingMd),
+        verticalArrangement = Arrangement.spacedBy(SpacingLg),
     ) {
-        Text(stringResource(R.string.nav_announcer), style = MaterialTheme.typography.headlineSmall)
-        ToggleRow(stringResource(R.string.announcer_notifications), settings.notificationsEnabled, onNotifications)
-        ToggleRow(stringResource(R.string.announcer_calls), settings.callsEnabled, onCalls)
-        ToggleRow(stringResource(R.string.announcer_time), settings.timeShoutEnabled, onTimeShout)
-        Button(onClick = onOpenTime) { Text(stringResource(R.string.announcer_time_customize)) }
-        ToggleRow(stringResource(R.string.announcer_missed), settings.missedCall.enabled, onMissed)
-        ToggleRow(stringResource(R.string.announcer_messages), settings.messageChannel.enabled, onMessages)
-        Button(onClick = onOpenContacts) { Text(stringResource(R.string.nav_contacts)) }
-        Button(onClick = onOpenMessages) { Text(stringResource(R.string.nav_messages)) }
-        Button(onClick = onOpenPower) { Text(stringResource(R.string.nav_power)) }
-        ToggleRow(
-            stringResource(
-                R.string.announcer_quiet,
-                QuietHours.windowLabel(settings.quietStartMinutes, settings.quietEndMinutes),
-            ),
-            settings.quietHoursEnabled,
-            onQuiet,
-        )
-        Button(onClick = onOpenQuiet) {
-            Text(stringResource(R.string.announcer_quiet_customize))
+        Text(stringResource(R.string.announcer_title), style = MaterialTheme.typography.headlineSmall)
+        MenuSection(stringResource(R.string.menu_section_shout)) {
+            MenuToggle(stringResource(R.string.announcer_notifications), settings.notificationsEnabled, onNotifications)
+            MenuToggle(stringResource(R.string.announcer_calls), settings.callsEnabled, onCalls, true)
+            MenuToggle(stringResource(R.string.announcer_time), settings.timeShoutEnabled, onTimeShout, true)
+            MenuToggle(stringResource(R.string.announcer_missed), settings.missedCall.enabled, onMissed, true)
+            MenuToggle(stringResource(R.string.announcer_messages), settings.messageChannel.enabled, onMessages, true)
         }
-        ToggleRow(stringResource(R.string.announcer_screen_off), settings.screenOffOnly, onScreenOffOnly)
-        ToggleRow(stringResource(R.string.announcer_headset), settings.headsetOnly, onHeadsetOnly)
-        ToggleRow(stringResource(R.string.announcer_shake), settings.shakeToSilence, onShake)
-        if (settings.shakeToSilence) {
-            ShakeSettings(settings.shakeThreshold, onShakeThreshold)
+        MenuSection(stringResource(R.string.menu_section_more)) {
+            MenuLink(stringResource(R.string.announcer_time_customize), onOpenTime)
+            MenuLink(stringResource(R.string.nav_contacts), onOpenContacts, showDivider = true)
+            MenuLink(stringResource(R.string.nav_messages), onOpenMessages, showDivider = true)
+            MenuLink(stringResource(R.string.nav_power), onOpenPower, showDivider = true)
         }
-        ToggleRow(stringResource(R.string.announcer_flip), settings.flipToMute, onFlip)
-        ToggleRow(stringResource(R.string.announcer_mute_on), settings.muteOnScreenOn, onMuteScreenOn)
-        ToggleRow(stringResource(R.string.announcer_mute_off), settings.muteOnScreenOff, onMuteScreenOff)
-        Button(onClick = onBack, modifier = Modifier.bottomInsetPadding()) {
+        MenuSection(stringResource(R.string.menu_section_quiet)) {
+            MenuToggle(
+                stringResource(
+                    R.string.announcer_quiet,
+                    QuietHours.windowLabel(settings.quietStartMinutes, settings.quietEndMinutes),
+                ),
+                settings.quietHoursEnabled,
+                onQuiet,
+            )
+            MenuLink(stringResource(R.string.announcer_quiet_customize), onOpenQuiet, showDivider = true)
+        }
+        MenuSection(stringResource(R.string.menu_section_when)) {
+            MenuToggle(stringResource(R.string.announcer_screen_off), settings.screenOffOnly, onScreenOffOnly)
+            MenuToggle(stringResource(R.string.announcer_headset), settings.headsetOnly, onHeadsetOnly, true)
+        }
+        MenuSection(stringResource(R.string.menu_section_silence)) {
+            MenuToggle(stringResource(R.string.announcer_shake), settings.shakeToSilence, onShake)
+            if (settings.shakeToSilence) {
+                MenuRule()
+                MenuBody { ShakeSettings(settings.shakeThreshold, onShakeThreshold) }
+            }
+            MenuToggle(stringResource(R.string.announcer_flip), settings.flipToMute, onFlip, true)
+            MenuToggle(stringResource(R.string.announcer_mute_on), settings.muteOnScreenOn, onMuteScreenOn, true)
+            MenuToggle(stringResource(R.string.announcer_mute_off), settings.muteOnScreenOff, onMuteScreenOff, true)
+        }
+        OutlinedButton(onClick = onBack, modifier = Modifier.fillMaxWidth().bottomInsetPadding()) {
             Text(stringResource(R.string.settings_close))
         }
-    }
-}
-
-@Composable
-private fun ToggleRow(label: String, checked: Boolean, onChange: (Boolean) -> Unit) {
-    Row(
-        verticalAlignment = Alignment.CenterVertically,
-        modifier = Modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.SpaceBetween,
-    ) {
-        Text(label, modifier = Modifier.weight(1f))
-        Switch(
-            checked = checked,
-            onCheckedChange = onChange,
-            modifier = Modifier.semantics { contentDescription = label },
-        )
     }
 }

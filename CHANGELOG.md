@@ -44,18 +44,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-### Added
+### Changed
 
-* **android:** 12/24-hour and device-default time-shout clock style
-* **android:** Voice Notify extra format tokens (`%info`, `%bigtitle`, `%bigsummary`, `%lines`)
-* **android:** Setup Activated buttons and exact-alarm permission row
-
-### Fixed
-
-* **android:** Play TTS through an in-process WAV so voice test works when the notification stream is muted
-* **android:** Honor per-channel “Speak in silent or vibrate”
-* **android:** Unknown incoming callers speak spaced digits instead of “unknown”
-* **android:** System back returns to Home instead of finishing the activity
+* **android:** Section home, announcer, and voice menus into labeled cards
 
 ## [0.1.0] - 2026-08-14
 

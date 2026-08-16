@@ -13,8 +13,8 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -37,6 +37,10 @@ import org.openshouter.domain.TtsPlaybackPolicy
 import org.openshouter.domain.TtsStream
 import org.openshouter.domain.TtsVoice
 import org.openshouter.ui.channel.ChannelStateScreen
+import org.openshouter.ui.menu.MenuBody
+import org.openshouter.ui.menu.MenuLink
+import org.openshouter.ui.menu.MenuSection
+import org.openshouter.ui.menu.MenuToggle
 import java.util.Locale
 
 @OptIn(ExperimentalLayoutApi::class)
@@ -72,97 +76,139 @@ fun TtsSettingsScreen(
             .padding(SpacingMd),
         verticalArrangement = Arrangement.spacedBy(SpacingMd),
     ) {
-        Text(stringResource(R.string.nav_tts), style = MaterialTheme.typography.headlineSmall)
-        Text(stringResource(R.string.tts_stream), style = MaterialTheme.typography.titleMedium)
-        FlowRow(horizontalArrangement = Arrangement.spacedBy(SpacingMd)) {
-            StreamChip(TtsStream.NOTIFICATION, R.string.tts_stream_notification, playback, onPlayback)
-            StreamChip(TtsStream.MEDIA, R.string.tts_stream_media, playback, onPlayback)
-            StreamChip(TtsStream.ALARM, R.string.tts_stream_alarm, playback, onPlayback)
-        }
-        NudgeRow(stringResource(R.string.tts_delay), playback.delaySeconds) { delta ->
-            onPlayback(playback.copy(delaySeconds = playback.delaySeconds + delta).clamp())
-        }
-        NudgeRow(stringResource(R.string.tts_max_length), playback.maxLength, step = 10) { delta ->
-            onPlayback(playback.copy(maxLength = playback.maxLength + delta).clamp())
-        }
-        NudgeRow(stringResource(R.string.tts_repeat), playback.repeatMinutes) { delta ->
-            onPlayback(playback.copy(repeatMinutes = playback.repeatMinutes + delta).clamp())
-        }
-        ToggleRow(stringResource(R.string.tts_audio_focus), playback.audioFocus) {
-            onPlayback(playback.copy(audioFocus = it).clamp())
-        }
-        ToggleRow(stringResource(R.string.tts_speak_emojis), playback.speakEmojis) {
-            onPlayback(playback.copy(speakEmojis = it).clamp())
-        }
-        NudgeRow(stringResource(R.string.tts_pitch), formatPitch(playback.voice.pitch)) { sign ->
-            val voice = TtsVoice(
-                pitch = playback.voice.pitch + sign * 0.1f,
-                languageTag = playback.voice.languageTag,
-            ).clamp()
-            onPlayback(playback.copy(voice = voice).clamp())
-        }
-        Text(stringResource(R.string.tts_language), style = MaterialTheme.typography.titleMedium)
-        FlowRow(horizontalArrangement = Arrangement.spacedBy(SpacingMd)) {
-            FilterChip(
-                selected = playback.voice.languageTag.isBlank(),
-                onClick = {
-                    onPlayback(playback.copy(voice = playback.voice.copy(languageTag = "").clamp()).clamp())
-                },
-                label = { Text(stringResource(R.string.tts_language_default)) },
-            )
-            languages.forEach { tag ->
-                FilterChip(
-                    selected = playback.voice.languageTag == tag,
-                    onClick = {
-                        val voice = TtsVoice(pitch = playback.voice.pitch, languageTag = tag).clamp()
-                        onPlayback(playback.copy(voice = voice).clamp())
-                    },
-                    label = { Text(tag) },
-                )
-            }
-        }
-        if (languages.isEmpty()) {
-            OutlinedTextField(
-                value = playback.voice.languageTag,
-                onValueChange = { tag ->
-                    val voice = TtsVoice(pitch = playback.voice.pitch, languageTag = tag).clamp()
+        Text(stringResource(R.string.tts_title), style = MaterialTheme.typography.headlineSmall)
+        MenuSection(stringResource(R.string.menu_section_voice)) {
+            MenuBody {
+                Text(stringResource(R.string.tts_stream), style = MaterialTheme.typography.titleMedium)
+                FlowRow(horizontalArrangement = Arrangement.spacedBy(SpacingMd)) {
+                    StreamChip(TtsStream.NOTIFICATION, R.string.tts_stream_notification, playback, onPlayback)
+                    StreamChip(TtsStream.MEDIA, R.string.tts_stream_media, playback, onPlayback)
+                    StreamChip(TtsStream.ALARM, R.string.tts_stream_alarm, playback, onPlayback)
+                }
+                NudgeRow(stringResource(R.string.tts_pitch), formatPitch(playback.voice.pitch)) { sign ->
+                    val voice = TtsVoice(
+                        pitch = playback.voice.pitch + sign * 0.1f,
+                        languageTag = playback.voice.languageTag,
+                    ).clamp()
                     onPlayback(playback.copy(voice = voice).clamp())
-                },
-                label = { Text(stringResource(R.string.tts_language)) },
-                modifier = Modifier.fillMaxWidth(),
-                singleLine = true,
+                }
+                Text(stringResource(R.string.tts_language), style = MaterialTheme.typography.titleMedium)
+                FlowRow(horizontalArrangement = Arrangement.spacedBy(SpacingMd)) {
+                    FilterChip(
+                        selected = playback.voice.languageTag.isBlank(),
+                        onClick = {
+                            onPlayback(playback.copy(voice = playback.voice.copy(languageTag = "").clamp()).clamp())
+                        },
+                        label = { Text(stringResource(R.string.tts_language_default)) },
+                    )
+                    languages.forEach { tag ->
+                        FilterChip(
+                            selected = playback.voice.languageTag == tag,
+                            onClick = {
+                                val voice = TtsVoice(pitch = playback.voice.pitch, languageTag = tag).clamp()
+                                onPlayback(playback.copy(voice = voice).clamp())
+                            },
+                            label = { Text(tag) },
+                        )
+                    }
+                }
+                if (languages.isEmpty()) {
+                    OutlinedTextField(
+                        value = playback.voice.languageTag,
+                        onValueChange = { tag ->
+                            val voice = TtsVoice(pitch = playback.voice.pitch, languageTag = tag).clamp()
+                            onPlayback(playback.copy(voice = voice).clamp())
+                        },
+                        label = { Text(stringResource(R.string.tts_language)) },
+                        modifier = Modifier.fillMaxWidth(),
+                        singleLine = true,
+                    )
+                }
+            }
+            MenuToggle(
+                label = stringResource(R.string.tts_pause),
+                checked = playback.pauseMedia,
+                onChange = { onPlayback(playback.copy(pauseMedia = it).clamp()) },
+                showDivider = true,
             )
         }
-        ToggleRow(stringResource(R.string.tts_pause), playback.pauseMedia) {
-            onPlayback(playback.copy(pauseMedia = it).clamp())
+        MenuSection(stringResource(R.string.menu_section_timing)) {
+            MenuBody {
+                NudgeRow(stringResource(R.string.tts_delay), playback.delaySeconds) { delta ->
+                    onPlayback(playback.copy(delaySeconds = playback.delaySeconds + delta).clamp())
+                }
+                NudgeRow(stringResource(R.string.tts_max_length), playback.maxLength, step = 10) { delta ->
+                    onPlayback(playback.copy(maxLength = playback.maxLength + delta).clamp())
+                }
+                NudgeRow(stringResource(R.string.tts_repeat), playback.repeatMinutes) { delta ->
+                    onPlayback(playback.copy(repeatMinutes = playback.repeatMinutes + delta).clamp())
+                }
+                NudgeRow(stringResource(R.string.tts_repeat_count), playback.repeatCount) { delta ->
+                    onPlayback(playback.copy(repeatCount = playback.repeatCount + delta).clamp())
+                }
+                Text(stringResource(R.string.tts_tokens), style = MaterialTheme.typography.bodySmall)
+            }
+            MenuToggle(
+                label = stringResource(R.string.tts_audio_focus),
+                checked = playback.audioFocus,
+                onChange = { onPlayback(playback.copy(audioFocus = it).clamp()) },
+                showDivider = true,
+            )
+            MenuToggle(
+                label = stringResource(R.string.tts_speak_emojis),
+                checked = playback.speakEmojis,
+                onChange = { onPlayback(playback.copy(speakEmojis = it).clamp()) },
+                showDivider = true,
+            )
         }
-        NudgeRow(stringResource(R.string.tts_repeat_count), playback.repeatCount) { delta ->
-            onPlayback(playback.copy(repeatCount = playback.repeatCount + delta).clamp())
+        MenuSection(stringResource(R.string.menu_section_states)) {
+            MenuToggle(
+                label = stringResource(R.string.tts_device_screen_on),
+                checked = device.allowScreenOn,
+                onChange = { onDeviceState(device.copy(allowScreenOn = it)) },
+            )
+            MenuToggle(
+                label = stringResource(R.string.tts_device_screen_off),
+                checked = device.allowScreenOff,
+                onChange = { onDeviceState(device.copy(allowScreenOff = it)) },
+                showDivider = true,
+            )
+            MenuToggle(
+                label = stringResource(R.string.tts_device_headset_on),
+                checked = device.allowHeadsetOn,
+                onChange = { onDeviceState(device.copy(allowHeadsetOn = it)) },
+                showDivider = true,
+            )
+            MenuToggle(
+                label = stringResource(R.string.tts_device_headset_off),
+                checked = device.allowHeadsetOff,
+                onChange = { onDeviceState(device.copy(allowHeadsetOff = it)) },
+                showDivider = true,
+            )
+            MenuToggle(
+                label = stringResource(R.string.tts_device_silent),
+                checked = device.allowSilentVibrate,
+                onChange = { onDeviceState(device.copy(allowSilentVibrate = it)) },
+                showDivider = true,
+            )
+            MenuToggle(
+                label = stringResource(R.string.tts_device_incall),
+                checked = device.allowInCall,
+                onChange = { onDeviceState(device.copy(allowInCall = it)) },
+                showDivider = true,
+            )
+            MenuLink(
+                label = stringResource(R.string.nav_channels),
+                onClick = { showChannels = true },
+                showDivider = true,
+            )
         }
-        Text(stringResource(R.string.tts_tokens), style = MaterialTheme.typography.bodySmall)
-        ToggleRow(stringResource(R.string.tts_device_screen_on), device.allowScreenOn) {
-            onDeviceState(device.copy(allowScreenOn = it))
+        MenuSection(stringResource(R.string.menu_section_try)) {
+            MenuLink(label = stringResource(R.string.tts_test), onClick = onTest)
+            MenuLink(label = stringResource(R.string.tts_test_notification), onClick = onPostTest, showDivider = true)
+            MenuLink(label = stringResource(R.string.tts_system), onClick = onOpenSystemTts, showDivider = true)
         }
-        ToggleRow(stringResource(R.string.tts_device_screen_off), device.allowScreenOff) {
-            onDeviceState(device.copy(allowScreenOff = it))
-        }
-        ToggleRow(stringResource(R.string.tts_device_headset_on), device.allowHeadsetOn) {
-            onDeviceState(device.copy(allowHeadsetOn = it))
-        }
-        ToggleRow(stringResource(R.string.tts_device_headset_off), device.allowHeadsetOff) {
-            onDeviceState(device.copy(allowHeadsetOff = it))
-        }
-        ToggleRow(stringResource(R.string.tts_device_silent), device.allowSilentVibrate) {
-            onDeviceState(device.copy(allowSilentVibrate = it))
-        }
-        ToggleRow(stringResource(R.string.tts_device_incall), device.allowInCall) {
-            onDeviceState(device.copy(allowInCall = it))
-        }
-        Button(onClick = { showChannels = true }) { Text(stringResource(R.string.nav_channels)) }
-        Button(onClick = onTest) { Text(stringResource(R.string.tts_test)) }
-        Button(onClick = onPostTest) { Text(stringResource(R.string.tts_test_notification)) }
-        Button(onClick = onOpenSystemTts) { Text(stringResource(R.string.tts_system)) }
-        Button(onClick = onBack, modifier = Modifier.bottomInsetPadding()) {
+        OutlinedButton(onClick = onBack, modifier = Modifier.fillMaxWidth().bottomInsetPadding()) {
             Text(stringResource(R.string.settings_close))
         }
     }
@@ -206,19 +252,3 @@ private fun NudgeRow(label: String, display: String, onNudge: (Int) -> Unit) {
 }
 
 private fun formatPitch(pitch: Float): String = "%.1f".format(Locale.US, pitch)
-
-@Composable
-private fun ToggleRow(label: String, checked: Boolean, onChange: (Boolean) -> Unit) {
-    Row(
-        verticalAlignment = Alignment.CenterVertically,
-        modifier = Modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.SpaceBetween,
-    ) {
-        Text(label, modifier = Modifier.weight(1f))
-        Switch(
-            checked = checked,
-            onCheckedChange = onChange,
-            modifier = Modifier.semantics { contentDescription = label },
-        )
-    }
-}
