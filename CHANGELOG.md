@@ -6,6 +6,19 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.2.1](https://github.com/edwardlthompson/OpenShouter/compare/v0.2.0...v0.2.1) (2026-08-16)
+
+
+### Fixed
+
+* **android:** do not crash on first launch without phone permission ([b0ac163](https://github.com/edwardlthompson/OpenShouter/commit/b0ac163f10c8cf6a1d14d73baac87f293928e1d8))
+* **android:** prepare v0.2.1 release ([ba5bd4f](https://github.com/edwardlthompson/OpenShouter/commit/ba5bd4f5645bc76c196e4c19f039bc573d54ad5b))
+
+
+### Documentation
+
+* record v0.2.0 ship regressions ([182250b](https://github.com/edwardlthompson/OpenShouter/commit/182250b29cb086dc4a6bb1092d557ef76510fb2a))
+
 ## [0.2.0](https://github.com/edwardlthompson/OpenShouter/compare/v0.1.0...v0.2.0) (2026-08-15)
 
 
