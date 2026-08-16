@@ -17,6 +17,13 @@
 
 ## Entries
 
+### 2026-08-16 — /ship v0.2.2
+- **Status:** Accepted
+- **Context:** Home, announcer, and voice screens were a flat stack of full-width buttons and were hard to scan.
+- **Decision:** Ship shared `MenuSection` / `MenuLink` / `MenuToggle` cards. Release Please #6 admin-merged (KB-016). Debug-signed `OpenShouter-0.2.2.apk` uses the same key as 0.2.1.
+- **Alternatives considered:** Keep button stacks (rejected: user asked for sections). Bump to 0.3.0 (rejected: layout-only patch).
+- **Consequences:** HUMAN/ADB backlog remains. Docs-only follow-up commits may open a spurious next Release Please PR — close it if it is changelog-only.
+
 ### 2026-08-16 — /ship v0.2.1
 - **Status:** Accepted
 - **Context:** v0.2.0 voice test was silent on a silenced CPH2583 (Android 16 AudioHardening + muted `STREAM_NOTIFICATION`). Setup exact-alarm row and system back also failed device QA.

@@ -262,6 +262,7 @@ grep '\[AUTO\]' BUILD_PLAN.md
 
 > **Sprint 14** AGENT archived in COMPLETED_TASKS.md (2026-08-15).
 > **/ship v0.2.1** archived in COMPLETED_TASKS.md @ `da4d76a`.
+> **/ship v0.2.2** archived in COMPLETED_TASKS.md @ `9e2043d`.
 
 ### Human & device (after automation)
 
@@ -319,5 +320,6 @@ grep '\[AUTO\]' BUILD_PLAN.md
 | Sprint 13 — Finish shout channels + backup | Complete (AGENT) | `COMPLETED_TASKS.md` |
 | Sprint 14 — Close remaining Partial rows | Complete (AGENT) | `COMPLETED_TASKS.md` |
 | /ship v0.2.1 | Complete | `COMPLETED_TASKS.md` |
+| /ship v0.2.2 | Complete | `COMPLETED_TASKS.md` |
 | Sprint 11 app speak list | Complete | `COMPLETED_TASKS.md` |
 | Template maintainer sprints (v0.9.0–v0.17.0) | Complete (upstream) | `COMPLETED_TASKS.md` (provenance from agent-project-bootstrap) |

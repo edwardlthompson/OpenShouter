@@ -79,6 +79,7 @@ OpenShouter is a FOSS recreation/enhancement of classic Shouter (`com.bhkapps.sh
 | 2026-08-15 | Sprint 14 Partial close-out | Live g-meter, language chips, channel grid, reminder intervals | ADB still needed for meter/chips/alarms on device |
 | 2026-08-15 | `/ship` v0.2.0 | feat + CI/CodeQL KB-013 fixes; Release Please #3; APK + SBOM on GitHub Release | About tests must not require gitignored live assets |
 | 2026-08-16 | `/ship` v0.2.1 | TTS WAV playback, silent/vibrate honor, exact-alarm setup, back nav, 12/24 time, unknown digits; RP #4 admin-merged | PR workflow runs stay `action_required` with empty jobs; use admin merge |
+| 2026-08-16 | `/ship` v0.2.2 | Sectioned home/announcer/voice menu cards; RP #6 admin-merged | Same empty-job PR checks as KB-016 |
 ## Template Provenance
 
 - **Source template:** `edwardlthompson/agent-project-bootstrap`
