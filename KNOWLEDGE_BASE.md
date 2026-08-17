@@ -154,3 +154,12 @@
 | **Cause** | `pull_request` workflows on `release-please--branches--main` never start jobs (approval / first-run gate) |
 | **Fix** | `merge-release-please-pr.sh` admin fallback: `gh pr merge --admin` after `--auto` fails |
 | **Prevention** | Do not wait for empty-job PR checks. Push-SHA CI/CodeQL/Security Scan on `main` are the real gate |
+
+### KB-017 — Next shout silent after a muted stream
+
+| Field | Detail |
+|-------|--------|
+| **Symptom** | First silent/vibrate shout is quiet (correct). The next shout stays silent even when MEDIA should play |
+| **Cause** | `playable()` returned the muted preferred stream when MEDIA was also muted. A shared `os-tts.wav` plus ignored synth errors left playback stuck |
+| **Fix** | Fall back to ALARM when MEDIA is muted. Synthesize each utterance to `os-tts-<id>.wav` and ignore stale `onDone`/`onError` |
+| **Prevention** | `TtsStreamPlayableTest` covers ALARM fallback. Do not reuse one WAV path across overlapping synths |

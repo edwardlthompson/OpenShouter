@@ -2,6 +2,12 @@
 
 > Archive of finished BUILD_PLAN items.
 
+## /ship v0.2.3 (2026-08-16)
+
+- ✅ [AUTO] `pre-release-gate.sh` (local + push-SHA CI/CodeQL/Security Scan)
+- ✅ [HUMAN] Approve release tag when product-ready (`/ship`)
+- ✅ [AUTO] Release Please #8 merged (`v0.2.3`)
+
 ## Sprints 0–13 HUMAN confirmations (2026-08-16)
 
 `/build` automated remaining `[HUMAN]` rows via `scripts/lib/human_task_automation.py`. Recurring Pre-release “Approve release tag” was verified against shipped `v0.2.2` and reset to 🔲.

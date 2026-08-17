@@ -17,6 +17,13 @@
 
 ## Entries
 
+### 2026-08-16 — /ship v0.2.3
+- **Status:** Accepted
+- **Context:** After a silent/vibrate shout, the next utterance could stay silent because MEDIA was also muted and a shared WAV file raced. Submenus still used older chrome and forgot scroll.
+- **Decision:** Fall back to ALARM when MEDIA is muted; synthesize each utterance to its own WAV; restyle submenus with `MenuScaffold` and persist scroll in `MenuScrollStore`. Ship as v0.2.3. Release Please #8 admin-merged (KB-016).
+- **Alternatives considered:** Keep MEDIA-only fallback (rejected: silent after first muted shout). Wait for empty-job PR checks (rejected: KB-016).
+- **Consequences:** Same debug signing key as v0.2.2. Docs-only follow-up commits may open a spurious next Release Please PR — close it if it is changelog-only.
+
 ### 2026-08-16 — /build HUMAN confirmations
 - **Status:** Accepted
 - **Context:** After Sprints 9–14 ADB QA, leftover `[HUMAN]` copy/policy/GitHub rows were still on the board (and in `HUMAN_BACKLOG.md`) even though AGENT/AUTO product work was shipped through v0.2.2.

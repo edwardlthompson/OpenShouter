@@ -68,17 +68,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-### Fixed
-
-* **android:** Keep TTS audible after a silent/vibrate shout (ALARM fallback + per-utterance WAV)
-
-### Changed
-
-* **android:** Restyle submenus to home cards and remember scroll position
-
 ### Documentation
 
-* Archive Sprint 0–13 HUMAN confirmations and Sprints 9–14 ADB QA
+* record v0.2.3 ship regressions
 
 ## [0.1.0] - 2026-08-14
 
