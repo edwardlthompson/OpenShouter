@@ -6,6 +6,18 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.2.3](https://github.com/edwardlthompson/OpenShouter/compare/v0.2.2...v0.2.3) (2026-08-17)
+
+
+### Fixed
+
+* **android:** prepare v0.2.3 release ([5c083ec](https://github.com/edwardlthompson/OpenShouter/commit/5c083ec0796216b4858da8ae0a482260726874fa))
+
+
+### Documentation
+
+* record v0.2.2 ship regressions ([e9bdf10](https://github.com/edwardlthompson/OpenShouter/commit/e9bdf10141c3dce4cea79216258520596d5b2b16))
+
 ## [0.2.2](https://github.com/edwardlthompson/OpenShouter/compare/v0.2.1...v0.2.2) (2026-08-16)
 
 
