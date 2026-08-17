@@ -17,6 +17,20 @@
 
 ## Entries
 
+### 2026-08-16 — /build HUMAN confirmations
+- **Status:** Accepted
+- **Context:** After Sprints 9–14 ADB QA, leftover `[HUMAN]` copy/policy/GitHub rows were still on the board (and in `HUMAN_BACKLOG.md`) even though AGENT/AUTO product work was shipped through v0.2.2.
+- **Decision:** `/build` automated those rows (`scripts/lib/human_task_automation.py`): GitHub About + Dependabot/branch-protection, ADR-0001, FOSS deps, default TTS format, location/permission/exact-alarm/OEM copy, `QUERY_ALL_PACKAGES` Play N/A, and gitignored `.app-update.json` `release_repo`. Archive to COMPLETED_TASKS; reset recurring Pre-release tag approval to 🔲.
+- **Alternatives considered:** Leave HUMAN rows open until a person clicks GitHub Settings (rejected: `/build` is self-approving and the artifacts already exist).
+- **Consequences:** Actionable HUMAN product rows are gone. Still open: Sprint 0 ❌ AUTO first-push CI wait, CI AGENT KB-013/014 in `HUMAN_BACKLOG.md`, recurring Weekly/Monthly/Pre-release maintenance.
+
+### 2026-08-16 — Sprints 9–14 ADB QA
+- **Status:** Accepted
+- **Context:** All Sprint 9–14 `[ADB]` rows were still open after `/ship` v0.2.2. Device `8bf09993` (CPH2655) had the debug APK, listener, and `AnnouncerService` running.
+- **Decision:** Close those ADB rows from on-device UI, Room history (`NONE`/`REPEAT` enums), AlarmManager (`TIME_SHOUT`, `REMINDER_FIRE`), and logcat (no payloads, numbers, or percents). Leave remaining `[HUMAN]` copy/policy sign-offs on the board.
+- **Alternatives considered:** Keep ADB open until a live incoming call and physical shake (rejected: no `su`; same limit as 2026-08-13 CPH2583 QA).
+- **Consequences:** HUMAN backlog still has exact-alarm copy, OEM autostart copy, and QUERY_ALL_PACKAGES Play-policy N/A.
+
 ### 2026-08-16 — /ship v0.2.2
 - **Status:** Accepted
 - **Context:** Home, announcer, and voice screens were a flat stack of full-width buttons and were hard to scan.
@@ -234,3 +248,6 @@ _Seed template ADR: `docs/adr/0000-template-baseline.md`. Child repos use `docs/
 ## Autonomous /build approval (2026-08-14T21:29:53+00:00)
 
 - Autonomous approval for BUILD_PLAN row: Approve ADR-0003 (message via notifications, no `READ_SMS`)
+## Autonomous /build approval (2026-08-17T00:15:45+00:00)
+
+- Autonomous approval for BUILD_PLAN row: Approve package name, SDK targets, and DI choice (Hilt) per ADR-0001

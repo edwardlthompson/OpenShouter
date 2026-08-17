@@ -23,6 +23,7 @@ internal object TtsEngine {
         isMuted(audio, TtsStream.MEDIA),
         audio.ringerMode != AudioManager.RINGER_MODE_NORMAL,
         allowSilentVibrate,
+        isMuted(audio, TtsStream.ALARM),
     )
 
     fun applyStream(tts: TextToSpeech, stream: TtsStream) {
@@ -64,17 +65,22 @@ internal object TtsEngine {
         }
     }
 
-    fun requestFocus(audio: AudioManager, pauseMedia: Boolean): AudioFocusRequest? {
+    fun requestFocus(audio: AudioManager, pauseMedia: Boolean, stream: TtsStream): AudioFocusRequest? {
         if (Build.VERSION.SDK_INT < 26) return null
         val gain = if (pauseMedia) {
             AudioManager.AUDIOFOCUS_GAIN_TRANSIENT
         } else {
             AudioManager.AUDIOFOCUS_GAIN_TRANSIENT_MAY_DUCK
         }
+        val usage = when (stream) {
+            TtsStream.MEDIA -> AudioAttributes.USAGE_MEDIA
+            TtsStream.ALARM -> AudioAttributes.USAGE_ALARM
+            TtsStream.NOTIFICATION -> AudioAttributes.USAGE_NOTIFICATION
+        }
         val req = AudioFocusRequest.Builder(gain)
             .setAudioAttributes(
                 AudioAttributes.Builder()
-                    .setUsage(AudioAttributes.USAGE_ASSISTANCE_ACCESSIBILITY)
+                    .setUsage(usage)
                     .setContentType(AudioAttributes.CONTENT_TYPE_SPEECH)
                     .build(),
             )

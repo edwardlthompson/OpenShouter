@@ -1,89 +1,74 @@
 package org.openshouter.power
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Button
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.semantics.contentDescription
-import androidx.compose.ui.semantics.semantics
-import dev.foss.goldenpath.ui.insets.bottomInsetPadding
-import dev.foss.goldenpath.ui.theme.SpacingMd
+import androidx.compose.ui.res.stringResource
+import dev.foss.goldenpath.R
 import org.openshouter.domain.BatteryPhrases
 import org.openshouter.domain.BatterySituation
+import org.openshouter.ui.menu.MenuBody
+import org.openshouter.ui.menu.MenuScaffold
+import org.openshouter.ui.menu.MenuScrollStore
+import org.openshouter.ui.menu.MenuSection
+import org.openshouter.ui.menu.MenuToggle
 
 @Composable
 fun PowerSettings(
     phrases: BatteryPhrases,
     onChange: (BatteryPhrases) -> Unit,
     onBack: () -> Unit,
+    scrollStore: MenuScrollStore,
     modifier: Modifier = Modifier,
 ) {
-    Column(
-        modifier = modifier
-            .verticalScroll(rememberScrollState())
-            .padding(SpacingMd),
-        verticalArrangement = Arrangement.spacedBy(SpacingMd),
-    ) {
-        Text("Battery situations", style = MaterialTheme.typography.headlineSmall)
-        SituationToggle("Low battery", BatterySituation.LOW, phrases, onChange)
-        PhraseField("Low phrase", phrases.low) { onChange(phrases.copy(low = it.take(BatteryPhrases.MAX_PHRASE))) }
-        SituationToggle("Battery full", BatterySituation.FULL, phrases, onChange)
-        PhraseField("Full phrase", phrases.full) { onChange(phrases.copy(full = it.take(BatteryPhrases.MAX_PHRASE))) }
-        SituationToggle("Power connected", BatterySituation.CONNECTED, phrases, onChange)
-        PhraseField("Connected phrase", phrases.connected) {
-            onChange(phrases.copy(connected = it.take(BatteryPhrases.MAX_PHRASE)))
+    MenuScaffold(stringResource(R.string.nav_power), scrollStore, "power", onBack, modifier) {
+        MenuSection(stringResource(R.string.menu_section_shout)) {
+            SituationToggle(R.string.power_low, BatterySituation.LOW, phrases, onChange)
+            PhraseField(R.string.power_low_phrase, phrases.low) {
+                onChange(phrases.copy(low = it.take(BatteryPhrases.MAX_PHRASE)))
+            }
+            SituationToggle(R.string.power_full, BatterySituation.FULL, phrases, onChange, true)
+            PhraseField(R.string.power_full_phrase, phrases.full) {
+                onChange(phrases.copy(full = it.take(BatteryPhrases.MAX_PHRASE)))
+            }
+            SituationToggle(R.string.power_connected, BatterySituation.CONNECTED, phrases, onChange, true)
+            PhraseField(R.string.power_connected_phrase, phrases.connected) {
+                onChange(phrases.copy(connected = it.take(BatteryPhrases.MAX_PHRASE)))
+            }
+            SituationToggle(R.string.power_disconnected, BatterySituation.DISCONNECTED, phrases, onChange, true)
+            PhraseField(R.string.power_disconnected_phrase, phrases.disconnected) {
+                onChange(phrases.copy(disconnected = it.take(BatteryPhrases.MAX_PHRASE)))
+            }
         }
-        SituationToggle("Power disconnected", BatterySituation.DISCONNECTED, phrases, onChange)
-        PhraseField("Disconnected phrase", phrases.disconnected) {
-            onChange(phrases.copy(disconnected = it.take(BatteryPhrases.MAX_PHRASE)))
-        }
-        Button(onClick = onBack, modifier = Modifier.bottomInsetPadding()) { Text("Close") }
     }
 }
 
 @Composable
 private fun SituationToggle(
-    label: String,
+    labelRes: Int,
     situation: BatterySituation,
     phrases: BatteryPhrases,
     onChange: (BatteryPhrases) -> Unit,
+    showDivider: Boolean = false,
 ) {
-    val checked = situation in phrases.enabled
-    Row(
-        verticalAlignment = Alignment.CenterVertically,
-        modifier = Modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.SpaceBetween,
-    ) {
-        Text(label, modifier = Modifier.weight(1f))
-        Switch(
-            checked = checked,
-            onCheckedChange = { on ->
-                val next = if (on) phrases.enabled + situation else phrases.enabled - situation
-                onChange(phrases.copy(enabled = next))
-            },
-            modifier = Modifier.semantics { contentDescription = label },
-        )
-    }
+    val label = stringResource(labelRes)
+    MenuToggle(label, situation in phrases.enabled, { on ->
+        val next = if (on) phrases.enabled + situation else phrases.enabled - situation
+        onChange(phrases.copy(enabled = next))
+    }, showDivider)
 }
 
 @Composable
-private fun PhraseField(label: String, value: String, onChange: (String) -> Unit) {
-    OutlinedTextField(
-        value = value,
-        onValueChange = onChange,
-        label = { Text(label) },
-        modifier = Modifier.fillMaxWidth(),
-        singleLine = true,
-    )
+private fun PhraseField(labelRes: Int, value: String, onChange: (String) -> Unit) {
+    MenuBody {
+        OutlinedTextField(
+            value = value,
+            onValueChange = onChange,
+            label = { Text(stringResource(labelRes)) },
+            modifier = Modifier.fillMaxWidth(),
+            singleLine = true,
+        )
+    }
 }

@@ -23,16 +23,17 @@ internal class TtsPlayback(
     private val power: PowerManager,
     private val settings: SettingsRepository,
     private val scope: CoroutineScope,
-    cacheDir: File,
+    private val cacheDir: File,
     private val abandonFocus: () -> Unit,
-    private val requestFocus: (TtsPlaybackPolicy) -> Unit,
+    private val requestFocus: (TtsPlaybackPolicy, TtsStream) -> Unit,
 ) {
     @Volatile var looping: SpokenEvent? = null
     private val player = TtsFilePlayer()
-    private val synthFile = File(cacheDir, "os-tts.wav")
     @Volatile private var lastPolicy = TtsPlaybackPolicy()
     @Volatile private var lastStream = TtsStream.MEDIA
     @Volatile private var lastAllowSilent = true
+    @Volatile private var currentUtterance: String? = null
+    @Volatile private var currentFile: File? = null
     private var screenOffJob: Job? = null
 
     fun speakNow(
@@ -57,18 +58,34 @@ internal class TtsPlayback(
         looping = event.takeIf { it.looping }
         lastStream = TtsEngine.resolveStream(audio, event.stream ?: policy.stream, allowSilent)
         TtsEngine.applyVoice(engine, policy.voice)
-        requestFocus(policy)
+        requestFocus(policy, lastStream)
         player.stop()
-        TtsEngine.synthesizeToFile(engine, text, synthFile, UUID.randomUUID().toString())
+        val id = UUID.randomUUID().toString()
+        val file = File(cacheDir, "os-tts-$id.wav")
+        currentUtterance = id
+        currentFile = file
+        TtsEngine.synthesizeToFile(engine, text, file, id)
         return true
     }
 
-    fun playSynthesized(engine: TextToSpeech?, ready: Boolean) {
+    fun onSynthFailed(utteranceId: String?) {
+        if (utteranceId != null && utteranceId != currentUtterance) return
+        currentFile?.let { runCatching { it.delete() } }
+        currentFile = null
+        currentUtterance = null
+        abandonFocus()
+    }
+
+    fun playSynthesized(engine: TextToSpeech?, ready: Boolean, utteranceId: String?) {
+        if (utteranceId != null && utteranceId != currentUtterance) return
+        val file = currentFile ?: return
         val times = 1 + TtsRepeat.extraCount(
             looping ?: SpokenEvent(SpokenEvent.Kind.NOTIFICATION, ""),
             lastPolicy,
         )
-        player.play(synthFile, lastStream, times) {
+        player.play(file, lastStream, times) {
+            runCatching { file.delete() }
+            if (currentFile == file) currentFile = null
             val again = looping
             if (again == null) abandonFocus() else {
                 speakNow(engine, ready, again, lastPolicy, lastAllowSilent, false) {}
@@ -109,6 +126,9 @@ internal class TtsPlayback(
         looping = null
         cancelScreenOff()
         player.stop()
+        currentFile?.let { runCatching { it.delete() } }
+        currentFile = null
+        currentUtterance = null
     }
 
     private fun cancelScreenOff() {

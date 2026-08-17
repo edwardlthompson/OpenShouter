@@ -1,27 +1,17 @@
 package org.openshouter.ui.settings
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedButton
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import dev.foss.goldenpath.R
-import dev.foss.goldenpath.ui.insets.bottomInsetPadding
-import dev.foss.goldenpath.ui.theme.SpacingLg
-import dev.foss.goldenpath.ui.theme.SpacingMd
 import org.openshouter.domain.AppSettings
 import org.openshouter.domain.QuietHours
 import org.openshouter.gesture.ShakeSettings
 import org.openshouter.ui.menu.MenuBody
 import org.openshouter.ui.menu.MenuLink
 import org.openshouter.ui.menu.MenuRule
+import org.openshouter.ui.menu.MenuScaffold
+import org.openshouter.ui.menu.MenuScrollStore
 import org.openshouter.ui.menu.MenuSection
 import org.openshouter.ui.menu.MenuToggle
 
@@ -47,15 +37,10 @@ fun AnnouncerSettingsScreen(
     onOpenMessages: () -> Unit = {},
     onOpenPower: () -> Unit = {},
     onBack: () -> Unit,
+    scrollStore: MenuScrollStore,
     modifier: Modifier = Modifier,
 ) {
-    Column(
-        modifier = modifier
-            .verticalScroll(rememberScrollState())
-            .padding(SpacingMd),
-        verticalArrangement = Arrangement.spacedBy(SpacingLg),
-    ) {
-        Text(stringResource(R.string.announcer_title), style = MaterialTheme.typography.headlineSmall)
+    MenuScaffold(stringResource(R.string.announcer_title), scrollStore, "announcer", onBack, modifier) {
         MenuSection(stringResource(R.string.menu_section_shout)) {
             MenuToggle(stringResource(R.string.announcer_notifications), settings.notificationsEnabled, onNotifications)
             MenuToggle(stringResource(R.string.announcer_calls), settings.callsEnabled, onCalls, true)
@@ -93,9 +78,6 @@ fun AnnouncerSettingsScreen(
             MenuToggle(stringResource(R.string.announcer_flip), settings.flipToMute, onFlip, true)
             MenuToggle(stringResource(R.string.announcer_mute_on), settings.muteOnScreenOn, onMuteScreenOn, true)
             MenuToggle(stringResource(R.string.announcer_mute_off), settings.muteOnScreenOff, onMuteScreenOff, true)
-        }
-        OutlinedButton(onClick = onBack, modifier = Modifier.fillMaxWidth().bottomInsetPadding()) {
-            Text(stringResource(R.string.settings_close))
         }
     }
 }

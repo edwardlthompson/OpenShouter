@@ -9,8 +9,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
@@ -30,14 +28,18 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import dev.foss.goldenpath.R
-import dev.foss.goldenpath.ui.insets.bottomInsetPadding
 import dev.foss.goldenpath.ui.theme.SpacingMd
 import org.openshouter.setup.SetupChecks
 import org.openshouter.setup.SetupPalette
+import org.openshouter.ui.menu.MenuBody
+import org.openshouter.ui.menu.MenuScaffold
+import org.openshouter.ui.menu.MenuScrollStore
+import org.openshouter.ui.menu.MenuSection
 
 @Composable
 fun SetupScreen(
     onContinue: () -> Unit,
+    scrollStore: MenuScrollStore,
     modifier: Modifier = Modifier,
 ) {
     val context = LocalContext.current
@@ -64,15 +66,10 @@ fun SetupScreen(
     }
     val batteryOn = remember(tick) { SetupChecks.batteryUnrestricted(context) }
     val exactOn = remember(tick) { SetupChecks.exactAlarmsAllowed(context) }
-    Column(
-        modifier = modifier
-            .verticalScroll(rememberScrollState())
-            .padding(SpacingMd),
-        verticalArrangement = Arrangement.spacedBy(SpacingMd),
-    ) {
-        Text(stringResource(R.string.setup_title), style = MaterialTheme.typography.headlineMedium)
-        Text(stringResource(R.string.setup_body), style = MaterialTheme.typography.bodyLarge)
-        SetupRow(R.string.setup_listener, listenerOn) { SetupChecks.openListener(context) }
+    MenuScaffold(stringResource(R.string.setup_title), scrollStore, "setup", modifier = modifier) {
+        MenuSection(stringResource(R.string.menu_section_setup)) {
+            MenuBody { Text(stringResource(R.string.setup_body), style = MaterialTheme.typography.bodyLarge) }
+            SetupRow(R.string.setup_listener, listenerOn) { SetupChecks.openListener(context) }
         if (Build.VERSION.SDK_INT >= 33) {
             SetupRow(R.string.setup_notify, notifyOn) {
                 permLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
@@ -90,7 +87,8 @@ fun SetupScreen(
         SetupRow(R.string.setup_battery, batteryOn) { SetupChecks.requestBatteryUnrestricted(context) }
         SetupRow(R.string.setup_battery_settings, batteryOn) { SetupChecks.openAppDetails(context) }
         SetupRow(R.string.setup_exact_alarms, exactOn) { SetupChecks.requestExactAlarms(context) }
-        Button(onClick = onContinue, modifier = Modifier.bottomInsetPadding().fillMaxWidth()) {
+        }
+        Button(onClick = onContinue, modifier = Modifier.fillMaxWidth()) {
             Text(stringResource(R.string.setup_continue))
         }
     }
@@ -101,7 +99,9 @@ private fun SetupRow(labelRes: Int, granted: Boolean, onClick: () -> Unit) {
     val label = stringResource(labelRes)
     val status = stringResource(if (granted) R.string.setup_granted else R.string.setup_needed)
     Row(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(SpacingMd),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(SpacingMd),
     ) {

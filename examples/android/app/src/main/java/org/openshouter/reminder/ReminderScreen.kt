@@ -1,19 +1,12 @@
 package org.openshouter.reminder
 
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.FilterChip
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -24,10 +17,15 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import dev.foss.goldenpath.R
-import dev.foss.goldenpath.ui.insets.bottomInsetPadding
 import dev.foss.goldenpath.ui.theme.SpacingMd
 import org.openshouter.data.ReminderEntity
 import org.openshouter.domain.ReminderInterval
+import org.openshouter.ui.menu.MenuBody
+import org.openshouter.ui.menu.MenuLink
+import org.openshouter.ui.menu.MenuScaffold
+import org.openshouter.ui.menu.MenuScrollStore
+import org.openshouter.ui.menu.MenuSection
+import org.openshouter.ui.menu.MenuToggle
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
@@ -36,59 +34,52 @@ fun ReminderScreen(
     onAdd: (String, Boolean, Int) -> Unit,
     onDelete: (Long) -> Unit,
     onBack: () -> Unit,
+    scrollStore: MenuScrollStore,
     modifier: Modifier = Modifier,
 ) {
     var text by remember { mutableStateOf("") }
     var alsoNotify by remember { mutableStateOf(false) }
     var interval by remember { mutableIntStateOf(ReminderInterval.HOUR) }
-    Column(
-        modifier = modifier
-            .verticalScroll(rememberScrollState())
-            .padding(SpacingMd),
-        verticalArrangement = Arrangement.spacedBy(SpacingMd),
-    ) {
-        Text(stringResource(R.string.nav_reminders), style = MaterialTheme.typography.headlineSmall)
-        Text(stringResource(R.string.reminders_help), style = MaterialTheme.typography.bodyMedium)
-        OutlinedTextField(
-            value = text,
-            onValueChange = { text = it },
-            label = { Text(stringResource(R.string.reminders_text)) },
-            modifier = Modifier.fillMaxWidth(),
-        )
-        FlowRow(horizontalArrangement = Arrangement.spacedBy(SpacingMd)) {
-            ReminderInterval.ALL.forEach { minutes ->
-                FilterChip(
-                    selected = interval == minutes,
-                    onClick = { interval = minutes },
-                    label = { Text(stringResource(intervalLabel(minutes))) },
+    MenuScaffold(stringResource(R.string.nav_reminders), scrollStore, "reminders", onBack, modifier) {
+        MenuSection(stringResource(R.string.menu_section_actions)) {
+            MenuBody {
+                Text(stringResource(R.string.reminders_help))
+                OutlinedTextField(
+                    value = text,
+                    onValueChange = { text = it },
+                    label = { Text(stringResource(R.string.reminders_text)) },
+                    modifier = Modifier.fillMaxWidth(),
                 )
+                FlowRow(horizontalArrangement = Arrangement.spacedBy(SpacingMd)) {
+                    ReminderInterval.ALL.forEach { minutes ->
+                        FilterChip(
+                            selected = interval == minutes,
+                            onClick = { interval = minutes },
+                            label = { Text(stringResource(intervalLabel(minutes))) },
+                        )
+                    }
+                }
+                Button(
+                    onClick = {
+                        val normalized = ReminderEntity.normalizeText(text) ?: return@Button
+                        onAdd(normalized, alsoNotify, interval)
+                        text = ""
+                    },
+                ) { Text(stringResource(R.string.reminders_add)) }
             }
+            MenuToggle(stringResource(R.string.reminders_also), alsoNotify, { alsoNotify = it }, true)
         }
-        Row(
-            verticalAlignment = androidx.compose.ui.Alignment.CenterVertically,
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween,
-        ) {
-            Text(stringResource(R.string.reminders_also))
-            Switch(checked = alsoNotify, onCheckedChange = { alsoNotify = it })
-        }
-        Button(
-            onClick = {
-                val normalized = ReminderEntity.normalizeText(text) ?: return@Button
-                onAdd(normalized, alsoNotify, interval)
-                text = ""
-            },
-        ) {
-            Text(stringResource(R.string.reminders_add))
-        }
-        reminders.forEach { row ->
-            Text(stringResource(R.string.reminders_item, row.text, row.intervalMinutes))
-            Button(onClick = { onDelete(row.id) }) {
-                Text(stringResource(R.string.reminders_delete))
+        if (reminders.isNotEmpty()) {
+            MenuSection(stringResource(R.string.menu_section_list)) {
+                reminders.forEachIndexed { index, row ->
+                    MenuLink(
+                        stringResource(R.string.reminders_item, row.text, row.intervalMinutes),
+                        { onDelete(row.id) },
+                        stringResource(R.string.reminders_delete),
+                        showDivider = index > 0,
+                    )
+                }
             }
-        }
-        Button(onClick = onBack, modifier = Modifier.bottomInsetPadding()) {
-            Text(stringResource(R.string.settings_close))
         }
     }
 }

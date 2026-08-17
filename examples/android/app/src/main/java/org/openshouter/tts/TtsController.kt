@@ -39,8 +39,10 @@ class TtsController @Inject constructor(
         scope,
         appContext.cacheDir,
         abandonFocus = { abandonFocus() },
-        requestFocus = { policy ->
-            if (policy.audioFocus) focusRequest = TtsEngine.requestFocus(audio, policy.pauseMedia)
+        requestFocus = { policy, stream ->
+            if (policy.audioFocus) {
+                focusRequest = TtsEngine.requestFocus(audio, policy.pauseMedia, stream)
+            }
         },
     )
 
@@ -56,9 +58,13 @@ class TtsController @Inject constructor(
             engine?.language = Locale.getDefault()
             engine?.setOnUtteranceProgressListener(object : UtteranceProgressListener() {
                 override fun onStart(utteranceId: String?) = Unit
-                override fun onError(utteranceId: String?) = Unit
+                override fun onError(utteranceId: String?) {
+                    scope.launch(Dispatchers.Main.immediate) { playback.onSynthFailed(utteranceId) }
+                }
                 override fun onDone(utteranceId: String?) {
-                    scope.launch(Dispatchers.Main.immediate) { playback.playSynthesized(engine, ready) }
+                    scope.launch(Dispatchers.Main.immediate) {
+                        playback.playSynthesized(engine, ready, utteranceId)
+                    }
                 }
             })
             pending?.let { queued ->

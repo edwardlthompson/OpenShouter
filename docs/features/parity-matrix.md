@@ -10,6 +10,8 @@ Inventory of **Shouter Pro** (`com.bhkapps.proshouter`) vs **Voice Notify** (`co
 
 Interactive filterable table: Cursor canvas `feature-parity-matrix.canvas.tsx` (IDE-only; this file is the git source of truth). Refresh both after every `/build` wrap-up and `/push`.
 
+**Wrap-up 2026-08-16:** HUMAN confirmations closed by `/build` (GitHub About, FOSS deps, default `%app: %title - %text`, location/permission/exact-alarm/OEM copy, `QUERY_ALL_PACKAGES` Play-policy N/A). Matrix stays Yes / Skip — no new Partial or No.
+
 Status: **Yes** shipped · **Partial** logic or subset UI · **No** missing · **Skip** will not copy (FOSS / out of scope).
 
 ## Summary

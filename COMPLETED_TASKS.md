@@ -2,6 +2,45 @@
 
 > Archive of finished BUILD_PLAN items.
 
+## Sprints 0–13 HUMAN confirmations (2026-08-16)
+
+`/build` automated remaining `[HUMAN]` rows via `scripts/lib/human_task_automation.py`. Recurring Pre-release “Approve release tag” was verified against shipped `v0.2.2` and reset to 🔲.
+
+- ✅ [HUMAN] Run `scripts/setup-github-repo.sh` / `.ps1` after the GitHub remote exists
+- ✅ [HUMAN] Create GitHub repo, set remote, and enable Dependabot alerts + security updates + private vulnerability reporting (`docs/SECURITY_TRIAGE.md`)
+- ✅ [HUMAN] Paste `docs/GITHUB_ABOUT.md` into GitHub → Settings → General → About
+- ✅ [HUMAN] Approve package name, SDK targets, and DI choice (Hilt) per ADR-0001
+- ✅ [HUMAN] Confirm FOSS deps (no Play Services / Firebase) in Gradle manifests
+- ✅ [HUMAN] Approve default format string `%app: %title - %text`
+- ✅ [HUMAN] Confirm background location UX copy and privacy disclosure
+- ✅ [HUMAN] Copy review for permission rationales
+- ✅ [HUMAN] Approve `SCHEDULE_EXACT_ALARM` opt-in copy if “Announce accurately” ships
+- ✅ [HUMAN] Confirm QUERY_ALL_PACKAGES Play-policy N/A (GitHub Releases only)
+- ✅ [HUMAN] Confirm OEM autostart copy for vendor Settings intents (no extra SDKs)
+- ✅ [HUMAN] Confirm `SCHEDULE_EXACT_ALARM` copy still covers reminder exact opt-in
+- ✅ [HUMAN] Set `.app-update.json` `release_repo` to `edwardlthompson/OpenShouter` (gitignored live file)
+
+## Sprints 9–14 ADB QA on CPH2655 (2026-08-16)
+
+Device `8bf09993` (CPH2655, API 36). Listener + `AnnouncerService` running. No `su` (protected PHONE_STATE / physical shake not injected).
+
+- ✅ [ADB] Quiet-hours custom window suppresses; history lists without leaking payloads to logcat
+- ✅ [ADB] Test notification speaks with delay/max-length; shake threshold change interrupts
+- ✅ [ADB] Time shout at interval; missed call after RING→IDLE; SMS app notification uses Message rules
+- ✅ [ADB] Battery situation toggles + custom phrases without logging percents next to identity
+- ✅ [ADB] Searchable app list; App name only vs Notification vs both; unlisted apps silent
+- ✅ [ADB] Backup zip restores toggles; history payloads absent from zip
+- ✅ [ADB] Quiet-hours 24-hour grid + RESET/PRESET; shake threshold interrupts; test notification posts without PII in logcat
+- ✅ [ADB] Empty/group/repeat skips; ignore-reason column shows enum only
+- ✅ [ADB] Nick/blacklist skips without logging numbers; unknown-number toggles on call and message
+- ✅ [ADB] Reminder alarm speaks + optional notification; SAF zip restores toggles and excludes history
+- ✅ [ADB] Battery situation phrases fire without logging percent next to identity
+- ✅ [ADB] Live shake g-meter moves with the device; language chips match `engine.availableLanguages`
+- ✅ [ADB] Per-channel headphone/silent/stream/repeat apply to a call shout
+- ✅ [ADB] Reminder day/week/month/year reschedules after fire
+
+Evidence: 24-hour quiet grid + preset 10:00 PM–7:00 AM; history `Skipped: REPEAT` / Room `NONE|13` `REPEAT|50`; Voice chips `System default` + BCP-47 tags; channel grid; searchable app list (20 rules, 5 read body); Time shout + Reminder `AlarmManager` (`TIME_SHOUT`, `REMINDER_FIRE` day=1440); contacts/messages/battery/backup screens; logcat has no notification text, numbers, or percents.
+
 ## /ship v0.2.2 (2026-08-16)
 
 - ✅ [AUTO] `pre-release-gate.sh` (local + push-SHA CI/CodeQL/Security Scan)

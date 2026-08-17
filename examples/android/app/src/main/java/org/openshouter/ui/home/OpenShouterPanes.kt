@@ -37,6 +37,7 @@ import org.openshouter.reminder.reminderDefaults
 import org.openshouter.time.TimeShoutScreen
 import org.openshouter.notification.TestNotification
 import org.openshouter.oem.OemScreen
+import org.openshouter.ui.menu.MenuScrollStore
 import org.openshouter.ui.tts.TtsSettingsScreen
 
 enum class Pane { Setup, Home, Rules, Announcer, Quiet, History, Filters, Tts, Time, Reminders, Backup, Overrides, Places, Oem, Contacts, Messages, Power }
@@ -57,6 +58,7 @@ fun OpenShouterPanes(
     scope: CoroutineScope,
     onPane: (Pane) -> Unit,
     onShowSpoken: (Boolean) -> Unit,
+    scrollStore: MenuScrollStore,
     modifier: Modifier = Modifier,
 ) {
     val context = LocalContext.current
@@ -66,6 +68,7 @@ fun OpenShouterPanes(
                 scope.launch { ep.settings().setSetupComplete(true) }
                 onPane(Pane.Home)
             },
+            scrollStore = scrollStore,
             modifier = modifier,
         )
         pane == Pane.Home -> DashboardScreen(
@@ -82,6 +85,7 @@ fun OpenShouterPanes(
             onOpenOverrides = { onPane(Pane.Overrides) },
             onOpenPlaces = { onPane(Pane.Places) },
             onOpenOem = { onPane(Pane.Oem) },
+            scrollStore = scrollStore,
             modifier = modifier,
         )
         pane == Pane.Rules -> AppSpeakScreen(
@@ -93,9 +97,10 @@ fun OpenShouterPanes(
                 scope.launch { ep.appSpeak().set(pkg, name, notif) }
             },
             onBack = { onPane(Pane.Home) },
+            scrollStore = scrollStore,
             modifier = modifier,
         )
-        pane == Pane.Announcer -> AnnouncerPane(settings, ep, scope, onPane, modifier)
+        pane == Pane.Announcer -> AnnouncerPane(settings, ep, scope, onPane, scrollStore, modifier)
         pane == Pane.Time -> TimeShoutScreen(
             settings = settings,
             onChange = { enabled, interval, exact ->
@@ -104,6 +109,7 @@ fun OpenShouterPanes(
             onFormat = { value -> scope.launch { ep.sprint13().setTimeFormat(value) } },
             onHourStyle = { style -> scope.launch { ep.sprint13().setTimeHourStyle(style) } },
             onBack = { onPane(Pane.Announcer) },
+            scrollStore = scrollStore,
             modifier = modifier,
         )
         pane == Pane.Quiet -> QuietHoursScreen(
@@ -112,6 +118,7 @@ fun OpenShouterPanes(
                 scope.launch { ep.settings().setQuietHours(enabled, start, end, days) }
             },
             onBack = { onPane(Pane.Announcer) },
+            scrollStore = scrollStore,
             modifier = modifier,
         )
         pane == Pane.History -> HistoryScreen(
@@ -120,6 +127,7 @@ fun OpenShouterPanes(
             onShowSpoken = onShowSpoken,
             onClear = { scope.launch { ep.history().clear() } },
             onBack = { onPane(Pane.Home) },
+            scrollStore = scrollStore,
             modifier = modifier,
         )
         pane == Pane.Filters -> FiltersScreen(
@@ -133,6 +141,7 @@ fun OpenShouterPanes(
             },
             onDelete = { id -> scope.launch { ep.regex().delete(id) } },
             onBack = { onPane(Pane.Home) },
+            scrollStore = scrollStore,
             modifier = modifier,
         )
         pane == Pane.Tts -> TtsSettingsScreen(
@@ -156,6 +165,7 @@ fun OpenShouterPanes(
             languages = ep.tts().languageTags(),
             onChannelStates = { map -> scope.launch { ep.sprint13().setChannelStates(map) } },
             onBack = { onPane(Pane.Home) },
+            scrollStore = scrollStore,
             modifier = modifier,
         )
         pane == Pane.Reminders -> ReminderScreen(
@@ -174,6 +184,7 @@ fun OpenShouterPanes(
                 }
             },
             onBack = { onPane(Pane.Home) },
+            scrollStore = scrollStore,
             modifier = modifier,
         )
         pane == Pane.Backup -> BackupScreen(
@@ -194,12 +205,14 @@ fun OpenShouterPanes(
                 }
             },
             onBack = { onPane(Pane.Home) },
+            scrollStore = scrollStore,
             modifier = modifier,
         )
         pane == Pane.Overrides -> OverrideScreen(
             overrides = settings.appOverrides,
             onSave = { row -> scope.launch { ep.sprint13().setOverride(row) } },
             onBack = { onPane(Pane.Home) },
+            scrollStore = scrollStore,
             modifier = modifier,
         )
         pane == Pane.Contacts -> ContactRulesScreen(
@@ -212,6 +225,7 @@ fun OpenShouterPanes(
             callFormat = settings.callFormat,
             onCallFormat = { value -> scope.launch { ep.sprint13().setCallFormat(value) } },
             onBack = { onPane(Pane.Announcer) },
+            scrollStore = scrollStore,
             modifier = modifier,
         )
         pane == Pane.Messages -> MessageChannelScreen(
@@ -220,12 +234,14 @@ fun OpenShouterPanes(
             onPolicy = { policy -> scope.launch { ep.settings().setMessageChannel(policy) } },
             onFormat = { value -> scope.launch { ep.sprint13().setMessageFormat(value) } },
             onBack = { onPane(Pane.Announcer) },
+            scrollStore = scrollStore,
             modifier = modifier,
         )
         pane == Pane.Power -> PowerSettings(
             phrases = settings.batteryPhrases,
             onChange = { phrases -> scope.launch { ep.sprint13().setBatteryPhrases(phrases) } },
             onBack = { onPane(Pane.Announcer) },
+            scrollStore = scrollStore,
             modifier = modifier,
         )
         pane == Pane.Oem -> OemScreen(
@@ -233,6 +249,7 @@ fun OpenShouterPanes(
                 runCatching { context.startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)) }
             },
             onBack = { onPane(Pane.Home) },
+            scrollStore = scrollStore,
             modifier = modifier,
         )
         pane == Pane.Places -> PlacesScreen(
@@ -240,6 +257,7 @@ fun OpenShouterPanes(
             onSavePlace = { label -> scope.launch { PlaceHere.save(context, ep, label) } },
             onDelete = { id -> scope.launch { ep.places().delete(id) } },
             onBack = { onPane(Pane.Home) },
+            scrollStore = scrollStore,
             modifier = modifier,
         )
     }

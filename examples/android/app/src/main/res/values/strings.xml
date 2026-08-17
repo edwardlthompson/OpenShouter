@@ -228,4 +228,31 @@
     <string name="overrides_yes">Yes</string>
     <string name="overrides_no">No</string>
     <string name="overrides_item_inherit">%1$s · inherit format</string>
+    <string name="menu_section_setup">Permissions</string>
+    <string name="menu_section_actions">Actions</string>
+    <string name="menu_section_list">Items</string>
+    <string name="contacts_help">Nicknames and a blacklist change what is spoken. Counts only — numbers stay off the list.</string>
+    <string name="contacts_number">Number</string>
+    <string name="contacts_nickname">Nickname</string>
+    <string name="contacts_add_nick">Add nickname</string>
+    <string name="contacts_block">Blacklist number</string>
+    <string name="contacts_add_block">Add to blacklist</string>
+    <string name="contacts_nicks">Nicknames: %1$d</string>
+    <string name="contacts_blocked">Blocked: %1$d</string>
+    <string name="contacts_unknown_call">Speak unknown callers</string>
+    <string name="contacts_unknown_message">Speak unknown messages</string>
+    <string name="contacts_call_format" formatted="false">Call format (%name %number)</string>
+    <string name="messages_enable">Enable message channel</string>
+    <string name="messages_unknown">Read unknown senders</string>
+    <string name="messages_body">Read message body</string>
+    <string name="messages_known">Known contacts only</string>
+    <string name="messages_format" formatted="false">Format (%name %text)</string>
+    <string name="power_low">Low battery</string>
+    <string name="power_low_phrase">Low phrase</string>
+    <string name="power_full">Battery full</string>
+    <string name="power_full_phrase">Full phrase</string>
+    <string name="power_connected">Power connected</string>
+    <string name="power_connected_phrase">Connected phrase</string>
+    <string name="power_disconnected">Power disconnected</string>
+    <string name="power_disconnected_phrase">Disconnected phrase</string>
 </resources>

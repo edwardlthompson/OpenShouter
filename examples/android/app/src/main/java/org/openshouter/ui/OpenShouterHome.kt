@@ -18,6 +18,7 @@ import org.openshouter.service.OpenShouterEntryPoint
 import org.openshouter.service.OpenShouterRuntime
 import org.openshouter.ui.home.OpenShouterPanes
 import org.openshouter.ui.home.Pane
+import org.openshouter.ui.menu.rememberMenuScrollStore
 
 @Composable
 fun OpenShouterHome(modifier: Modifier = Modifier) {
@@ -38,6 +39,7 @@ fun OpenShouterHome(modifier: Modifier = Modifier) {
     val installedApps = remember(context) { InstalledAppCatalog.list(context) }
     var pane by remember { mutableStateOf(Pane.Home) }
     var showSpoken by remember { mutableStateOf(false) }
+    val scrollStore = rememberMenuScrollStore()
     BackHandler(enabled = pane != Pane.Home) {
         pane = pane.backTarget()
     }
@@ -69,6 +71,7 @@ fun OpenShouterHome(modifier: Modifier = Modifier) {
         scope = scope,
         onPane = { pane = it },
         onShowSpoken = { showSpoken = it },
+        scrollStore = scrollStore,
         modifier = modifier,
     )
 }

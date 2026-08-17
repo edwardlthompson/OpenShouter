@@ -2,18 +2,13 @@ package org.openshouter.ui.tts
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -27,7 +22,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import dev.foss.goldenpath.R
-import dev.foss.goldenpath.ui.insets.bottomInsetPadding
 import dev.foss.goldenpath.ui.theme.SpacingMd
 import org.openshouter.domain.AppSettings
 import org.openshouter.domain.ChannelDeviceState
@@ -39,6 +33,8 @@ import org.openshouter.domain.TtsVoice
 import org.openshouter.ui.channel.ChannelStateScreen
 import org.openshouter.ui.menu.MenuBody
 import org.openshouter.ui.menu.MenuLink
+import org.openshouter.ui.menu.MenuScaffold
+import org.openshouter.ui.menu.MenuScrollStore
 import org.openshouter.ui.menu.MenuSection
 import org.openshouter.ui.menu.MenuToggle
 import java.util.Locale
@@ -55,6 +51,7 @@ fun TtsSettingsScreen(
     languages: List<String> = emptyList(),
     onChannelStates: (Map<ShoutChannel, ChannelDeviceState>) -> Unit = {},
     onBack: () -> Unit,
+    scrollStore: MenuScrollStore,
     modifier: Modifier = Modifier,
 ) {
     var showChannels by remember { mutableStateOf(false) }
@@ -64,19 +61,14 @@ fun TtsSettingsScreen(
             settings = settings,
             onSave = onChannelStates,
             onBack = { showChannels = false },
+            scrollStore = scrollStore,
             modifier = modifier,
         )
         return
     }
     val playback = settings.ttsPlayback
     val device = settings.deviceState
-    Column(
-        modifier = modifier
-            .verticalScroll(rememberScrollState())
-            .padding(SpacingMd),
-        verticalArrangement = Arrangement.spacedBy(SpacingMd),
-    ) {
-        Text(stringResource(R.string.tts_title), style = MaterialTheme.typography.headlineSmall)
+    MenuScaffold(stringResource(R.string.tts_title), scrollStore, "tts", onBack, modifier) {
         MenuSection(stringResource(R.string.menu_section_voice)) {
             MenuBody {
                 Text(stringResource(R.string.tts_stream), style = MaterialTheme.typography.titleMedium)
@@ -207,9 +199,6 @@ fun TtsSettingsScreen(
             MenuLink(label = stringResource(R.string.tts_test), onClick = onTest)
             MenuLink(label = stringResource(R.string.tts_test_notification), onClick = onPostTest, showDivider = true)
             MenuLink(label = stringResource(R.string.tts_system), onClick = onOpenSystemTts, showDivider = true)
-        }
-        OutlinedButton(onClick = onBack, modifier = Modifier.fillMaxWidth().bottomInsetPadding()) {
-            Text(stringResource(R.string.settings_close))
         }
     }
 }

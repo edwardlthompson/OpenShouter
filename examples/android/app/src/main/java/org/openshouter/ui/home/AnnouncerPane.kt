@@ -6,6 +6,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import org.openshouter.domain.AppSettings
 import org.openshouter.service.OpenShouterEntryPoint
+import org.openshouter.ui.menu.MenuScrollStore
 import org.openshouter.ui.settings.AnnouncerSettingsScreen
 
 @Composable
@@ -14,6 +15,7 @@ fun AnnouncerPane(
     ep: OpenShouterEntryPoint,
     scope: CoroutineScope,
     onPane: (Pane) -> Unit,
+    scrollStore: MenuScrollStore,
     modifier: Modifier = Modifier,
 ) {
     AnnouncerSettingsScreen(
@@ -74,6 +76,7 @@ fun AnnouncerPane(
         onOpenMessages = { onPane(Pane.Messages) },
         onOpenPower = { onPane(Pane.Power) },
         onBack = { onPane(Pane.Home) },
+        scrollStore = scrollStore,
         modifier = modifier,
     )
 }

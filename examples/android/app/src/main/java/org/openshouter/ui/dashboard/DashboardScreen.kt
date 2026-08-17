@@ -3,10 +3,7 @@ package org.openshouter.ui.dashboard
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -15,8 +12,10 @@ import dev.foss.goldenpath.ui.insets.bottomInsetPadding
 import dev.foss.goldenpath.ui.theme.SpacingLg
 import dev.foss.goldenpath.ui.theme.SpacingMd
 import org.openshouter.ui.menu.MenuLink
+import org.openshouter.ui.menu.MenuScrollStore
 import org.openshouter.ui.menu.MenuSection
 import org.openshouter.ui.menu.MenuToggle
+import org.openshouter.ui.menu.rememberMenuScroll
 
 @Composable
 fun DashboardScreen(
@@ -33,19 +32,16 @@ fun DashboardScreen(
     onOpenOverrides: () -> Unit,
     onOpenPlaces: () -> Unit,
     onOpenOem: () -> Unit,
+    scrollStore: MenuScrollStore,
     modifier: Modifier = Modifier,
 ) {
     Column(
         modifier = modifier
-            .verticalScroll(rememberScrollState())
+            .verticalScroll(rememberMenuScroll(scrollStore, "home"))
             .padding(SpacingMd)
             .bottomInsetPadding(),
         verticalArrangement = Arrangement.spacedBy(SpacingLg),
     ) {
-        Column(verticalArrangement = Arrangement.spacedBy(SpacingMd)) {
-            Text(stringResource(R.string.app_greeting), style = MaterialTheme.typography.headlineMedium)
-            Text(stringResource(R.string.app_pitch), style = MaterialTheme.typography.bodyLarge)
-        }
         MenuSection(stringResource(R.string.menu_section_master)) {
             MenuToggle(stringResource(R.string.dashboard_master), announcerEnabled, onAnnouncerChange)
         }

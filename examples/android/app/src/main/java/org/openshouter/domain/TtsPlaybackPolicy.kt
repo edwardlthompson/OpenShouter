@@ -7,10 +7,12 @@ fun TtsStream.playable(
     mediaMuted: Boolean,
     ringerSilent: Boolean = false,
     allowSilentVibrate: Boolean = true,
+    alarmMuted: Boolean = false,
 ): TtsStream {
-    if (!thisMuted) return this
     if (ringerSilent && !allowSilentVibrate) return this
+    if (!thisMuted) return this
     if (!mediaMuted) return TtsStream.MEDIA
+    if (!alarmMuted) return TtsStream.ALARM
     return this
 }
 

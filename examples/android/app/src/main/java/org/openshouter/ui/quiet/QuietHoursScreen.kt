@@ -1,18 +1,13 @@
 package org.openshouter.ui.quiet
 
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -25,10 +20,14 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import dev.foss.goldenpath.R
-import dev.foss.goldenpath.ui.insets.bottomInsetPadding
 import dev.foss.goldenpath.ui.theme.SpacingMd
 import org.openshouter.domain.AppSettings
 import org.openshouter.domain.QuietHours
+import org.openshouter.ui.menu.MenuBody
+import org.openshouter.ui.menu.MenuScaffold
+import org.openshouter.ui.menu.MenuScrollStore
+import org.openshouter.ui.menu.MenuSection
+import org.openshouter.ui.menu.MenuToggle
 
 private val DAY_LABELS = intArrayOf(
     R.string.quiet_day_1,
@@ -49,35 +48,21 @@ fun QuietHoursScreen(
     settings: AppSettings,
     onChange: (Boolean, Int, Int, Set<Int>) -> Unit,
     onBack: () -> Unit,
+    scrollStore: MenuScrollStore,
     modifier: Modifier = Modifier,
 ) {
     var pickingStart by remember { mutableStateOf(true) }
-    Column(
-        modifier = modifier
-            .verticalScroll(rememberScrollState())
-            .padding(SpacingMd),
-        verticalArrangement = Arrangement.spacedBy(SpacingMd),
-    ) {
-        Text(stringResource(R.string.quiet_title), style = MaterialTheme.typography.headlineSmall)
-        Text(stringResource(R.string.quiet_help), style = MaterialTheme.typography.bodyMedium)
-        val enableLabel = stringResource(
-            R.string.announcer_quiet,
-            QuietHours.windowLabel(settings.quietStartMinutes, settings.quietEndMinutes),
-        )
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween,
-        ) {
-            Text(enableLabel, modifier = Modifier.weight(1f))
-            Switch(
-                checked = settings.quietHoursEnabled,
-                onCheckedChange = {
-                    onChange(it, settings.quietStartMinutes, settings.quietEndMinutes, settings.quietDays)
-                },
-                modifier = Modifier.semantics { contentDescription = enableLabel },
-            )
-        }
+    val enableLabel = stringResource(
+        R.string.announcer_quiet,
+        QuietHours.windowLabel(settings.quietStartMinutes, settings.quietEndMinutes),
+    )
+    MenuScaffold(stringResource(R.string.quiet_title), scrollStore, "quiet", onBack, modifier) {
+        MenuSection(stringResource(R.string.menu_section_quiet)) {
+            MenuBody { Text(stringResource(R.string.quiet_help), style = MaterialTheme.typography.bodyMedium) }
+            MenuToggle(enableLabel, settings.quietHoursEnabled, {
+                onChange(it, settings.quietStartMinutes, settings.quietEndMinutes, settings.quietDays)
+            })
+            MenuBody {
         TimeRow(
             label = stringResource(R.string.quiet_start),
             minutes = settings.quietStartMinutes,
@@ -158,8 +143,7 @@ fun QuietHoursScreen(
                 )
             }
         }
-        Button(onClick = onBack, modifier = Modifier.bottomInsetPadding()) {
-            Text(stringResource(R.string.settings_close))
+            }
         }
     }
 }
