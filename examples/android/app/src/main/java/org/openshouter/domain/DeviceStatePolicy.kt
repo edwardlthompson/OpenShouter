@@ -5,7 +5,7 @@ data class DeviceStatePolicy(
     val allowScreenOff: Boolean = true,
     val allowHeadsetOn: Boolean = true,
     val allowHeadsetOff: Boolean = true,
-    val allowSilentVibrate: Boolean = true,
+    val allowSilentVibrate: Boolean = false,
     val allowInCall: Boolean = false,
 ) {
     fun allows(

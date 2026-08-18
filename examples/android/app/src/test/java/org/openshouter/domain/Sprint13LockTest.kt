@@ -52,6 +52,15 @@ class ChannelDeviceStateTest {
         )
         assertFalse(ChannelStates.allowSilentVibrate(blocked, SpokenEvent.Kind.CALL))
         assertTrue(ChannelStates.allowSilentVibrate(blocked, SpokenEvent.Kind.NOTIFICATION))
+        val globalOff = AppSettings(
+            deviceState = DeviceStatePolicy(allowSilentVibrate = false),
+            channelStates = mapOf(
+                ShoutChannel.CALL to ChannelDeviceState(
+                    device = DeviceStatePolicy(allowSilentVibrate = true),
+                ),
+            ),
+        )
+        assertFalse(ChannelStates.allowSilentVibrate(globalOff, SpokenEvent.Kind.CALL))
     }
 }
 

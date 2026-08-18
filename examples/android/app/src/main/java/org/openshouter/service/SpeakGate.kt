@@ -1,7 +1,6 @@
 package org.openshouter.service
 
 import android.content.Context
-import android.media.AudioManager
 import android.os.PowerManager
 import android.telephony.TelephonyManager
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -26,14 +25,13 @@ class SpeakGate @Inject constructor(
         val minute = cal.get(Calendar.HOUR_OF_DAY) * 60 + cal.get(Calendar.MINUTE)
         val day = cal.get(Calendar.DAY_OF_WEEK)
         val pm = context.getSystemService(Context.POWER_SERVICE) as PowerManager
-        val am = context.getSystemService(Context.AUDIO_SERVICE) as AudioManager
-        val silent = am.ringerMode != AudioManager.RINGER_MODE_NORMAL
+        val silent = audio.isSilent()
         val inCall = runCatching {
             val tm = context.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
             @Suppress("DEPRECATION")
             tm.callState != TelephonyManager.CALL_STATE_IDLE
         }.getOrDefault(false)
-        val device = if (channel == null) {
+        val resolved = if (channel == null) {
             settings.deviceState
         } else {
             ChannelStates.resolve(
@@ -43,6 +41,9 @@ class SpeakGate @Inject constructor(
                 settings.ttsPlayback,
             ).device
         }
+        val device = resolved.copy(
+            allowSilentVibrate = resolved.allowSilentVibrate && settings.deviceState.allowSilentVibrate,
+        )
         return AnnouncementGate.allow(
             settings,
             minute,

@@ -37,6 +37,7 @@ class DeviceStatePolicyTest {
     @Test
     fun defaultAllowsIdlePhone() {
         assertTrue(DeviceStatePolicy().allows(true, false, false, false))
+        assertFalse(DeviceStatePolicy().allows(true, false, silentOrVibrate = true, inCall = false))
     }
 
     @Test

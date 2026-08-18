@@ -26,12 +26,13 @@ internal class TtsPlayback(
     private val cacheDir: File,
     private val abandonFocus: () -> Unit,
     private val requestFocus: (TtsPlaybackPolicy, TtsStream) -> Unit,
+    private val isSilent: () -> Boolean,
 ) {
     @Volatile var looping: SpokenEvent? = null
     private val player = TtsFilePlayer()
     @Volatile private var lastPolicy = TtsPlaybackPolicy()
     @Volatile private var lastStream = TtsStream.MEDIA
-    @Volatile private var lastAllowSilent = true
+    @Volatile private var lastAllowSilent = false
     @Volatile private var currentUtterance: String? = null
     @Volatile private var currentFile: File? = null
     private var screenOffJob: Job? = null
@@ -45,8 +46,7 @@ internal class TtsPlayback(
         userRequested: Boolean,
         setPending: (SpokenEvent) -> Unit,
     ): Boolean {
-        val silent = audio.ringerMode != AudioManager.RINGER_MODE_NORMAL
-        if (silent && !allowSilent && !userRequested) return false
+        if (isSilent() && !allowSilent && !userRequested) return false
         val text = policy.prepareUtterance(event.utterance)
         if (text.isBlank()) return false
         if (engine == null || !ready) {

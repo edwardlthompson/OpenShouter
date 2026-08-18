@@ -24,11 +24,7 @@ class TtsStreamPlayableTest {
     fun mutedNotificationFallsBackToMedia() {
         assertEquals(TtsStream.MEDIA, TtsStream.NOTIFICATION.playable(thisMuted = true, mediaMuted = false))
         assertEquals(TtsStream.NOTIFICATION, TtsStream.NOTIFICATION.playable(thisMuted = false, mediaMuted = true))
-        assertEquals(TtsStream.ALARM, TtsStream.NOTIFICATION.playable(thisMuted = true, mediaMuted = true))
-        assertEquals(
-            TtsStream.NOTIFICATION,
-            TtsStream.NOTIFICATION.playable(thisMuted = true, mediaMuted = true, alarmMuted = true),
-        )
+        assertEquals(TtsStream.NOTIFICATION, TtsStream.NOTIFICATION.playable(thisMuted = true, mediaMuted = true))
         assertEquals(TtsStream.ALARM, TtsStream.ALARM.playable(thisMuted = false, mediaMuted = false))
         assertEquals(
             TtsStream.NOTIFICATION,

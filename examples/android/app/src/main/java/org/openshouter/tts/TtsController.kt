@@ -16,6 +16,7 @@ import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import org.openshouter.audio.AudioRouteMonitor
 import org.openshouter.data.SettingsRepository
 import org.openshouter.domain.ChannelStates
 import org.openshouter.domain.SpokenEvent
@@ -24,6 +25,7 @@ import org.openshouter.domain.SpokenEvent
 class TtsController @Inject constructor(
     @ApplicationContext context: Context,
     private val settings: SettingsRepository,
+    route: AudioRouteMonitor,
 ) {
     private val appContext = context.applicationContext
     private val audio = appContext.getSystemService(Context.AUDIO_SERVICE) as AudioManager
@@ -44,6 +46,7 @@ class TtsController @Inject constructor(
                 focusRequest = TtsEngine.requestFocus(audio, policy.pauseMedia, stream)
             }
         },
+        isSilent = { route.isSilent() },
     )
 
     fun languageTags(): List<String> {

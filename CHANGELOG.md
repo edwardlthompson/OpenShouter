@@ -68,6 +68,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+* **android:** Do not shout when the phone is silent or in DND unless the user opts in
+
 ### Documentation
 
 * record v0.2.3 ship regressions

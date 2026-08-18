@@ -104,6 +104,13 @@ class AnnouncementGateTest {
     }
 
     @Test
+    fun ringerOrDndIsSilent() {
+        assertFalse(RingerSilent.active(ringerNormal = true, dndActive = false))
+        assertTrue(RingerSilent.active(ringerNormal = false, dndActive = false))
+        assertTrue(RingerSilent.active(ringerNormal = true, dndActive = true))
+    }
+
+    @Test
     fun silentOrVibrateHonorsToggle() {
         val off = AppSettings(deviceState = DeviceStatePolicy(allowSilentVibrate = false))
         assertFalse(

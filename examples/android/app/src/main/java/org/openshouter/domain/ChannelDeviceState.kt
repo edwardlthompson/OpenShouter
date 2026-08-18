@@ -37,8 +37,9 @@ object ChannelStates {
     }
 
     fun allowSilentVibrate(settings: AppSettings, kind: SpokenEvent.Kind): Boolean =
-        resolve(settings.channelStates, channelFor(kind), settings.deviceState, settings.ttsPlayback)
-            .device.allowSilentVibrate
+        settings.deviceState.allowSilentVibrate &&
+            resolve(settings.channelStates, channelFor(kind), settings.deviceState, settings.ttsPlayback)
+                .device.allowSilentVibrate
 
     fun spoken(
         settings: AppSettings,
@@ -66,7 +67,7 @@ object ChannelStates {
                     allowScreenOff = flag(fields, "sf", true),
                     allowHeadsetOn = flag(fields, "ho", true),
                     allowHeadsetOff = flag(fields, "hf", true),
-                    allowSilentVibrate = flag(fields, "sv", true),
+                    allowSilentVibrate = flag(fields, "sv", false),
                     allowInCall = flag(fields, "ic", false),
                 ),
                 stream = runCatching {

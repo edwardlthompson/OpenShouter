@@ -23,7 +23,6 @@ internal object TtsEngine {
         isMuted(audio, TtsStream.MEDIA),
         audio.ringerMode != AudioManager.RINGER_MODE_NORMAL,
         allowSilentVibrate,
-        isMuted(audio, TtsStream.ALARM),
     )
 
     fun applyStream(tts: TextToSpeech, stream: TtsStream) {

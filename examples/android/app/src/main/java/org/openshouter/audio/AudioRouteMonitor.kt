@@ -1,5 +1,6 @@
 package org.openshouter.audio
 
+import android.app.NotificationManager
 import android.content.Context
 import android.media.AudioDeviceCallback
 import android.media.AudioDeviceInfo
@@ -8,12 +9,21 @@ import android.os.Build
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 import javax.inject.Singleton
+import org.openshouter.domain.RingerSilent
 
 @Singleton
 class AudioRouteMonitor @Inject constructor(
     @ApplicationContext context: Context,
 ) {
     private val audio = context.getSystemService(Context.AUDIO_SERVICE) as AudioManager
+    private val notify = context.getSystemService(NotificationManager::class.java)
+
+    fun isSilent(): Boolean {
+        val filter = notify?.currentInterruptionFilter ?: NotificationManager.INTERRUPTION_FILTER_ALL
+        val dnd = filter != NotificationManager.INTERRUPTION_FILTER_ALL &&
+            filter != NotificationManager.INTERRUPTION_FILTER_UNKNOWN
+        return RingerSilent.active(audio.ringerMode == AudioManager.RINGER_MODE_NORMAL, dnd)
+    }
 
     fun headsetConnected(): Boolean {
         val devices = audio.getDevices(AudioManager.GET_DEVICES_OUTPUTS)

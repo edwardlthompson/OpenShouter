@@ -12,6 +12,8 @@ Interactive filterable table: Cursor canvas `feature-parity-matrix.canvas.tsx` (
 
 **Wrap-up 2026-08-16:** HUMAN confirmations closed by `/build` (GitHub About, FOSS deps, default `%app: %title - %text`, location/permission/exact-alarm/OEM copy, `QUERY_ALL_PACKAGES` Play-policy N/A). Matrix stays Yes / Skip — no new Partial or No.
 
+**Wrap-up 2026-08-18:** Speak in silent/vibrate is opt-in (`ds_speak_silent`). DND counts as silent. No ALARM auto-fallback.
+
 Status: **Yes** shipped · **Partial** logic or subset UI · **No** missing · **Skip** will not copy (FOSS / out of scope).
 
 ## Summary

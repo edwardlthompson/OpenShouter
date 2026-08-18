@@ -70,7 +70,7 @@ internal object SettingsKeys {
     val DS_SCREEN_OFF = booleanPreferencesKey("ds_screen_off")
     val DS_HEADSET_ON = booleanPreferencesKey("ds_headset_on")
     val DS_HEADSET_OFF = booleanPreferencesKey("ds_headset_off")
-    val DS_SILENT = booleanPreferencesKey("ds_silent")
+    val DS_SILENT = booleanPreferencesKey("ds_speak_silent")
     val DS_INCALL = booleanPreferencesKey("ds_incall")
 }
 
@@ -142,7 +142,7 @@ internal fun Preferences.toAppSettings(): AppSettings {
             allowScreenOff = this[k.DS_SCREEN_OFF] ?: true,
             allowHeadsetOn = this[k.DS_HEADSET_ON] ?: true,
             allowHeadsetOff = this[k.DS_HEADSET_OFF] ?: true,
-            allowSilentVibrate = this[k.DS_SILENT] ?: true,
+            allowSilentVibrate = this[k.DS_SILENT] ?: false,
             allowInCall = this[k.DS_INCALL] ?: false,
         ),
     ), this)
