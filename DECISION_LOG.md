@@ -17,6 +17,13 @@
 
 ## Entries
 
+### 2026-08-18 — /ship v0.2.4
+- **Status:** Accepted
+- **Context:** After v0.2.3, shouts played while the phone was silent. ALARM fallback punched through mute, and “Speak in silent or vibrate” defaulted to on.
+- **Decision:** Make silent/DND opt-in (`ds_speak_silent`). Treat interruption filter as silent. Do not auto-escalate to ALARM. Ship as v0.2.4. Release Please #10 admin-merged (KB-016).
+- **Alternatives considered:** Keep ALARM fallback for muted MEDIA (rejected: it ignores silent). Leave the old default-on key (rejected: existing installs kept shouting).
+- **Consequences:** Same debug signing key as v0.2.3. Users who want shouts on silent must enable Voice → Device state → Speak in silent or vibrate. Docs-only follow-up may open a spurious next Release Please PR — close it if it is changelog-only.
+
 ### 2026-08-16 — /ship v0.2.3
 - **Status:** Accepted
 - **Context:** After a silent/vibrate shout, the next utterance could stay silent because MEDIA was also muted and a shared WAV file raced. Submenus still used older chrome and forgot scroll.

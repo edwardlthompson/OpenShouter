@@ -169,6 +169,7 @@ grep '\[AUTO\]' BUILD_PLAN.md
 > **/ship v0.2.1** archived in COMPLETED_TASKS.md @ `da4d76a`.
 > **/ship v0.2.2** archived in COMPLETED_TASKS.md @ `9e2043d`.
 > **/ship v0.2.3** archived in COMPLETED_TASKS.md @ `8980374`.
+> **/ship v0.2.4** archived in COMPLETED_TASKS.md @ `7490451`.
 
 > **Sprint 14 ADB** archived in COMPLETED_TASKS.md (2026-08-16, CPH2655).
 
@@ -209,6 +210,7 @@ grep '\[AUTO\]' BUILD_PLAN.md
 | /ship v0.2.1 | Complete | `COMPLETED_TASKS.md` |
 | /ship v0.2.2 | Complete | `COMPLETED_TASKS.md` |
 | /ship v0.2.3 | Complete | `COMPLETED_TASKS.md` |
+| /ship v0.2.4 | Complete | `COMPLETED_TASKS.md` |
 | Sprints 9–14 ADB QA (CPH2655) | Complete | `COMPLETED_TASKS.md` |
 | Sprints 0–13 HUMAN confirmations | Complete | `COMPLETED_TASKS.md` |
 | Sprint 11 app speak list | Complete | `COMPLETED_TASKS.md` |
