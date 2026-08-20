@@ -1,0 +1,20 @@
+cff-version: 1.2.0
+title: OpenShouter
+message: If you use this software, please cite it using these metadata.
+type: software
+authors:
+  - name: Edward L. Thompson
+repository-code: https://github.com/edwardlthompson/OpenShouter
+url: https://github.com/edwardlthompson/OpenShouter
+abstract: >-
+  FOSS Android TTS announcer for chosen notifications and Shouter-style
+  telephony and hardware events. No Google Play Services or tracking.
+keywords:
+  - foss
+  - android
+  - tts
+  - accessibility
+  - notifications
+license: MIT
+version: 0.2.4
+date-released: 2026-08-18

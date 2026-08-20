@@ -17,6 +17,13 @@
 
 ## Entries
 
+### 2026-08-20 — Sync agent-project-bootstrap 0.21.0
+- **Status:** Accepted
+- **Context:** Child repo was scaffolded from 0.17.0 and had drifted from upstream adapters, SDD stubs, and split `scripts/lib` modules.
+- **Decision:** Close bootstrap gaps only. Keep product semver in `.template-version` (0.2.4). Keep OpenShouter HUMAN extras in `human_task_openshouter.py`. Do not restore pruned stacks or overwrite CI workflow `if:` guards.
+- **Alternatives considered:** Blind-copy TEMPLATE_INDEX / `.template-version` to 0.21.0 (rejected: collides with product release-please). Overwrite `human_task_automation.py` without extras (rejected: `/build` would drop product handlers).
+- **Consequences:** `validate-bootstrap.sh --quick` now requires CITATION, SUPPORT, adapters, and `## [Unreleased]`. Product code and ADRs stay untouched.
+
 ### 2026-08-18 — /ship v0.2.4
 - **Status:** Accepted
 - **Context:** After v0.2.3, shouts played while the phone was silent. ALARM fallback punched through mute, and “Speak in silent or vibrate” defaulted to on.

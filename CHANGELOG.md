@@ -6,6 +6,16 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Changed
+
+* Sync agent-project-bootstrap 0.21.0 standards (adapters, SDD stubs, split lib scripts) without changing product semver
+
+### Documentation
+
+* record v0.2.4 ship regressions
+
 ## [0.2.4](https://github.com/edwardlthompson/OpenShouter/compare/v0.2.3...v0.2.4) (2026-08-18)
 
 
@@ -77,12 +87,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Documentation
 
 * record v0.1.0 ship regressions ([2ea76a1](https://github.com/edwardlthompson/OpenShouter/commit/2ea76a1450a794c93bcc067877e8077cc517df23))
-
-## [Unreleased]
-
-### Documentation
-
-* record v0.2.4 ship regressions
 
 ## [0.1.0] - 2026-08-14
 

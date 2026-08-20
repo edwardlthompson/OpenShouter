@@ -1,37 +1,47 @@
 # Contributing
 
-Thank you for contributing to **agent-project-bootstrap** — a Cursor agent-oriented FOSS project template.
+Thank you for contributing to **OpenShouter** — a FOSS Android TTS announcer.
 
 ## Who contributes what
 
 | Label | Contributor | Examples |
 |-------|-------------|----------|
-| `AGENT` | Cursor Agent | Scaffolding, tests, CI config, docs |
+| `AGENT` | Coding agent | Scaffolding, tests, CI config, docs |
 | `HUMAN` | Human developer | Approvals, credentials, product decisions |
 | `ADB` | Human (Android) | Device testing, F-Droid submission |
 | `AUTO` | CI/scripts | GitHub Actions, Dependabot, pre-commit |
 
-## Getting started
+## First contribution
 
-1. Fork the repository and create a feature branch.
-2. Read `docs/START_HERE.md`, `docs/CURSOR_MODES.md`, `CODE_OF_CONDUCT.md`, and `docs/MAINTAINING_THE_TEMPLATE.md`.
+Thank you for helping. Read [`docs/BEST_PRACTICES.md`](docs/BEST_PRACTICES.md) if you want the industry *why* behind these files. Questions vs bugs vs vulns: [`SUPPORT.md`](SUPPORT.md).
+
+1. Fork the repository and create a feature branch from `main`.
+2. Read `docs/START_HERE.md`, `docs/CURSOR_MODES.md`, `CODE_OF_CONDUCT.md`, and `docs/spec.md`. First-time walk: `docs/help/TOUR.md` (Cursor: `/tour`).
 3. Report security issues via `SECURITY.md` (private reporting preferred).
-4. Make changes; ensure CI passes locally where possible.
+4. Make changes; run `bash scripts/verify.sh` locally (or the VS Code **Verify** task).
 5. Open a PR using the provided template.
+
+## Recommended branching (GitHub Flow)
+
+Short-lived branches, one concern per PR, merge to `main` when required checks are green. Do not force-push `main`.
 
 ## Commit messages
 
-Use [Conventional Commits](https://www.conventionalcommits.org/).
+Use [Conventional Commits](https://www.conventionalcommits.org/). Enforced by a `commit-msg` hook:
 
-## Template improvements
+```bash
+pre-commit install --hook-type commit-msg
 
-Use the **Template Improvement** issue template for feedback.
+```
+
+Subjects must match `type(scope)?: description` (`feat`, `fix`, `docs`, `chore`, `ci`, `test`, `refactor`, `perf`, `style`, `build`, `revert`). Merge and Revert subjects are allowed.
 
 ## Pre-commit hooks
 
 ```bash
 pip install pre-commit
 pre-commit install
+pre-commit install --hook-type commit-msg
 pre-commit run --all-files
 ```
 
@@ -39,8 +49,4 @@ Includes repo hygiene checks (`scripts/check-repo-hygiene.sh`). See [`docs/REPO_
 
 ## Security triage
 
-Maintainers run a weekly CVE triage pass per `docs/SECURITY_TRIAGE.md`. Review Dependabot alerts before each release.
-
-## Release process (maintainers)
-
-See `docs/MAINTAINING_THE_TEMPLATE.md` for the full semver release checklist.
+Weekly CVE pass: `docs/SECURITY_TRIAGE.md`. Do not commit secrets or `.env`.

@@ -23,6 +23,8 @@ Thumbs.db
 .idea/
 .vscode/*
 !.vscode/settings.json
+!.vscode/extensions.json
+!.vscode/tasks.json
 *.swp
 .cursor-session-state
 .cursor/agent-progress.json
@@ -87,3 +89,5 @@ examples/android/captures/
 # Ephemeral agent outputs (examples tracked)
 CODE_REVIEW.md
 RELEASE_NOTES.md
+scratchpad.md
+.cursor/handoff-*.md
