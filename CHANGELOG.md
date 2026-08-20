@@ -6,6 +6,23 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.2.5](https://github.com/edwardlthompson/OpenShouter/compare/v0.2.4...v0.2.5) (2026-08-20)
+
+
+### Fixed
+
+* **android:** prepare v0.2.5 release ([7587943](https://github.com/edwardlthompson/OpenShouter/commit/7587943edc3c5283770946dbfca39c56af9c5314))
+
+
+### Changed
+
+* sync agent-project-bootstrap 0.21.0 standards ([2394ee2](https://github.com/edwardlthompson/OpenShouter/commit/2394ee2671769b7c18865c8e259c855608953419))
+
+
+### Documentation
+
+* record v0.2.4 ship regressions ([c302157](https://github.com/edwardlthompson/OpenShouter/commit/c3021570046faeca37c08f7470f4e64d4885cb84))
+
 ## [Unreleased]
 
 ### Added
