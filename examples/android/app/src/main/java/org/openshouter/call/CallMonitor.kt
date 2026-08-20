@@ -23,6 +23,7 @@ import org.openshouter.data.SettingsRepository
 import org.openshouter.domain.CallPhase
 import org.openshouter.domain.IncomingCallEvent
 import org.openshouter.service.SpeakGate
+import org.openshouter.telephony.SimLine
 import org.openshouter.tts.TtsController
 
 @Singleton
@@ -39,18 +40,20 @@ class CallMonitor @Inject constructor(
     @Volatile private var started = false
     @Volatile private var lastPhase = CallPhase.IDLE
     @Volatile private var lastNumber = ""
+    @Volatile private var lastSim = ""
 
     private val phoneReceiver = object : BroadcastReceiver() {
         override fun onReceive(ctx: Context?, intent: Intent?) {
             if (intent?.action != TelephonyManager.ACTION_PHONE_STATE_CHANGED) return
             val extra = intent.getStringExtra(TelephonyManager.EXTRA_STATE)
             val number = intent.getStringExtra(TelephonyManager.EXTRA_INCOMING_NUMBER).orEmpty()
+            val sim = SimLine.resolve(context, intent)
             val state = when (extra) {
                 TelephonyManager.EXTRA_STATE_RINGING -> TelephonyManager.CALL_STATE_RINGING
                 TelephonyManager.EXTRA_STATE_OFFHOOK -> TelephonyManager.CALL_STATE_OFFHOOK
                 else -> TelephonyManager.CALL_STATE_IDLE
             }
-            onState(state, number)
+            onState(state, number, sim)
         }
     }
 
@@ -84,7 +87,7 @@ class CallMonitor @Inject constructor(
         }
     }
 
-    fun onState(state: Int, number: String) {
+    fun onState(state: Int, number: String, sim: String = "") {
         val phase = when (state) {
             TelephonyManager.CALL_STATE_RINGING -> CallPhase.RINGING
             TelephonyManager.CALL_STATE_OFFHOOK -> CallPhase.OFFHOOK
@@ -112,11 +115,13 @@ class CallMonitor @Inject constructor(
             }
             lastPhase = CallPhase.RINGING
             lastNumber = resolved
+            lastSim = sim.ifBlank { lastSim }
             val snap = settings.snapshot()
             if (!snap.callsEnabled) return@launch
             if (!gate.allow(snap, org.openshouter.domain.ShoutChannel.CALL)) return@launch
             val event = IncomingCallEvent(resolved, contacts.nameFor(resolved), phase)
-            val spoken = CallChannel.incoming(snap, resolved, event.displayName) ?: return@launch
+            val spoken = CallChannel.incoming(snap, resolved, event.displayName, lastSim)
+                ?: return@launch
             tts.speak(spoken)
         }
     }

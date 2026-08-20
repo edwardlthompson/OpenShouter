@@ -2,6 +2,15 @@
 
 > Archive of finished BUILD_PLAN items.
 
+## Sprint 15 — OpenShouter extras (ideas 4–7) (2026-08-20)
+
+- ✅ [AGENT] First translation pack: `docs/features/i18n-es.md` + `res/values-es/strings.xml` (Spanish; no hardcoded Compose literals)
+- ✅ [AGENT] Calendar shout via AOSP `CalendarContract` (`docs/features/calendar-shout.md`, `org/openshouter/calendar/`) — no GMS
+- ✅ [AGENT] Dual-SIM line in caller ID (`docs/features/dual-sim.md`, `org/openshouter/telephony/`) — do not log numbers
+- ✅ [AGENT] Bluetooth connect + headset-battery shout (`docs/features/bluetooth-shout.md`, `org/openshouter/bluetooth/`)
+- ✅ [HUMAN] Approve calendar / Bluetooth permission rationale copy in `strings.xml` + `docs/PRIVACY.md`
+- ✅ [ADB] Smoke calendar, dual-SIM, and Bluetooth shouts on CPH2655
+
 ## /ship v0.2.5 (2026-08-20)
 
 - ✅ [AUTO] `pre-release-gate.sh` (local feature-gate + Dependabot; CI/CodeQL/Security Scan on push SHA)

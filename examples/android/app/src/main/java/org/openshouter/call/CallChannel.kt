@@ -9,13 +9,23 @@ import org.openshouter.domain.SpokenEvent
 import org.openshouter.domain.TtsFormat
 
 object CallChannel {
-    fun incoming(settings: AppSettings, rawNumber: String, contactName: String?): SpokenEvent? {
+    fun incoming(
+        settings: AppSettings,
+        rawNumber: String,
+        contactName: String?,
+        sim: String = "",
+    ): SpokenEvent? {
         val resolved = ContactRules.apply(settings.contactRule, rawNumber, contactName)
         if (resolved.blocked) return null
         if (!resolved.known && !settings.missedCall.speakUnknown) return null
         return ChannelStates.spoken(
             settings, ShoutChannel.CALL, SpokenEvent.Kind.CALL,
-            TtsFormat.call(settings.callFormat, resolved.spoken, ContactRule.speakableNumber(rawNumber)),
+            TtsFormat.call(
+                settings.callFormat,
+                resolved.spoken,
+                ContactRule.speakableNumber(rawNumber),
+                sim,
+            ),
             looping = true,
         )
     }

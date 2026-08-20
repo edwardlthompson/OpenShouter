@@ -18,6 +18,8 @@ import org.openshouter.domain.SpokenEvent
 import org.openshouter.domain.TtsStream
 import org.openshouter.backup.BackupScreen
 import org.openshouter.backup.SettingsBackup
+import org.openshouter.bluetooth.BluetoothShoutScreen
+import org.openshouter.calendar.CalendarShoutScreen
 import org.openshouter.contacts.ContactRulesScreen
 import org.openshouter.message.MessageChannelScreen
 import org.openshouter.power.PowerSettings
@@ -40,7 +42,7 @@ import org.openshouter.oem.OemScreen
 import org.openshouter.ui.menu.MenuScrollStore
 import org.openshouter.ui.tts.TtsSettingsScreen
 
-enum class Pane { Setup, Home, Rules, Announcer, Quiet, History, Filters, Tts, Time, Reminders, Backup, Overrides, Places, Oem, Contacts, Messages, Power }
+enum class Pane { Setup, Home, Rules, Announcer, Quiet, History, Filters, Tts, Time, Reminders, Backup, Overrides, Places, Oem, Contacts, Messages, Power, Calendar, Bluetooth }
 
 @Composable
 fun OpenShouterPanes(
@@ -240,6 +242,26 @@ fun OpenShouterPanes(
         pane == Pane.Power -> PowerSettings(
             phrases = settings.batteryPhrases,
             onChange = { phrases -> scope.launch { ep.sprint13().setBatteryPhrases(phrases) } },
+            onBack = { onPane(Pane.Announcer) },
+            scrollStore = scrollStore,
+            modifier = modifier,
+        )
+        pane == Pane.Calendar -> CalendarShoutScreen(
+            enabled = settings.calendarShoutEnabled,
+            onEnabled = { on -> scope.launch { ep.sprint15().setCalendar(on) } },
+            onBack = { onPane(Pane.Announcer) },
+            scrollStore = scrollStore,
+            modifier = modifier,
+        )
+        pane == Pane.Bluetooth -> BluetoothShoutScreen(
+            connectAlert = settings.bluetoothConnectAlert,
+            batteryAlert = settings.bluetoothBatteryAlert,
+            onConnect = { on ->
+                scope.launch { ep.sprint15().setBluetooth(on, settings.bluetoothBatteryAlert) }
+            },
+            onBattery = { on ->
+                scope.launch { ep.sprint15().setBluetooth(settings.bluetoothConnectAlert, on) }
+            },
             onBack = { onPane(Pane.Announcer) },
             scrollStore = scrollStore,
             modifier = modifier,

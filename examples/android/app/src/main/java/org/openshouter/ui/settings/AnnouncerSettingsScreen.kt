@@ -36,6 +36,10 @@ fun AnnouncerSettingsScreen(
     onOpenContacts: () -> Unit = {},
     onOpenMessages: () -> Unit = {},
     onOpenPower: () -> Unit = {},
+    onOpenCalendar: () -> Unit = {},
+    onOpenBluetooth: () -> Unit = {},
+    onCalendar: (Boolean) -> Unit = {},
+    onBluetoothConnect: (Boolean) -> Unit = {},
     onBack: () -> Unit,
     scrollStore: MenuScrollStore,
     modifier: Modifier = Modifier,
@@ -47,12 +51,16 @@ fun AnnouncerSettingsScreen(
             MenuToggle(stringResource(R.string.announcer_time), settings.timeShoutEnabled, onTimeShout, true)
             MenuToggle(stringResource(R.string.announcer_missed), settings.missedCall.enabled, onMissed, true)
             MenuToggle(stringResource(R.string.announcer_messages), settings.messageChannel.enabled, onMessages, true)
+            MenuToggle(stringResource(R.string.calendar_enable), settings.calendarShoutEnabled, onCalendar, true)
+            MenuToggle(stringResource(R.string.bluetooth_connect), settings.bluetoothConnectAlert, onBluetoothConnect, true)
         }
         MenuSection(stringResource(R.string.menu_section_more)) {
             MenuLink(stringResource(R.string.announcer_time_customize), onOpenTime)
             MenuLink(stringResource(R.string.nav_contacts), onOpenContacts, showDivider = true)
             MenuLink(stringResource(R.string.nav_messages), onOpenMessages, showDivider = true)
             MenuLink(stringResource(R.string.nav_power), onOpenPower, showDivider = true)
+            MenuLink(stringResource(R.string.nav_calendar), onOpenCalendar, showDivider = true)
+            MenuLink(stringResource(R.string.nav_bluetooth), onOpenBluetooth, showDivider = true)
         }
         MenuSection(stringResource(R.string.menu_section_quiet)) {
             MenuToggle(

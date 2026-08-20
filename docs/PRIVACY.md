@@ -11,8 +11,9 @@ OpenShouter is local-first. Notification text, contacts, call numbers, and locat
 | Contacts (read-only lookup) | Speak contact name for caller ID | User consent (permission) | Not stored; resolved at ring time |
 | Phone numbers (incoming) | Caller ID announcement | User consent (`READ_PHONE_STATE`) | Not logged beyond optional local history if enabled |
 | Location (fine / background) | Geofence Home/Work mode toggles | User consent | Coordinates for saved places only; no telemetry |
+| Calendar titles (read-only) | Upcoming-event shout | User consent (`READ_CALENDAR`) | Not stored; never logged |
+| Bluetooth device name / battery | Headset connect and battery shout | User consent (`BLUETOOTH_CONNECT`) | On-device only; never logged |
 | GitHub Releases check | Optional in-app update notice | Legitimate interest | `last_checked`, `installed_artifact_format` locally |
-
 ## App update checks
 
 - Release endpoint: GitHub Releases API or configured manifest URL
@@ -38,6 +39,8 @@ OpenShouter is local-first. Notification text, contacts, call numbers, and locat
 - Notification Listener is used only to speak and optionally log locally
 - Contacts are queried, not copied into our database
 - Location updates run only when at least one geofence is enabled
+- Calendar is queried only when Calendar shout is on; titles are not persisted
+- Bluetooth names and battery extras are used only for TTS and are not persisted
 
 ## DPIA Checklist (`[HUMAN]`)
 

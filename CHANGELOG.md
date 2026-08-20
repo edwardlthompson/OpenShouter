@@ -6,36 +6,35 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [0.2.5](https://github.com/edwardlthompson/OpenShouter/compare/v0.2.4...v0.2.5) (2026-08-20)
-
-
-### Fixed
-
-* **android:** prepare v0.2.5 release ([7587943](https://github.com/edwardlthompson/OpenShouter/commit/7587943edc3c5283770946dbfca39c56af9c5314))
-
-
-### Changed
-
-* sync agent-project-bootstrap 0.21.0 standards ([2394ee2](https://github.com/edwardlthompson/OpenShouter/commit/2394ee2671769b7c18865c8e259c855608953419))
-
-
-### Documentation
-
-* record v0.2.4 ship regressions ([c302157](https://github.com/edwardlthompson/OpenShouter/commit/c3021570046faeca37c08f7470f4e64d4885cb84))
-
 ## [Unreleased]
+
+### Added
+
+* **android:** Spanish `values-es` pack, calendar shout, dual-SIM `%sim`, Bluetooth connect/battery
 
 ### Documentation
 
 * record v0.2.5 ship regressions
 
-## [0.2.4](https://github.com/edwardlthompson/OpenShouter/compare/v0.2.3...v0.2.4) (2026-08-18)
+## [0.2.5](https://github.com/edwardlthompson/OpenShouter/compare/v0.2.4...v0.2.5) (2026-08-20)
 
+### Fixed
+
+* **android:** prepare v0.2.5 release ([7587943](https://github.com/edwardlthompson/OpenShouter/commit/7587943edc3c5283770946dbfca39c56af9c5314))
+
+### Changed
+
+* sync agent-project-bootstrap 0.21.0 standards ([2394ee2](https://github.com/edwardlthompson/OpenShouter/commit/2394ee2671769b7c18865c8e259c855608953419))
+
+### Documentation
+
+* record v0.2.4 ship regressions ([c302157](https://github.com/edwardlthompson/OpenShouter/commit/c3021570046faeca37c08f7470f4e64d4885cb84))
+
+## [0.2.4](https://github.com/edwardlthompson/OpenShouter/compare/v0.2.3...v0.2.4) (2026-08-18)
 
 ### Fixed
 
 * **android:** prepare v0.2.4 release ([03807cd](https://github.com/edwardlthompson/OpenShouter/commit/03807cd49abecd516b9781095b160995720aa154))
-
 
 ### Documentation
 
@@ -43,11 +42,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.2.3](https://github.com/edwardlthompson/OpenShouter/compare/v0.2.2...v0.2.3) (2026-08-17)
 
-
 ### Fixed
 
 * **android:** prepare v0.2.3 release ([5c083ec](https://github.com/edwardlthompson/OpenShouter/commit/5c083ec0796216b4858da8ae0a482260726874fa))
-
 
 ### Documentation
 
@@ -55,11 +52,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.2.2](https://github.com/edwardlthompson/OpenShouter/compare/v0.2.1...v0.2.2) (2026-08-16)
 
-
 ### Fixed
 
 * **android:** prepare v0.2.2 release ([1698525](https://github.com/edwardlthompson/OpenShouter/commit/169852570eac9b0db35b954ffa6ce2754050ccf5))
-
 
 ### Documentation
 
@@ -67,12 +62,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.2.1](https://github.com/edwardlthompson/OpenShouter/compare/v0.2.0...v0.2.1) (2026-08-16)
 
-
 ### Fixed
 
 * **android:** do not crash on first launch without phone permission ([b0ac163](https://github.com/edwardlthompson/OpenShouter/commit/b0ac163f10c8cf6a1d14d73baac87f293928e1d8))
 * **android:** prepare v0.2.1 release ([ba5bd4f](https://github.com/edwardlthompson/OpenShouter/commit/ba5bd4f5645bc76c196e4c19f039bc573d54ad5b))
-
 
 ### Documentation
 
@@ -80,22 +73,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.2.0](https://github.com/edwardlthompson/OpenShouter/compare/v0.1.0...v0.2.0) (2026-08-15)
 
-
 ### Added
 
 * **openshouter:** prepare v0.2.0 release ([c832a1e](https://github.com/edwardlthompson/OpenShouter/commit/c832a1eb0188111ff4a89cc339f1b7779a1e0f03))
-
 
 ### Fixed
 
 * **android:** tolerate missing About assets in unit tests ([ae0c29b](https://github.com/edwardlthompson/OpenShouter/commit/ae0c29b025b6fdeaa918a2e3885e1767bb4cf3c1))
 * **ci:** build CodeQL language matrix from stack presence ([abc8256](https://github.com/edwardlthompson/OpenShouter/commit/abc82562289be43b511739068719ce46767d0ea3))
 
-
 ### Changed
 
 * **deps:** Bump the android-dependencies group ([#2](https://github.com/edwardlthompson/OpenShouter/issues/2)) ([b5711db](https://github.com/edwardlthompson/OpenShouter/commit/b5711db638b19faa633d107de5c533cbe53127a5))
-
 
 ### Documentation
 

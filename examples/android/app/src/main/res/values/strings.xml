@@ -74,6 +74,8 @@
     <string name="setup_battery">Unrestricted battery (do not optimize)</string>
     <string name="setup_battery_settings">App battery settings (set Unrestricted)</string>
     <string name="setup_exact_alarms">Allow setting alarms and reminders</string>
+    <string name="setup_calendar">Calendar (upcoming event shout)</string>
+    <string name="setup_bluetooth">Nearby devices (headset connect and battery)</string>
     <string name="announcer_time">Announce the time on the hour</string>
     <string name="time_shout_phrase">It\'s %1$s</string>
     <string name="dashboard_grant_background">Allow background location for geofences</string>
@@ -241,7 +243,18 @@
     <string name="contacts_blocked">Blocked: %1$d</string>
     <string name="contacts_unknown_call">Speak unknown callers</string>
     <string name="contacts_unknown_message">Speak unknown messages</string>
-    <string name="contacts_call_format" formatted="false">Call format (%name %number)</string>
+    <string name="contacts_call_format" formatted="false">Call format (%name %number %sim)</string>
+    <string name="nav_calendar">Calendar shout</string>
+    <string name="nav_bluetooth">Bluetooth shout</string>
+    <string name="calendar_enable">Announce upcoming events</string>
+    <string name="calendar_help">Reads the next event title in the next 15 minutes. Titles stay on-device and are never logged.</string>
+    <string name="calendar_soon">Upcoming: %1$s</string>
+    <string name="bluetooth_connect">Announce headset connect</string>
+    <string name="bluetooth_battery">Announce headset battery</string>
+    <string name="bluetooth_help">Uses on-device Bluetooth connect and battery extras. Device names are never logged.</string>
+    <string name="bluetooth_connected">%1$s connected</string>
+    <string name="bluetooth_disconnected">%1$s disconnected</string>
+    <string name="bluetooth_battery_level">%1$s battery %2$d percent</string>
     <string name="messages_enable">Enable message channel</string>
     <string name="messages_unknown">Read unknown senders</string>
     <string name="messages_body">Read message body</string>

@@ -42,4 +42,7 @@ data class AppSettings(
     val timeFormat: String = TtsFormat.TIME_DEFAULT,
     val timeHourStyle: TimeHourStyle = TimeHourStyle.SYSTEM,
     val appOverrides: Map<String, AppOverride> = emptyMap(),
+    val calendarShoutEnabled: Boolean = false,
+    val bluetoothConnectAlert: Boolean = false,
+    val bluetoothBatteryAlert: Boolean = false,
 )

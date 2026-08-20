@@ -46,10 +46,14 @@ def automate_permission_copy(root: Path, _cfg: dict) -> AttemptResult:
     keys = (
         "setup_listener", "setup_phone", "setup_contacts", "setup_call_log",
         "setup_location", "setup_battery", "setup_exact_alarms",
+        "setup_calendar", "setup_bluetooth",
     )
     missing = [key for key in keys if key not in strings]
     if missing:
         return AttemptResult(1, "permission-copy", f"missing {', '.join(missing)}", True)
+    privacy = _read(root, "docs/PRIVACY.md")
+    if "Calendar" not in privacy or "Bluetooth" not in privacy:
+        return AttemptResult(1, "permission-copy", "PRIVACY.md missing Calendar/Bluetooth", True)
     return AttemptResult(0, "permission-copy", "Permission rationale strings present", False)
 
 
@@ -107,7 +111,7 @@ def extra_human_rules() -> list[tuple[re.Pattern[str], str, object]]:
         (re.compile(r"FOSS deps|Play Services / Firebase|no Play Services", re.I), "human", automate_foss_deps),
         (re.compile(r"default format|%app: %title - %text", re.I), "human", automate_tts_format),
         (re.compile(r"background location|privacy disclosure", re.I), "human", automate_location_copy),
-        (re.compile(r"permission rationale", re.I), "human", automate_permission_copy),
+        (re.compile(r"permission rationale|calendar / Bluetooth permission", re.I), "human", automate_permission_copy),
         (re.compile(r"SCHEDULE_EXACT_ALARM|Announce accurately|reminder exact", re.I), "human", automate_exact_alarm_copy),
         (re.compile(r"QUERY_ALL_PACKAGES", re.I), "human", automate_query_all_packages),
         (re.compile(r"OEM autostart", re.I), "human", automate_oem_copy),

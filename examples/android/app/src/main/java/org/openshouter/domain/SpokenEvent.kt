@@ -7,5 +7,5 @@ data class SpokenEvent(
     val repeatCount: Int = 0,
     val stream: TtsStream? = null,
 ) {
-    enum class Kind { NOTIFICATION, CALL, POWER, GEO, TIME, MESSAGE, REMINDER }
+    enum class Kind { NOTIFICATION, CALL, POWER, GEO, TIME, MESSAGE, REMINDER, CALENDAR, BLUETOOTH }
 }

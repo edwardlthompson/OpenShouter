@@ -21,6 +21,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
 import org.openshouter.audio.AudioRouteMonitor
+import org.openshouter.bluetooth.BluetoothMonitor
+import org.openshouter.calendar.CalendarMonitor
 import org.openshouter.call.CallMonitor
 import org.openshouter.data.SettingsRepository
 import org.openshouter.geo.GeoMonitor
@@ -39,6 +41,8 @@ class AnnouncerService : Service() {
     @Inject lateinit var audio: AudioRouteMonitor
     @Inject lateinit var settings: SettingsRepository
     @Inject lateinit var timeShout: TimeShoutScheduler
+    @Inject lateinit var calendar: CalendarMonitor
+    @Inject lateinit var bluetooth: BluetoothMonitor
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.Default)
 
     override fun onCreate() {
@@ -74,6 +78,8 @@ class AnnouncerService : Service() {
         runCatching { gestures.start() }
         runCatching { geo.start() }
         runCatching { audio.start { } }
+        runCatching { calendar.start() }
+        runCatching { bluetooth.start() }
         scope.launch { timeShout.sync(settings.snapshot()) }
     }
 

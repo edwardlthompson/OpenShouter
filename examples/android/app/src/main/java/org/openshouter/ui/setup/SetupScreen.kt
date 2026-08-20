@@ -66,6 +66,15 @@ fun SetupScreen(
     }
     val batteryOn = remember(tick) { SetupChecks.batteryUnrestricted(context) }
     val exactOn = remember(tick) { SetupChecks.exactAlarmsAllowed(context) }
+    val calendarOn = remember(tick) { SetupChecks.granted(context, Manifest.permission.READ_CALENDAR) }
+    val bluetoothOn = remember(tick) {
+        val perm = if (Build.VERSION.SDK_INT >= 31) {
+            Manifest.permission.BLUETOOTH_CONNECT
+        } else {
+            Manifest.permission.BLUETOOTH
+        }
+        SetupChecks.granted(context, perm)
+    }
     MenuScaffold(stringResource(R.string.setup_title), scrollStore, "setup", modifier = modifier) {
         MenuSection(stringResource(R.string.menu_section_setup)) {
             MenuBody { Text(stringResource(R.string.setup_body), style = MaterialTheme.typography.bodyLarge) }
@@ -87,6 +96,15 @@ fun SetupScreen(
         SetupRow(R.string.setup_battery, batteryOn) { SetupChecks.requestBatteryUnrestricted(context) }
         SetupRow(R.string.setup_battery_settings, batteryOn) { SetupChecks.openAppDetails(context) }
         SetupRow(R.string.setup_exact_alarms, exactOn) { SetupChecks.requestExactAlarms(context) }
+        SetupRow(R.string.setup_calendar, calendarOn) { permLauncher.launch(Manifest.permission.READ_CALENDAR) }
+        SetupRow(R.string.setup_bluetooth, bluetoothOn) {
+            val perm = if (Build.VERSION.SDK_INT >= 31) {
+                Manifest.permission.BLUETOOTH_CONNECT
+            } else {
+                Manifest.permission.BLUETOOTH
+            }
+            permLauncher.launch(perm)
+        }
         }
         Button(onClick = onContinue, modifier = Modifier.fillMaxWidth()) {
             Text(stringResource(R.string.setup_continue))

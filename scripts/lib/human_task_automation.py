@@ -53,6 +53,7 @@ ADB_RULES: list[tuple[re.Pattern[str], str, object]] = [
     (re.compile(r"instrumented|connectedDebugAndroidTest|\badb\b", re.I), "adb", automate_adb_instrumented),
     (re.compile(r"F-Droid|device dry-run", re.I), "adb", automate_fdroid_dry_run),
     (re.compile(r"emulator|Android SDK", re.I), "adb", automate_android_sdk_smoke),
+    (re.compile(r"CPH2655|dual-SIM|Bluetooth shouts", re.I), "adb", automate_android_sdk_smoke),
 ]
 
 

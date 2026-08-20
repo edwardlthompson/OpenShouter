@@ -75,6 +75,12 @@ fun AnnouncerPane(
         onOpenContacts = { onPane(Pane.Contacts) },
         onOpenMessages = { onPane(Pane.Messages) },
         onOpenPower = { onPane(Pane.Power) },
+        onOpenCalendar = { onPane(Pane.Calendar) },
+        onOpenBluetooth = { onPane(Pane.Bluetooth) },
+        onCalendar = { on -> scope.launch { ep.sprint15().setCalendar(on) } },
+        onBluetoothConnect = { on ->
+            scope.launch { ep.sprint15().setBluetooth(on, settings.bluetoothBatteryAlert) }
+        },
         onBack = { onPane(Pane.Home) },
         scrollStore = scrollStore,
         modifier = modifier,

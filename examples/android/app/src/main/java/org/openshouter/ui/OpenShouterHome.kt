@@ -78,6 +78,8 @@ fun OpenShouterHome(modifier: Modifier = Modifier) {
 
 private fun Pane.backTarget(): Pane = when (this) {
     Pane.Home -> Pane.Home
-    Pane.Time, Pane.Quiet, Pane.Contacts, Pane.Messages, Pane.Power -> Pane.Announcer
+    Pane.Time, Pane.Quiet, Pane.Contacts, Pane.Messages, Pane.Power,
+    Pane.Calendar, Pane.Bluetooth,
+    -> Pane.Announcer
     else -> Pane.Home
 }

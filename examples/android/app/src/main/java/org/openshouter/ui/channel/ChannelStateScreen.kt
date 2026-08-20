@@ -114,6 +114,8 @@ private fun channelLabel(channel: ShoutChannel): Int = when (channel) {
     ShoutChannel.TIME -> R.string.time_title
     ShoutChannel.BATTERY -> R.string.nav_power
     ShoutChannel.REMINDER -> R.string.nav_reminders
+    ShoutChannel.CALENDAR -> R.string.nav_calendar
+    ShoutChannel.BLUETOOTH -> R.string.nav_bluetooth
 }
 
 private fun streamLabel(stream: TtsStream): Int = when (stream) {

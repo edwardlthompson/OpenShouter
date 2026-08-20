@@ -1,6 +1,6 @@
 package org.openshouter.domain
 
-enum class ShoutChannel { NOTIFICATION, CALL, MESSAGE, TIME, BATTERY, REMINDER }
+enum class ShoutChannel { NOTIFICATION, CALL, MESSAGE, TIME, BATTERY, REMINDER, CALENDAR, BLUETOOTH }
 
 data class ChannelDeviceState(
     val device: DeviceStatePolicy = DeviceStatePolicy(),
@@ -33,6 +33,8 @@ object ChannelStates {
         SpokenEvent.Kind.TIME -> ShoutChannel.TIME
         SpokenEvent.Kind.REMINDER -> ShoutChannel.REMINDER
         SpokenEvent.Kind.POWER -> ShoutChannel.BATTERY
+        SpokenEvent.Kind.CALENDAR -> ShoutChannel.CALENDAR
+        SpokenEvent.Kind.BLUETOOTH -> ShoutChannel.BLUETOOTH
         SpokenEvent.Kind.NOTIFICATION, SpokenEvent.Kind.GEO -> ShoutChannel.NOTIFICATION
     }
 

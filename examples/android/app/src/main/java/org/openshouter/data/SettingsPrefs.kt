@@ -76,7 +76,7 @@ internal object SettingsKeys {
 
 internal fun Preferences.toAppSettings(): AppSettings {
     val k = SettingsKeys
-    return SettingsSprint13.apply(AppSettings(
+    return SettingsSprint15.apply(SettingsSprint13.apply(AppSettings(
         announcerEnabled = this[k.ENABLED] ?: true,
         notificationsEnabled = this[k.NOTIFS] ?: true,
         callsEnabled = this[k.CALLS] ?: true,
@@ -145,5 +145,5 @@ internal fun Preferences.toAppSettings(): AppSettings {
             allowSilentVibrate = this[k.DS_SILENT] ?: false,
             allowInCall = this[k.DS_INCALL] ?: false,
         ),
-    ), this)
+    ), this), this)
 }

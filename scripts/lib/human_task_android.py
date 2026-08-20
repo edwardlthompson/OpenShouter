@@ -74,18 +74,33 @@ def automate_fdroid_dry_run(root: Path, _cfg: dict) -> AttemptResult:
     return AttemptResult(1, "fdroid-dry-run", tail or f"exit {code}", True)
 
 
-def automate_android_sdk_smoke(root: Path, _cfg: dict) -> AttemptResult:
-    gradle = root / "examples/android/gradlew"
+def _gradle_unit_test(root: Path) -> tuple[int, str] | None:
+    android = root / "examples/android"
+    bat = android / "gradlew.bat"
+    if os.name == "nt" and bat.is_file():
+        return run_cmd(root, [str(bat), "test"], cwd=android)
+    gradle = android / "gradlew"
     if gradle.is_file():
-        code, tail = run_cmd(root, ["bash", str(gradle), "test"], cwd=root / "examples/android")
+        return run_cmd(root, ["bash", str(gradle), "test"], cwd=android)
+    return None
+
+
+def automate_android_sdk_smoke(root: Path, _cfg: dict) -> AttemptResult:
+    gradle = _gradle_unit_test(root)
+    if gradle is not None:
+        code, tail = gradle
         if code != 0:
             return AttemptResult(1, "gradle-test", tail or f"exit {code}", True)
     if adb_authorized(root):
         adb = os.environ.get("ADB", "adb")
+        if os.name == "nt" and not shutil.which(adb):
+            win = Path(os.environ.get("LOCALAPPDATA", "")) / "Android/Sdk/platform-tools/adb.exe"
+            if win.is_file():
+                adb = str(win)
         code, _ = run_cmd(root, [adb, "shell", "getprop", "ro.build.version.sdk"])
         if code == 0:
             return AttemptResult(0, "adb-getprop", "Gradle tests + adb getprop smoke", False)
-    if gradle.is_file():
+    if gradle is not None:
         return AttemptResult(1, "adb-unavailable", "no_authorized_device after unit tests", True)
     return AttemptResult(1, "android-sdk", "No Android example tree", True)
 

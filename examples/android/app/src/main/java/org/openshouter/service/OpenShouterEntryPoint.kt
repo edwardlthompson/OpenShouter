@@ -23,5 +23,6 @@ interface OpenShouterEntryPoint {
     fun timeShout(): org.openshouter.time.TimeShoutScheduler
     fun reminders(): org.openshouter.data.ReminderDao
     fun sprint13(): org.openshouter.data.Sprint13Settings
+    fun sprint15(): org.openshouter.data.Sprint15Settings
     fun alarms(): org.openshouter.alarm.AlarmScheduler
 }

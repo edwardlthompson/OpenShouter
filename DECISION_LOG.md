@@ -17,6 +17,13 @@
 
 ## Entries
 
+### 2026-08-20 — /build Sprint 15 extras
+- **Status:** Accepted
+- **Context:** Ideas 4–7 (Spanish, calendar, dual-SIM, Bluetooth) were queued after v0.2.5.
+- **Decision:** Ship as OpenShouter extras (not Shouter/VN clones). Calendar/BT off by default. `%sim` blank when the line is unknown. Empty `%sim` strips trailing `on`/`en`.
+- **Alternatives considered:** Guess SIM 1/2 labels (rejected). Play calendar APIs (forbidden).
+- **Consequences:** `READ_CALENDAR` + `BLUETOOTH_CONNECT` on the welcome screen. Device-connected ADB smoke used `b5214fc6` (not CPH2655).
+
 ### 2026-08-20 — /ship v0.2.5
 - **Status:** Accepted
 - **Context:** Child repo needed 0.21.0 bootstrap standards. Fastest same-resolution display refresh was ready but uncommitted.

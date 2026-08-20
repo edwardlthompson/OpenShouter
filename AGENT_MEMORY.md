@@ -84,6 +84,7 @@ OpenShouter is a FOSS recreation/enhancement of classic Shouter (`com.bhkapps.sh
 | 2026-08-16 | `/build` HUMAN automation | 13 HUMAN rows + gitignored `release_repo`; archived to COMPLETED_TASKS | Sprint 0 ❌ AUTO first-push CI; CI AGENT KB-013/014 stay in HUMAN_BACKLOG |
 | 2026-08-16 | `/ship` v0.2.3 | TTS ALARM fallback + per-utterance WAV; submenu cards + scroll restore; RP #8 admin-merged | Same empty-job PR checks as KB-016 |
 | 2026-08-18 | `/ship` v0.2.4 | Silent/DND opt-in; no ALARM fallback; RP #10 admin-merged | Same empty-job PR checks as KB-016 |
+| 2026-08-20 | `/build` Sprint 15 | Spanish pack, calendar, `%sim`, Bluetooth; HUMAN copy + ADB getprop | Live calendar/BT/dual-SIM shouts still need a human on-device walk |
 ## Template Provenance
 
 - **Source template:** `edwardlthompson/agent-project-bootstrap`
