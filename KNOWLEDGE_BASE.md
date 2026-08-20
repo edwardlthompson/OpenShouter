@@ -147,3 +147,11 @@
 | **Cause** | A shared `os-tts.wav` plus ignored synth errors left playback stuck. v0.2.3 also fell back to ALARM, which punches through silent/DND |
 | **Fix** | Synthesize each utterance to `os-tts-<id>.wav`. Do not auto-escalate to ALARM. Silent/DND is opt-in (`ds_speak_silent`) |
 | **Prevention** | `TtsStreamPlayableTest` stays on the muted stream when MEDIA is muted. `RingerSilent` treats DND as silent |
+### KB-018 — Product semver is not the bootstrap template version
+
+| Field | Detail |
+|-------|--------|
+| **Symptom** | Copying upstream `.template-version` `0.21.0` into OpenShouter fails `check-template-version-sync` or would retag the product |
+| **Cause** | Child `.template-version` / Release Please / `CITATION.cff` track **product** semver (0.2.x), not agent-project-bootstrap |
+| **Fix** | Keep `.template-version` on the last shipped product. Record template provenance in `AGENT_MEMORY.md` and `AGENTS.md` |
+| **Prevention** | Never run `sync-template-version.sh` to adopt an upstream template number. `pre-release-gate` CI wait needs a **pushed** SHA |

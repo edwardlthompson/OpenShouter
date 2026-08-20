@@ -17,6 +17,13 @@
 
 ## Entries
 
+### 2026-08-20 — /ship v0.2.5
+- **Status:** Accepted
+- **Context:** Child repo needed 0.21.0 bootstrap standards. Fastest same-resolution display refresh was ready but uncommitted.
+- **Decision:** Ship both as v0.2.5. Keep product semver in `.template-version`. Merge Release Please #12 via admin (KB-016).
+- **Alternatives considered:** Ship bootstrap-only chore (rejected: likely a changelog-only RP). Bump `.template-version` to 0.21.0 (rejected: collides with product releases).
+- **Consequences:** https://github.com/edwardlthompson/OpenShouter/releases/tag/v0.2.5 includes Android + root SBOMs. Docs-only follow-up may open a spurious next RP — close it if changelog-only.
+
 ### 2026-08-20 — Sync agent-project-bootstrap 0.21.0
 - **Status:** Accepted
 - **Context:** Child repo was scaffolded from 0.17.0 and had drifted from upstream adapters, SDD stubs, and split `scripts/lib` modules.

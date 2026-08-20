@@ -25,17 +25,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-### Added
-
-* **android:** pick the fastest same-resolution display mode and mark scroll surfaces high-refresh
-
-### Changed
-
-* Sync agent-project-bootstrap 0.21.0 standards (adapters, SDD stubs, split lib scripts) without changing product semver
-
 ### Documentation
 
-* record v0.2.4 ship regressions
+* record v0.2.5 ship regressions
 
 ## [0.2.4](https://github.com/edwardlthompson/OpenShouter/compare/v0.2.3...v0.2.4) (2026-08-18)
 

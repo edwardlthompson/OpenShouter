@@ -2,6 +2,12 @@
 
 > Archive of finished BUILD_PLAN items.
 
+## /ship v0.2.5 (2026-08-20)
+
+- ✅ [AUTO] `pre-release-gate.sh` (local feature-gate + Dependabot; CI/CodeQL/Security Scan on push SHA)
+- ✅ [HUMAN] Approve release tag when product-ready (`/ship`)
+- ✅ [AUTO] Release Please #12 merged (`v0.2.5`)
+
 ## /ship v0.2.4 (2026-08-18)
 
 - ✅ [AUTO] `pre-release-gate.sh` (local + push-SHA CI/CodeQL/Security Scan)
