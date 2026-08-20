@@ -17,7 +17,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.snapshotFlow
+import androidx.compose.ui.FrameRateCategory
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.preferredFrameRate
 import androidx.compose.ui.res.stringResource
 import dev.foss.goldenpath.R
 import dev.foss.goldenpath.ui.insets.bottomInsetPadding
@@ -31,6 +33,8 @@ class MenuScrollStore {
         offsets[key] = value
     }
 }
+
+fun Modifier.highRefreshScroll(): Modifier = preferredFrameRate(FrameRateCategory.High)
 
 @Composable
 fun rememberMenuScrollStore(): MenuScrollStore = remember { MenuScrollStore() }
@@ -76,6 +80,7 @@ fun MenuScaffold(
 ) {
     Column(
         modifier = modifier
+            .highRefreshScroll()
             .verticalScroll(rememberMenuScroll(scrollStore, scrollKey))
             .padding(SpacingMd),
         verticalArrangement = Arrangement.spacedBy(SpacingLg),

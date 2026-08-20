@@ -8,6 +8,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+* **android:** pick the fastest same-resolution display mode and mark scroll surfaces high-refresh
+
 ### Changed
 
 * Sync agent-project-bootstrap 0.21.0 standards (adapters, SDD stubs, split lib scripts) without changing product semver

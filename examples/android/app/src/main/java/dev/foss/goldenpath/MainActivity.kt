@@ -11,6 +11,7 @@ import dev.foss.goldenpath.network.NetworkStatusMonitor
 import dev.foss.goldenpath.ui.GoldenPathApp
 import dev.foss.goldenpath.ui.theme.ThemePreferences
 import kotlinx.coroutines.launch
+import org.openshouter.display.enableFastestSameResolutionMode
 
 class MainActivity : ComponentActivity() {
     private var networkStatusMonitor: NetworkStatusMonitor? = null
@@ -37,6 +38,11 @@ class MainActivity : ComponentActivity() {
                 networkStatusMonitor = networkStatusMonitor!!,
             )
         }
+    }
+
+    override fun onAttachedToWindow() {
+        super.onAttachedToWindow()
+        window.enableFastestSameResolutionMode()
     }
 
     override fun onDestroy() {

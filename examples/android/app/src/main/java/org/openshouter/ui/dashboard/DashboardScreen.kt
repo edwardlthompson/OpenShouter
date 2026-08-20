@@ -15,6 +15,7 @@ import org.openshouter.ui.menu.MenuLink
 import org.openshouter.ui.menu.MenuScrollStore
 import org.openshouter.ui.menu.MenuSection
 import org.openshouter.ui.menu.MenuToggle
+import org.openshouter.ui.menu.highRefreshScroll
 import org.openshouter.ui.menu.rememberMenuScroll
 
 @Composable
@@ -37,6 +38,7 @@ fun DashboardScreen(
 ) {
     Column(
         modifier = modifier
+            .highRefreshScroll()
             .verticalScroll(rememberMenuScroll(scrollStore, "home"))
             .padding(SpacingMd)
             .bottomInsetPadding(),

@@ -33,6 +33,7 @@ import org.openshouter.ui.menu.MenuBody
 import org.openshouter.ui.menu.MenuClose
 import org.openshouter.ui.menu.MenuScrollStore
 import org.openshouter.ui.menu.MenuSection
+import org.openshouter.ui.menu.highRefreshScroll
 import org.openshouter.ui.menu.rememberMenuListScroll
 
 @Composable
@@ -58,7 +59,7 @@ fun AppSpeakScreen(
     }
     LazyColumn(
         state = rememberMenuListScroll(scrollStore, "apps"),
-        modifier = modifier.padding(SpacingMd),
+        modifier = modifier.highRefreshScroll().padding(SpacingMd),
         verticalArrangement = Arrangement.spacedBy(SpacingMd),
     ) {
         item {
