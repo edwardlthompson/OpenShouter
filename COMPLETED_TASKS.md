@@ -2,6 +2,12 @@
 
 > Archive of finished BUILD_PLAN items.
 
+## /ship v0.3.0 (2026-08-20)
+
+- ✅ [AUTO] `pre-release-gate.sh` (local + push-SHA CI/CodeQL/Security Scan; merge SHA needed CITATION sync)
+- ✅ [HUMAN] Approve release tag when product-ready (`/ship`)
+- ✅ [AUTO] Release Please #14 merged (`v0.3.0`)
+
 ## Sprint 15 — OpenShouter extras (ideas 4–7) (2026-08-20)
 
 - ✅ [AGENT] First translation pack: `docs/features/i18n-es.md` + `res/values-es/strings.xml` (Spanish; no hardcoded Compose literals)

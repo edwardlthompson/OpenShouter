@@ -6,7 +6,8 @@
       "changelog-path": "CHANGELOG.md",
       "extra-files": [
         ".template-version",
-        "TEMPLATE_INDEX.json"
+        "TEMPLATE_INDEX.json",
+        "CITATION.cff"
       ],
       "include-component-in-tag": false,
       "include-v-in-tag": true

@@ -11,7 +11,7 @@
 | Architecture | Clean Architecture + MVVM | ADR-0001 | Hilt DI, Room, DataStore, Coroutines/Flow |
 | License | MIT | - | Pure FOSS; no Play Services |
 | Distribution | GitHub Releases only | - | No Play Store, no F-Droid listing, no Play Core |
-| Template | agent-project-bootstrap | 0.17.0 scaffold; standards 0.21.0; product 0.2.5 | Product semver stays in `.template-version` |
+| Template | agent-project-bootstrap | 0.17.0 scaffold; standards 0.21.0; product 0.3.0 | Product semver stays in `.template-version` |
 ## Active Modules
 
 - ❌ Web / PWA (`modules/web/MODULE.md`)
@@ -85,6 +85,7 @@ OpenShouter is a FOSS recreation/enhancement of classic Shouter (`com.bhkapps.sh
 | 2026-08-16 | `/ship` v0.2.3 | TTS ALARM fallback + per-utterance WAV; submenu cards + scroll restore; RP #8 admin-merged | Same empty-job PR checks as KB-016 |
 | 2026-08-18 | `/ship` v0.2.4 | Silent/DND opt-in; no ALARM fallback; RP #10 admin-merged | Same empty-job PR checks as KB-016 |
 | 2026-08-20 | `/build` Sprint 15 | Spanish pack, calendar, `%sim`, Bluetooth; HUMAN copy + ADB getprop | Live calendar/BT/dual-SIM shouts still need a human on-device walk |
+| 2026-08-20 | `/ship` v0.3.0 | `feat` → minor; RP #14 admin-merged; SBOMs on the GitHub Release | Keep `CITATION.cff` in Release Please extra-files |
 ## Template Provenance
 
 - **Source template:** `edwardlthompson/agent-project-bootstrap`

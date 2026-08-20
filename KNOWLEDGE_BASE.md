@@ -152,6 +152,14 @@
 | Field | Detail |
 |-------|--------|
 | **Symptom** | Copying upstream `.template-version` `0.21.0` into OpenShouter fails `check-template-version-sync` or would retag the product |
-| **Cause** | Child `.template-version` / Release Please / `CITATION.cff` track **product** semver (0.2.x), not agent-project-bootstrap |
+| **Cause** | Child `.template-version` / Release Please / `CITATION.cff` track **product** semver (0.3.x), not agent-project-bootstrap |
 | **Fix** | Keep `.template-version` on the last shipped product. Record template provenance in `AGENT_MEMORY.md` and `AGENTS.md` |
-| **Prevention** | Never run `sync-template-version.sh` to adopt an upstream template number. `pre-release-gate` CI wait needs a **pushed** SHA |
+| **Prevention** | Never run `sync-template-version.sh` to adopt an upstream template number. `pre-release-gate` CI wait needs a **pushed** SHA
+### KB-019 — `feat` is a minor bump; keep CITATION.cff on the tag
+
+| Field | Detail |
+|-------|--------|
+| **Symptom** | `/ship` commit said v0.2.6; Release Please tagged **v0.3.0**. Merge CI failed `CITATION.cff version (0.2.5) != .template-version (0.3.0)` |
+| **Cause** | `feat` maps to Added / minor. Release Please extra-files did not include `CITATION.cff` |
+| **Fix** | Accept 0.3.0. Add `CITATION.cff` to extra-files with `# x-release-please-version`. `sync-template-version.sh` rewrites the CFF version line |
+| **Prevention** | Do not put a guessed patch version in a `feat` subject. After each RP merge, confirm CITATION matches `.template-version` |

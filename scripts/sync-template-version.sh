@@ -59,6 +59,17 @@ mt = re.sub(
     mt,
 )
 mem.write_text(mt, encoding="utf-8")
+
+citation = Path("CITATION.cff")
+if citation.is_file():
+    cff = citation.read_text(encoding="utf-8")
+    cff = re.sub(
+        r"(?m)^version:\s*\S+.*$",
+        f"version: {version} # x-release-please-version",
+        cff,
+        count=1,
+    )
+    citation.write_text(cff, encoding="utf-8")
 PY
 
-echo "Synced template version to ${VERSION} (.template-version, TEMPLATE_INDEX.json, README.md, AGENT_MEMORY.md)"
+echo "Synced template version to ${VERSION} (.template-version, TEMPLATE_INDEX.json, README.md, AGENT_MEMORY.md, CITATION.cff)"

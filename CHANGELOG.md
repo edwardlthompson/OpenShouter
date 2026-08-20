@@ -20,13 +20,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-### Added
-
-* **android:** Spanish `values-es` pack, calendar shout, dual-SIM `%sim`, Bluetooth connect/battery
-
 ### Documentation
 
-* record v0.2.5 ship regressions
+* record v0.3.0 ship regressions
 
 ## [0.2.5](https://github.com/edwardlthompson/OpenShouter/compare/v0.2.4...v0.2.5) (2026-08-20)
 

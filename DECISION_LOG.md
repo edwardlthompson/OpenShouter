@@ -17,6 +17,13 @@
 
 ## Entries
 
+### 2026-08-20 — /ship v0.3.0
+- **Status:** Accepted
+- **Context:** Sprint 15 extras were ready after `/build`. Commit subject said v0.2.6; `feat` is a minor bump.
+- **Decision:** Keep Release Please 0.3.0. Admin-merge RP #14 (KB-016). Put `CITATION.cff` in extra-files so the next tag stays in sync.
+- **Alternatives considered:** Force 0.2.6 (rejected: rewrites a published tag). Leave CITATION at 0.2.5 (rejected: CI template-version-sync fails).
+- **Consequences:** https://github.com/edwardlthompson/OpenShouter/releases/tag/v0.3.0 has root + Android SBOMs. Guessed patch numbers in `feat` subjects are ignored.
+
 ### 2026-08-20 — /build Sprint 15 extras
 - **Status:** Accepted
 - **Context:** Ideas 4–7 (Spanish, calendar, dual-SIM, Bluetooth) were queued after v0.2.5.

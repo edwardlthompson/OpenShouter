@@ -180,6 +180,7 @@ grep '\[AUTO\]' BUILD_PLAN.md
 <!-- parallel_exception: AGENT extras archived to COMPLETED_TASKS.md -->
 
 > **Sprint 15** AGENT/HUMAN/ADB archived in COMPLETED_TASKS.md (2026-08-20 `/build`).
+> **/ship v0.3.0** archived in COMPLETED_TASKS.md @ `7d10cfb`.
 
 ---
 
@@ -221,6 +222,7 @@ grep '\[AUTO\]' BUILD_PLAN.md
 | /ship v0.2.4 | Complete | `COMPLETED_TASKS.md` |
 | /ship v0.2.5 | Complete | `COMPLETED_TASKS.md` |
 | Sprint 15 — OpenShouter extras (ideas 4–7) | Complete | `COMPLETED_TASKS.md` |
+| /ship v0.3.0 | Complete | `COMPLETED_TASKS.md` |
 | Sprints 9–14 ADB QA (CPH2655) | Complete | `COMPLETED_TASKS.md` |
 | Sprints 0–13 HUMAN confirmations | Complete | `COMPLETED_TASKS.md` |
 | Sprint 11 app speak list | Complete | `COMPLETED_TASKS.md` |
