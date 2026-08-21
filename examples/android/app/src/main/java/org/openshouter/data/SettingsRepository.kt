@@ -143,5 +143,8 @@ class SettingsRepository @Inject constructor(
         it[SettingsKeys.IGNORE_EMPTY] = p.ignoreEmpty
         it[SettingsKeys.IGNORE_GROUP] = p.ignoreGroup
         it[SettingsKeys.IGNORE_REPEATS] = p.ignoreRepeats
+        it[SettingsSprint17.COLLAPSE_REPEATS] = p.collapseRepeats
+        it[SettingsSprint17.MIN_IMPORTANCE] = p.minImportance.name
+        it[SettingsSprint17.DND_PRIORITY] = p.dndPriorityOnly
     }
 }

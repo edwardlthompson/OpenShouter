@@ -19,6 +19,7 @@ interface OpenShouterEntryPoint {
     fun places(): org.openshouter.data.PlaceDao
     fun appSpeak(): AppSpeakStore
     fun gate(): SpeakGate
+    fun audio(): org.openshouter.audio.AudioRouteMonitor
     fun calls(): org.openshouter.call.CallMonitor
     fun timeShout(): org.openshouter.time.TimeShoutScheduler
     fun reminders(): org.openshouter.data.ReminderDao

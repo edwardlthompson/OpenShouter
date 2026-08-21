@@ -17,6 +17,13 @@
 
 ## Entries
 
+### 2026-08-21 — Sprint 17 hear-quality extras
+- **Status:** Accepted
+- **Context:** `/ideas` 1–8 after Voice test proved Notification-stream TTS while live posts vanished with no history.
+- **Decision:** Record SpeakGate denies as ignore reasons; collapse REPEAT bursts; allowlist-bypass only for `openshouter-test`; Priority DND may pass HIGH or `CATEGORY_CALL`; calendar look-ahead is 5/15/30; add `values-fr`.
+- **Alternatives considered:** Force setup Continue until an app is picked (rejected: calls-only users). Auto-escalate DND NONE (rejected: FR-3 silent default).
+- **Consequences:** History explains gate misses without logging payloads. Test notification speaks without adding OpenShouter to Apps to shout.
+
 ### 2026-08-21 — /ship v0.4.0
 - **Status:** Accepted
 - **Context:** Sprint 16 donate/updates plus Apps-to-shout selected filter were ready after `/ship` prerelease gates.

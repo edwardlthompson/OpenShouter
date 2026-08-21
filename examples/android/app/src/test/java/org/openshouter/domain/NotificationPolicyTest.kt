@@ -1,6 +1,8 @@
 package org.openshouter.domain
 
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertFalse
+import org.junit.Assert.assertTrue
 import org.junit.Test
 
 class NotificationPolicyTest {
@@ -44,5 +46,20 @@ class NotificationPolicyTest {
     fun flagsOffAllowEmptyAndGroup() {
         val open = NotificationPolicy(ignoreEmpty = false, ignoreGroup = false, ignoreRepeats = false)
         assertEquals(IgnoreReason.NONE, open.decide("", "", true, "k", "k", 1L, 2L))
+    }
+
+    @Test
+    fun collapseSkipsLaterRepeatsInBurst() {
+        assertTrue(policy.recordIgnore(IgnoreReason.REPEAT, "k", null, 0L, 1_000L))
+        assertFalse(policy.recordIgnore(IgnoreReason.REPEAT, "k", "k", 1_000L, 2_000L))
+        assertTrue(policy.recordIgnore(IgnoreReason.EMPTY, "k", "k", 1_000L, 2_000L))
+    }
+
+    @Test
+    fun dndExemptNeedsPriorityAndHighOrCall() {
+        assertTrue(policy.dndExempt(priorityDnd = true, highOrCall = true))
+        assertFalse(policy.dndExempt(priorityDnd = true, highOrCall = false))
+        assertFalse(policy.dndExempt(priorityDnd = false, highOrCall = true))
+        assertFalse(NotificationPolicy(dndPriorityOnly = false).dndExempt(true, true))
     }
 }

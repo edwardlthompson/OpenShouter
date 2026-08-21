@@ -1,6 +1,6 @@
 # Feature: calendar shout
 
-Speak the next calendar title in the coming 15 minutes via AOSP `CalendarContract.Instances`. No Play Services.
+Speak the next calendar title in a user-picked look-ahead window (5 / 15 / 30 minutes) via AOSP `CalendarContract.Instances`. No Play Services.
 
 ## Acceptance criteria
 
@@ -12,7 +12,7 @@ Speak the next calendar title in the coming 15 minutes via AOSP `CalendarContrac
 ## Smoke scenario
 
 1. Grant calendar; enable Calendar shout
-2. Create an event starting within 15 minutes
+2. Create an event starting within the chosen look-ahead window
 3. After the next minute tick, TTS speaks the upcoming title
 
 ## Container map
@@ -24,7 +24,6 @@ Speak the next calendar title in the coming 15 minutes via AOSP `CalendarContrac
 | View | `org/openshouter/calendar/CalendarShoutScreen.kt` |
 | Tests | `org/openshouter/calendar/CalendarShoutTest.kt` |
 | Wiring | `AnnouncerService` start + `OpenShouterPanes` ≤10 lines |
-
 ## Fallback validation
 
 Unit tests cover skip/blank/once. Device grant is `[ADB]` on CPH2655.

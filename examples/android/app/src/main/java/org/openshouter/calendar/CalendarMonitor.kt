@@ -55,9 +55,10 @@ class CalendarMonitor @Inject constructor(
         val snap = settings.snapshot()
         if (!snap.calendarShoutEnabled) return
         if (!gate.allow(snap, ShoutChannel.CALENDAR)) return
-        val event = querySoon() ?: return
+        val lookAhead = CalendarShout.lookAheadMs(snap.calendarLookaheadMinutes)
+        val event = querySoon(lookAhead) ?: return
         val now = System.currentTimeMillis()
-        if (!CalendarShout.shouldSpeak(event.first, event.second, now, lastSpoken)) return
+        if (!CalendarShout.shouldSpeak(event.first, event.second, now, lastSpoken, lookAhead)) return
         val title = CalendarShout.phrase(event.third)
         if (title.isEmpty()) return
         lastSpoken = event.first to event.second
@@ -65,9 +66,9 @@ class CalendarMonitor @Inject constructor(
         tts.speak(ChannelStates.spoken(snap, ShoutChannel.CALENDAR, SpokenEvent.Kind.CALENDAR, spoken))
     }
 
-    private fun querySoon(): Triple<Long, Long, String>? = runCatching {
+    private fun querySoon(lookAheadMs: Long): Triple<Long, Long, String>? = runCatching {
         val now = System.currentTimeMillis()
-        val end = now + CalendarShout.LOOK_AHEAD_MS
+        val end = now + lookAheadMs
         val uri = CalendarContract.Instances.CONTENT_URI.buildUpon()
             .appendPath(now.toString())
             .appendPath(end.toString())

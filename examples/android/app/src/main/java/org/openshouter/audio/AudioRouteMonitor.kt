@@ -18,8 +18,14 @@ class AudioRouteMonitor @Inject constructor(
     private val audio = context.getSystemService(Context.AUDIO_SERVICE) as AudioManager
     private val notify = context.getSystemService(NotificationManager::class.java)
 
+    fun interruptionFilter(): Int =
+        notify?.currentInterruptionFilter ?: NotificationManager.INTERRUPTION_FILTER_ALL
+
+    fun isPriorityDnd(): Boolean =
+        interruptionFilter() == NotificationManager.INTERRUPTION_FILTER_PRIORITY
+
     fun isSilent(): Boolean {
-        val filter = notify?.currentInterruptionFilter ?: NotificationManager.INTERRUPTION_FILTER_ALL
+        val filter = interruptionFilter()
         val dnd = filter != NotificationManager.INTERRUPTION_FILTER_ALL &&
             filter != NotificationManager.INTERRUPTION_FILTER_UNKNOWN
         return RingerSilent.active(audio.ringerMode == AudioManager.RINGER_MODE_NORMAL, dnd)

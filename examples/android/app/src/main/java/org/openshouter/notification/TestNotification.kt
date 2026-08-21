@@ -30,5 +30,9 @@ object TestNotification {
         }
     }
 
+    fun isSelfTest(packageName: String, channelId: String?): Boolean =
+        packageName == APP_ID && channelId == CHANNEL_ID
+
     private const val TEST_ID = 42
+    private const val APP_ID = "org.openshouter"
 }

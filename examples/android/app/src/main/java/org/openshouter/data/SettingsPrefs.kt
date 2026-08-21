@@ -145,5 +145,5 @@ internal fun Preferences.toAppSettings(): AppSettings {
             allowSilentVibrate = this[k.DS_SILENT] ?: false,
             allowInCall = this[k.DS_INCALL] ?: false,
         ),
-    ), this), this)
+    ), this), this).let { SettingsSprint17.apply(it, this) }
 }

@@ -43,9 +43,10 @@ fun HistoryScreen(
                     rows.forEach { row ->
                         val formattedTime = timeFormat.format(Date(row.postedAt))
                         Text(stringResource(R.string.history_row, row.packageName, formattedTime))
-                        if (row.ignoreReason.isNotBlank() && row.ignoreReason != "NONE") {
+                        val reasonRes = ignoreReasonLabel(row.ignoreReason)
+                        if (reasonRes != null) {
                             Text(
-                                stringResource(R.string.history_reason, row.ignoreReason),
+                                stringResource(R.string.history_reason, stringResource(reasonRes)),
                                 style = MaterialTheme.typography.bodyMedium,
                             )
                         }

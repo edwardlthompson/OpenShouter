@@ -15,7 +15,6 @@ import org.openshouter.data.ReminderEntity
 import org.openshouter.domain.AppSettings
 import org.openshouter.domain.AppSpeakRule
 import org.openshouter.domain.SpokenEvent
-import org.openshouter.domain.TtsStream
 import org.openshouter.backup.BackupScreen
 import org.openshouter.backup.SettingsBackup
 import org.openshouter.bluetooth.BluetoothShoutScreen
@@ -70,6 +69,8 @@ fun OpenShouterPanes(
                 scope.launch { ep.settings().setSetupComplete(true) }
                 onPane(Pane.Home)
             },
+            appCount = appRules.count { it.active },
+            onPickApps = { onPane(Pane.Rules) },
             scrollStore = scrollStore,
             modifier = modifier,
         )
@@ -101,7 +102,7 @@ fun OpenShouterPanes(
             onBulkChange = { pkgs, name, notif ->
                 scope.launch { ep.appSpeak().setMany(pkgs, name, notif) }
             },
-            onBack = { onPane(Pane.Home) },
+            onBack = { onPane(if (settings.setupComplete) Pane.Home else Pane.Setup) },
             scrollStore = scrollStore,
             modifier = modifier,
         )
@@ -158,7 +159,7 @@ fun OpenShouterPanes(
                     SpokenEvent(
                         SpokenEvent.Kind.NOTIFICATION,
                         context.getString(R.string.tts_test_phrase),
-                        stream = TtsStream.MEDIA,
+                        stream = settings.ttsPlayback.stream,
                     ),
                     immediate = true,
                 )
@@ -251,7 +252,9 @@ fun OpenShouterPanes(
         )
         pane == Pane.Calendar -> CalendarShoutScreen(
             enabled = settings.calendarShoutEnabled,
+            lookaheadMinutes = settings.calendarLookaheadMinutes,
             onEnabled = { on -> scope.launch { ep.sprint15().setCalendar(on) } },
+            onLookahead = { minutes -> scope.launch { ep.sprint15().setCalendarLookahead(minutes) } },
             onBack = { onPane(Pane.Announcer) },
             scrollStore = scrollStore,
             modifier = modifier,

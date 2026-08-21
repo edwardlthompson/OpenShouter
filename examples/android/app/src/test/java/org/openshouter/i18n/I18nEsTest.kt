@@ -8,11 +8,20 @@ import org.junit.Test
 class I18nEsTest {
     @Test
     fun spanishKeysMatchEnglish() {
+        assertLocaleParity("src/main/res/values-es/strings.xml")
+    }
+
+    @Test
+    fun frenchKeysMatchEnglish() {
+        assertLocaleParity("src/main/res/values-fr/strings.xml")
+    }
+
+    private fun assertLocaleParity(rel: String) {
         val en = keys(locate("src/main/res/values/strings.xml"))
-        val es = keys(locate("src/main/res/values-es/strings.xml"))
+        val loc = keys(locate(rel))
         assertTrue("English pack is empty", en.isNotEmpty())
-        assertEquals(emptySet<String>(), en - es)
-        assertEquals(emptySet<String>(), es - en)
+        assertEquals(emptySet<String>(), en - loc)
+        assertEquals(emptySet<String>(), loc - en)
     }
 
     private fun keys(file: File): Set<String> {

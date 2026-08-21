@@ -22,6 +22,7 @@ import org.openshouter.data.RegexEntity
 import org.openshouter.domain.NotificationPolicy
 import org.openshouter.domain.RegexAction
 import org.openshouter.domain.RegexFilter
+import org.openshouter.domain.SpeakImportance
 import org.openshouter.ui.menu.MenuBody
 import org.openshouter.ui.menu.MenuLink
 import org.openshouter.ui.menu.MenuScaffold
@@ -60,6 +61,22 @@ fun FiltersScreen(
             MenuToggle(stringResource(R.string.filters_ignore_repeats), policy.ignoreRepeats, {
                 onPolicy(policy.copy(ignoreRepeats = it))
             }, true)
+            MenuToggle(stringResource(R.string.filters_collapse_repeats), policy.collapseRepeats, {
+                onPolicy(policy.copy(collapseRepeats = it))
+            }, true)
+            MenuToggle(stringResource(R.string.filters_dnd_priority), policy.dndPriorityOnly, {
+                onPolicy(policy.copy(dndPriorityOnly = it))
+            }, true)
+            MenuBody { Text(stringResource(R.string.filters_min_importance), style = MaterialTheme.typography.titleMedium) }
+            FlowRow(horizontalArrangement = Arrangement.spacedBy(SpacingMd)) {
+                SpeakImportance.entries.forEach { level ->
+                    FilterChip(
+                        selected = policy.minImportance == level,
+                        onClick = { onPolicy(policy.copy(minImportance = level)) },
+                        label = { Text(stringResource(importanceLabel(level))) },
+                    )
+                }
+            }
         }
         MenuSection(stringResource(R.string.menu_section_actions)) {
             MenuBody {
@@ -111,6 +128,13 @@ fun FiltersScreen(
         RuleList(stringResource(R.string.filters_action_ignore), ignoreRules, onDelete)
         RuleList(stringResource(R.string.filters_action_replace), replaceRules, onDelete)
     }
+}
+
+private fun importanceLabel(level: SpeakImportance): Int = when (level) {
+    SpeakImportance.ANY -> R.string.filters_importance_any
+    SpeakImportance.LOW -> R.string.filters_importance_low
+    SpeakImportance.DEFAULT -> R.string.filters_importance_default
+    SpeakImportance.HIGH -> R.string.filters_importance_high
 }
 
 private fun addRequireLines(

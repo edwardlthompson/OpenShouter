@@ -11,6 +11,7 @@ import org.openshouter.audio.AudioRouteMonitor
 import org.openshouter.domain.AnnouncementGate
 import org.openshouter.domain.AppSettings
 import org.openshouter.domain.ChannelStates
+import org.openshouter.domain.IgnoreReason
 import org.openshouter.domain.ShoutChannel
 import org.openshouter.geo.GeoMonitor
 
@@ -20,12 +21,19 @@ class SpeakGate @Inject constructor(
     private val audio: AudioRouteMonitor,
     private val geo: GeoMonitor,
 ) {
-    suspend fun allow(settings: AppSettings, channel: ShoutChannel? = null): Boolean {
+    suspend fun allow(settings: AppSettings, channel: ShoutChannel? = null): Boolean =
+        denyReason(settings, channel) == null
+
+    suspend fun denyReason(
+        settings: AppSettings,
+        channel: ShoutChannel? = null,
+        silentExempt: Boolean = false,
+    ): IgnoreReason? {
         val cal = Calendar.getInstance()
         val minute = cal.get(Calendar.HOUR_OF_DAY) * 60 + cal.get(Calendar.MINUTE)
         val day = cal.get(Calendar.DAY_OF_WEEK)
         val pm = context.getSystemService(Context.POWER_SERVICE) as PowerManager
-        val silent = audio.isSilent()
+        val silent = audio.isSilent() && !silentExempt
         val inCall = runCatching {
             val tm = context.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
             @Suppress("DEPRECATION")
@@ -44,7 +52,7 @@ class SpeakGate @Inject constructor(
         val device = resolved.copy(
             allowSilentVibrate = resolved.allowSilentVibrate && settings.deviceState.allowSilentVibrate,
         )
-        return AnnouncementGate.allow(
+        return AnnouncementGate.denyReason(
             settings,
             minute,
             day,

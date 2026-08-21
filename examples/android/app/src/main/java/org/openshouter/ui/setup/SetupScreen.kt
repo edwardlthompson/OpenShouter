@@ -39,6 +39,8 @@ import org.openshouter.ui.menu.MenuSection
 @Composable
 fun SetupScreen(
     onContinue: () -> Unit,
+    appCount: Int = 0,
+    onPickApps: () -> Unit = {},
     scrollStore: MenuScrollStore,
     modifier: Modifier = Modifier,
 ) {
@@ -105,6 +107,7 @@ fun SetupScreen(
             }
             permLauncher.launch(perm)
         }
+        SetupRow(R.string.setup_apps, appCount > 0, onPickApps)
         }
         Button(onClick = onContinue, modifier = Modifier.fillMaxWidth()) {
             Text(stringResource(R.string.setup_continue))

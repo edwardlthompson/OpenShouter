@@ -186,11 +186,27 @@ grep '\[AUTO\]' BUILD_PLAN.md
 
 ### Sprint 16 leftover (device smoke)
 
+<!-- parallel_exception: HUMAN-only leftover; AGENT/AUTO archived -->
+
 > **Sprint 16** AGENT/AUTO archived in COMPLETED_TASKS.md @ `c93d967`.
 > **/ship v0.4.0** archived in COMPLETED_TASKS.md @ `c93d967`.
 
-
 - 🔲 [HUMAN] Smoke: first run silent; after version bump, one donate note; Install/Later; Venmo from About/Menu
+
+---
+
+### Sprint 17 — Hear-quality extras (ideas 1–8)
+
+<!-- parallel_exception: shared IgnoreReason / NotificationPolicy / DataStore lock is Sequential -->
+
+- ✅ [AGENT] Record SpeakGate misses in history (`docs/features/sprint-17-hear-quality.md`)
+- ✅ [AGENT] Setup: pick Apps to shout
+- ✅ [AGENT] Test notification bypasses the allowlist
+- ✅ [AGENT] Collapse REPEAT floods
+- ✅ [AGENT] Importance / category filter
+- ✅ [AGENT] DND priority-only path
+- ✅ [AGENT] Calendar look-ahead minutes
+- ✅ [AGENT] French string pack (`docs/features/i18n-fr.md`)
 
 ---
 

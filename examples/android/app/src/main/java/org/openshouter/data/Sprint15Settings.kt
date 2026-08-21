@@ -14,6 +14,10 @@ class Sprint15Settings @Inject constructor(
         it[SettingsSprint15.CALENDAR] = enabled
     }
 
+    suspend fun setCalendarLookahead(minutes: Int) = context.osDataStore.edit {
+        it[SettingsSprint17.CAL_LOOKAHEAD] = org.openshouter.calendar.CalendarShout.clampMinutes(minutes)
+    }
+
     suspend fun setBluetooth(connect: Boolean, battery: Boolean) = context.osDataStore.edit {
         it[SettingsSprint15.BT_CONN] = connect
         it[SettingsSprint15.BT_BATT] = battery

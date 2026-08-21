@@ -8,11 +8,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.4.0](https://github.com/edwardlthompson/OpenShouter/compare/v0.3.0...v0.4.0) (2026-08-21)
 
-
 ### Added
 
 * **android:** prepare v0.4.0 release ([59c15e2](https://github.com/edwardlthompson/OpenShouter/commit/59c15e27a0722b8bbf05ef1ec58f314d3dccb680))
-
 
 ### Documentation
 
@@ -20,17 +18,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.3.0](https://github.com/edwardlthompson/OpenShouter/compare/v0.2.5...v0.3.0) (2026-08-20)
 
-
 ### Added
 
 * **android:** prepare v0.2.6 release ([06a0bc1](https://github.com/edwardlthompson/OpenShouter/commit/06a0bc1a82426057e09d32b8abcddb09d9f6a861))
-
 
 ### Documentation
 
 * record v0.2.5 ship regressions ([42e242e](https://github.com/edwardlthompson/OpenShouter/commit/42e242ef26cd3eb8107e2b362dc9b0fe1ee69493))
 
 ## [Unreleased]
+
+### Added
+
+* **android:** SpeakGate miss reasons in history, setup Apps to shout, test-notification allowlist bypass, REPEAT collapse, importance and Priority-DND filters, calendar look-ahead chips, French pack
 
 ### Documentation
 

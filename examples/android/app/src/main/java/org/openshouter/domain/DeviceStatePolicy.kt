@@ -22,4 +22,19 @@ data class DeviceStatePolicy(
         if (inCall && !allowInCall) return false
         return true
     }
+
+    fun denyReason(
+        screenOn: Boolean,
+        headsetOn: Boolean,
+        silentOrVibrate: Boolean,
+        inCall: Boolean,
+    ): IgnoreReason? {
+        if (screenOn && !allowScreenOn) return IgnoreReason.GATE_SCREEN
+        if (!screenOn && !allowScreenOff) return IgnoreReason.GATE_SCREEN
+        if (headsetOn && !allowHeadsetOn) return IgnoreReason.GATE_HEADSET
+        if (!headsetOn && !allowHeadsetOff) return IgnoreReason.GATE_HEADSET
+        if (silentOrVibrate && !allowSilentVibrate) return IgnoreReason.GATE_SILENT
+        if (inCall && !allowInCall) return IgnoreReason.GATE_CALL
+        return null
+    }
 }

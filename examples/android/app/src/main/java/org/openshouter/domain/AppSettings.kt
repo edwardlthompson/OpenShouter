@@ -43,6 +43,7 @@ data class AppSettings(
     val timeHourStyle: TimeHourStyle = TimeHourStyle.SYSTEM,
     val appOverrides: Map<String, AppOverride> = emptyMap(),
     val calendarShoutEnabled: Boolean = false,
+    val calendarLookaheadMinutes: Int = 15,
     val bluetoothConnectAlert: Boolean = false,
     val bluetoothBatteryAlert: Boolean = false,
 )
