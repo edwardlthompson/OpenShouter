@@ -6,8 +6,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.stringResource
 import dev.foss.goldenpath.R
+import org.openshouter.updates.DonateLinks
 import dev.foss.goldenpath.ui.insets.bottomInsetPadding
 import dev.foss.goldenpath.ui.theme.SpacingLg
 import dev.foss.goldenpath.ui.theme.SpacingMd
@@ -36,6 +38,7 @@ fun DashboardScreen(
     scrollStore: MenuScrollStore,
     modifier: Modifier = Modifier,
 ) {
+    val uriHandler = LocalUriHandler.current
     Column(
         modifier = modifier
             .highRefreshScroll()
@@ -63,6 +66,11 @@ fun DashboardScreen(
             MenuLink(stringResource(R.string.oem_title), onOpenOem, showDivider = true)
             MenuLink(stringResource(R.string.nav_backup), onOpenBackup, showDivider = true)
             MenuLink(stringResource(R.string.dashboard_open_setup), onOpenSetup, showDivider = true)
+            MenuLink(
+                stringResource(R.string.about_donate),
+                { uriHandler.openUri(DonateLinks.VENMO_URL) },
+                showDivider = true,
+            )
         }
     }
 }

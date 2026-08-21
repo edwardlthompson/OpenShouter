@@ -13,9 +13,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.semantics.role
+import androidx.compose.ui.semantics.semantics
 import dev.foss.goldenpath.R
 import dev.foss.goldenpath.about.DonationsConfig
 import dev.foss.goldenpath.ui.insets.LocalNavigationMode
+import org.openshouter.updates.DonateLinks
 import dev.foss.goldenpath.ui.insets.bottomInsetPadding
 import dev.foss.goldenpath.ui.insets.navigationBarInsetBottomDp
 import dev.foss.goldenpath.ui.insets.navigationModeLabelRes
@@ -62,9 +66,16 @@ fun AboutScreen(
                 Text(stringResource(R.string.about_update_apply))
             }
         }
+        Text(
+            text = stringResource(R.string.about_donate),
+            color = MaterialTheme.colorScheme.primary,
+            modifier = Modifier
+                .semantics { role = Role.Button }
+                .clickable { uriHandler.openUri(DonateLinks.VENMO_URL) },
+        )
         if (donations.enabled && donations.links.isNotEmpty()) {
             Text(text = donations.message)
-            donations.links.forEach { link ->
+            donations.links.filter { it.url != DonateLinks.VENMO_URL }.forEach { link ->
                 Text(
                     text = link.label,
                     color = MaterialTheme.colorScheme.primary,

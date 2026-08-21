@@ -5,6 +5,8 @@ Searchable installed-app list. Per app: shout the **app name**, read the **notif
 ## Acceptance criteria
 
 - ✅ User can search by app label or package name
+- ✅ **Selected apps only** hides inactive apps so the active set is visible at a glance
+- ✅ **Select all** / **Deselect all** applies both boxes to the visible list
 - ✅ Two independent checkboxes: App name, Notification
 - ✅ Unchecked apps are not spoken (opt-in)
 - ✅ TalkBack: each checkbox has a content description that includes the app label
@@ -21,13 +23,12 @@ Searchable installed-app list. Per app: shout the **app name**, read the **notif
 
 | Layer | Path |
 |-------|------|
-| Logic | `examples/android/app/src/main/java/org/openshouter/domain/AppSpeakPolicy.kt` |
+| Logic | `examples/android/app/src/main/java/org/openshouter/domain/AppSpeakPolicy.kt`, `AppSpeakList.kt` |
 | Persistence | `examples/android/app/src/main/java/org/openshouter/data/AppSpeak.kt` |
 | Catalog | `examples/android/app/src/main/java/org/openshouter/apps/InstalledAppCatalog.kt` |
 | View | `examples/android/app/src/main/java/org/openshouter/ui/apps/AppSpeakScreen.kt` |
-| Tests | `examples/android/app/src/test/java/org/openshouter/domain/DomainLogicTest.kt` |
+| Tests | `AppSpeakPolicyTest.kt`, `AppSpeakListTest.kt` |
 | Wiring | `OpenShouterHome.kt` Pane.Rules |
-
 ## Critique
 
 | Issue | Resolution |
@@ -35,9 +36,10 @@ Searchable installed-app list. Per app: shout the **app name**, read the **notif
 | Null/empty package | `AppSpeakStore.set` ignores blank package names |
 | Network timeout | N/A |
 | Race list vs toggle | Room REPLACE upsert; Flow refreshes checkboxes |
+| Select-all empty list | Button hidden when the visible list is empty |
+| Select-all scope | Applies to the current search + selected-only view, not every installed app unless that view is unfiltered |
 | Unhandled PM errors | Catalog uses `runCatching` for labels |
 | QUERY_ALL_PACKAGES | Manifest + GitHub Releases; `[HUMAN]` Play-policy N/A |
-
 ## Notes
 
 - Apps with both boxes off have no Room row.

@@ -18,6 +18,8 @@ Interactive filterable table: Cursor canvas `feature-parity-matrix.canvas.tsx` (
 
 **Wrap-up 2026-08-20 (Sprint 15):** Spanish `values-es` overlay, AOSP calendar shout, `%sim` caller-ID token, Bluetooth connect/battery extras. OpenShouter extras — in-scope Shouter/VN matrix rows stay Yes / Skip.
 
+**Wrap-up 2026-08-21 (Sprint 16):** Quiet Venmo donate on About + Menu; once-per-version ethical reminder; daily GitHub check uses `openshouter-X.Y.Z-foss.apk` filenames. Apps to shout: selected-only filter + select/deselect all. Matrix rows unchanged (OpenShouter extras).
+
 Status: **Yes** shipped · **Partial** logic or subset UI · **No** missing · **Skip** will not copy (FOSS / out of scope).
 
 ## Summary
@@ -75,7 +77,7 @@ Not copied: Play analytics.
 
 ## OpenShouter today
 
-Dashboard master + sectioned Hear / History / Phone cards · searchable app-speak list · extra format tokens · full AppOverride merge · regex + require/ignore + empty/group/repeat · looping caller ID + nick/blacklist + call format + `%sim` · missed-call RING→IDLE · unknown callers speak spaced digits · message extras/sender (no `READ_SMS`) · battery situation phrases · shake slider + live g-meter + flip + screen mute · 24-hour quiet grid · TTS in-process WAV + engine language picker + test notification · per-channel headphone/stream/repeat + silent/vibrate · 15/30/60 time shout + 12/24/system clock + `%time` builder · reminder hour/day/week/month/year + also-notify · SAF settings zip · OEM autostart · silent geofences · FGS · QS tile · widget · history + ignore-reason · Spanish overlay · calendar shout · Bluetooth connect/battery.
+Dashboard master + sectioned Hear / History / Phone cards · searchable app-speak list · extra format tokens · full AppOverride merge · regex + require/ignore + empty/group/repeat · looping caller ID + nick/blacklist + call format + `%sim` · missed-call RING→IDLE · unknown callers speak spaced digits · message extras/sender (no `READ_SMS`) · battery situation phrases · shake slider + live g-meter + flip + screen mute · 24-hour quiet grid · TTS in-process WAV + engine language picker + test notification · per-channel headphone/stream/repeat + silent/vibrate · 15/30/60 time shout + 12/24/system clock + `%time` builder · reminder hour/day/week/month/year + also-notify · SAF settings zip · OEM autostart · silent geofences · FGS · QS tile · widget · history + ignore-reason · Spanish overlay · calendar shout · Bluetooth connect/battery · quiet Venmo donate + filename-based GitHub updates.
 
 ## Matrix
 

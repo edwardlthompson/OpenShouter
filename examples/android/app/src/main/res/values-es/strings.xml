@@ -16,6 +16,14 @@
     <string name="about_version">Versión: %1$s</string>
     <string name="about_format">Formato instalado: %1$s</string>
     <string name="about_donations_message">Si este proyecto te ayuda, considera apoyar el desarrollo.</string>
+    <string name="about_donate">Donar por Venmo</string>
+    <string name="about_not_now">Ahora no</string>
+    <string name="about_install">Instalar</string>
+    <string name="about_later">Más tarde</string>
+    <string name="about_donate_nudge_title">El desarrollo sigue</string>
+    <string name="about_donate_nudge_message">Acabas de recibir una versión nueva. Si esta app te ayuda, puedes apoyar el trabajo continuo en Venmo. Es opcional y no volverá a aparecer hasta la próxima actualización.</string>
+    <string name="about_update_prompt_title">Actualización disponible</string>
+    <string name="about_update_prompt_message">OpenShouter %1$s está en GitHub. Instálala cuando quieras — este aviso es solo de la app, no de donaciones.</string>
     <string name="about_update_current">Tienes la última versión.</string>
     <string name="about_update_available">Actualización disponible: %1$s</string>
     <string name="about_update_no_compatible">No hay una actualización compatible con tu formato de instalación.</string>
@@ -119,6 +127,10 @@
     <string name="rules_format" formatted="false">Formato TTS del texto de notificación (%app %title %text)</string>
     <string name="apps_help">Las dos casillas apagadas dejan esa app en silencio. Marca Nombre de app para oír solo la etiqueta, Notificación para oír el mensaje, o ambas.</string>
     <string name="apps_search">Buscar apps</string>
+    <string name="apps_filter_selected">Solo apps seleccionadas</string>
+    <string name="apps_select_all">Seleccionar todas</string>
+    <string name="apps_deselect_all">Quitar todas</string>
+    <string name="apps_filter_empty">No hay apps seleccionadas</string>
     <string name="apps_speak_name">Nombre de app</string>
     <string name="apps_speak_notification">Notificación</string>
     <string name="apps_toggle_name">%1$s, anunciar nombre de app</string>

@@ -17,6 +17,13 @@
 
 ## Entries
 
+### 2026-08-20 — Donations + product updates (Continuum method)
+- **Status:** Accepted
+- **Context:** Child apps should reuse Continuum Calendar’s quiet Venmo donate and installer-filename GitHub check.
+- **Decision:** Hardcode the public Venmo URL; store last-seen/dismiss/check times in device-local `openshouter_updates` SharedPreferences; compare `openshouter-X.Y.Z-foss.apk` (not git tags); donate nudge and update prompt never share a dialog.
+- **Alternatives considered:** donations.json-only (rejected: live file is gitignored). Tag-based Golden Path snackbar as the only prompt (rejected: nags the same build and ignores installer names).
+- **Consequences:** First run is silent. A version bump shows one optional donate note. Daily fetch failures stay silent. Release assets must use the FOSS APK filename to prompt Install.
+
 ### 2026-08-20 — /ship v0.3.0
 - **Status:** Accepted
 - **Context:** Sprint 15 extras were ready after `/build`. Commit subject said v0.2.6; `feat` is a minor bump.

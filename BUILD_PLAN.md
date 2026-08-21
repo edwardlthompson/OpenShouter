@@ -184,6 +184,35 @@ grep '\[AUTO\]' BUILD_PLAN.md
 
 ---
 
+### Sprint 16 — Donations + GitHub product updates
+
+<!-- parallel_exception: one vertical slice; About/Menu strings share the donate URL with launch dialogs -->
+
+Quiet Venmo donate plus a once-per-version ethical reminder and a daily GitHub installer check. Same method as Continuum Calendar. Prefs stay device-local (SharedPreferences; already excluded from backup/SAF).
+
+### Critique
+
+| Issue | Resolution |
+|-------|------------|
+| Null/empty assets or repo | `GithubRelease.parse` / fetch return null; stay silent |
+| Network timeout | 10s connect + read; catch → silent |
+| Race (donate vs update) | Donate nudge wins and returns; never mixed on one dialog |
+| Unhandled exceptions | Fetch/parse wrapped; app launch never blocked |
+| Peer-sync of donate prefs | Dedicated `openshouter_updates` prefs; not in SAF zip; `allowBackup=false` |
+### Parallelization
+
+`agent_count_target`: 1. Logic, view, and i18n share `strings.xml` plus About/Menu.
+
+### Sequential (must complete in order)
+
+1. ✅ [AGENT] Lock `ProductUpdate` API + `docs/features/donations-updates.md`
+2. ✅ [AGENT] Unit tests: daily interval, APK filename parse, newer-than-current, dismiss, donate-nudge on version change
+3. ✅ [AGENT] Wire quiet Venmo in About + Menu; launch donate/update dialogs (`GoldenPathApp` ≤10 lines)
+4. ✅ [AUTO] `watch-agent-gates.sh --once --autofix`
+5. 🔲 [HUMAN] Smoke: first run silent; after version bump, one donate note; Install/Later; Venmo from About/Menu
+
+---
+
 ## Ongoing Maintenance (recurring)
 
 ### Weekly

@@ -58,6 +58,10 @@ class AppSpeakStore @Inject constructor(
         dao.upsert(AppSpeakEntity(pkg, speakAppName, speakNotification))
     }
 
+    suspend fun setMany(packageNames: List<String>, speakAppName: Boolean, speakNotification: Boolean) {
+        for (name in packageNames) set(name, speakAppName, speakNotification)
+    }
+
     suspend fun importWhitelist(settings: AppSettings) {
         if (dao.count() > 0) return
         if (settings.filterMode != FilterMode.WHITELIST) return

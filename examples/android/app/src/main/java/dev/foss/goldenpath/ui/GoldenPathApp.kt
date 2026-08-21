@@ -30,6 +30,7 @@ import dev.foss.goldenpath.ui.theme.next
 import kotlinx.coroutines.CoroutineScope
 import dev.foss.goldenpath.ui.theme.GoldenPathTheme
 import kotlinx.coroutines.launch
+import org.openshouter.ui.updates.ProductUpdateHost
 
 @Composable
 fun GoldenPathApp(
@@ -95,6 +96,7 @@ fun GoldenPathApp(
 
     GoldenPathTheme(themeMode = themeMode) {
         NavigationModeProvider {
+            ProductUpdateHost()
             BackHandler(enabled = showSettings || showAbout) {
                 showSettings = false
                 showAbout = false

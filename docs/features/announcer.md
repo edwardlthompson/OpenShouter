@@ -15,4 +15,4 @@ Parity vs Shouter Pro and Voice Notify: [`docs/features/parity-matrix.md`](parit
 
 ## Distribution
 
-Release APKs from GitHub Releases. In-app update check uses the GitHub Releases API when `release_repo` is set.
+Release APKs from GitHub Releases. Daily in-app update check compares `openshouter-X.Y.Z-foss.apk` filenames (not git tags). Quiet **Donate via Venmo** lives on About and the home Menu; a one-time ethical reminder appears only after a version change. See [`donations-updates.md`](donations-updates.md).

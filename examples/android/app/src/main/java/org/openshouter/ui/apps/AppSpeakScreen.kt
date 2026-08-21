@@ -27,12 +27,15 @@ import dev.foss.goldenpath.R
 import dev.foss.goldenpath.ui.theme.SpacingMd
 import org.openshouter.apps.InstalledApp
 import org.openshouter.domain.AppSettings
+import org.openshouter.domain.AppSpeakList
 import org.openshouter.domain.AppSpeakRule
 import org.openshouter.domain.TtsFormat
 import org.openshouter.ui.menu.MenuBody
 import org.openshouter.ui.menu.MenuClose
+import org.openshouter.ui.menu.MenuLink
 import org.openshouter.ui.menu.MenuScrollStore
 import org.openshouter.ui.menu.MenuSection
+import org.openshouter.ui.menu.MenuToggle
 import org.openshouter.ui.menu.highRefreshScroll
 import org.openshouter.ui.menu.rememberMenuListScroll
 
@@ -43,19 +46,22 @@ fun AppSpeakScreen(
     apps: List<InstalledApp>,
     onFormatChange: (String) -> Unit,
     onRuleChange: (String, Boolean, Boolean) -> Unit,
+    onBulkChange: (List<String>, Boolean, Boolean) -> Unit,
     onBack: () -> Unit,
     scrollStore: MenuScrollStore,
     modifier: Modifier = Modifier,
 ) {
     var format by remember(settings.ttsFormat) { mutableStateOf(settings.ttsFormat) }
     var query by remember { mutableStateOf("") }
+    var selectedOnly by remember { mutableStateOf(false) }
     val byPackage = remember(rules) { rules.associateBy { it.packageName } }
-    val filtered = remember(apps, query) {
-        val needle = query.trim().lowercase()
-        if (needle.isEmpty()) apps
-        else apps.filter {
-            it.label.lowercase().contains(needle) || it.packageName.lowercase().contains(needle)
+    val filtered = remember(apps, query, selectedOnly, byPackage) {
+        apps.filter { app ->
+            AppSpeakList.include(app.label, app.packageName, query, selectedOnly, byPackage)
         }
+    }
+    val allSelected = remember(filtered, byPackage) {
+        AppSpeakList.allSelected(filtered.map { it.packageName }, byPackage)
     }
     LazyColumn(
         state = rememberMenuListScroll(scrollStore, "apps"),
@@ -82,7 +88,35 @@ fun AppSpeakScreen(
                         label = { Text(stringResource(R.string.apps_search)) },
                         modifier = Modifier.fillMaxWidth(),
                     )
+                    MenuToggle(
+                        label = stringResource(R.string.apps_filter_selected),
+                        checked = selectedOnly,
+                        onChange = { selectedOnly = it },
+                    )
+                    if (filtered.isNotEmpty()) {
+                        MenuLink(
+                            label = stringResource(
+                                if (allSelected) R.string.apps_deselect_all else R.string.apps_select_all,
+                            ),
+                            onClick = {
+                                onBulkChange(
+                                    filtered.map { it.packageName },
+                                    !allSelected,
+                                    !allSelected,
+                                )
+                            },
+                        )
+                    }
                 }
+            }
+        }
+        if (filtered.isEmpty() && selectedOnly) {
+            item {
+                Text(
+                    stringResource(R.string.apps_filter_empty),
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                )
             }
         }
         items(filtered, key = { it.packageName }) { app ->

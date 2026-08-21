@@ -98,6 +98,9 @@ fun OpenShouterPanes(
             onRuleChange = { pkg, name, notif ->
                 scope.launch { ep.appSpeak().set(pkg, name, notif) }
             },
+            onBulkChange = { pkgs, name, notif ->
+                scope.launch { ep.appSpeak().setMany(pkgs, name, notif) }
+            },
             onBack = { onPane(Pane.Home) },
             scrollStore = scrollStore,
             modifier = modifier,

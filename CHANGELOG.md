@@ -20,6 +20,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+* **android:** quiet Venmo donate, once-per-version reminder, and filename-based GitHub update check
+* **android:** selected-apps filter and select/deselect all on Apps to shout
+
 ### Documentation
 
 * record v0.3.0 ship regressions
