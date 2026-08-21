@@ -2,6 +2,23 @@
 
 > Archive of finished BUILD_PLAN items.
 
+## /ship v0.5.0 (2026-08-21)
+
+- ✅ [AUTO] `pre-release-gate.sh` (local + push-SHA CI/CodeQL/Security Scan)
+- ✅ [HUMAN] Approve release tag when product-ready (`/ship`)
+- ✅ [AUTO] Release Please #17 merged (`v0.5.0`)
+
+## Sprint 17 — Hear-quality extras (ideas 1–8) (2026-08-21)
+
+- ✅ [AGENT] Record SpeakGate misses in history (`docs/features/sprint-17-hear-quality.md`)
+- ✅ [AGENT] Setup: pick Apps to shout
+- ✅ [AGENT] Test notification bypasses the allowlist
+- ✅ [AGENT] Collapse REPEAT floods
+- ✅ [AGENT] Importance / category filter
+- ✅ [AGENT] DND priority-only path
+- ✅ [AGENT] Calendar look-ahead minutes
+- ✅ [AGENT] French string pack (`docs/features/i18n-fr.md`)
+
 ## /ship v0.4.0 (2026-08-21)
 
 - ✅ [AUTO] `pre-release-gate.sh` (local + push-SHA CI/CodeQL/Security Scan)

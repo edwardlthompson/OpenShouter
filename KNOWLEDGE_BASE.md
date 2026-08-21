@@ -139,7 +139,7 @@
 | **Cause** | `pull_request` workflows on `release-please--branches--main` never start jobs (approval / first-run gate) |
 | **Fix** | `merge-release-please-pr.sh` admin fallback: `gh pr merge --admin` after `--auto` fails |
 | **Prevention** | Do not wait for empty-job PR checks. Push-SHA CI/CodeQL/Security Scan on `main` are the real gate |
-| **Seen again** | v0.4.0 Release Please #16 — `--auto` failed; admin merge after push-SHA CI/CodeQL/Security Scan green |
+| **Seen again** | v0.5.0 Release Please #17 — `--auto` failed; admin merge after push-SHA CI/CodeQL/Security Scan green |
 ### KB-017 — Next shout silent after a muted stream
 
 | Field | Detail |
@@ -164,3 +164,11 @@
 | **Cause** | `feat` maps to Added / minor. Release Please extra-files did not include `CITATION.cff` |
 | **Fix** | Accept 0.3.0. Add `CITATION.cff` to extra-files with `# x-release-please-version`. `sync-template-version.sh` rewrites the CFF version line |
 | **Prevention** | Do not put a guessed patch version in a `feat` subject. After each RP merge, confirm CITATION matches `.template-version` |
+### KB-020 — HUMAN leftover sprint blocks need `parallel_exception`
+
+| Field | Detail |
+|-------|--------|
+| **Symptom** | CI `Validate Bootstrap Artifacts` and `Template Upgrade Simulation` fail: `Sprint 16 leftover (device smoke): missing ### Parallel table` |
+| **Cause** | `check-build-plan-parallel.sh` treats leftover headings as sprint blocks; a single `[HUMAN]` row is not a Parallel table |
+| **Fix** | Add `<!-- parallel_exception: HUMAN-only leftover; AGENT/AUTO archived -->` under the leftover heading |
+| **Prevention** | After `/cleanup`, leftover HUMAN/ADB sections keep a `parallel_exception` comment or a Parallel table |

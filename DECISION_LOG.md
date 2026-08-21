@@ -17,6 +17,13 @@
 
 ## Entries
 
+### 2026-08-21 — /ship v0.5.0
+- **Status:** Accepted
+- **Context:** Sprint 17 hear-quality extras were ready; `main` CI was red on `b316243` because Sprint 16 leftover lacked a Parallel table.
+- **Decision:** `feat` without a version in the subject → 0.5.0. Add `parallel_exception` on HUMAN leftovers. Admin-merge Release Please #17 (KB-016).
+- **Alternatives considered:** Patch 0.4.1 via `chore`/`fix` (rejected: user-facing features).
+- **Consequences:** https://github.com/edwardlthompson/OpenShouter/releases/tag/v0.5.0. HUMAN donate/update smoke still open.
+
 ### 2026-08-21 — Sprint 17 hear-quality extras
 - **Status:** Accepted
 - **Context:** `/ideas` 1–8 after Voice test proved Notification-stream TTS while live posts vanished with no history.

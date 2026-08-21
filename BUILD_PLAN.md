@@ -195,18 +195,12 @@ grep '\[AUTO\]' BUILD_PLAN.md
 
 ---
 
-### Sprint 17 — Hear-quality extras (ideas 1–8)
+### Sprint 17 leftover
 
-<!-- parallel_exception: shared IgnoreReason / NotificationPolicy / DataStore lock is Sequential -->
+<!-- parallel_exception: AGENT extras archived to COMPLETED_TASKS.md -->
 
-- ✅ [AGENT] Record SpeakGate misses in history (`docs/features/sprint-17-hear-quality.md`)
-- ✅ [AGENT] Setup: pick Apps to shout
-- ✅ [AGENT] Test notification bypasses the allowlist
-- ✅ [AGENT] Collapse REPEAT floods
-- ✅ [AGENT] Importance / category filter
-- ✅ [AGENT] DND priority-only path
-- ✅ [AGENT] Calendar look-ahead minutes
-- ✅ [AGENT] French string pack (`docs/features/i18n-fr.md`)
+> **Sprint 17** AGENT archived in COMPLETED_TASKS.md @ `768ea59`.
+> **/ship v0.5.0** archived in COMPLETED_TASKS.md @ `768ea59`.
 
 ---
 
@@ -251,6 +245,8 @@ grep '\[AUTO\]' BUILD_PLAN.md
 | /ship v0.3.0 | Complete | `COMPLETED_TASKS.md` |
 | Sprint 16 — Donations + GitHub product updates | Complete (AGENT/AUTO) | `COMPLETED_TASKS.md` |
 | /ship v0.4.0 | Complete | `COMPLETED_TASKS.md` |
+| Sprint 17 — Hear-quality extras (ideas 1–8) | Complete (AGENT) | `COMPLETED_TASKS.md` |
+| /ship v0.5.0 | Complete | `COMPLETED_TASKS.md` |
 | Sprints 9–14 ADB QA (CPH2655) | Complete | `COMPLETED_TASKS.md` |
 | Sprints 0–13 HUMAN confirmations | Complete | `COMPLETED_TASKS.md` |
 | Sprint 11 app speak list | Complete | `COMPLETED_TASKS.md` |

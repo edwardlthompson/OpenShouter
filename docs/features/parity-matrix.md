@@ -20,7 +20,7 @@ Interactive filterable table: Cursor canvas `feature-parity-matrix.canvas.tsx` (
 
 **Wrap-up 2026-08-21 (Sprint 16):** Quiet Venmo donate on About + Menu; once-per-version ethical reminder; daily GitHub check uses `openshouter-X.Y.Z-foss.apk` filenames. Apps to shout: selected-only filter + select/deselect all. Matrix rows unchanged (OpenShouter extras).
 
-**Wrap-up 2026-08-21 (Sprint 17):** SpeakGate misses in history; setup Apps-to-shout row; test notification allowlist bypass; REPEAT collapse; min importance + Priority-DND high/call path; calendar 5/15/30 look-ahead; French overlay. Matrix rows unchanged (OpenShouter extras).
+**Wrap-up 2026-08-21 (Sprint 17 / `/ship` v0.5.0):** SpeakGate misses in history; setup Apps-to-shout row; test notification allowlist bypass; REPEAT collapse; min importance + Priority-DND high/call path; calendar 5/15/30 look-ahead; French overlay. Matrix rows unchanged (OpenShouter extras). `feature-parity-matrix.canvas.tsx` is not in this repo; this file is the git source of truth.
 
 Status: **Yes** shipped · **Partial** logic or subset UI · **No** missing · **Skip** will not copy (FOSS / out of scope).
 
