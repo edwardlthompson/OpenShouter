@@ -6,6 +6,18 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.5.0](https://github.com/edwardlthompson/OpenShouter/compare/v0.4.0...v0.5.0) (2026-08-21)
+
+
+### Added
+
+* **android:** record gate misses and add French pack ([f757e09](https://github.com/edwardlthompson/OpenShouter/commit/f757e0998e6b44fcd057538d390aac483aada298))
+
+
+### Documentation
+
+* record v0.4.0 ship regressions ([b316243](https://github.com/edwardlthompson/OpenShouter/commit/b31624388306ab723d0bfa0fb3c183b1d610af0a))
+
 ## [0.4.0](https://github.com/edwardlthompson/OpenShouter/compare/v0.3.0...v0.4.0) (2026-08-21)
 
 ### Added
