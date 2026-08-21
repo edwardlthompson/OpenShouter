@@ -2,6 +2,19 @@
 
 > Archive of finished BUILD_PLAN items.
 
+## /ship v0.4.0 (2026-08-21)
+
+- ✅ [AUTO] `pre-release-gate.sh` (local + push-SHA CI/CodeQL/Security Scan)
+- ✅ [HUMAN] Approve release tag when product-ready (`/ship`)
+- ✅ [AUTO] Release Please #16 merged (`v0.4.0`)
+
+## Sprint 16 — Donations + GitHub product updates (2026-08-21)
+
+- ✅ [AGENT] Lock `ProductUpdate` API + `docs/features/donations-updates.md`
+- ✅ [AGENT] Unit tests: daily interval, APK filename parse, newer-than-current, dismiss, donate-nudge on version change
+- ✅ [AGENT] Wire quiet Venmo in About + Menu; launch donate/update dialogs (`GoldenPathApp` ≤10 lines)
+- ✅ [AUTO] `watch-agent-gates.sh --once --autofix`
+
 ## /ship v0.3.0 (2026-08-20)
 
 - ✅ [AUTO] `pre-release-gate.sh` (local + push-SHA CI/CodeQL/Security Scan; merge SHA needed CITATION sync)

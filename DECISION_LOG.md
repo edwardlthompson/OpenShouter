@@ -17,6 +17,13 @@
 
 ## Entries
 
+### 2026-08-21 — /ship v0.4.0
+- **Status:** Accepted
+- **Context:** Sprint 16 donate/updates plus Apps-to-shout selected filter were ready after `/ship` prerelease gates.
+- **Decision:** `feat` → 0.4.0. Admin-merge Release Please #16 (KB-016 empty-job PR checks).
+- **Alternatives considered:** Patch 0.3.1 via `chore`/`fix` (rejected: user-facing features).
+- **Consequences:** https://github.com/edwardlthompson/OpenShouter/releases/tag/v0.4.0. Publish APKs as `openshouter-X.Y.Z-foss.apk` or the Install prompt stays silent. HUMAN donate/update smoke stays open.
+
 ### 2026-08-20 — Donations + product updates (Continuum method)
 - **Status:** Accepted
 - **Context:** Child apps should reuse Continuum Calendar’s quiet Venmo donate and installer-filename GitHub check.

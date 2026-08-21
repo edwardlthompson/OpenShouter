@@ -139,6 +139,7 @@
 | **Cause** | `pull_request` workflows on `release-please--branches--main` never start jobs (approval / first-run gate) |
 | **Fix** | `merge-release-please-pr.sh` admin fallback: `gh pr merge --admin` after `--auto` fails |
 | **Prevention** | Do not wait for empty-job PR checks. Push-SHA CI/CodeQL/Security Scan on `main` are the real gate |
+| **Seen again** | v0.4.0 Release Please #16 — `--auto` failed; admin merge after push-SHA CI/CodeQL/Security Scan green |
 ### KB-017 — Next shout silent after a muted stream
 
 | Field | Detail |

@@ -184,32 +184,13 @@ grep '\[AUTO\]' BUILD_PLAN.md
 
 ---
 
-### Sprint 16 — Donations + GitHub product updates
+### Sprint 16 leftover (device smoke)
 
-<!-- parallel_exception: one vertical slice; About/Menu strings share the donate URL with launch dialogs -->
+> **Sprint 16** AGENT/AUTO archived in COMPLETED_TASKS.md @ `c93d967`.
+> **/ship v0.4.0** archived in COMPLETED_TASKS.md @ `c93d967`.
 
-Quiet Venmo donate plus a once-per-version ethical reminder and a daily GitHub installer check. Same method as Continuum Calendar. Prefs stay device-local (SharedPreferences; already excluded from backup/SAF).
 
-### Critique
-
-| Issue | Resolution |
-|-------|------------|
-| Null/empty assets or repo | `GithubRelease.parse` / fetch return null; stay silent |
-| Network timeout | 10s connect + read; catch → silent |
-| Race (donate vs update) | Donate nudge wins and returns; never mixed on one dialog |
-| Unhandled exceptions | Fetch/parse wrapped; app launch never blocked |
-| Peer-sync of donate prefs | Dedicated `openshouter_updates` prefs; not in SAF zip; `allowBackup=false` |
-### Parallelization
-
-`agent_count_target`: 1. Logic, view, and i18n share `strings.xml` plus About/Menu.
-
-### Sequential (must complete in order)
-
-1. ✅ [AGENT] Lock `ProductUpdate` API + `docs/features/donations-updates.md`
-2. ✅ [AGENT] Unit tests: daily interval, APK filename parse, newer-than-current, dismiss, donate-nudge on version change
-3. ✅ [AGENT] Wire quiet Venmo in About + Menu; launch donate/update dialogs (`GoldenPathApp` ≤10 lines)
-4. ✅ [AUTO] `watch-agent-gates.sh --once --autofix`
-5. 🔲 [HUMAN] Smoke: first run silent; after version bump, one donate note; Install/Later; Venmo from About/Menu
+- 🔲 [HUMAN] Smoke: first run silent; after version bump, one donate note; Install/Later; Venmo from About/Menu
 
 ---
 
@@ -252,6 +233,8 @@ Quiet Venmo donate plus a once-per-version ethical reminder and a daily GitHub i
 | /ship v0.2.5 | Complete | `COMPLETED_TASKS.md` |
 | Sprint 15 — OpenShouter extras (ideas 4–7) | Complete | `COMPLETED_TASKS.md` |
 | /ship v0.3.0 | Complete | `COMPLETED_TASKS.md` |
+| Sprint 16 — Donations + GitHub product updates | Complete (AGENT/AUTO) | `COMPLETED_TASKS.md` |
+| /ship v0.4.0 | Complete | `COMPLETED_TASKS.md` |
 | Sprints 9–14 ADB QA (CPH2655) | Complete | `COMPLETED_TASKS.md` |
 | Sprints 0–13 HUMAN confirmations | Complete | `COMPLETED_TASKS.md` |
 | Sprint 11 app speak list | Complete | `COMPLETED_TASKS.md` |

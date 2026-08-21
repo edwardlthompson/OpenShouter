@@ -87,6 +87,7 @@ OpenShouter is a FOSS recreation/enhancement of classic Shouter (`com.bhkapps.sh
 | 2026-08-20 | `/build` Sprint 15 | Spanish pack, calendar, `%sim`, Bluetooth; HUMAN copy + ADB getprop | Live calendar/BT/dual-SIM shouts still need a human on-device walk |
 | 2026-08-20 | `/ship` v0.3.0 | `feat` → minor; RP #14 admin-merged; SBOMs on the GitHub Release | Keep `CITATION.cff` in Release Please extra-files |
 | 2026-08-20 | Sprint 16 donate/updates | Continuum-style Venmo + daily APK-filename GitHub check | Release assets must be `openshouter-X.Y.Z-foss.apk` |
+| 2026-08-21 | `/ship` v0.4.0 | `feat` → minor; RP #16 admin-merged | HUMAN donate/update device smoke still open; name APKs `openshouter-X.Y.Z-foss.apk` |
 ## Template Provenance
 
 - **Source template:** `edwardlthompson/agent-project-bootstrap`
