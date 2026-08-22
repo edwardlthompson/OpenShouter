@@ -6,6 +6,18 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.6.0](https://github.com/edwardlthompson/OpenShouter/compare/v0.5.0...v0.6.0) (2026-08-22)
+
+
+### Added
+
+* **android:** import classic Shouter settings ([6ed7985](https://github.com/edwardlthompson/OpenShouter/commit/6ed7985ef47459bd0b8f6c4ff7f7b20047181efd))
+
+
+### Documentation
+
+* record v0.5.0 ship regressions ([abf927a](https://github.com/edwardlthompson/OpenShouter/commit/abf927a59dd9012c06feefe8cb57d4ba2b6f8187))
+
 ## [Unreleased]
 
 ### Added
