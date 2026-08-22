@@ -17,16 +17,22 @@ class I18nEsTest {
     }
 
     private fun assertLocaleParity(rel: String) {
-        val en = keys(locate("src/main/res/values/strings.xml"))
-        val loc = keys(locate(rel))
+        val en = keysIn("src/main/res/values")
+        val loc = keysIn(rel.substringBeforeLast('/'))
         assertTrue("English pack is empty", en.isNotEmpty())
         assertEquals(emptySet<String>(), en - loc)
         assertEquals(emptySet<String>(), loc - en)
     }
 
-    private fun keys(file: File): Set<String> {
-        val text = file.readText(Charsets.UTF_8)
-        return Regex("""<string\s+name="([^"]+)"""").findAll(text).map { it.groupValues[1] }.toSet()
+    private fun keysIn(relDir: String): Set<String> {
+        val dir = locate(relDir)
+        return dir.listFiles { f -> f.name.startsWith("strings") && f.name.endsWith(".xml") }
+            .orEmpty()
+            .flatMap { file ->
+                Regex("""<string\s+name="([^"]+)"""").findAll(file.readText(Charsets.UTF_8))
+                    .map { it.groupValues[1] }
+            }
+            .toSet()
     }
 
     private fun locate(rel: String): File {
@@ -36,6 +42,6 @@ class I18nEsTest {
             cwd.resolve("app").resolve(rel),
             cwd.resolve("examples/android/app").resolve(rel),
         )
-        return candidates.first { it.isFile }
+        return candidates.first { it.exists() }
     }
 }

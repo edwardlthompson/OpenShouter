@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="setup_legacy_section">Depuis Shouter classique</string>
+    <string name="backup_legacy">Importer depuis Shouter</string>
+    <string name="backup_legacy_file">Importer shdb ou prefs Shouter</string>
+    <string name="backup_legacy_help">L’import lit Shouter en un appui. Root copie shdb et prefs. Sans root, le fournisseur exporté donne applis, rappels, heures silencieuses et contacts. L’historique n’est jamais importé.</string>
+    <string name="backup_legacy_steps">Root : touchez Importer et autorisez Superuser si demandé. Sans root : laissez Shouter installé, ou choisissez shdb / prefs. Activez ensuite l’accès aux notifications et désactivez Shouter. Placebook n’est pas importé.</string>
+    <string name="backup_legacy_done">%1$d éléments importés depuis Shouter</string>
+    <string name="backup_legacy_none">Aucun réglage Shouter. Accordez root, laissez Shouter installé, ou choisissez un fichier shdb / prefs.</string>
+    <string name="power_level">Pourcentage de batterie</string>
+    <string name="power_level_phrase">Phrase de pourcentage (%level)</string>
+</resources>

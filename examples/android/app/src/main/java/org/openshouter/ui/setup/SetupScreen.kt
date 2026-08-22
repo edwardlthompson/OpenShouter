@@ -41,6 +41,8 @@ fun SetupScreen(
     onContinue: () -> Unit,
     appCount: Int = 0,
     onPickApps: () -> Unit = {},
+    onImportInstalled: suspend () -> Int = { 0 },
+    onImportBytes: suspend (ByteArray) -> Int = { 0 },
     scrollStore: MenuScrollStore,
     modifier: Modifier = Modifier,
 ) {
@@ -78,6 +80,7 @@ fun SetupScreen(
         SetupChecks.granted(context, perm)
     }
     MenuScaffold(stringResource(R.string.setup_title), scrollStore, "setup", modifier = modifier) {
+        SetupLegacyImport(onImportInstalled, onImportBytes)
         MenuSection(stringResource(R.string.menu_section_setup)) {
             MenuBody { Text(stringResource(R.string.setup_body), style = MaterialTheme.typography.bodyLarge) }
             SetupRow(R.string.setup_listener, listenerOn) { SetupChecks.openListener(context) }

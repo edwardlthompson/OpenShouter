@@ -20,6 +20,7 @@ internal object SettingsSprint13 {
     val BATT_FULL_P = stringPreferencesKey("batt_full_p")
     val BATT_CONN_P = stringPreferencesKey("batt_conn_p")
     val BATT_DISC_P = stringPreferencesKey("batt_disc_p")
+    val BATT_LEVEL_P = stringPreferencesKey("batt_level_p")
     val CALL_FMT = stringPreferencesKey("call_fmt")
     val MSG_FMT = stringPreferencesKey("msg_fmt")
     val TIME_FMT = stringPreferencesKey("time_fmt")
@@ -28,7 +29,7 @@ internal object SettingsSprint13 {
     fun apply(base: AppSettings, prefs: Preferences): AppSettings {
         val enabled = (prefs[BATT_ON] ?: emptySet()).mapNotNull {
             runCatching { BatterySituation.valueOf(it) }.getOrNull()
-        }.toSet().ifEmpty { BatterySituation.entries.toSet() }
+        }.toSet().ifEmpty { BatteryPhrases.DEFAULT_ENABLED }
         return base.copy(
             contactRule = ContactRule.parse(prefs[CONTACTS] ?: emptySet()),
             channelStates = ChannelStates.parse(prefs[CHANNELS] ?: emptySet()),
@@ -38,6 +39,7 @@ internal object SettingsSprint13 {
                 full = prefs[BATT_FULL_P] ?: BatteryPhrases.DEFAULT_FULL,
                 connected = prefs[BATT_CONN_P] ?: BatteryPhrases.DEFAULT_CONNECTED,
                 disconnected = prefs[BATT_DISC_P] ?: BatteryPhrases.DEFAULT_DISCONNECTED,
+                level = prefs[BATT_LEVEL_P] ?: BatteryPhrases.DEFAULT_LEVEL,
             ),
             callFormat = prefs[CALL_FMT] ?: TtsFormat.CALL_DEFAULT,
             messageFormat = prefs[MSG_FMT] ?: TtsFormat.MESSAGE_DEFAULT,

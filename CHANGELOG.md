@@ -8,13 +8,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [0.5.0](https://github.com/edwardlthompson/OpenShouter/compare/v0.4.0...v0.5.0) (2026-08-21)
+### Added
 
+* **android:** import classic Shouter settings on welcome (root dump or OEM provider)
+* **android:** transfer Shouter battery-percent, silent-only, and message/time formats
+
+## [0.5.0](https://github.com/edwardlthompson/OpenShouter/compare/v0.4.0...v0.5.0) (2026-08-21)
 
 ### Added
 
 * **android:** record gate misses and add French pack ([f757e09](https://github.com/edwardlthompson/OpenShouter/commit/f757e0998e6b44fcd057538d390aac483aada298))
-
 
 ### Documentation
 

@@ -15,6 +15,7 @@ import org.openshouter.data.ReminderEntity
 import org.openshouter.domain.AppSettings
 import org.openshouter.domain.AppSpeakRule
 import org.openshouter.domain.SpokenEvent
+import org.openshouter.backup.BackupImport
 import org.openshouter.backup.BackupScreen
 import org.openshouter.backup.SettingsBackup
 import org.openshouter.bluetooth.BluetoothShoutScreen
@@ -71,6 +72,8 @@ fun OpenShouterPanes(
             },
             appCount = appRules.count { it.active },
             onPickApps = { onPane(Pane.Rules) },
+            onImportInstalled = { BackupImport.applyInstalled(ep, context) },
+            onImportBytes = { bytes -> BackupImport.applyBytes(ep, settings, bytes, context) },
             scrollStore = scrollStore,
             modifier = modifier,
         )
@@ -195,21 +198,8 @@ fun OpenShouterPanes(
         )
         pane == Pane.Backup -> BackupScreen(
             onExportBytes = { SettingsBackup.toZip(settings, appRules) },
-            onImportBytes = { bytes ->
-                val (json, rules) = SettingsBackup.fromZip(bytes)
-                scope.launch {
-                    ep.settings().setEnabled(json.optBoolean("announcerEnabled", true))
-                    ep.settings().setNotifications(json.optBoolean("notificationsEnabled", true))
-                    ep.settings().setCalls(json.optBoolean("callsEnabled", true))
-                    ep.settings().setFormat(json.optString("ttsFormat", settings.ttsFormat))
-                    ep.settings().setTimeShout(
-                        json.optBoolean("timeShoutEnabled", false),
-                        json.optInt("timeShoutIntervalMinutes", settings.timeShoutIntervalMinutes),
-                        json.optBoolean("timeShoutExact", true),
-                    )
-                    rules.forEach { ep.appSpeak().set(it.packageName, it.speakAppName, it.speakNotification) }
-                }
-            },
+            onImportBytes = { bytes -> BackupImport.applyBytes(ep, settings, bytes, context) },
+            onImportInstalled = { BackupImport.applyInstalled(ep, context) },
             onBack = { onPane(Pane.Home) },
             scrollStore = scrollStore,
             modifier = modifier,

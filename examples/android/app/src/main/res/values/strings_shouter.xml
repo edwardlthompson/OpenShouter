@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="setup_legacy_section">From classic Shouter</string>
+    <string name="backup_legacy">Import from Shouter</string>
+    <string name="backup_legacy_file">Import Shouter shdb or prefs file</string>
+    <string name="backup_legacy_help">Import reads Shouter in one tap. Root copies shdb plus prefs. Without root, the exported provider supplies apps, reminders, silent hours, and contacts. History text is never imported.</string>
+    <string name="backup_legacy_steps">Rooted phone: tap Import and allow Superuser if asked. No-root: leave Shouter installed, or pick shdb / prefs. Then enable Notification access and turn Shouter off. Placebook locations are not imported.</string>
+    <string name="backup_legacy_done">Imported %1$d items from Shouter</string>
+    <string name="backup_legacy_none">No Shouter settings found. Grant root, leave Shouter installed, or pick an shdb / prefs file.</string>
+    <string name="power_level">Battery percent</string>
+    <string name="power_level_phrase">Percent phrase (%level)</string>
+</resources>

@@ -30,6 +30,7 @@ class PowerMonitor @Inject constructor(
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.Default)
     private var lastFull = false
     private var lastLow = false
+    private var lastPercent: Int? = null
     @Volatile private var started = false
 
     fun start() {
@@ -72,6 +73,12 @@ class PowerMonitor @Inject constructor(
             speak(snap, PowerEvent(PowerKind.FULL, pct))
         }
         if (pct < snap.batteryFullPercent) lastFull = false
+        val prev = lastPercent
+        lastPercent = pct
+        val charging = intent.getIntExtra(BatteryManager.EXTRA_PLUGGED, 0) != 0
+        if (charging && prev != null && prev != pct) {
+            speak(snap, PowerEvent(PowerKind.LEVEL, pct))
+        }
     }
 
     private suspend fun speak(snap: org.openshouter.domain.AppSettings, event: PowerEvent) {

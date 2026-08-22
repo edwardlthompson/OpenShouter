@@ -33,6 +33,7 @@ class Sprint13Settings @Inject constructor(
         it[SettingsSprint13.BATT_FULL_P] = phrases.full
         it[SettingsSprint13.BATT_CONN_P] = phrases.connected
         it[SettingsSprint13.BATT_DISC_P] = phrases.disconnected
+        it[SettingsSprint13.BATT_LEVEL_P] = phrases.level
     }
 
     suspend fun setCallFormat(value: String) = context.osDataStore.edit {

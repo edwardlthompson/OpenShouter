@@ -94,6 +94,9 @@ class BatterySituationTest {
         assertEquals("Low, 12 percent", phrases.spoken(PowerEvent(PowerKind.LOW, 12)))
         assertEquals("", phrases.spoken(PowerEvent(PowerKind.CONNECTED, null)))
         assertEquals("Battery charged.", BatteryPhrases.render(BatteryPhrases.DEFAULT_FULL, null))
+        val level = BatteryPhrases(enabled = setOf(BatterySituation.LEVEL), level = "Battery is %level left")
+        assertEquals("Battery is 70 percent left", level.spoken(PowerEvent(PowerKind.LEVEL, 70)))
+        assertFalse(BatterySituation.LEVEL in BatteryPhrases.DEFAULT_ENABLED)
     }
 }
 

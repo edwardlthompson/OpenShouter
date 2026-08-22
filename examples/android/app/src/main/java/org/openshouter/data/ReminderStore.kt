@@ -32,6 +32,9 @@ interface ReminderDao {
     @Query("SELECT * FROM reminders WHERE enabled = 1")
     suspend fun enabled(): List<ReminderEntity>
 
+    @Query("SELECT text FROM reminders")
+    suspend fun texts(): List<String>
+
     @Insert
     suspend fun insert(row: ReminderEntity): Long
 

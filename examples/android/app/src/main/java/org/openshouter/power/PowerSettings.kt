@@ -41,6 +41,10 @@ fun PowerSettings(
             PhraseField(R.string.power_disconnected_phrase, phrases.disconnected) {
                 onChange(phrases.copy(disconnected = it.take(BatteryPhrases.MAX_PHRASE)))
             }
+            SituationToggle(R.string.power_level, BatterySituation.LEVEL, phrases, onChange, true)
+            PhraseField(R.string.power_level_phrase, phrases.level) {
+                onChange(phrases.copy(level = it.take(BatteryPhrases.MAX_PHRASE)))
+            }
         }
     }
 }

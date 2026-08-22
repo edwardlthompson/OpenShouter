@@ -30,6 +30,13 @@
         android:name="android.permission.QUERY_ALL_PACKAGES"
         tools:ignore="QueryAllPackagesPermission" />
 
+    <queries>
+        <package android:name="com.bhkapps.proshouter" />
+        <package android:name="com.bhkapps.shouter" />
+        <provider android:authorities="bhkapps.proshouter" />
+        <provider android:authorities="bhkapps.shouter" />
+    </queries>
+
     <application
         android:name="org.openshouter.OpenShouterApp"
         android:allowBackup="false"

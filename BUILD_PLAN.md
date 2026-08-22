@@ -204,6 +204,21 @@ grep '\[AUTO\]' BUILD_PLAN.md
 
 ---
 
+### Sprint 18 — Import classic Shouter apps
+
+<!-- parallel_exception: single sequential importer on backup/ + AppSpeak upsert -->
+
+- ✅ [AGENT] Import enabled apps from Shouter Pro `shdb` / `content://bhkapps.proshouter/apps` (`docs/features/shouter-legacy-import.md`)
+- ✅ [AGENT] Root + OEM extract paths and leftover pref mapping (`docs/features/shouter-legacy-import.md`)
+
+### Sprint 19 — Shouter setting transfer parity
+
+<!-- parallel_exception: leftover prefs need domain LEVEL + import map in the same slice -->
+
+- ✅ [AGENT] Map remaining Shouter prefs onto OpenShouter (battery percent, silent-only, message/time formats) (`docs/features/shouter-legacy-import.md`)
+
+---
+
 ## Ongoing Maintenance (recurring)
 
 ### Weekly
