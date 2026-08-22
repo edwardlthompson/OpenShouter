@@ -2,6 +2,21 @@
 
 > Archive of finished BUILD_PLAN items.
 
+## /ship v0.6.0 (2026-08-22)
+
+- ✅ [AUTO] `pre-release-gate.sh` (local + push-SHA CI/CodeQL/Security Scan)
+- ✅ [HUMAN] Approve release tag when product-ready (`/ship`)
+- ✅ [AUTO] Release Please #19 merged (`v0.6.0`)
+
+## Sprint 19 — Shouter setting transfer parity (2026-08-22)
+
+- ✅ [AGENT] Map remaining Shouter prefs onto OpenShouter (battery percent, silent-only, message/time formats) (`docs/features/shouter-legacy-import.md`)
+
+## Sprint 18 — Import classic Shouter apps (2026-08-22)
+
+- ✅ [AGENT] Import enabled apps from Shouter Pro `shdb` / `content://bhkapps.proshouter/apps` (`docs/features/shouter-legacy-import.md`)
+- ✅ [AGENT] Root + OEM extract paths and leftover pref mapping (`docs/features/shouter-legacy-import.md`)
+
 ## /ship v0.5.0 (2026-08-21)
 
 - ✅ [AUTO] `pre-release-gate.sh` (local + push-SHA CI/CodeQL/Security Scan)

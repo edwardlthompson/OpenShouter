@@ -17,6 +17,13 @@
 
 ## Entries
 
+### 2026-08-22 — /ship v0.6.0
+- **Status:** Accepted
+- **Context:** Sprint 18–19 classic Shouter import and leftover-pref parity were ready after `/ship` prerelease gates.
+- **Decision:** `feat` without a version in the subject → 0.6.0. Bump `versionCode` 9 / `versionName` 0.6.0 so donate/update match the tag. Admin-merge Release Please #19 (KB-016).
+- **Alternatives considered:** Patch 0.5.1 via `chore`/`fix` (rejected: user-facing import). Leave gradle at 0.4.0 (rejected: Install/donate keys off the tag).
+- **Consequences:** https://github.com/edwardlthompson/OpenShouter/releases/tag/v0.6.0. SBOMs uploaded; still no APK on the Release — publish `openshouter-0.6.0-foss.apk` or in-app Install stays silent. HUMAN donate/update smoke still open.
+
 ### 2026-08-21 — /ship v0.5.0
 - **Status:** Accepted
 - **Context:** Sprint 17 hear-quality extras were ready; `main` CI was red on `b316243` because Sprint 16 leftover lacked a Parallel table.

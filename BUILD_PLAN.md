@@ -204,18 +204,18 @@ grep '\[AUTO\]' BUILD_PLAN.md
 
 ---
 
-### Sprint 18 — Import classic Shouter apps
+### Sprint 18 leftover
 
-<!-- parallel_exception: single sequential importer on backup/ + AppSpeak upsert -->
+<!-- parallel_exception: AGENT importer archived to COMPLETED_TASKS.md -->
 
-- ✅ [AGENT] Import enabled apps from Shouter Pro `shdb` / `content://bhkapps.proshouter/apps` (`docs/features/shouter-legacy-import.md`)
-- ✅ [AGENT] Root + OEM extract paths and leftover pref mapping (`docs/features/shouter-legacy-import.md`)
+> **Sprint 18** AGENT archived in COMPLETED_TASKS.md @ `6808c54`.
 
-### Sprint 19 — Shouter setting transfer parity
+### Sprint 19 leftover
 
-<!-- parallel_exception: leftover prefs need domain LEVEL + import map in the same slice -->
+<!-- parallel_exception: AGENT leftover-pref map archived to COMPLETED_TASKS.md -->
 
-- ✅ [AGENT] Map remaining Shouter prefs onto OpenShouter (battery percent, silent-only, message/time formats) (`docs/features/shouter-legacy-import.md`)
+> **Sprint 19** AGENT archived in COMPLETED_TASKS.md @ `6808c54`.
+> **/ship v0.6.0** archived in COMPLETED_TASKS.md @ `6808c54`.
 
 ---
 
@@ -262,6 +262,9 @@ grep '\[AUTO\]' BUILD_PLAN.md
 | /ship v0.4.0 | Complete | `COMPLETED_TASKS.md` |
 | Sprint 17 — Hear-quality extras (ideas 1–8) | Complete (AGENT) | `COMPLETED_TASKS.md` |
 | /ship v0.5.0 | Complete | `COMPLETED_TASKS.md` |
+| Sprint 18 — Import classic Shouter apps | Complete (AGENT) | `COMPLETED_TASKS.md` |
+| Sprint 19 — Shouter setting transfer parity | Complete (AGENT) | `COMPLETED_TASKS.md` |
+| /ship v0.6.0 | Complete | `COMPLETED_TASKS.md` |
 | Sprints 9–14 ADB QA (CPH2655) | Complete | `COMPLETED_TASKS.md` |
 | Sprints 0–13 HUMAN confirmations | Complete | `COMPLETED_TASKS.md` |
 | Sprint 11 app speak list | Complete | `COMPLETED_TASKS.md` |
