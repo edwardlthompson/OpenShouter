@@ -41,7 +41,7 @@ Grouped by life moment (not every command — use `/` menu for the full list).
 
 **Maintenance:** `/triage` · `/dependabot` · `/audit` (full repo review)
 
-`/ship` runs `/prerelease` first — one command for autofix, optional Codex, gates, push, and regress.
+`/ship` runs `/prerelease` first — one command for autofix, optional Codex, gates, push, a signed `openshouter-X.Y.Z-foss.apk` upload, and regress.
 
 **Long sessions:** `/compact` (save checkpoint before clearing chat) · `/restore` (load checkpoint)
 

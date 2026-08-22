@@ -91,6 +91,7 @@ OpenShouter is a FOSS recreation/enhancement of classic Shouter (`com.bhkapps.sh
 | 2026-08-21 | Sprint 17 hear-quality | Gate misses in history; setup apps; test-notif bypass; REPEAT collapse; importance + Priority DND; calendar look-ahead; French | Live ADB walk still needed; silent places still mute unless left |
 | 2026-08-21 | `/ship` v0.5.0 | `feat` → minor; RP #17 admin-merged; Sprint 16 leftover `parallel_exception` | HUMAN donate/update smoke still open; name APKs `openshouter-X.Y.Z-foss.apk` |
 | 2026-08-22 | `/ship` v0.6.0 | `feat` → minor; RP #19 admin-merged; classic Shouter import + LEVEL | HUMAN donate/update smoke still open; name APKs `openshouter-X.Y.Z-foss.apk` |
+| 2026-08-22 | Signed FOSS APK on `/ship` | Local debug-key `publish-foss-apk`; uploaded `openshouter-0.6.0-foss.apk` | Never upload CI-signed APKs; same debug key as prior sideloads |
 ## Template Provenance
 
 - **Source template:** `edwardlthompson/agent-project-bootstrap`

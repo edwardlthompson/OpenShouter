@@ -19,7 +19,7 @@ Reuse Continuum Calendar’s quiet Venmo donate path and installer-filename GitH
 
 1. Cold install: app opens with no donate or update dialog
 2. Bump `versionName` and relaunch: one donate note; **Not now** or **Donate via Venmo** both stop it until the next bump
-3. Publish a newer `openshouter-X.Y.Z-foss.apk` on GitHub: **Install** opens the asset URL (else the release page); **Later** does not ask again for that version
+3. `/ship` publishes a signed `openshouter-X.Y.Z-foss.apk` on GitHub: **Install** opens the asset URL (else the release page); **Later** does not ask again for that version
 
 ## Container map
 

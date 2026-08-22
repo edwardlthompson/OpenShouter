@@ -6,6 +6,7 @@ Read and execute each sub-command in order. After each step, summarize pass/fail
 
 1. Read @.cursor/commands/prerelease.md — execute fully (autofix + optional Codex + hard gate)
 2. Read @.cursor/commands/push.md — execute fully
-3. Read @.cursor/commands/regress.md — execute fully
+3. After the GitHub Release exists, run `python3 scripts/agent-run.py publish-foss-apk` — signed `openshouter-X.Y.Z-foss.apk` on This Computer (same debug key as prior sideloads). Halt if unsigned or upload fails. Do not upload a CI-built APK.
+4. Read @.cursor/commands/regress.md — execute fully
 
 Begin now.

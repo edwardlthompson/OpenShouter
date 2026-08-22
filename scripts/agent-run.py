@@ -70,11 +70,14 @@ def run_script(name: str, args: list[str]) -> int:
         print("Available scripts:", ", ".join(list_scripts()), file=sys.stderr)
         return 1
 
+    env = child_env()
+    env["AGENT_PYTHON"] = sys.executable
+
     if script.suffix == ".ps1":
         proc = subprocess.run(
             ["powershell", "-NoProfile", "-File", str(script), *args],
             cwd=ROOT,
-            env=child_env(),
+            env=env,
         )
         return proc.returncode
 
@@ -90,7 +93,7 @@ def run_script(name: str, args: list[str]) -> int:
     proc = subprocess.run(
         [bash, script_argv(script), *args],
         cwd=ROOT,
-        env=child_env(),
+        env=env,
     )
     return proc.returncode
 

@@ -1184,6 +1184,13 @@
       "owner": "maintainer"
     },
     {
+      "path": "scripts/publish-foss-apk.sh",
+      "purpose": "Build a signed release APK locally and upload openshouter-X.Y.Z-foss.apk",
+      "read_when": "milestone_boundary",
+      "update_when": "milestone_boundary",
+      "owner": "maintainer"
+    },
+    {
       "path": "scripts/verify-reproducible-apk.sh",
       "purpose": "Local double-build APK hash check (SOURCE_DATE_EPOCH parity with CI)",
       "read_when": "milestone_boundary",

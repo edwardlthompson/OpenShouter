@@ -17,6 +17,13 @@
 
 ## Entries
 
+### 2026-08-22 — Signed FOSS APK on every /ship
+- **Status:** Accepted
+- **Context:** In-app Install compares `openshouter-X.Y.Z-foss.apk`. `/ship` uploaded SBOMs only; v0.6.0 had no installer.
+- **Decision:** After Release Please creates the tag, `/ship` / `/push` run `publish-foss-apk.sh` on This Computer (debug keystore, same as prior sideloads) and upload that filename. `/regress` verifies the asset.
+- **Alternatives considered:** CI-built APK (rejected: Actions mints a new debug key; updates would not install over existing devices). Upload-keystore secrets (deferred until a HUMAN-provided key exists).
+- **Consequences:** Never upload an unsigned or CI-signed APK. Existing installs keep updating.
+
 ### 2026-08-22 — /ship v0.6.0
 - **Status:** Accepted
 - **Context:** Sprint 18–19 classic Shouter import and leftover-pref parity were ready after `/ship` prerelease gates.
