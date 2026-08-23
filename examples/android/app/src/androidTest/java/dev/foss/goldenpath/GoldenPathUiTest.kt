@@ -19,7 +19,10 @@ class GoldenPathUiTest {
         composeTestRule.onNodeWithText("Theme").assertIsDisplayed()
         composeTestRule.onNodeWithText("Check for updates").assertIsDisplayed()
         composeTestRule.onNodeWithText("Dark theme").performClick()
-        composeTestRule.onNodeWithText("Close settings").performClick()
+        composeTestRule.activityRule.scenario.onActivity { activity ->
+            activity.onBackPressedDispatcher.onBackPressed()
+        }
+        composeTestRule.onNodeWithText("Theme").assertDoesNotExist()
     }
 
     @Test

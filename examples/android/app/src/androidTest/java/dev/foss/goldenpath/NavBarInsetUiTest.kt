@@ -27,52 +27,40 @@ class NavBarInsetUiTest {
     }
 
     @Test
-    fun closeButtonClearsNavigationBar_threeButton() {
+    fun settingsContentClearsNavigationBar_threeButton() {
         setNavigationMode(0)
 
         val context = composeTestRule.activity
         assertTrue(context.readNavigationMode() == NavigationMode.ThreeButton)
 
         composeTestRule.onNodeWithContentDescription("Settings").performClick()
-        composeTestRule.onNodeWithText("Close settings").assertIsDisplayed()
-
-        val decorView = context.window.decorView
-        val navInset = ViewCompat.getRootWindowInsets(decorView)
-            ?.getInsets(WindowInsetsCompat.Type.navigationBars())
-            ?.bottom ?: 0
-        val screenHeight = decorView.height
-        val buttonBottom = composeTestRule.onNodeWithText("Close settings")
-            .fetchSemanticsNode()
-            .boundsInRoot
-            .bottom
-
-        val minClearance = if (navInset > 0) navInset else 48
-        assertTrue(
-            "Close button bottom ($buttonBottom) should be above nav bar (screen=$screenHeight inset=$navInset)",
-            buttonBottom <= screenHeight - minClearance + 8,
-        )
+        composeTestRule.onNodeWithText("Check for updates").assertIsDisplayed()
+        assertLastSettingsControlClearsNav(minClearanceFallback = 48)
     }
 
     @Test
-    fun closeButtonClearsNavigationBar_gesture() {
+    fun settingsContentClearsNavigationBar_gesture() {
         setNavigationMode(2)
 
         composeTestRule.onNodeWithContentDescription("Settings").performClick()
-        composeTestRule.onNodeWithText("Close settings").assertIsDisplayed()
+        composeTestRule.onNodeWithText("Check for updates").assertIsDisplayed()
+        assertLastSettingsControlClearsNav(minClearanceFallback = 0)
+    }
 
+    private fun assertLastSettingsControlClearsNav(minClearanceFallback: Int) {
         val decorView = composeTestRule.activity.window.decorView
         val navInset = ViewCompat.getRootWindowInsets(decorView)
             ?.getInsets(WindowInsetsCompat.Type.navigationBars())
             ?.bottom ?: 0
         val screenHeight = decorView.height
-        val buttonBottom = composeTestRule.onNodeWithText("Close settings")
+        val controlBottom = composeTestRule.onNodeWithText("Check for updates")
             .fetchSemanticsNode()
             .boundsInRoot
             .bottom
-
+        val minClearance = if (navInset > 0) navInset else minClearanceFallback
         assertTrue(
-            "Close button bottom ($buttonBottom) should clear gesture nav inset ($navInset)",
-            buttonBottom <= screenHeight - navInset + 8,
+            "Settings control bottom ($controlBottom) should be above nav bar (screen=$screenHeight inset=$navInset)",
+            controlBottom <= screenHeight - minClearance + 8,
         )
     }
 }

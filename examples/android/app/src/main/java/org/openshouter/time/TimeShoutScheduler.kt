@@ -28,14 +28,16 @@ class TimeShoutScheduler @Inject constructor(
         val show = PendingIntent.getActivity(
             context,
             REQ,
-            Intent(context, MainActivity::class.java),
+            Intent(context, MainActivity::class.java).setPackage(context.packageName),
             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE,
         )
         alarms.schedule(trigger, pendingAlarm(), show, settings.timeShoutExact)
     }
 
     private fun pendingAlarm(): PendingIntent {
-        val intent = Intent(context, TimeShoutReceiver::class.java).setAction(TimeShoutReceiver.ACTION)
+        val intent = Intent(context, TimeShoutReceiver::class.java)
+            .setAction(TimeShoutReceiver.ACTION)
+            .setPackage(context.packageName)
         return PendingIntent.getBroadcast(
             context,
             REQ,

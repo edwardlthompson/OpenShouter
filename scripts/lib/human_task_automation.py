@@ -60,7 +60,14 @@ ADB_RULES: list[tuple[re.Pattern[str], str, object]] = [
 def attempt_row(root: Path, owner: str, task: str, sprint: str) -> AttemptResult:
     cfg = resolve_config(root)
     owner_u = owner.upper()
-    rules = HUMAN_RULES if owner_u == "HUMAN" else ADB_RULES if owner_u == "ADB" else []
+    if owner_u == "HUMAN":
+        rules = HUMAN_RULES
+    elif owner_u == "ADB":
+        rules = ADB_RULES
+    elif owner_u == "AUTO":
+        rules = [(p, k, h) for p, k, h in extra_human_rules() if k == "auto"]
+    else:
+        rules = []
     for pattern, _kind, handler in rules:
         if not pattern.search(task):
             continue

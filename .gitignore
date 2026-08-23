@@ -27,6 +27,7 @@ Thumbs.db
 !.vscode/tasks.json
 *.swp
 .cursor-session-state
+.cursor-session-state.json
 .cursor/agent-progress.json
 .cursor/last-feature-gate.json
 .cursor/parallel-scope-lock.json

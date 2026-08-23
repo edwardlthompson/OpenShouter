@@ -8,7 +8,7 @@ OpenShouter is local-first. Notification text, contacts, call numbers, and locat
 |------|---------|--------------|-----------|
 | App settings (DataStore) | Feature functionality | Legitimate interest | Until user clears app data |
 | Notification history (Room) | On-device log / debugging TTS | Legitimate interest | User-configurable; deletable in-app |
-| Contacts (read-only lookup) | Speak contact name for caller ID | User consent (permission) | Not stored; resolved at ring time |
+| Contacts (read-only lookup) | Speak contact name for caller ID | User consent (permission) | Names are resolved at ring time. Optional nickname and blacklist rules store **phone-digit keys** (not display names) in DataStore until the user deletes them |
 | Phone numbers (incoming) | Caller ID announcement | User consent (`READ_PHONE_STATE`) | Not logged beyond optional local history if enabled |
 | Location (fine / background) | Geofence Home/Work mode toggles | User consent | Coordinates for saved places only; no telemetry |
 | Calendar titles (read-only) | Upcoming-event shout | User consent (`READ_CALENDAR`) | Not stored; never logged |
@@ -32,12 +32,12 @@ OpenShouter is local-first. Notification text, contacts, call numbers, and locat
 - **Access:** Notification history and saved places are viewable in-app
 - **Deletion:** Clear history / uninstall / clear storage
 - **Opt-out:** Master mute, quiet hours, per-app blacklist; update checks default weekly and can be set to `off`
-- **Portability:** Settings export is a later feature; until then, Room/DataStore are on-device only
+- **Portability:** Settings + app-speak rules export as a user-initiated SAF zip (`settings.json`, `app_speak_rules.json`). Notification history is not included.
 
 ## Data Minimization
 
 - Notification Listener is used only to speak and optionally log locally
-- Contacts are queried, not copied into our database
+- Contacts are queried for display names at ring time; only user-entered nickname/blacklist **digit keys** persist in DataStore
 - Location updates run only when at least one geofence is enabled
 - Calendar is queried only when Calendar shout is on; titles are not persisted
 - Bluetooth names and battery extras are used only for TTS and are not persisted

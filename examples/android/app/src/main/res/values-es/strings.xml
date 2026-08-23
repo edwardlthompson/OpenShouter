@@ -12,7 +12,6 @@
     <string name="theme_mode_dark">Tema oscuro</string>
     <string name="about_title">Acerca de</string>
     <string name="about_open">Acerca de</string>
-    <string name="about_close">Cerrar</string>
     <string name="about_version">Versión: %1$s</string>
     <string name="about_format">Formato instalado: %1$s</string>
     <string name="about_donations_message">Si este proyecto te ayuda, considera apoyar el desarrollo.</string>
@@ -31,7 +30,6 @@
     <string name="about_update_apply">Aplicar actualización</string>
     <string name="settings_title">Ajustes</string>
     <string name="settings_open">Ajustes</string>
-    <string name="settings_close">Cerrar ajustes</string>
     <string name="settings_theme_label">Tema</string>
     <string name="settings_theme_mode_system">Tema del sistema</string>
     <string name="settings_theme_mode_light">Tema claro</string>
@@ -126,8 +124,8 @@
     <string name="tts_device_silent">Hablar en silencio o vibración</string>
     <string name="tts_device_incall">Hablar durante una llamada</string>
     <string name="rules_format" formatted="false">Formato TTS del texto de notificación (%app %title %text)</string>
-    <string name="apps_help">Las dos casillas apagadas dejan esa app en silencio. Marca Nombre de app para oír solo la etiqueta, Notificación para oír el mensaje, o ambas.</string>
     <string name="apps_search">Buscar apps</string>
+    <string name="apps_search_close">Cerrar búsqueda</string>
     <string name="apps_filter_selected">Solo apps seleccionadas</string>
     <string name="apps_select_all">Seleccionar todas</string>
     <string name="apps_deselect_all">Quitar todas</string>

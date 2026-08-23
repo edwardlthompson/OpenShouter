@@ -27,6 +27,7 @@ import org.openshouter.domain.AppSettings
 import org.openshouter.domain.ChannelDeviceState
 import org.openshouter.domain.DeviceStatePolicy
 import org.openshouter.domain.ShoutChannel
+import org.openshouter.domain.TtsFormat
 import org.openshouter.domain.TtsPlaybackPolicy
 import org.openshouter.domain.TtsStream
 import org.openshouter.domain.TtsVoice
@@ -44,6 +45,7 @@ import java.util.Locale
 fun TtsSettingsScreen(
     settings: AppSettings,
     onPlayback: (TtsPlaybackPolicy) -> Unit,
+    onFormatChange: (String) -> Unit = {},
     onDeviceState: (DeviceStatePolicy) -> Unit,
     onTest: () -> Unit,
     onPostTest: () -> Unit,
@@ -54,6 +56,7 @@ fun TtsSettingsScreen(
     scrollStore: MenuScrollStore,
     modifier: Modifier = Modifier,
 ) {
+    var format by remember(settings.ttsFormat) { mutableStateOf(settings.ttsFormat) }
     var showChannels by remember { mutableStateOf(false) }
     if (showChannels) {
         BackHandler { showChannels = false }
@@ -69,6 +72,20 @@ fun TtsSettingsScreen(
     val playback = settings.ttsPlayback
     val device = settings.deviceState
     MenuScaffold(stringResource(R.string.tts_title), scrollStore, "tts", onBack, modifier) {
+        MenuSection(stringResource(R.string.menu_section_shout)) {
+            MenuBody {
+                OutlinedTextField(
+                    value = format,
+                    onValueChange = {
+                        format = it.take(TtsFormat.MAX_TEMPLATE)
+                        onFormatChange(TtsFormat.clamp(format))
+                    },
+                    label = { Text(stringResource(R.string.rules_format)) },
+                    modifier = Modifier.fillMaxWidth(),
+                )
+                Text(stringResource(R.string.tts_tokens), style = MaterialTheme.typography.bodySmall)
+            }
+        }
         MenuSection(stringResource(R.string.menu_section_voice)) {
             MenuBody {
                 Text(stringResource(R.string.tts_stream), style = MaterialTheme.typography.titleMedium)
@@ -138,7 +155,6 @@ fun TtsSettingsScreen(
                 NudgeRow(stringResource(R.string.tts_repeat_count), playback.repeatCount) { delta ->
                     onPlayback(playback.copy(repeatCount = playback.repeatCount + delta).clamp())
                 }
-                Text(stringResource(R.string.tts_tokens), style = MaterialTheme.typography.bodySmall)
             }
             MenuToggle(
                 label = stringResource(R.string.tts_audio_focus),

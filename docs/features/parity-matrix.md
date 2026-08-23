@@ -22,6 +22,8 @@ Interactive filterable table: Cursor canvas `feature-parity-matrix.canvas.tsx` (
 
 **Wrap-up 2026-08-22 (Sprint 19):** Battery percent status (`LEVEL`) plus import of leftover Shouter prefs (silent-only, message prefix/suffix, `entmforid`). Matrix Battery row stays Yes.
 
+**Wrap-up 2026-08-23 (`/audit`):** Apps to shout is title + search icon + selected-only chip (field opens on icon tap). Global `%app` `%title` `%text` format lives on Voice → What to shout. Footer Close buttons removed; system Back leaves settings panes. Matrix rows stay Yes.
+
 Status: **Yes** shipped · **Partial** logic or subset UI · **No** missing · **Skip** will not copy (FOSS / out of scope).
 
 ## Summary
@@ -95,7 +97,7 @@ Dashboard master + sectioned Hear / History / Phone cards · searchable app-spea
 | Muting | Shake / screen on / screen off | Yes | Shake only | Yes | Sensitivity Sprint 12 |
 | Muting | Flip face-down | No | No | Yes | Keep |
 | Notifications | Listener TTS | Yes | Yes | Yes | Shipped |
-| Notifications | Installed-app picker | Yes | Yes | Yes | Shipped (Sprint 11 list) |
+| Notifications | Installed-app picker | Yes | Yes | Yes | Shipped (Sprint 11 list; search icon 2026-08-23) |
 | Notifications | Format tokens | Prefixes | `#A` `#T` `#S` `#C` `#M` `#I` `#H` `#Y` `#B` `#L` | `%app` `%title` `%text` `%ticker` `%subtext` `%bigtext` `%info` `%bigtitle` `%bigsummary` `%lines` `%time` | Shipped |
 | Notifications | Regex / ignore-require | No | Yes | Yes | Shipped ignore/replace UI |
 | Notifications | Ignore empty/group/repeat | No | Yes | Yes | Shipped NotificationPolicy + Filters toggles |

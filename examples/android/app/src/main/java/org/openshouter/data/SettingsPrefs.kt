@@ -80,7 +80,7 @@ internal fun Preferences.toAppSettings(): AppSettings {
         announcerEnabled = this[k.ENABLED] ?: true,
         notificationsEnabled = this[k.NOTIFS] ?: true,
         callsEnabled = this[k.CALLS] ?: true,
-        ttsFormat = this[k.FORMAT] ?: TtsFormat.DEFAULT,
+        ttsFormat = TtsFormat.clamp(this[k.FORMAT] ?: TtsFormat.DEFAULT),
         filterMode = runCatching {
             FilterMode.valueOf(this[k.FILTER] ?: FilterMode.BLACKLIST.name)
         }.getOrDefault(FilterMode.BLACKLIST),

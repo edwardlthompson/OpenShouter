@@ -17,6 +17,7 @@ import org.openshouter.domain.MissedCallPolicy
 import org.openshouter.domain.NotificationPolicy
 import org.openshouter.domain.ShakeThreshold
 import org.openshouter.domain.TimeShout
+import org.openshouter.domain.TtsFormat
 import org.openshouter.domain.TtsPlaybackPolicy
 
 @Singleton
@@ -26,10 +27,8 @@ class SettingsRepository @Inject constructor(
     val settings: Flow<AppSettings> = context.osDataStore.data.map { it.toAppSettings() }
 
     suspend fun snapshot(): AppSettings = settings.first()
-
     suspend fun setEnabled(value: Boolean) = context.osDataStore.edit { it[SettingsKeys.ENABLED] = value }
-
-    suspend fun setFormat(value: String) = context.osDataStore.edit { it[SettingsKeys.FORMAT] = value }
+    suspend fun setFormat(value: String) = context.osDataStore.edit { it[SettingsKeys.FORMAT] = TtsFormat.clamp(value) }
 
     suspend fun setFilterMode(mode: FilterMode) {
         context.osDataStore.edit { it[SettingsKeys.FILTER] = mode.name }

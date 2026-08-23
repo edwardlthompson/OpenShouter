@@ -12,7 +12,6 @@
     <string name="theme_mode_dark">Thème sombre</string>
     <string name="about_title">À propos</string>
     <string name="about_open">À propos</string>
-    <string name="about_close">Fermer</string>
     <string name="about_version">Version : %1$s</string>
     <string name="about_format">Format installé : %1$s</string>
     <string name="about_donations_message">Si ce projet vous aide, vous pouvez soutenir le développement.</string>
@@ -31,7 +30,6 @@
     <string name="about_update_apply">Appliquer la mise à jour</string>
     <string name="settings_title">Réglages</string>
     <string name="settings_open">Réglages</string>
-    <string name="settings_close">Fermer les réglages</string>
     <string name="settings_theme_label">Thème</string>
     <string name="settings_theme_mode_system">Thème système</string>
     <string name="settings_theme_mode_light">Thème clair</string>
@@ -126,8 +124,8 @@
     <string name="tts_device_silent">Parler en silencieux ou vibreur</string>
     <string name="tts_device_incall">Parler pendant un appel</string>
     <string name="rules_format" formatted="false">Format TTS du texte de notification (%app %title %text)</string>
-    <string name="apps_help">Les deux cases décochées : l’appli reste muette. Nom pour n’entendre que l’étiquette, Notification pour le message, ou les deux.</string>
     <string name="apps_search">Rechercher des applis</string>
+    <string name="apps_search_close">Fermer la recherche</string>
     <string name="apps_filter_selected">Applis sélectionnées seulement</string>
     <string name="apps_select_all">Tout sélectionner</string>
     <string name="apps_deselect_all">Tout désélectionner</string>

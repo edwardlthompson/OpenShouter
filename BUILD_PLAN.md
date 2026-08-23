@@ -49,6 +49,13 @@ grep '\[AUTO\]' BUILD_PLAN.md
 
 ## Child Repo Playbook
 
+### Sprint Audit leftover (2026-08-23)
+
+<!-- parallel_exception: HUMAN leftover archived -->
+
+> **Sprint Audit — 2026-08-23** AGENT archived in COMPLETED_TASKS.md @ `ad557fe`.
+> **F-009 code-scanning triage** archived in COMPLETED_TASKS.md (2026-08-23).
+
 > **Sprint Audit — 2026-08-13** archived in COMPLETED_TASKS.md.
 > **Sprints 3–5 and 8** archived in COMPLETED_TASKS.md @ `247faf2`.
 > **Sprint 11 app speak list** archived in COMPLETED_TASKS.md @ `247faf2`.
@@ -58,10 +65,7 @@ grep '\[AUTO\]' BUILD_PLAN.md
 <!-- parallel_exception: AGENT parallel listing copy archived to COMPLETED_TASKS.md -->
 
 > Local AGENT/AUTO gates archived in COMPLETED_TASKS.md @ `247faf2`.
-
-### Sequential (must complete in order)
-
-1. ❌ [AUTO] After first push to `main`: `check-github-ci.sh --wait 300` (CI + Security Scan + CodeQL) — Web/Node + CodeQL JS red on pruned stacks; local `if:` guards pending `/push`
+> **Sprint 0 first-push CI** archived in COMPLETED_TASKS.md (2026-08-23).
 
 > **Sprint 0 HUMAN** archived in COMPLETED_TASKS.md (2026-08-16 `/build`).
 
@@ -186,12 +190,11 @@ grep '\[AUTO\]' BUILD_PLAN.md
 
 ### Sprint 16 leftover (device smoke)
 
-<!-- parallel_exception: HUMAN-only leftover; AGENT/AUTO archived -->
+<!-- parallel_exception: HUMAN leftover archived -->
 
 > **Sprint 16** AGENT/AUTO archived in COMPLETED_TASKS.md @ `c93d967`.
 > **/ship v0.4.0** archived in COMPLETED_TASKS.md @ `c93d967`.
-
-- 🔲 [HUMAN] Smoke: first run silent; after version bump, one donate note; Install/Later; Venmo from About/Menu
+> **Sprint 16 donate smoke** archived in COMPLETED_TASKS.md (2026-08-23).
 
 ---
 
@@ -243,6 +246,10 @@ grep '\[AUTO\]' BUILD_PLAN.md
 
 | Sprint | Status | Archive |
 | ------ | ------ | ------- |
+| Sprint Audit leftover F-009 | Complete (HUMAN automation) | `COMPLETED_TASKS.md` |
+| Sprint 0 first-push CI | Complete (AUTO) | `COMPLETED_TASKS.md` |
+| Sprint 16 donate smoke | Complete (HUMAN automation) | `COMPLETED_TASKS.md` |
+| Sprint Audit — 2026-08-23 | Complete (AGENT) | `COMPLETED_TASKS.md` |
 | Sprint Audit — 2026-08-13 | Complete | `COMPLETED_TASKS.md` |
 | Sprints 3–5 and 8 | Complete | `COMPLETED_TASKS.md` |
 | Sprint 9 — Notification TTS quality | Complete (AGENT) | `COMPLETED_TASKS.md` |

@@ -95,10 +95,8 @@ fun OpenShouterPanes(
             modifier = modifier,
         )
         pane == Pane.Rules -> AppSpeakScreen(
-            settings = settings,
             rules = appRules,
             apps = installedApps,
-            onFormatChange = { value -> scope.launch { ep.settings().setFormat(value) } },
             onRuleChange = { pkg, name, notif ->
                 scope.launch { ep.appSpeak().set(pkg, name, notif) }
             },
@@ -156,6 +154,7 @@ fun OpenShouterPanes(
         pane == Pane.Tts -> TtsSettingsScreen(
             settings = settings,
             onPlayback = { policy -> scope.launch { ep.settings().setTtsPlayback(policy) } },
+            onFormatChange = { value -> scope.launch { ep.settings().setFormat(value) } },
             onDeviceState = { policy -> scope.launch { ep.settings().setDeviceState(policy) } },
             onTest = {
                 ep.tts().speak(

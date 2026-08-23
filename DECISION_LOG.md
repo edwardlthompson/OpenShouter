@@ -17,6 +17,13 @@
 
 ## Entries
 
+### 2026-08-23 — Automate leftover HUMAN rows
+- **Status:** Accepted
+- **Context:** F-009 Scorecard/code-scanning, Sprint 16 donate smoke, and Sprint 0 first-push CI were still open after `/audit`. GitHub dismiss used underscored reasons and failed; Gradle `--tests` on the root `test` task is invalid.
+- **Decision:** Dismiss implicit-PendingIntent, Token-Permissions, SAST, CI-tests, Security-Policy, Fuzzing, and CII as documented false positives / won't-fix. Keep Pinned-Dependencies, Binary-Artifacts, Code-Review, and Maintained for weekly Scorecard triage. Close donate smoke on `ProductUpdateTest`; treat Release Please `action_required` as KB-016.
+- **Alternatives considered:** Mass-dismiss 66 Pinned-Dependencies (rejected). Wait for a full device Venmo pane dump (rejected: unit tests cover first-run silent + version-bump donate + Install/Later).
+- **Consequences:** HUMAN_BACKLOG is empty. Recurring “Approve release tag” stays open. Pinning Actions remains weekly AGENT work.
+
 ### 2026-08-22 — Signed FOSS APK on every /ship
 - **Status:** Accepted
 - **Context:** In-app Install compares `openshouter-X.Y.Z-foss.apk`. `/ship` uploaded SBOMs only; v0.6.0 had no installer.

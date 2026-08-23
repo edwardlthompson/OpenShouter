@@ -6,6 +6,10 @@ object TtsFormat {
     const val MISSED_DEFAULT = "Missed call from %name"
     const val MESSAGE_DEFAULT = "Message from %name: %text"
     const val TIME_DEFAULT = "The time is %time"
+    const val MAX_TEMPLATE = 200
+
+    fun clamp(template: String): String = template.trim().ifBlank { DEFAULT }.take(MAX_TEMPLATE)
+
     private val TOKEN = Regex(
         "%(app|title|text|name|number|sim|ticker|subtext|bigtext|time|info|bigtitle|bigsummary|lines)",
     )

@@ -11,6 +11,7 @@ Searchable installed-app list. Per app: shout the **app name**, read the **notif
 - ✅ Unchecked apps are not spoken (opt-in)
 - ✅ TalkBack: each checkbox has a content description that includes the app label
 - ✅ i18n: `apps_*` keys in `strings.xml`
+- ✅ TTS format (`%app` `%title` `%text`) lives on Voice, not this list, so the picker stays a search + list
 
 ## Smoke scenario
 
@@ -42,6 +43,7 @@ Searchable installed-app list. Per app: shout the **app name**, read the **notif
 | QUERY_ALL_PACKAGES | Manifest + GitHub Releases; `[HUMAN]` Play-policy N/A |
 ## Notes
 
+- Chrome is title + search icon + filter chip. The search field opens only after the icon tap; Back or close hides it and clears the query. TTS format is on Voice (`TtsSettingsScreen`).
 - Apps with both boxes off have no Room row.
 - Existing DataStore whitelist packages are imported once (both boxes on).
 - After each AGENT step: `python3 scripts/agent-run.py watch-agent-gates --once --autofix`

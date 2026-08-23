@@ -28,7 +28,7 @@
 - ✅ No proprietary closed-source SDKs in production path (ADR-0002: no Play Services location)
 - ✅ Opt-in only telemetry (none planned); see `docs/PRIVACY.md`
 - ✅ Secrets excluded from VCS (Gitleaks pre-commit)
-- 🔲 Dependency vulnerability scanning green on GitHub (first push in progress)
+- ✅ Dependency vulnerability scanning green on GitHub (`origin/main` CI + Security Scan + CodeQL)
 - ✅ Input validation at all data boundaries (regex rules, TTS format strings)
 - ✅ `SECURITY.md` present; private reporting is `[HUMAN]` GitHub setting
 
@@ -92,6 +92,8 @@ OpenShouter is a FOSS recreation/enhancement of classic Shouter (`com.bhkapps.sh
 | 2026-08-21 | `/ship` v0.5.0 | `feat` → minor; RP #17 admin-merged; Sprint 16 leftover `parallel_exception` | HUMAN donate/update smoke still open; name APKs `openshouter-X.Y.Z-foss.apk` |
 | 2026-08-22 | `/ship` v0.6.0 | `feat` → minor; RP #19 admin-merged; classic Shouter import + LEVEL | HUMAN donate/update smoke still open; name APKs `openshouter-X.Y.Z-foss.apk` |
 | 2026-08-22 | Signed FOSS APK on `/ship` | Local debug-key `publish-foss-apk`; uploaded `openshouter-0.6.0-foss.apk` | Never upload CI-signed APKs; same debug key as prior sideloads |
+| 2026-08-23 | `/audit` | Session-state gitignore; backup zip/rule caps; TTS format clamp; privacy + parity docs | HUMAN leftovers later automated the same day |
+| 2026-08-23 | HUMAN leftover automation | Dismissed 16 code-scanning FPs; ProductUpdateTest donate smoke; first-push CI green | Leftover Scorecard: 66 pinned-deps + BinaryArtifacts/CodeReview/Maintained |
 ## Template Provenance
 
 - **Source template:** `edwardlthompson/agent-project-bootstrap`

@@ -65,9 +65,11 @@ object ShouterLegacy {
             ZipInputStream(ByteArrayInputStream(bytes)).use { zip ->
                 var entry = zip.nextEntry
                 while (entry != null) {
-                    dumpFromBytes(zip.readBytes())?.let {
-                        acc = acc.plus(it)
-                        any = true
+                    BackupLimits.readBounded(zip, BackupLimits.MAX_ENTRY_BYTES)?.let { chunk ->
+                        dumpFromBytes(chunk)?.let {
+                            acc = acc.plus(it)
+                            any = true
+                        }
                     }
                     zip.closeEntry()
                     entry = zip.nextEntry

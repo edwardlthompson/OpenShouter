@@ -33,4 +33,28 @@ class SettingsBackupTest {
         assertEquals("pkg.one", restored[0].packageName)
         assertTrue(restored[0].speakAppName)
     }
+
+    @Test
+    fun fromZipRejectsOversizedPayload() {
+        val huge = ByteArray(BackupLimits.MAX_ZIP_BYTES + 1)
+        val (settings, rules) = SettingsBackup.fromZip(huge)
+        assertEquals(0, settings.length())
+        assertTrue(rules.isEmpty())
+    }
+
+    @Test
+    fun parseRulesSkipsInvalidPackages() {
+        val bad = listOf(AppSpeakRule("not-a-package", speakAppName = true, speakNotification = true))
+        val good = listOf(AppSpeakRule("com.example.ok", speakAppName = true, speakNotification = false))
+        val (_, restored) = SettingsBackup.fromZip(SettingsBackup.toZip(AppSettings(), bad + good))
+        assertEquals(1, restored.size)
+        assertEquals("com.example.ok", restored[0].packageName)
+    }
+
+    @Test
+    fun readBoundedRejectsOverMax() {
+        val stream = "hello world".byteInputStream()
+        assertEquals(null, BackupLimits.readBounded(stream, 4))
+        assertEquals("hi", BackupLimits.readBounded("hi".byteInputStream(), 4)?.decodeToString())
+    }
 }

@@ -26,6 +26,7 @@ object ReminderAlarms {
     private fun pending(context: Context, row: ReminderEntity): PendingIntent {
         val intent = Intent(context, ReminderReceiver::class.java).apply {
             action = ReminderContract.ACTION
+            setPackage(context.packageName)
             putExtra(ReminderContract.EXTRA_ID, row.id)
             putExtra(ReminderContract.EXTRA_ALSO_NOTIFY, row.alsoNotify)
         }

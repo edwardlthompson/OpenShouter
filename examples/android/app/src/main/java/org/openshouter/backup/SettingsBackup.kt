@@ -25,6 +25,7 @@ object SettingsBackup {
     }
 
     fun fromZip(bytes: ByteArray): Pair<JSONObject, List<AppSpeakRule>> {
+        if (bytes.size > BackupLimits.MAX_ZIP_BYTES) return JSONObject() to emptyList()
         var settings = JSONObject()
         var rules = emptyList<AppSpeakRule>()
         ZipInputStream(ByteArrayInputStream(bytes)).use { zip ->
@@ -32,9 +33,12 @@ object SettingsBackup {
             while (entry != null) {
                 val name = entry.name.substringAfterLast('/')
                 if (BackupAllowlist.allowed(name)) {
-                    val text = zip.readBytes().decodeToString()
-                    if (name == BackupAllowlist.SETTINGS) settings = JSONObject(text)
-                    if (name == BackupAllowlist.APP_SPEAK) rules = parseRules(text)
+                    val chunk = BackupLimits.readBounded(zip, BackupLimits.MAX_ENTRY_BYTES)
+                    if (chunk != null) {
+                        val text = chunk.decodeToString()
+                        if (name == BackupAllowlist.SETTINGS) settings = JSONObject(text)
+                        if (name == BackupAllowlist.APP_SPEAK) rules = parseRules(text)
+                    }
                 }
                 zip.closeEntry()
                 entry = zip.nextEntry
@@ -68,12 +72,15 @@ object SettingsBackup {
 
     private fun parseRules(text: String): List<AppSpeakRule> {
         val arr = JSONArray(text)
+        val limit = minOf(arr.length(), BackupLimits.MAX_RULES)
         return buildList {
-            for (i in 0 until arr.length()) {
+            for (i in 0 until limit) {
                 val obj = arr.getJSONObject(i)
+                val pkg = obj.optString("packageName")
+                if (!ShouterLegacyParse.validPackage(pkg)) continue
                 add(
                     AppSpeakRule(
-                        obj.optString("packageName"),
+                        pkg,
                         obj.optBoolean("speakAppName"),
                         obj.optBoolean("speakNotification"),
                     ),

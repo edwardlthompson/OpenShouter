@@ -1,5 +1,6 @@
 package dev.foss.goldenpath.ui.about
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -20,7 +21,6 @@ import dev.foss.goldenpath.R
 import dev.foss.goldenpath.about.DonationsConfig
 import dev.foss.goldenpath.ui.insets.LocalNavigationMode
 import org.openshouter.updates.DonateLinks
-import dev.foss.goldenpath.ui.insets.bottomInsetPadding
 import dev.foss.goldenpath.ui.insets.navigationBarInsetBottomDp
 import dev.foss.goldenpath.ui.insets.navigationModeLabelRes
 import dev.foss.goldenpath.ui.theme.SpacingMd
@@ -36,6 +36,7 @@ fun AboutScreen(
     onBack: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    BackHandler(onBack = onBack)
     val uriHandler = LocalUriHandler.current
     val navMode = LocalNavigationMode.current
     val insetDp = navigationBarInsetBottomDp()
@@ -82,12 +83,6 @@ fun AboutScreen(
                     modifier = Modifier.clickable { uriHandler.openUri(link.url) },
                 )
             }
-        }
-        Button(
-            onClick = onBack,
-            modifier = Modifier.bottomInsetPadding(),
-        ) {
-            Text(stringResource(R.string.about_close))
         }
     }
 }

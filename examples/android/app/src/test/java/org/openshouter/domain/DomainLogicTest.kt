@@ -33,6 +33,12 @@ class TtsFormatTest {
     fun incomingCallPhrase() {
         assertEquals("Incoming call from Ada", TtsFormat.incomingCall("Ada"))
     }
+
+    @Test
+    fun clampBlankAndOversizeTemplate() {
+        assertEquals(TtsFormat.DEFAULT, TtsFormat.clamp("   "))
+        assertEquals(TtsFormat.MAX_TEMPLATE, TtsFormat.clamp("x".repeat(TtsFormat.MAX_TEMPLATE + 40)).length)
+    }
 }
 
 class AppFilterTest {

@@ -12,6 +12,8 @@ object BackupSaf {
     }.getOrDefault(false)
 
     fun read(context: Context, uri: Uri): ByteArray? = runCatching {
-        context.contentResolver.openInputStream(uri)?.use { it.readBytes() }
+        context.contentResolver.openInputStream(uri)?.use { stream ->
+            BackupLimits.readBounded(stream, BackupLimits.MAX_ZIP_BYTES)
+        }
     }.getOrNull()
 }

@@ -2,6 +2,18 @@
 
 > Archive of finished BUILD_PLAN items.
 
+## HUMAN leftovers automated (2026-08-23)
+
+- ✅ [HUMAN] F-009: triage open GitHub code-scanning / Scorecard alerts (28) and Release Please `action_required` workflows
+- ✅ [HUMAN] Smoke: first run silent; after version bump, one donate note; Install/Later; Venmo from About/Menu
+- ✅ [AUTO] After first push to `main`: `check-github-ci.sh --wait 300` (CI + Security Scan + CodeQL)
+
+## Sprint Audit — 2026-08-23 (2026-08-23)
+
+- ✅ [AGENT] F-001/F-003/F-005: ignore `.cursor-session-state.json`; update `PRIVACY.md` contact-rule + export lines; drop `about.close` from DESIGN_GUIDE; parity-matrix wrap-up for Apps search-icon + Voice format + system Back
+- ✅ [AGENT] F-002: cap backup zip/entry bytes and imported rule count; skip invalid packages; tests
+- ✅ [AGENT] F-004: clamp TTS format length on write/read; tests
+
 ## /ship v0.6.0 (2026-08-22)
 
 - ✅ [AUTO] `pre-release-gate.sh` (local + push-SHA CI/CodeQL/Security Scan)

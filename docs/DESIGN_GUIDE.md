@@ -130,7 +130,7 @@ Cross-stack in-app About (not GitHub repo About):
 
 | Key prefix | Purpose |
 |------------|---------|
-| `about.title`, `about.close`, `about.open` | Navigation |
+| `about.title`, `about.open` | Navigation (system Back closes About) |
 | `about.version`, `about.format` | Installed metadata |
 | `about.update.interval.*` | Check interval selector (`off`, `daily`, `weekly`, `monthly`, `on_session`) |
 | `about.update.current`, `about.update.available`, `about.update.no_compatible`, `about.update.restarting` | Status copy |

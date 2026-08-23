@@ -8,9 +8,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+* **android:** search-icon app picker, Voice TTS format, backup zip caps, and HUMAN leftover automation
+
 ### Changed
 
 * **android:** `/ship` uploads a signed `openshouter-X.Y.Z-foss.apk` to the GitHub Release
+* **android:** settings panes use system Back; Close buttons removed
 
 ## [0.6.0](https://github.com/edwardlthompson/OpenShouter/compare/v0.5.0...v0.6.0) (2026-08-22)
 

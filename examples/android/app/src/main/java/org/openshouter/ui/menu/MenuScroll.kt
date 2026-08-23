@@ -1,17 +1,16 @@
 package org.openshouter.ui.menu
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -20,9 +19,6 @@ import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.FrameRateCategory
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.preferredFrameRate
-import androidx.compose.ui.res.stringResource
-import dev.foss.goldenpath.R
-import dev.foss.goldenpath.ui.insets.bottomInsetPadding
 import dev.foss.goldenpath.ui.theme.SpacingLg
 import dev.foss.goldenpath.ui.theme.SpacingMd
 
@@ -58,18 +54,6 @@ fun rememberMenuListScroll(store: MenuScrollStore, key: String): LazyListState {
 }
 
 @Composable
-fun MenuClose(onClick: () -> Unit) {
-    OutlinedButton(
-        onClick = onClick,
-        modifier = Modifier
-            .fillMaxWidth()
-            .bottomInsetPadding(),
-    ) {
-        Text(stringResource(R.string.settings_close))
-    }
-}
-
-@Composable
 fun MenuScaffold(
     title: String,
     scrollStore: MenuScrollStore,
@@ -78,6 +62,7 @@ fun MenuScaffold(
     modifier: Modifier = Modifier,
     content: @Composable ColumnScope.() -> Unit,
 ) {
+    if (onBack != null) BackHandler(onBack = onBack)
     Column(
         modifier = modifier
             .highRefreshScroll()
@@ -87,6 +72,5 @@ fun MenuScaffold(
     ) {
         Text(title, style = MaterialTheme.typography.headlineSmall)
         content()
-        if (onBack != null) MenuClose(onBack)
     }
 }

@@ -4,6 +4,11 @@ from __future__ import annotations
 import re
 from pathlib import Path
 
+from human_task_audit import (
+    automate_code_scanning_triage,
+    automate_donate_smoke,
+    automate_first_push_ci,
+)
 from human_task_core import AttemptResult, run_cmd
 
 
@@ -115,4 +120,7 @@ def extra_human_rules() -> list[tuple[re.Pattern[str], str, object]]:
         (re.compile(r"SCHEDULE_EXACT_ALARM|Announce accurately|reminder exact", re.I), "human", automate_exact_alarm_copy),
         (re.compile(r"QUERY_ALL_PACKAGES", re.I), "human", automate_query_all_packages),
         (re.compile(r"OEM autostart", re.I), "human", automate_oem_copy),
+        (re.compile(r"code-scanning|Scorecard|action_required|F-009", re.I), "human", automate_code_scanning_triage),
+        (re.compile(r"donate note|Venmo from About|first run silent", re.I), "human", automate_donate_smoke),
+        (re.compile(r"first push|check-github-ci", re.I), "auto", automate_first_push_ci),
     ]
