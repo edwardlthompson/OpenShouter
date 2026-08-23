@@ -219,6 +219,7 @@ grep '\[AUTO\]' BUILD_PLAN.md
 
 > **Sprint 19** AGENT archived in COMPLETED_TASKS.md @ `6808c54`.
 > **/ship v0.6.0** archived in COMPLETED_TASKS.md @ `6808c54`.
+> **/ship v0.7.0** archived in COMPLETED_TASKS.md (2026-08-23).
 
 ---
 
@@ -272,6 +273,7 @@ grep '\[AUTO\]' BUILD_PLAN.md
 | Sprint 18 — Import classic Shouter apps | Complete (AGENT) | `COMPLETED_TASKS.md` |
 | Sprint 19 — Shouter setting transfer parity | Complete (AGENT) | `COMPLETED_TASKS.md` |
 | /ship v0.6.0 | Complete | `COMPLETED_TASKS.md` |
+| /ship v0.7.0 | Complete | `COMPLETED_TASKS.md` |
 | Sprints 9–14 ADB QA (CPH2655) | Complete | `COMPLETED_TASKS.md` |
 | Sprints 0–13 HUMAN confirmations | Complete | `COMPLETED_TASKS.md` |
 | Sprint 11 app speak list | Complete | `COMPLETED_TASKS.md` |

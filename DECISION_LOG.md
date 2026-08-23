@@ -17,6 +17,13 @@
 
 ## Entries
 
+### 2026-08-23 — /ship v0.7.0
+- **Status:** Accepted
+- **Context:** Apps-to-shout UI, backup/TTS caps, HUMAN leftover automation, and the unpushed signed-APK `/ship` commit were ready. Pre-release CI on local HEAD failed only because `ad557fe` had never been pushed.
+- **Decision:** `feat` without a version in the subject → 0.7.0. Bump `versionCode` 10 / `versionName` 0.7.0 so donate/update match the tag. Admin-merge Release Please #20 (KB-016). Upload `openshouter-0.7.0-foss.apk` from This Computer.
+- **Alternatives considered:** Patch 0.6.1 via `chore`/`fix` (rejected: user-facing picker and settings changes). Wait for CI on the unpushed `ad557fe` SHA before `/push` (rejected: chicken-and-egg; `origin/main` was already green).
+- **Consequences:** https://github.com/edwardlthompson/OpenShouter/releases/tag/v0.7.0. Weekly Scorecard still has 66 pinned-action alerts.
+
 ### 2026-08-23 — Automate leftover HUMAN rows
 - **Status:** Accepted
 - **Context:** F-009 Scorecard/code-scanning, Sprint 16 donate smoke, and Sprint 0 first-push CI were still open after `/audit`. GitHub dismiss used underscored reasons and failed; Gradle `--tests` on the root `test` task is invalid.
