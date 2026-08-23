@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
 ## [0.8.0](https://github.com/edwardlthompson/OpenShouter/compare/v0.7.0...v0.8.0) (2026-08-23)
 
 
@@ -23,16 +25,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Documentation
 
 * record v0.7.0 ship regressions ([3468049](https://github.com/edwardlthompson/OpenShouter/commit/3468049dbcd354e863e5918abcc8b105f7196b19))
-
-## [Unreleased]
-
-### Added
-
-* **android:** voice quality floor, engine catalog, and exclusive-choice dropdowns
-
-### Changed
-
-* **android:** replace exclusive setting chips with shared dropdowns (Quiet Hours grid stays)
 
 ## [0.7.0](https://github.com/edwardlthompson/OpenShouter/compare/v0.6.0...v0.7.0) (2026-08-23)
 

@@ -11,7 +11,7 @@
 | Architecture | Clean Architecture + MVVM | ADR-0001 | Hilt DI, Room, DataStore, Coroutines/Flow |
 | License | MIT | - | Pure FOSS; no Play Services |
 | Distribution | GitHub Releases only | - | No Play Store, no F-Droid listing, no Play Core |
-| Template | agent-project-bootstrap | 0.17.0 scaffold; standards 0.21.0; product 0.7.0 | Product semver stays in `.template-version` |
+| Template | agent-project-bootstrap | 0.17.0 scaffold; standards 0.21.0; product 0.8.0 | Product semver stays in `.template-version` |
 ## Active Modules
 
 - ❌ Web / PWA (`modules/web/MODULE.md`)
@@ -95,10 +95,11 @@ OpenShouter is a FOSS recreation/enhancement of classic Shouter (`com.bhkapps.sh
 | 2026-08-23 | `/audit` | Session-state gitignore; backup zip/rule caps; TTS format clamp; privacy + parity docs | HUMAN leftovers later automated the same day |
 | 2026-08-23 | HUMAN leftover automation | Dismissed 16 code-scanning FPs; ProductUpdateTest donate smoke; first-push CI green | Leftover Scorecard: 66 pinned-deps + BinaryArtifacts/CodeReview/Maintained |
 | 2026-08-23 | `/ship` v0.7.0 | `feat` → minor; RP #20 admin-merged; search-icon picker + backup caps | Weekly Scorecard pinned-deps remain; name APKs `openshouter-X.Y.Z-foss.apk` |
+| 2026-08-23 | `/ship` v0.8.0 | `feat` → minor; RP #22 admin-merged; voice quality dropdowns + engine catalog | Instrumented settings test must open/dismiss the theme dropdown; name APKs `openshouter-X.Y.Z-foss.apk` |
 ## Template Provenance
 
 - **Source template:** `edwardlthompson/agent-project-bootstrap`
 - **Bootstrap scaffold / standards:** `0.17.0` / `0.21.0` (not product semver)
-- **Product version:** `0.7.0` (see `.template-version`)
+- **Product version:** `0.8.0` (see `.template-version`)
 - **Last update check:** See `.template-update.json`
 - **Stack selection:** `.cursor/stack-selection.json` (`android`, `foss`, pruned)

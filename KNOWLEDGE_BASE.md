@@ -142,6 +142,7 @@
 | **Seen again** | v0.5.0 Release Please #17 — `--auto` failed; admin merge after push-SHA CI/CodeQL/Security Scan green |
 | **Seen again** | v0.6.0 Release Please #19 — `--auto` failed; admin merge after push-SHA CI/CodeQL/Security Scan green |
 | **Seen again** | v0.7.0 Release Please #20 — `--auto` failed; admin merge after push-SHA CI/CodeQL/Security Scan green |
+| **Seen again** | v0.8.0 Release Please #22 — `--auto` failed; admin merge after push-SHA CI/CodeQL/Security Scan green |
 ### KB-021 — OP13 release APK silent under AudioHardening
 
 | Field | Detail |
@@ -174,6 +175,15 @@
 | **Cause** | `feat` maps to Added / minor. Release Please extra-files did not include `CITATION.cff` |
 | **Fix** | Accept 0.3.0. Add `CITATION.cff` to extra-files with `# x-release-please-version`. `sync-template-version.sh` rewrites the CFF version line |
 | **Prevention** | Do not put a guessed patch version in a `feat` subject. After each RP merge, confirm CITATION matches `.template-version` |
+### KB-022 — Settings theme dropdown consumes the first Back
+
+| Field | Detail |
+|-------|--------|
+| **Symptom** | `GoldenPathUiTest.opensSettingsPanelWithThemeAndUpdateControls` fails after chips become a dropdown: Dark theme is missing, or Theme remains after one Back |
+| **Cause** | `MenuDropdown` hides options until expanded. `ExposedDropdownMenu` consumes the first Back to dismiss the menu |
+| **Fix** | Open the current value (`System theme`), pick `Dark theme`, then Back until `Check for updates` is gone |
+| **Prevention** | Settings smoke tests must expand exclusive-choice dropdowns; do not assert a chip label that is only inside the menu |
+
 ### KB-020 — HUMAN leftover sprint blocks need `parallel_exception`
 
 | Field | Detail |

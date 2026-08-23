@@ -17,6 +17,13 @@
 
 ## Entries
 
+### 2026-08-23 — /ship v0.8.0
+- **Status:** Accepted
+- **Context:** Voice quality floor, engine catalog, and exclusive-choice dropdowns were ready. Settings smoke test failed twice (closed dropdown hid Dark theme; Back dismissed the menu first).
+- **Decision:** `feat` without a version in the subject → 0.8.0. Bump `versionCode` 11 / `versionName` 0.8.0 so donate/update match the tag. Admin-merge Release Please #22 (KB-016). Upload `openshouter-0.8.0-foss.apk` from This Computer.
+- **Alternatives considered:** Keep FilterChips (rejected: user asked for dropdowns). Wait for `--auto` on the Release Please PR (rejected: KB-016).
+- **Consequences:** https://github.com/edwardlthompson/OpenShouter/releases/tag/v0.8.0. Quiet Hours still uses the hour grid and day chips.
+
 ### 2026-08-23 — /ship v0.7.0
 - **Status:** Accepted
 - **Context:** Apps-to-shout UI, backup/TTS caps, HUMAN leftover automation, and the unpushed signed-APK `/ship` commit were ready. Pre-release CI on local HEAD failed only because `ad557fe` had never been pushed.
