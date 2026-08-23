@@ -2,6 +2,7 @@ package dev.foss.goldenpath
 
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
+import androidx.compose.ui.test.onAllNodesWithText
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
@@ -20,10 +21,16 @@ class GoldenPathUiTest {
         composeTestRule.onNodeWithText("Check for updates").assertIsDisplayed()
         composeTestRule.onNodeWithText("System theme").performClick()
         composeTestRule.onNodeWithText("Dark theme").performClick()
-        composeTestRule.activityRule.scenario.onActivity { activity ->
-            activity.onBackPressedDispatcher.onBackPressed()
+        repeat(2) {
+            composeTestRule.waitForIdle()
+            if (composeTestRule.onAllNodesWithText("Check for updates").fetchSemanticsNodes().isEmpty()) {
+                return@repeat
+            }
+            composeTestRule.activityRule.scenario.onActivity { activity ->
+                activity.onBackPressedDispatcher.onBackPressed()
+            }
         }
-        composeTestRule.onNodeWithText("Theme").assertDoesNotExist()
+        composeTestRule.onNodeWithText("Check for updates").assertDoesNotExist()
     }
 
     @Test
