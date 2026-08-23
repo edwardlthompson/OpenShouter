@@ -6,6 +6,23 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.7.0](https://github.com/edwardlthompson/OpenShouter/compare/v0.6.0...v0.7.0) (2026-08-23)
+
+
+### Added
+
+* **android:** tighten apps-to-shout and backup limits ([1cb14b1](https://github.com/edwardlthompson/OpenShouter/commit/1cb14b1faec1b6db9e1957af3deb74ab05fd7be7))
+
+
+### Changed
+
+* **release:** upload signed FOSS APK on every ship ([ad557fe](https://github.com/edwardlthompson/OpenShouter/commit/ad557fe808066c073d3ddb625249d73130225b74))
+
+
+### Documentation
+
+* record v0.6.0 ship regressions ([7f3e1b2](https://github.com/edwardlthompson/OpenShouter/commit/7f3e1b2fe85fc0473a66d8942033aeff1227c602))
+
 ## [Unreleased]
 
 ### Added
