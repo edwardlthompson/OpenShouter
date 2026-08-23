@@ -14,12 +14,15 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.openshouter.audio.AudioRouteMonitor
 import org.openshouter.data.SettingsRepository
 import org.openshouter.domain.ChannelStates
 import org.openshouter.domain.SpokenEvent
+import org.openshouter.domain.TtsSourceCatalog
+import org.openshouter.domain.TtsVoiceCandidate
 
 @Singleton
 class TtsController @Inject constructor(
@@ -31,10 +34,14 @@ class TtsController @Inject constructor(
     private val audio = appContext.getSystemService(Context.AUDIO_SERVICE) as AudioManager
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.Default)
     @Volatile private var engine: TextToSpeech? = null
+    @Volatile private var boundEngine: String? = null
     @Volatile private var ready = false
     @Volatile private var pending: SpokenEvent? = null
     @Volatile private var focusRequest: AudioFocusRequest? = null
+    private val _engineGen = MutableStateFlow(0)
+    val engineGen = _engineGen
     private val playback = TtsPlayback(
+        appContext,
         audio,
         appContext.getSystemService(Context.POWER_SERVICE) as PowerManager,
         settings,
@@ -49,36 +56,45 @@ class TtsController @Inject constructor(
         isSilent = { route.isSilent() },
     )
 
-    fun languageTags(): List<String> {
-        warmup()
+    fun languageTags(enginePackage: String = boundEngine.orEmpty()): List<String> {
+        warmup(enginePackage)
         return TtsEngine.languageTags(engine)
     }
 
-    fun warmup() {
-        if (engine != null) return
-        engine = TextToSpeech(appContext) { status ->
+    fun voices(enginePackage: String = boundEngine.orEmpty()): List<TtsVoiceCandidate> {
+        warmup(enginePackage)
+        return TtsEngines.voices(engine)
+    }
+
+    fun installedEngines() = TtsEngines.installed(appContext)
+
+    fun downloadOffers() = TtsSourceCatalog.missing(installedEngines().map { it.packageName }.toSet())
+
+    fun warmup(enginePackage: String = boundEngine.orEmpty()) {
+        val want = enginePackage.trim()
+        if (engine != null && boundEngine == want) return
+        val old = engine
+        ready = false
+        engine = null
+        boundEngine = want
+        engine = TtsEngine.create(appContext, want) { status ->
+            if (status != TextToSpeech.SUCCESS && want.isNotEmpty()) {
+                warmup("")
+                return@create
+            }
             ready = status == TextToSpeech.SUCCESS
             engine?.language = Locale.getDefault()
-            engine?.setOnUtteranceProgressListener(object : UtteranceProgressListener() {
-                override fun onStart(utteranceId: String?) = Unit
-                override fun onError(utteranceId: String?) {
-                    scope.launch(Dispatchers.Main.immediate) { playback.onSynthFailed(utteranceId) }
-                }
-                override fun onDone(utteranceId: String?) {
-                    scope.launch(Dispatchers.Main.immediate) {
-                        playback.playSynthesized(engine, ready, utteranceId)
-                    }
-                }
-            })
+            engine?.setOnUtteranceProgressListener(progressListener)
+            _engineGen.value += 1
             pending?.let { queued ->
                 pending = null
                 speak(queued)
             }
         }
+        old?.shutdown()
     }
 
     fun speak(event: SpokenEvent, immediate: Boolean = false) {
-        warmup()
         scope.launch {
             val snap = settings.snapshot()
             val policy = snap.ttsPlayback.clamp()
@@ -87,6 +103,7 @@ class TtsController @Inject constructor(
                 delay(policy.delaySeconds * 1000L)
             }
             withContext(Dispatchers.Main) {
+                warmup(policy.voice.engine)
                 if (playback.speakNow(engine, ready, event, policy, allowSilent, immediate) { pending = it }) {
                     playback.scheduleScreenOff(event, policy, { engine }, { ready }) { pending = it }
                 }
@@ -101,11 +118,24 @@ class TtsController @Inject constructor(
     }
 
     fun shutdown() {
-        playback.stop()
+        playback.release()
         abandonFocus()
         engine?.shutdown()
         engine = null
+        boundEngine = null
         ready = false
+    }
+
+    private val progressListener = object : UtteranceProgressListener() {
+        override fun onStart(utteranceId: String?) = Unit
+        override fun onError(utteranceId: String?) {
+            scope.launch(Dispatchers.Main.immediate) { playback.onSynthFailed(utteranceId) }
+        }
+        override fun onDone(utteranceId: String?) {
+            scope.launch(Dispatchers.Main.immediate) {
+                playback.playSynthesized(engine, ready, utteranceId)
+            }
+        }
     }
 
     private fun abandonFocus() {

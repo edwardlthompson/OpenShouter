@@ -1,11 +1,7 @@
 package org.openshouter.ui.filters
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.ExperimentalLayoutApi
-import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.Button
-import androidx.compose.material3.FilterChip
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
@@ -17,20 +13,19 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import dev.foss.goldenpath.R
-import dev.foss.goldenpath.ui.theme.SpacingMd
 import org.openshouter.data.RegexEntity
 import org.openshouter.domain.NotificationPolicy
 import org.openshouter.domain.RegexAction
 import org.openshouter.domain.RegexFilter
 import org.openshouter.domain.SpeakImportance
 import org.openshouter.ui.menu.MenuBody
+import org.openshouter.ui.menu.MenuDropdown
 import org.openshouter.ui.menu.MenuLink
 import org.openshouter.ui.menu.MenuScaffold
 import org.openshouter.ui.menu.MenuScrollStore
 import org.openshouter.ui.menu.MenuSection
 import org.openshouter.ui.menu.MenuToggle
 
-@OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun FiltersScreen(
     rules: List<RegexEntity>,
@@ -67,15 +62,17 @@ fun FiltersScreen(
             MenuToggle(stringResource(R.string.filters_dnd_priority), policy.dndPriorityOnly, {
                 onPolicy(policy.copy(dndPriorityOnly = it))
             }, true)
-            MenuBody { Text(stringResource(R.string.filters_min_importance), style = MaterialTheme.typography.titleMedium) }
-            FlowRow(horizontalArrangement = Arrangement.spacedBy(SpacingMd)) {
-                SpeakImportance.entries.forEach { level ->
-                    FilterChip(
-                        selected = policy.minImportance == level,
-                        onClick = { onPolicy(policy.copy(minImportance = level)) },
-                        label = { Text(stringResource(importanceLabel(level))) },
-                    )
-                }
+            MenuBody {
+                val levels = SpeakImportance.entries.map { it.name to stringResource(importanceLabel(it)) }
+                MenuDropdown(
+                    label = stringResource(R.string.filters_min_importance),
+                    text = levels.firstOrNull { it.first == policy.minImportance.name }?.second ?: levels.first().second,
+                    options = levels,
+                    onSelect = { name ->
+                        val level = runCatching { SpeakImportance.valueOf(name) }.getOrDefault(SpeakImportance.ANY)
+                        onPolicy(policy.copy(minImportance = level))
+                    },
+                )
             }
         }
         MenuSection(stringResource(R.string.menu_section_actions)) {
@@ -99,22 +96,18 @@ fun FiltersScreen(
                     label = { Text(stringResource(R.string.filters_replacement)) },
                     modifier = Modifier.fillMaxWidth(),
                 )
-                FlowRow(horizontalArrangement = Arrangement.spacedBy(SpacingMd)) {
-                    RegexAction.entries.forEach { mode ->
-                        FilterChip(
-                            selected = action == mode,
-                            onClick = { action = mode },
-                            label = {
-                                Text(
-                                    when (mode) {
-                                        RegexAction.IGNORE -> stringResource(R.string.filters_action_ignore)
-                                        RegexAction.REPLACE -> stringResource(R.string.filters_action_replace)
-                                    },
-                                )
-                            },
-                        )
-                    }
-                }
+                val actions = listOf(
+                    RegexAction.IGNORE to stringResource(R.string.filters_action_ignore),
+                    RegexAction.REPLACE to stringResource(R.string.filters_action_replace),
+                )
+                MenuDropdown(
+                    label = stringResource(R.string.menu_section_actions),
+                    text = actions.firstOrNull { it.first == action }?.second ?: actions.first().second,
+                    options = actions.map { it.first.name to it.second },
+                    onSelect = { name ->
+                        action = runCatching { RegexAction.valueOf(name) }.getOrDefault(RegexAction.IGNORE)
+                    },
+                )
                 Button(
                     onClick = {
                         addRequireLines(requireText, onAdd)

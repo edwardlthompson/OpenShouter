@@ -18,8 +18,8 @@ import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Checkbox
-import androidx.compose.material3.FilterChip
 import androidx.compose.material3.Icon
+import androidx.compose.material3.Switch
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
@@ -112,15 +112,23 @@ fun AppSpeakScreen(
                 singleLine = true,
             )
         }
+        val selectedLabel = stringResource(R.string.apps_filter_selected)
         FlowRow(
             horizontalArrangement = Arrangement.spacedBy(SpacingMd),
             verticalArrangement = Arrangement.Center,
         ) {
-            FilterChip(
-                selected = selectedOnly,
-                onClick = { selectedOnly = !selectedOnly },
-                label = { Text(stringResource(R.string.apps_filter_selected)) },
-            )
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Text(
+                    selectedLabel,
+                    modifier = Modifier.padding(end = SpacingMd),
+                    style = MaterialTheme.typography.bodyLarge,
+                )
+                Switch(
+                    checked = selectedOnly,
+                    onCheckedChange = { selectedOnly = it },
+                    modifier = Modifier.semantics { contentDescription = selectedLabel },
+                )
+            }
             if (filtered.isNotEmpty()) {
                 TextButton(
                     onClick = {

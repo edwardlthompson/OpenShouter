@@ -2,12 +2,9 @@ package org.openshouter.ui.tts
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.ExperimentalLayoutApi
-import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.Button
-import androidx.compose.material3.FilterChip
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
@@ -21,7 +18,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import dev.foss.goldenpath.R
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import dev.foss.goldenpath.ui.theme.SpacingMd
 import org.openshouter.domain.AppSettings
 import org.openshouter.domain.ChannelDeviceState
@@ -29,18 +29,20 @@ import org.openshouter.domain.DeviceStatePolicy
 import org.openshouter.domain.ShoutChannel
 import org.openshouter.domain.TtsFormat
 import org.openshouter.domain.TtsPlaybackPolicy
+import org.openshouter.domain.TtsEngineChoice
+import org.openshouter.domain.TtsSourceOffer
 import org.openshouter.domain.TtsStream
-import org.openshouter.domain.TtsVoice
+import org.openshouter.domain.TtsVoiceCandidate
 import org.openshouter.ui.channel.ChannelStateScreen
 import org.openshouter.ui.menu.MenuBody
 import org.openshouter.ui.menu.MenuLink
 import org.openshouter.ui.menu.MenuScaffold
 import org.openshouter.ui.menu.MenuScrollStore
 import org.openshouter.ui.menu.MenuSection
+import org.openshouter.ui.menu.MenuDropdown
 import org.openshouter.ui.menu.MenuToggle
 import java.util.Locale
 
-@OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun TtsSettingsScreen(
     settings: AppSettings,
@@ -51,6 +53,14 @@ fun TtsSettingsScreen(
     onPostTest: () -> Unit,
     onOpenSystemTts: () -> Unit,
     languages: List<String> = emptyList(),
+    voices: List<TtsVoiceCandidate> = emptyList(),
+    engineGen: StateFlow<Int>? = null,
+    loadLanguages: (() -> List<String>)? = null,
+    loadVoices: (() -> List<TtsVoiceCandidate>)? = null,
+    engines: List<TtsEngineChoice> = emptyList(),
+    downloads: List<TtsSourceOffer> = emptyList(),
+    onOpenUrl: (String) -> Unit = {},
+    onOpenApp: (String) -> Unit = {},
     onChannelStates: (Map<ShoutChannel, ChannelDeviceState>) -> Unit = {},
     onBack: () -> Unit,
     scrollStore: MenuScrollStore,
@@ -71,6 +81,10 @@ fun TtsSettingsScreen(
     }
     val playback = settings.ttsPlayback
     val device = settings.deviceState
+    val fallbackGen = remember { MutableStateFlow(0) }
+    val catalogTick by (engineGen ?: fallbackGen).collectAsStateWithLifecycle(0)
+    val resolvedLangs = remember(catalogTick, languages) { loadLanguages?.invoke() ?: languages }
+    val resolvedVoices = remember(catalogTick, voices) { loadVoices?.invoke() ?: voices }
     MenuScaffold(stringResource(R.string.tts_title), scrollStore, "tts", onBack, modifier) {
         MenuSection(stringResource(R.string.menu_section_shout)) {
             MenuBody {
@@ -88,51 +102,30 @@ fun TtsSettingsScreen(
         }
         MenuSection(stringResource(R.string.menu_section_voice)) {
             MenuBody {
-                Text(stringResource(R.string.tts_stream), style = MaterialTheme.typography.titleMedium)
-                FlowRow(horizontalArrangement = Arrangement.spacedBy(SpacingMd)) {
-                    StreamChip(TtsStream.NOTIFICATION, R.string.tts_stream_notification, playback, onPlayback)
-                    StreamChip(TtsStream.MEDIA, R.string.tts_stream_media, playback, onPlayback)
-                    StreamChip(TtsStream.ALARM, R.string.tts_stream_alarm, playback, onPlayback)
-                }
-                NudgeRow(stringResource(R.string.tts_pitch), formatPitch(playback.voice.pitch)) { sign ->
-                    val voice = TtsVoice(
-                        pitch = playback.voice.pitch + sign * 0.1f,
-                        languageTag = playback.voice.languageTag,
-                    ).clamp()
-                    onPlayback(playback.copy(voice = voice).clamp())
-                }
-                Text(stringResource(R.string.tts_language), style = MaterialTheme.typography.titleMedium)
-                FlowRow(horizontalArrangement = Arrangement.spacedBy(SpacingMd)) {
-                    FilterChip(
-                        selected = playback.voice.languageTag.isBlank(),
-                        onClick = {
-                            onPlayback(playback.copy(voice = playback.voice.copy(languageTag = "").clamp()).clamp())
-                        },
-                        label = { Text(stringResource(R.string.tts_language_default)) },
-                    )
-                    languages.forEach { tag ->
-                        FilterChip(
-                            selected = playback.voice.languageTag == tag,
-                            onClick = {
-                                val voice = TtsVoice(pitch = playback.voice.pitch, languageTag = tag).clamp()
-                                onPlayback(playback.copy(voice = voice).clamp())
-                            },
-                            label = { Text(tag) },
-                        )
-                    }
-                }
-                if (languages.isEmpty()) {
-                    OutlinedTextField(
-                        value = playback.voice.languageTag,
-                        onValueChange = { tag ->
-                            val voice = TtsVoice(pitch = playback.voice.pitch, languageTag = tag).clamp()
-                            onPlayback(playback.copy(voice = voice).clamp())
-                        },
-                        label = { Text(stringResource(R.string.tts_language)) },
-                        modifier = Modifier.fillMaxWidth(),
-                        singleLine = true,
-                    )
-                }
+                val streams = listOf(
+                    TtsStream.NOTIFICATION to stringResource(R.string.tts_stream_notification),
+                    TtsStream.MEDIA to stringResource(R.string.tts_stream_media),
+                    TtsStream.ALARM to stringResource(R.string.tts_stream_alarm),
+                )
+                MenuDropdown(
+                    label = stringResource(R.string.tts_stream),
+                    text = streams.firstOrNull { it.first == playback.stream }?.second ?: streams[1].second,
+                    options = streams.map { it.first.name to it.second },
+                    onSelect = { name ->
+                        val stream = runCatching { TtsStream.valueOf(name) }.getOrDefault(TtsStream.MEDIA)
+                        onPlayback(playback.copy(stream = stream).clamp())
+                    },
+                )
+                TtsVoicePicker(
+                    playback = playback,
+                    onPlayback = onPlayback,
+                    languages = resolvedLangs,
+                    voices = resolvedVoices,
+                    engines = engines,
+                    downloads = downloads,
+                    onOpenUrl = onOpenUrl,
+                    onOpenApp = onOpenApp,
+                )
             }
             MenuToggle(
                 label = stringResource(R.string.tts_pause),
@@ -220,26 +213,12 @@ fun TtsSettingsScreen(
 }
 
 @Composable
-private fun StreamChip(
-    stream: TtsStream,
-    labelRes: Int,
-    playback: TtsPlaybackPolicy,
-    onPlayback: (TtsPlaybackPolicy) -> Unit,
-) {
-    FilterChip(
-        selected = playback.stream == stream,
-        onClick = { onPlayback(playback.copy(stream = stream).clamp()) },
-        label = { Text(stringResource(labelRes)) },
-    )
-}
-
-@Composable
-private fun NudgeRow(label: String, value: Int, step: Int = 1, onNudge: (Int) -> Unit) {
+internal fun NudgeRow(label: String, value: Int, step: Int = 1, onNudge: (Int) -> Unit) {
     NudgeRow(label, value.toString()) { sign -> onNudge(sign * step) }
 }
 
 @Composable
-private fun NudgeRow(label: String, display: String, onNudge: (Int) -> Unit) {
+internal fun NudgeRow(label: String, display: String, onNudge: (Int) -> Unit) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier.fillMaxWidth(),
@@ -256,4 +235,4 @@ private fun NudgeRow(label: String, display: String, onNudge: (Int) -> Unit) {
     }
 }
 
-private fun formatPitch(pitch: Float): String = "%.1f".format(Locale.US, pitch)
+internal fun formatPitch(pitch: Float): String = "%.1f".format(Locale.US, pitch)

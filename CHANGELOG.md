@@ -8,6 +8,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+* **android:** voice quality floor, engine catalog, and exclusive-choice dropdowns
+
+### Changed
+
+* **android:** replace exclusive setting chips with shared dropdowns (Quiet Hours grid stays)
+
 ## [0.7.0](https://github.com/edwardlthompson/OpenShouter/compare/v0.6.0...v0.7.0) (2026-08-23)
 
 

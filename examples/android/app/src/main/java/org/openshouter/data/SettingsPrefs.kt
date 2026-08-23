@@ -16,7 +16,6 @@ import org.openshouter.domain.MessageChannelPolicy
 import org.openshouter.domain.MissedCallPolicy
 import org.openshouter.domain.QuietHours
 import org.openshouter.domain.TtsStream
-import org.openshouter.domain.TtsVoice
 import org.openshouter.domain.ShakeThreshold
 import org.openshouter.domain.NotificationPolicy
 
@@ -126,9 +125,10 @@ internal fun Preferences.toAppSettings(): AppSettings {
             repeatMinutes = this[k.TTS_REPEAT] ?: 0,
             repeatCount = this[k.TTS_REPEAT_COUNT] ?: 0,
             pauseMedia = this[k.TTS_PAUSE] ?: false,
-            voice = TtsVoice(
-                pitch = (this[k.TTS_PITCH] ?: 100) / 100f,
-                languageTag = this[k.TTS_LANG].orEmpty(),
+            voice = SettingsTts.voice(
+                this,
+                (this[k.TTS_PITCH] ?: 100) / 100f,
+                this[k.TTS_LANG].orEmpty(),
             ),
         ).clamp(),
         shakeThreshold = ShakeThreshold.clamp((this[k.SHAKE_G] ?: 24) / 10f),

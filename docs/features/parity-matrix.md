@@ -22,7 +22,7 @@ Interactive filterable table: Cursor canvas `feature-parity-matrix.canvas.tsx` (
 
 **Wrap-up 2026-08-22 (Sprint 19):** Battery percent status (`LEVEL`) plus import of leftover Shouter prefs (silent-only, message prefix/suffix, `entmforid`). Matrix Battery row stays Yes.
 
-**Wrap-up 2026-08-23 (`/audit`):** Apps to shout is title + search icon + selected-only chip (field opens on icon tap). Global `%app` `%title` `%text` format lives on Voice → What to shout. Footer Close buttons removed; system Back leaves settings panes. Matrix rows stay Yes.
+**Wrap-up 2026-08-23 (`/audit`):** Apps to shout is title + search icon + selected-only switch (field opens on icon tap). Exclusive setting chips are dropdowns; Quiet Hours keeps the hour grid and day chips. Global `%app` `%title` `%text` format lives on Voice → What to shout. Footer Close buttons removed; system Back leaves settings panes. Matrix rows stay Yes.
 
 Status: **Yes** shipped · **Partial** logic or subset UI · **No** missing · **Skip** will not copy (FOSS / out of scope).
 
@@ -108,13 +108,13 @@ Dashboard master + sectioned Hear / History / Phone cards · searchable app-spea
 | Device states | Global screen-off / headset-only | Yes | Yes | Yes | Shipped |
 | Device states | Per-channel headphone/silent | Yes | No | Yes | Shipped ChannelStateScreen grid + stream/repeat |
 | Device states | Silent/vibrate + in-call flags | Yes | Yes | Yes | Shipped DeviceStatePolicy toggles |
-| TTS | Stream / audio focus / pitch / voice test | Stream | Stream+focus | Yes | Pitch + pause-media + `availableLanguages` chips |
+| TTS | Stream / audio focus / pitch / voice test | Stream | Stream+focus | Yes | Pitch + pause-media + language dropdowns + engine source + quality floor |
 | Call | Looping ID + contacts | Yes | No | Yes | Shipped |
 | Call | Unknown toggle, nick/blacklist, missed | Yes | No | Yes | Shipped ContactRules + speakUnknown + missed RING→IDLE |
 | Message | Dedicated SMS/MMS shout | Yes | Via apps | Yes | Extras/sender parse; no `READ_SMS` |
-| Time | Interval + exact opt-in | Yes | No | Yes | 15/30/60 chips + `timeShoutExact` + 12/24/system hour style |
+| Time | Interval + exact opt-in | Yes | No | Yes | 15/30/60 dropdown + `timeShoutExact` + 12/24/system hour style |
 | Battery | Events + custom phrases | Yes | No | Yes | Shipped situation picker + `%level` phrases |
-| Reminders | Recurring voice list | Yes | No | Yes | Hour/day/week/month/year chips + AlarmManager sync |
+| Reminders | Recurring voice list | Yes | No | Yes | Hour/day/week/month/year dropdown + AlarmManager sync |
 | Location | Placebook proximity | Yes | No | Skip | Keep silent fences |
 | History | Viewer + ignore reasons | Yes | Yes | Yes | Shipped ignore-reason enum only |
 | Backup | Settings zip | No | Yes | Yes | Shipped SAF CreateDocument/OpenDocument; history excluded |

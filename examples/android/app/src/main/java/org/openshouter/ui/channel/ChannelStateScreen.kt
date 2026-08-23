@@ -1,12 +1,9 @@
 package org.openshouter.ui.channel
 
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.ExperimentalLayoutApi
-import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.Button
-import androidx.compose.material3.FilterChip
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -25,12 +22,12 @@ import org.openshouter.domain.ChannelStates
 import org.openshouter.domain.ShoutChannel
 import org.openshouter.domain.TtsStream
 import org.openshouter.ui.menu.MenuBody
+import org.openshouter.ui.menu.MenuDropdown
 import org.openshouter.ui.menu.MenuScaffold
 import org.openshouter.ui.menu.MenuScrollStore
 import org.openshouter.ui.menu.MenuSection
 import org.openshouter.ui.menu.MenuToggle
 
-@OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun ChannelStateScreen(
     settings: AppSettings,
@@ -49,15 +46,15 @@ fun ChannelStateScreen(
     MenuScaffold(stringResource(R.string.nav_channels), scrollStore, "channels", onBack, modifier) {
         MenuSection(stringResource(R.string.menu_section_states)) {
             MenuBody {
-                FlowRow(horizontalArrangement = Arrangement.spacedBy(SpacingMd)) {
-                    ShoutChannel.entries.forEach { value ->
-                        FilterChip(
-                            selected = channel == value,
-                            onClick = { channel = value },
-                            label = { Text(stringResource(channelLabel(value))) },
-                        )
-                    }
-                }
+                val channels = ShoutChannel.entries.map { it.name to stringResource(channelLabel(it)) }
+                MenuDropdown(
+                    label = stringResource(R.string.nav_channels),
+                    text = channels.firstOrNull { it.first == channel.name }?.second ?: channels.first().second,
+                    options = channels,
+                    onSelect = { name ->
+                        channel = runCatching { ShoutChannel.valueOf(name) }.getOrDefault(ShoutChannel.CALL)
+                    },
+                )
             }
             MenuToggle(stringResource(R.string.tts_device_screen_on), current.device.allowScreenOn, {
                 persist(settings, channel, current.copy(device = current.device.copy(allowScreenOn = it)), onSave)
@@ -78,16 +75,16 @@ fun ChannelStateScreen(
                 persist(settings, channel, current.copy(device = current.device.copy(allowInCall = it)), onSave)
             }, true)
             MenuBody {
-                Text(stringResource(R.string.tts_stream), style = MaterialTheme.typography.titleMedium)
-                FlowRow(horizontalArrangement = Arrangement.spacedBy(SpacingMd)) {
-                    TtsStream.entries.forEach { stream ->
-                        FilterChip(
-                            selected = current.stream == stream,
-                            onClick = { persist(settings, channel, current.copy(stream = stream), onSave) },
-                            label = { Text(stringResource(streamLabel(stream))) },
-                        )
-                    }
-                }
+                val streams = TtsStream.entries.map { it.name to stringResource(streamLabel(it)) }
+                MenuDropdown(
+                    label = stringResource(R.string.tts_stream),
+                    text = streams.firstOrNull { it.first == current.stream.name }?.second ?: streams[1].second,
+                    options = streams,
+                    onSelect = { name ->
+                        val stream = runCatching { TtsStream.valueOf(name) }.getOrDefault(TtsStream.MEDIA)
+                        persist(settings, channel, current.copy(stream = stream), onSave)
+                    },
+                )
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
                     modifier = Modifier.fillMaxWidth(),

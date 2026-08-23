@@ -109,18 +109,7 @@ class SettingsRepository @Inject constructor(
 
     suspend fun setTtsPlayback(policy: TtsPlaybackPolicy) {
         val p = policy.clamp()
-        context.osDataStore.edit {
-            it[SettingsKeys.TTS_STREAM] = p.stream.name
-            it[SettingsKeys.TTS_DELAY] = p.delaySeconds
-            it[SettingsKeys.TTS_MAX] = p.maxLength
-            it[SettingsKeys.TTS_FOCUS] = p.audioFocus
-            it[SettingsKeys.TTS_EMOJI] = p.speakEmojis
-            it[SettingsKeys.TTS_REPEAT] = p.repeatMinutes
-            it[SettingsKeys.TTS_REPEAT_COUNT] = p.repeatCount
-            it[SettingsKeys.TTS_PAUSE] = p.pauseMedia
-            it[SettingsKeys.TTS_PITCH] = (p.voice.pitch * 100).toInt()
-            it[SettingsKeys.TTS_LANG] = p.voice.languageTag
-        }
+        context.osDataStore.edit { SettingsTts.write(it, p) }
     }
 
     suspend fun setDeviceState(policy: DeviceStatePolicy) {

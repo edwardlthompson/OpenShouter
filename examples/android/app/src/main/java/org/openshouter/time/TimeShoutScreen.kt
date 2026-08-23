@@ -1,28 +1,22 @@
 package org.openshouter.time
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.ExperimentalLayoutApi
-import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.material3.FilterChip
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import dev.foss.goldenpath.R
-import dev.foss.goldenpath.ui.theme.SpacingMd
 import org.openshouter.domain.AppSettings
 import org.openshouter.domain.TimeHourStyle
 import org.openshouter.domain.TimeShout
 import org.openshouter.ui.menu.MenuBody
+import org.openshouter.ui.menu.MenuDropdown
 import org.openshouter.ui.menu.MenuScaffold
 import org.openshouter.ui.menu.MenuScrollStore
 import org.openshouter.ui.menu.MenuSection
 import org.openshouter.ui.menu.MenuToggle
 
-@OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun TimeShoutScreen(
     settings: AppSettings,
@@ -33,6 +27,16 @@ fun TimeShoutScreen(
     scrollStore: MenuScrollStore,
     modifier: Modifier = Modifier,
 ) {
+    val intervals = listOf(
+        TimeShout.INTERVAL_QUARTER to stringResource(R.string.time_15),
+        TimeShout.INTERVAL_HALF to stringResource(R.string.time_30),
+        TimeShout.INTERVAL_HOUR to stringResource(R.string.time_60),
+    )
+    val hours = listOf(
+        TimeHourStyle.HOUR_12 to stringResource(R.string.time_hour_12),
+        TimeHourStyle.HOUR_24 to stringResource(R.string.time_hour_24),
+        TimeHourStyle.SYSTEM to stringResource(R.string.time_hour_system),
+    )
     MenuScaffold(stringResource(R.string.time_title), scrollStore, "time", onBack, modifier) {
         MenuSection(stringResource(R.string.menu_section_shout)) {
             MenuToggle(stringResource(R.string.announcer_time), settings.timeShoutEnabled, {
@@ -42,18 +46,25 @@ fun TimeShoutScreen(
                 onChange(settings.timeShoutEnabled, settings.timeShoutIntervalMinutes, it)
             }, true)
             MenuBody {
-                Text(stringResource(R.string.time_interval), style = MaterialTheme.typography.titleMedium)
-                FlowRow(horizontalArrangement = Arrangement.spacedBy(SpacingMd)) {
-                    IntervalChip(TimeShout.INTERVAL_QUARTER, R.string.time_15, settings, onChange)
-                    IntervalChip(TimeShout.INTERVAL_HALF, R.string.time_30, settings, onChange)
-                    IntervalChip(TimeShout.INTERVAL_HOUR, R.string.time_60, settings, onChange)
-                }
-                Text(stringResource(R.string.time_hour_style), style = MaterialTheme.typography.titleMedium)
-                FlowRow(horizontalArrangement = Arrangement.spacedBy(SpacingMd)) {
-                    HourChip(TimeHourStyle.HOUR_12, R.string.time_hour_12, settings, onHourStyle)
-                    HourChip(TimeHourStyle.HOUR_24, R.string.time_hour_24, settings, onHourStyle)
-                    HourChip(TimeHourStyle.SYSTEM, R.string.time_hour_system, settings, onHourStyle)
-                }
+                MenuDropdown(
+                    label = stringResource(R.string.time_interval),
+                    text = intervals.firstOrNull { it.first == settings.timeShoutIntervalMinutes }?.second
+                        ?: intervals.last().second,
+                    options = intervals.map { it.first.toString() to it.second },
+                    onSelect = { raw ->
+                        val minutes = raw.toIntOrNull() ?: TimeShout.INTERVAL_HOUR
+                        onChange(settings.timeShoutEnabled, minutes, settings.timeShoutExact)
+                    },
+                )
+                MenuDropdown(
+                    label = stringResource(R.string.time_hour_style),
+                    text = hours.firstOrNull { it.first == settings.timeHourStyle }?.second ?: hours.last().second,
+                    options = hours.map { it.first.name to it.second },
+                    onSelect = { name ->
+                        val style = runCatching { TimeHourStyle.valueOf(name) }.getOrDefault(TimeHourStyle.SYSTEM)
+                        onHourStyle(style)
+                    },
+                )
                 OutlinedTextField(
                     value = settings.timeFormat,
                     onValueChange = onFormat,
@@ -64,32 +75,4 @@ fun TimeShoutScreen(
             }
         }
     }
-}
-
-@Composable
-private fun IntervalChip(
-    minutes: Int,
-    labelRes: Int,
-    settings: AppSettings,
-    onChange: (Boolean, Int, Boolean) -> Unit,
-) {
-    FilterChip(
-        selected = settings.timeShoutIntervalMinutes == minutes,
-        onClick = { onChange(settings.timeShoutEnabled, minutes, settings.timeShoutExact) },
-        label = { Text(stringResource(labelRes)) },
-    )
-}
-
-@Composable
-private fun HourChip(
-    style: TimeHourStyle,
-    labelRes: Int,
-    settings: AppSettings,
-    onHourStyle: (TimeHourStyle) -> Unit,
-) {
-    FilterChip(
-        selected = settings.timeHourStyle == style,
-        onClick = { onHourStyle(style) },
-        label = { Text(stringResource(labelRes)) },
-    )
 }

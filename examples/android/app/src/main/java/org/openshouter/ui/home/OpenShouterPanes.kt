@@ -1,6 +1,7 @@
 package org.openshouter.ui.home
 
 import android.content.Intent
+import android.net.Uri
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -170,7 +171,23 @@ fun OpenShouterPanes(
             onOpenSystemTts = {
                 runCatching { context.startActivity(Intent("com.android.settings.TTS_SETTINGS").addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)) }
             },
-            languages = ep.tts().languageTags(),
+            languages = ep.tts().languageTags(settings.ttsPlayback.voice.engine),
+            voices = ep.tts().voices(settings.ttsPlayback.voice.engine),
+            engineGen = ep.tts().engineGen,
+            loadLanguages = { ep.tts().languageTags(settings.ttsPlayback.voice.engine) },
+            loadVoices = { ep.tts().voices(settings.ttsPlayback.voice.engine) },
+            engines = ep.tts().installedEngines(),
+            downloads = ep.tts().downloadOffers(),
+            onOpenUrl = { url ->
+                if (!url.startsWith("https://")) return@TtsSettingsScreen
+                runCatching {
+                    context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
+                }
+            },
+            onOpenApp = { pkg ->
+                val launch = context.packageManager.getLaunchIntentForPackage(pkg) ?: return@TtsSettingsScreen
+                runCatching { context.startActivity(launch.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)) }
+            },
             onChannelStates = { map -> scope.launch { ep.sprint13().setChannelStates(map) } },
             onBack = { onPane(Pane.Home) },
             scrollStore = scrollStore,

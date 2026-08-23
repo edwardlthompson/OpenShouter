@@ -142,6 +142,14 @@
 | **Seen again** | v0.5.0 Release Please #17 — `--auto` failed; admin merge after push-SHA CI/CodeQL/Security Scan green |
 | **Seen again** | v0.6.0 Release Please #19 — `--auto` failed; admin merge after push-SHA CI/CodeQL/Security Scan green |
 | **Seen again** | v0.7.0 Release Please #20 — `--auto` failed; admin merge after push-SHA CI/CodeQL/Security Scan green |
+### KB-021 — OP13 release APK silent under AudioHardening
+
+| Field | Detail |
+|-------|--------|
+| **Symptom** | Notification-stream shouts work on OP12 debug APK (`CPH2583`) but are silent on OP13 release APK (`CPH2655`). Listener, FGS, ringer, and notification volume are fine |
+| **Cause** | Android 16 AudioHardening treats `specialUse` FGS playback as background. It ignores transient focus and mutes `org.openshouter` on the non-debuggable release UID. Debug APKs are exempt |
+| **Fix** | Declare `FOREGROUND_SERVICE_MEDIA_PLAYBACK` and `specialUse\|mediaPlayback`. Hold a `MediaSession` while the in-process WAV plays. Prefer highest-quality on-device TTS voices |
+| **Prevention** | After a release sideload, confirm `dumpsys audio` no longer logs `background playback would be muted for org.openshouter` |
 ### KB-017 — Next shout silent after a muted stream
 
 | Field | Detail |

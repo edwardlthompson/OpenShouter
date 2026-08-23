@@ -9,4 +9,27 @@
     <string name="backup_legacy_none">No Shouter settings found. Grant root, leave Shouter installed, or pick an shdb / prefs file.</string>
     <string name="power_level">Battery percent</string>
     <string name="power_level_phrase">Percent phrase (%level)</string>
+    <string name="tts_source">TTS source</string>
+    <string name="tts_source_system">System default</string>
+    <string name="tts_source_google">Google</string>
+    <string name="tts_source_rhvoice">RHVoice</string>
+    <string name="tts_source_sherpa">SherpaTTS</string>
+    <string name="tts_source_get">Get %1$s</string>
+    <string name="tts_source_fdroid">Free download on F-Droid</string>
+    <string name="tts_source_play">Download from Google Play</string>
+    <string name="tts_source_help">OpenShouter uses an on-device engine. Download another only if you want a different voice.</string>
+    <string name="tts_quality">Voice quality</string>
+    <string name="tts_quality_help">Start here. This filters Language and Accent to voices at that quality or higher.</string>
+    <string name="tts_quality_auto">Any quality</string>
+    <string name="tts_voice_get">Get %2$s in %1$s</string>
+    <string name="tts_voice_open_app">Download this language in the app</string>
+    <string name="tts_quality_very_high">Very high</string>
+    <string name="tts_quality_high">High</string>
+    <string name="tts_quality_normal">Normal</string>
+    <string name="tts_language_menu">Language</string>
+    <string name="tts_accent">Accent / region</string>
+    <string name="tts_voice_pick">Voice</string>
+    <string name="tts_voice_auto">Auto (best)</string>
+    <string name="tts_voice_on_device">On-device</string>
+    <string name="tts_voice_online">Online</string>
 </resources>

@@ -1,11 +1,7 @@
 package org.openshouter.reminder
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.ExperimentalLayoutApi
-import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.Button
-import androidx.compose.material3.FilterChip
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -17,17 +13,16 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import dev.foss.goldenpath.R
-import dev.foss.goldenpath.ui.theme.SpacingMd
 import org.openshouter.data.ReminderEntity
 import org.openshouter.domain.ReminderInterval
 import org.openshouter.ui.menu.MenuBody
+import org.openshouter.ui.menu.MenuDropdown
 import org.openshouter.ui.menu.MenuLink
 import org.openshouter.ui.menu.MenuScaffold
 import org.openshouter.ui.menu.MenuScrollStore
 import org.openshouter.ui.menu.MenuSection
 import org.openshouter.ui.menu.MenuToggle
 
-@OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun ReminderScreen(
     reminders: List<ReminderEntity>,
@@ -50,15 +45,18 @@ fun ReminderScreen(
                     label = { Text(stringResource(R.string.reminders_text)) },
                     modifier = Modifier.fillMaxWidth(),
                 )
-                FlowRow(horizontalArrangement = Arrangement.spacedBy(SpacingMd)) {
-                    ReminderInterval.ALL.forEach { minutes ->
-                        FilterChip(
-                            selected = interval == minutes,
-                            onClick = { interval = minutes },
-                            label = { Text(stringResource(intervalLabel(minutes))) },
-                        )
-                    }
+                val intervals = ReminderInterval.ALL.map { minutes ->
+                    minutes.toString() to stringResource(intervalLabel(minutes))
                 }
+                MenuDropdown(
+                    label = stringResource(R.string.time_interval),
+                    text = intervals.firstOrNull { it.first == interval.toString() }?.second
+                        ?: intervals.first().second,
+                    options = intervals,
+                    onSelect = { raw ->
+                        interval = raw.toIntOrNull() ?: ReminderInterval.HOUR
+                    },
+                )
                 Button(
                     onClick = {
                         val normalized = ReminderEntity.normalizeText(text) ?: return@Button

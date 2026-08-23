@@ -1,5 +1,6 @@
 package org.openshouter.tts
 
+import android.content.Context
 import android.media.AudioAttributes
 import android.media.AudioFocusRequest
 import android.media.AudioManager
@@ -11,6 +12,8 @@ import java.util.HashMap
 import java.util.Locale
 import org.openshouter.domain.TtsStream
 import org.openshouter.domain.TtsVoice
+import org.openshouter.domain.TtsVoiceCandidate
+import org.openshouter.domain.TtsVoicePick
 import org.openshouter.domain.playable
 
 internal object TtsEngine {
@@ -26,19 +29,31 @@ internal object TtsEngine {
     )
 
     fun applyStream(tts: TextToSpeech, stream: TtsStream) {
-        val usage = when (stream) {
-            TtsStream.MEDIA -> AudioAttributes.USAGE_MEDIA
-            TtsStream.ALARM -> AudioAttributes.USAGE_ALARM
-            TtsStream.NOTIFICATION -> AudioAttributes.USAGE_NOTIFICATION
+        tts.setAudioAttributes(attributes(stream))
+    }
+
+    fun attributes(stream: TtsStream): AudioAttributes {
+        val builder = AudioAttributes.Builder()
+            .setUsage(usage(stream))
+            .setContentType(AudioAttributes.CONTENT_TYPE_SPEECH)
+        if (Build.VERSION.SDK_INT >= 32) {
+            builder.setSpatializationBehavior(AudioAttributes.SPATIALIZATION_BEHAVIOR_NEVER)
         }
-        tts.setAudioAttributes(
-            AudioAttributes.Builder().setUsage(usage).setContentType(AudioAttributes.CONTENT_TYPE_SPEECH).build(),
-        )
+        return builder.build()
+    }
+
+    fun create(context: Context, enginePackage: String, onInit: (Int) -> Unit): TextToSpeech {
+        val listener = TextToSpeech.OnInitListener(onInit)
+        return if (enginePackage.isBlank()) {
+            TextToSpeech(context, listener)
+        } else {
+            TextToSpeech(context, listener, enginePackage)
+        }
     }
 
     fun languageTags(tts: TextToSpeech?): List<String> {
         val locales = tts?.availableLanguages ?: return emptyList()
-        return locales.map { it.toLanguageTag() }.filter { it.isNotBlank() }.distinct().sorted().take(40)
+        return locales.map { it.toLanguageTag() }.filter { it.isNotBlank() }.distinct().sorted().take(80)
     }
 
     fun synthesizeToFile(tts: TextToSpeech, text: String, file: File, utteranceId: String) {
@@ -58,10 +73,34 @@ internal object TtsEngine {
 
     fun applyVoice(tts: TextToSpeech, voice: TtsVoice) {
         tts.setPitch(voice.pitch)
+        tts.setSpeechRate(1.0f)
         val tag = voice.languageTag
-        if (tag.isNotBlank()) {
+        val picked = TtsVoicePick.best(
+            tts.voices.orEmpty().map {
+                TtsVoiceCandidate(
+                    it.name,
+                    it.locale.toLanguageTag(),
+                    it.quality,
+                    it.latency,
+                    it.isNetworkConnectionRequired,
+                )
+            },
+            tag,
+            voice.minQuality,
+            voice.voiceName,
+        )
+        val engineVoice = picked?.let { choice -> tts.voices.firstOrNull { it.name == choice.name } }
+        if (engineVoice != null) {
+            tts.voice = engineVoice
+        } else if (tag.isNotBlank()) {
             runCatching { tts.language = Locale.forLanguageTag(tag) }
         }
+    }
+
+    private fun usage(stream: TtsStream): Int = when (stream) {
+        TtsStream.MEDIA -> AudioAttributes.USAGE_MEDIA
+        TtsStream.ALARM -> AudioAttributes.USAGE_ALARM
+        TtsStream.NOTIFICATION -> AudioAttributes.USAGE_NOTIFICATION
     }
 
     fun requestFocus(audio: AudioManager, pauseMedia: Boolean, stream: TtsStream): AudioFocusRequest? {
@@ -71,18 +110,8 @@ internal object TtsEngine {
         } else {
             AudioManager.AUDIOFOCUS_GAIN_TRANSIENT_MAY_DUCK
         }
-        val usage = when (stream) {
-            TtsStream.MEDIA -> AudioAttributes.USAGE_MEDIA
-            TtsStream.ALARM -> AudioAttributes.USAGE_ALARM
-            TtsStream.NOTIFICATION -> AudioAttributes.USAGE_NOTIFICATION
-        }
         val req = AudioFocusRequest.Builder(gain)
-            .setAudioAttributes(
-                AudioAttributes.Builder()
-                    .setUsage(usage)
-                    .setContentType(AudioAttributes.CONTENT_TYPE_SPEECH)
-                    .build(),
-            )
+            .setAudioAttributes(attributes(stream))
             .build()
         runCatching { audio.requestAudioFocus(req) }
         return req

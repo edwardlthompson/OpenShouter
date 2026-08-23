@@ -1,5 +1,6 @@
 package org.openshouter.tts
 
+import android.content.Context
 import android.media.AudioManager
 import android.os.PowerManager
 import android.speech.tts.TextToSpeech
@@ -19,6 +20,7 @@ import org.openshouter.domain.TtsPlaybackPolicy
 import org.openshouter.domain.TtsStream
 
 internal class TtsPlayback(
+    context: Context,
     private val audio: AudioManager,
     private val power: PowerManager,
     private val settings: SettingsRepository,
@@ -29,7 +31,7 @@ internal class TtsPlayback(
     private val isSilent: () -> Boolean,
 ) {
     @Volatile var looping: SpokenEvent? = null
-    private val player = TtsFilePlayer()
+    private val player = TtsFilePlayer(context)
     @Volatile private var lastPolicy = TtsPlaybackPolicy()
     @Volatile private var lastStream = TtsStream.MEDIA
     @Volatile private var lastAllowSilent = false
@@ -58,6 +60,7 @@ internal class TtsPlayback(
         looping = event.takeIf { it.looping }
         lastStream = TtsEngine.resolveStream(audio, event.stream ?: policy.stream, allowSilent)
         TtsEngine.applyVoice(engine, policy.voice)
+        TtsEngine.applyStream(engine, lastStream)
         requestFocus(policy, lastStream)
         player.stop()
         val id = UUID.randomUUID().toString()
@@ -129,6 +132,11 @@ internal class TtsPlayback(
         currentFile?.let { runCatching { it.delete() } }
         currentFile = null
         currentUtterance = null
+    }
+
+    fun release() {
+        stop()
+        player.release()
     }
 
     private fun cancelScreenOff() {

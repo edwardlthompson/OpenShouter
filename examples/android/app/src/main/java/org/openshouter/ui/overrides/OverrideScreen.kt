@@ -1,12 +1,7 @@
 package org.openshouter.ui.overrides
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ExperimentalLayoutApi
-import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.Button
-import androidx.compose.material3.FilterChip
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
@@ -18,15 +13,14 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import dev.foss.goldenpath.R
-import dev.foss.goldenpath.ui.theme.SpacingMd
 import org.openshouter.domain.AppOverride
 import org.openshouter.domain.TtsStream
 import org.openshouter.ui.menu.MenuBody
+import org.openshouter.ui.menu.MenuDropdown
 import org.openshouter.ui.menu.MenuScaffold
 import org.openshouter.ui.menu.MenuScrollStore
 import org.openshouter.ui.menu.MenuSection
 
-@OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun OverrideScreen(
     overrides: Map<String, AppOverride>,
@@ -60,17 +54,20 @@ fun OverrideScreen(
                 InheritRow(stringResource(R.string.overrides_speak_name), speakName) { speakName = it }
                 InheritRow(stringResource(R.string.overrides_speak_body), speakBody) { speakBody = it }
                 InheritRow(stringResource(R.string.overrides_ignore_empty), ignoreEmpty) { ignoreEmpty = it }
-                Text(stringResource(R.string.overrides_stream), style = MaterialTheme.typography.titleMedium)
-                FlowRow(horizontalArrangement = Arrangement.spacedBy(SpacingMd)) {
-                    FilterChip(selected = stream == null, onClick = { stream = null }, label = { Text(stringResource(R.string.overrides_inherit)) })
-                    TtsStream.entries.forEach { value ->
-                        FilterChip(
-                            selected = stream == value,
-                            onClick = { stream = value },
-                            label = { Text(value.name) },
-                        )
-                    }
-                }
+                val inherit = stringResource(R.string.overrides_inherit)
+                val streams = listOf("" to inherit) + listOf(
+                    TtsStream.NOTIFICATION to stringResource(R.string.tts_stream_notification),
+                    TtsStream.MEDIA to stringResource(R.string.tts_stream_media),
+                    TtsStream.ALARM to stringResource(R.string.tts_stream_alarm),
+                ).map { it.first.name to it.second }
+                MenuDropdown(
+                    label = stringResource(R.string.overrides_stream),
+                    text = streams.firstOrNull { it.first == (stream?.name.orEmpty()) }?.second ?: inherit,
+                    options = streams,
+                    onSelect = { name ->
+                        stream = name.takeIf { it.isNotEmpty() }?.let { runCatching { TtsStream.valueOf(it) }.getOrNull() }
+                    },
+                )
                 Button(
                     onClick = {
                         if (pkg.isBlank()) return@Button
@@ -106,15 +103,29 @@ fun OverrideScreen(
     }
 }
 
-@OptIn(ExperimentalLayoutApi::class)
 @Composable
 private fun InheritRow(label: String, value: Boolean?, onChange: (Boolean?) -> Unit) {
-    Column {
-        Text(label, style = MaterialTheme.typography.titleMedium)
-        FlowRow(horizontalArrangement = Arrangement.spacedBy(SpacingMd)) {
-            FilterChip(selected = value == null, onClick = { onChange(null) }, label = { Text(stringResource(R.string.overrides_inherit)) })
-            FilterChip(selected = value == true, onClick = { onChange(true) }, label = { Text(stringResource(R.string.overrides_yes)) })
-            FilterChip(selected = value == false, onClick = { onChange(false) }, label = { Text(stringResource(R.string.overrides_no)) })
-        }
+    val inherit = stringResource(R.string.overrides_inherit)
+    val yes = stringResource(R.string.overrides_yes)
+    val no = stringResource(R.string.overrides_no)
+    val options = listOf("inherit" to inherit, "yes" to yes, "no" to no)
+    val text = when (value) {
+        true -> yes
+        false -> no
+        null -> inherit
     }
+    MenuDropdown(
+        label = label,
+        text = text,
+        options = options,
+        onSelect = { id ->
+            onChange(
+                when (id) {
+                    "yes" -> true
+                    "no" -> false
+                    else -> null
+                },
+            )
+        },
+    )
 }

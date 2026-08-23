@@ -20,6 +20,7 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MEDIA_PLAYBACK" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE_SPECIAL_USE" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
@@ -33,8 +34,14 @@
     <queries>
         <package android:name="com.bhkapps.proshouter" />
         <package android:name="com.bhkapps.shouter" />
+        <package android:name="com.google.android.tts" />
+        <package android:name="com.github.olga_yakovleva.rhvoice.android" />
+        <package android:name="org.woheller69.ttsengine" />
         <provider android:authorities="bhkapps.proshouter" />
         <provider android:authorities="bhkapps.shouter" />
+        <intent>
+            <action android:name="android.intent.action.TTS_SERVICE" />
+        </intent>
     </queries>
 
     <application
@@ -67,7 +74,7 @@
         <service
             android:name="org.openshouter.service.AnnouncerService"
             android:exported="false"
-            android:foregroundServiceType="specialUse">
+            android:foregroundServiceType="specialUse|mediaPlayback">
             <property
                 android:name="android.app.PROPERTY_SPECIAL_USE_FGS_SUBTYPE"
                 android:value="On-device TTS for notifications, calls, and power events" />

@@ -54,6 +54,49 @@ class TtsVoiceTest {
         assertEquals(TtsVoice.MAX_PITCH, clamped.pitch, 0.01f)
         assertEquals(TtsVoice.MAX_TAG, clamped.languageTag.length)
     }
+
+    @Test
+    fun clampsEngineNameAndQuality() {
+        val clamped = TtsVoice(
+            engine = "com.bad engine/id",
+            voiceName = "en-us-x-sfg-local!!!",
+            minQuality = 900,
+        ).clamp()
+        assertEquals("com.badengineid", clamped.engine)
+        assertEquals("en-us-x-sfg-local", clamped.voiceName)
+        assertEquals(TtsVoice.QUALITY_VERY_HIGH, clamped.minQuality)
+    }
+}
+
+class TtsLangCatalogTest {
+    @Test
+    fun listsRhvoiceAndSherpaAndPrefersSherpaForHighQuality() {
+        assertTrue(TtsLangCatalog.covers(TtsLangCatalog.sherpaTags(), "ja-JP").not())
+        assertTrue(TtsLangCatalog.covers(TtsLangCatalog.sherpaTags(), "ru-RU"))
+        assertTrue(TtsLangCatalog.covers(TtsLangCatalog.rhvoiceTags(), "ru"))
+        assertEquals(
+            listOf(TtsSourceCatalog.SHERPA, TtsSourceCatalog.RHVOICE),
+            TtsLangCatalog.enginesFor("ru-RU"),
+        )
+        assertEquals(
+            TtsSourceCatalog.SHERPA,
+            TtsLangCatalog.keepOrPrefer("", "ru-RU", emptyList(), setOf(TtsSourceCatalog.SHERPA), TtsVoice.QUALITY_VERY_HIGH),
+        )
+        assertTrue(TtsLangCatalog.merge(listOf("ja-JP")).contains("ja-JP"))
+        assertTrue(TtsLangCatalog.merge(listOf("ja-JP")).contains("en-US"))
+        val high = TtsVoiceCandidate("ja", "ja-JP", TtsVoice.QUALITY_VERY_HIGH, 40, false)
+        val filtered = TtsLangCatalog.filterTags(
+            TtsLangCatalog.merge(listOf("ja-JP")),
+            listOf(high),
+            TtsVoice.QUALITY_VERY_HIGH,
+        )
+        assertTrue(filtered.contains("en-US"))
+        assertTrue(filtered.contains("ja-JP"))
+        assertTrue(filtered.none { it.startsWith("ru") })
+        assertFalse(TtsLangCatalog.meets("ru-RU", emptyList(), TtsVoice.QUALITY_VERY_HIGH))
+        assertEquals(TtsVoice.QUALITY_VERY_HIGH, TtsLangCatalog.catalogQuality("en-GB"))
+        assertEquals(TtsVoice.QUALITY_HIGH, TtsLangCatalog.catalogQuality("ru-RU"))
+    }
 }
 
 class TtsFormatTokenTest {
