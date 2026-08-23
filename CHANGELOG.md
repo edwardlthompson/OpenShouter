@@ -6,6 +6,24 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.8.0](https://github.com/edwardlthompson/OpenShouter/compare/v0.7.0...v0.8.0) (2026-08-23)
+
+
+### Added
+
+* **android:** add voice quality dropdowns and engine catalog ([423fbce](https://github.com/edwardlthompson/OpenShouter/commit/423fbcefea3746bb6d51ede2ef51e84cc6cb64a5))
+
+
+### Fixed
+
+* **android:** dismiss theme dropdown before leaving settings ([d13638f](https://github.com/edwardlthompson/OpenShouter/commit/d13638f434ce29f074775e0543807c1a46b2c59d))
+* **android:** open theme dropdown in settings UI test ([a4c0ae1](https://github.com/edwardlthompson/OpenShouter/commit/a4c0ae13a212a694971621a8e2e6ac6bfd94c1f8))
+
+
+### Documentation
+
+* record v0.7.0 ship regressions ([3468049](https://github.com/edwardlthompson/OpenShouter/commit/3468049dbcd354e863e5918abcc8b105f7196b19))
+
 ## [Unreleased]
 
 ### Added
