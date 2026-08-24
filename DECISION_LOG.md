@@ -17,6 +17,13 @@
 
 ## Entries
 
+### 2026-08-24 — /ship v0.8.1
+- **Status:** Accepted
+- **Context:** Hourly time shout used `setAlarmClock`, which Android treats as the next wake alarm and exits bedtime. Fix was already on `main` as `a8d4b39`.
+- **Decision:** `fix` → patch 0.8.1. Admin-merge Release Please #23 (KB-016). Upload `openshouter-0.8.1-foss.apk` from This Computer after merge.
+- **Alternatives considered:** Wait for `--auto` on the Release Please PR (rejected: KB-016).
+- **Consequences:** https://github.com/edwardlthompson/OpenShouter/releases/tag/v0.8.1. Bedtime stays on; time shout uses notification stream + `TIME_TICK` / exact-while-idle.
+
 ### 2026-08-24 — Hourly shout is not an alarm clock
 - **Status:** Accepted
 - **Context:** `setAlarmClock` made the next hourly shout the system “next alarm,” so bedtime/sleep mode turned off. The TIME channel already uses the selected notification stream.
