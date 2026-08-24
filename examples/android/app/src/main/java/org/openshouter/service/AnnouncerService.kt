@@ -28,6 +28,7 @@ import org.openshouter.data.SettingsRepository
 import org.openshouter.geo.GeoMonitor
 import org.openshouter.gesture.GestureMonitor
 import org.openshouter.power.PowerMonitor
+import org.openshouter.time.TimeShoutMonitor
 import org.openshouter.time.TimeShoutScheduler
 import org.openshouter.tts.TtsController
 
@@ -41,6 +42,7 @@ class AnnouncerService : Service() {
     @Inject lateinit var audio: AudioRouteMonitor
     @Inject lateinit var settings: SettingsRepository
     @Inject lateinit var timeShout: TimeShoutScheduler
+    @Inject lateinit var timeTicks: TimeShoutMonitor
     @Inject lateinit var calendar: CalendarMonitor
     @Inject lateinit var bluetooth: BluetoothMonitor
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.Default)
@@ -81,6 +83,7 @@ class AnnouncerService : Service() {
         runCatching { audio.start { } }
         runCatching { calendar.start() }
         runCatching { bluetooth.start() }
+        runCatching { timeTicks.start() }
         scope.launch { timeShout.sync(settings.snapshot()) }
     }
 

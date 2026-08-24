@@ -44,6 +44,32 @@ class TimeShoutTest {
     }
 
     @Test
+    fun slotHelpersStayOnTheHour() {
+        val onHour = OffsetDateTime.of(2026, 8, 13, 15, 0, 0, 0, utc).toInstant().toEpochMilli()
+        val late = OffsetDateTime.of(2026, 8, 13, 15, 1, 30, 0, utc).toInstant().toEpochMilli()
+        val tooLate = OffsetDateTime.of(2026, 8, 13, 15, 3, 0, 0, utc).toInstant().toEpochMilli()
+        val slot = TimeShout.currentSlotStartMillis(late, TimeShout.INTERVAL_HOUR, utc)
+        assertEquals(onHour, slot)
+        assertTrue(TimeShout.isSlotAligned(onHour, TimeShout.INTERVAL_HOUR, utc))
+        assertFalse(TimeShout.isSlotAligned(late, TimeShout.INTERVAL_HOUR, utc))
+        assertTrue(
+            TimeShout.shouldSpeakSlot(slot, Long.MIN_VALUE, onHour, requireAligned = true, TimeShout.INTERVAL_HOUR, utc),
+        )
+        assertFalse(
+            TimeShout.shouldSpeakSlot(slot, Long.MIN_VALUE, late, requireAligned = true, TimeShout.INTERVAL_HOUR, utc),
+        )
+        assertTrue(
+            TimeShout.shouldSpeakSlot(slot, Long.MIN_VALUE, late, requireAligned = false, TimeShout.INTERVAL_HOUR, utc),
+        )
+        assertFalse(
+            TimeShout.shouldSpeakSlot(slot, slot, late, requireAligned = false, TimeShout.INTERVAL_HOUR, utc),
+        )
+        assertFalse(
+            TimeShout.shouldSpeakSlot(slot, Long.MIN_VALUE, tooLate, requireAligned = false, TimeShout.INTERVAL_HOUR, utc),
+        )
+    }
+
+    @Test
     fun invalidIntervalBecomesHour() {
         assertEquals(TimeShout.INTERVAL_HOUR, TimeShout.normalizeInterval(0))
         assertEquals(TimeShout.INTERVAL_HOUR, TimeShout.normalizeInterval(7))

@@ -24,6 +24,8 @@ Interactive filterable table: Cursor canvas `feature-parity-matrix.canvas.tsx` (
 
 **Wrap-up 2026-08-23 (`/audit`):** Apps to shout is title + search icon + selected-only switch (field opens on icon tap). Exclusive setting chips are dropdowns; Quiet Hours keeps the hour grid and day chips. Global `%app` `%title` `%text` format lives on Voice → What to shout. Footer Close buttons removed; system Back leaves settings panes. Matrix rows stay Yes.
 
+**Wrap-up 2026-08-24:** Hourly time shout is a regular announcement (`TIME_TICK` + exact-while-idle). Not `setAlarmClock`, so bedtime stays on. Time row stays Yes.
+
 Status: **Yes** shipped · **Partial** logic or subset UI · **No** missing · **Skip** will not copy (FOSS / out of scope).
 
 ## Summary
@@ -112,7 +114,7 @@ Dashboard master + sectioned Hear / History / Phone cards · searchable app-spea
 | Call | Looping ID + contacts | Yes | No | Yes | Shipped |
 | Call | Unknown toggle, nick/blacklist, missed | Yes | No | Yes | Shipped ContactRules + speakUnknown + missed RING→IDLE |
 | Message | Dedicated SMS/MMS shout | Yes | Via apps | Yes | Extras/sender parse; no `READ_SMS` |
-| Time | Interval + exact opt-in | Yes | No | Yes | 15/30/60 dropdown + `timeShoutExact` + 12/24/system hour style |
+| Time | Interval + exact opt-in | Yes | No | Yes | 15/30/60 + `timeShoutExact` via `setExactAndAllowWhileIdle` + `TIME_TICK`; not `setAlarmClock` |
 | Battery | Events + custom phrases | Yes | No | Yes | Shipped situation picker + `%level` phrases |
 | Reminders | Recurring voice list | Yes | No | Yes | Hour/day/week/month/year dropdown + AlarmManager sync |
 | Location | Placebook proximity | Yes | No | Skip | Keep silent fences |

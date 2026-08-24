@@ -4,7 +4,6 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import dagger.hilt.android.qualifiers.ApplicationContext
-import dev.foss.goldenpath.MainActivity
 import javax.inject.Inject
 import javax.inject.Singleton
 import org.openshouter.alarm.AlarmScheduler
@@ -25,13 +24,7 @@ class TimeShoutScheduler @Inject constructor(
             System.currentTimeMillis(),
             settings.timeShoutIntervalMinutes,
         )
-        val show = PendingIntent.getActivity(
-            context,
-            REQ,
-            Intent(context, MainActivity::class.java).setPackage(context.packageName),
-            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE,
-        )
-        alarms.schedule(trigger, pendingAlarm(), show, settings.timeShoutExact)
+        alarms.schedule(trigger, pendingAlarm(), settings.timeShoutExact)
     }
 
     private fun pendingAlarm(): PendingIntent {

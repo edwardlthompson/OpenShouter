@@ -96,6 +96,7 @@ OpenShouter is a FOSS recreation/enhancement of classic Shouter (`com.bhkapps.sh
 | 2026-08-23 | HUMAN leftover automation | Dismissed 16 code-scanning FPs; ProductUpdateTest donate smoke; first-push CI green | Leftover Scorecard: 66 pinned-deps + BinaryArtifacts/CodeReview/Maintained |
 | 2026-08-23 | `/ship` v0.7.0 | `feat` → minor; RP #20 admin-merged; search-icon picker + backup caps | Weekly Scorecard pinned-deps remain; name APKs `openshouter-X.Y.Z-foss.apk` |
 | 2026-08-23 | `/ship` v0.8.0 | `feat` → minor; RP #22 admin-merged; voice quality dropdowns + engine catalog | Instrumented settings test must open/dismiss the theme dropdown; name APKs `openshouter-X.Y.Z-foss.apk` |
+| 2026-08-24 | Hourly shout vs bedtime | Dropped `setAlarmClock`; TIME_TICK + exact-while-idle; notification stream unchanged | Re-enable bedtime once after install if it already exited |
 ## Template Provenance
 
 - **Source template:** `edwardlthompson/agent-project-bootstrap`

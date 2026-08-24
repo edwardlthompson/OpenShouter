@@ -17,6 +17,13 @@
 
 ## Entries
 
+### 2026-08-24 — Hourly shout is not an alarm clock
+- **Status:** Accepted
+- **Context:** `setAlarmClock` made the next hourly shout the system “next alarm,” so bedtime/sleep mode turned off. The TIME channel already uses the selected notification stream.
+- **Decision:** Schedule time shouts like reminders (`setExactAndAllowWhileIdle` when exact is on). Speak on `TIME_TICK` while the announcer FGS is running, with slot dedupe so tick and alarm do not double-speak. Never call `setAlarmClock`.
+- **Alternatives considered:** Keep `setAlarmClock` for Doze (rejected: exits bedtime). FGS-only timer (rejected: OEM can kill the service).
+- **Consequences:** Bedtime stays on. Exact opt-in + unrestricted battery still matter if the FGS is dead at the hour.
+
 ### 2026-08-23 — /ship v0.8.0
 - **Status:** Accepted
 - **Context:** Voice quality floor, engine catalog, and exclusive-choice dropdowns were ready. Settings smoke test failed twice (closed dropdown hid Dark theme; Back dismissed the menu first).

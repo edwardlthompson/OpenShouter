@@ -16,18 +16,13 @@ class AlarmScheduler @Inject constructor(
     fun schedule(
         triggerAtMillis: Long,
         operation: PendingIntent,
-        showIntent: PendingIntent? = null,
         exact: Boolean = false,
     ) {
         val am = context.getSystemService(AlarmManager::class.java) ?: return
         runCatching {
             val canExact = Build.VERSION.SDK_INT < 31 || am.canScheduleExactAlarms()
             if (AlarmPolicy.useExact(exact, canExact)) {
-                if (showIntent != null) {
-                    am.setAlarmClock(AlarmManager.AlarmClockInfo(triggerAtMillis, showIntent), operation)
-                } else {
-                    am.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, triggerAtMillis, operation)
-                }
+                am.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, triggerAtMillis, operation)
             } else {
                 am.setAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, triggerAtMillis, operation)
             }

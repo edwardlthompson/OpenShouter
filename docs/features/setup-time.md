@@ -1,13 +1,13 @@
 # Feature: welcome permissions + on-the-hour shout
 
-First-run welcome lists one **Activate** button per runtime/special permission, including unrestricted battery and exact alarms. Hourly time shout uses `AlarmManager.setAlarmClock` so it fires on the clock boundary after Doze.
+First-run welcome lists one **Activate** button per runtime/special permission, including unrestricted battery and exact alarms. Hourly time shout is a regular announcement: `TIME_TICK` while the announcer service is running, plus `AlarmManager.setExactAndAllowWhileIdle` when “Announce on the exact minute” is on. It does not use `setAlarmClock`, so bedtime/sleep mode stays on.
 
 ## Acceptance criteria
 
 - Welcome shows until Continue; dashboard can reopen it
 - Buttons: notification access, POST_NOTIFICATIONS (API 33+), phone, contacts, call log, fine location, background location, ignore-battery, app battery details, exact alarms
 - Time shout toggle: announce on the hour when master announcements are on
-- Keep-alive: FGS + boot/replace + exact alarm; TTS queues if the engine is still warming
+- Keep-alive: FGS + boot/replace + `TIME_TICK` + exact-while-idle (not alarm-clock); TTS queues if the engine is still warming
 
 ## Smoke scenario
 
@@ -24,3 +24,5 @@ First-run welcome lists one **Activate** button per runtime/special permission, 
 | Race TTS not ready | `TtsController` pending queue |
 | Unhandled AlarmManager | `runCatching`; inexact fallback if exact denied |
 | Quiet hours vs clock | Same `SpeakGate` as other shouts |
+| Bedtime exits | Never `setAlarmClock`; TIME uses the selected notification stream |
+| Tick vs alarm race | `TimeShoutAnnouncer.lastSlot` drops the duplicate |
