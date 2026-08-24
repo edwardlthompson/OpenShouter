@@ -1,7 +1,10 @@
 package org.openshouter.audio
 
 import android.app.NotificationManager
+import android.app.UiModeManager
 import android.content.Context
+import android.content.pm.PackageManager
+import android.content.res.Configuration
 import android.media.AudioDeviceCallback
 import android.media.AudioDeviceInfo
 import android.media.AudioManager
@@ -15,8 +18,10 @@ import org.openshouter.domain.RingerSilent
 class AudioRouteMonitor @Inject constructor(
     @ApplicationContext context: Context,
 ) {
-    private val audio = context.getSystemService(Context.AUDIO_SERVICE) as AudioManager
-    private val notify = context.getSystemService(NotificationManager::class.java)
+    private val app = context.applicationContext
+    private val audio = app.getSystemService(Context.AUDIO_SERVICE) as AudioManager
+    private val notify = app.getSystemService(NotificationManager::class.java)
+    private val uiMode = app.getSystemService(UiModeManager::class.java)
 
     fun interruptionFilter(): Int =
         notify?.currentInterruptionFilter ?: NotificationManager.INTERRUPTION_FILTER_ALL
@@ -34,6 +39,12 @@ class AudioRouteMonitor @Inject constructor(
     fun headsetConnected(): Boolean {
         val devices = audio.getDevices(AudioManager.GET_DEVICES_OUTPUTS)
         return devices.any { it.isHeadsetLike() }
+    }
+
+    fun carModeActive(): Boolean {
+        if (uiMode?.currentModeType == Configuration.UI_MODE_TYPE_CAR) return true
+        if (app.packageManager.hasSystemFeature(PackageManager.FEATURE_AUTOMOTIVE)) return true
+        return audio.getDevices(AudioManager.GET_DEVICES_OUTPUTS).any { it.isCarRoute() }
     }
 
     fun start(onChange: () -> Unit) {
@@ -57,3 +68,5 @@ private fun AudioDeviceInfo.isHeadsetLike(): Boolean {
     }
     return Build.VERSION.SDK_INT >= 31 && type == AudioDeviceInfo.TYPE_BLE_HEADSET
 }
+
+private fun AudioDeviceInfo.isCarRoute(): Boolean = type == AudioDeviceInfo.TYPE_BUS

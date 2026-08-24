@@ -15,18 +15,20 @@ import org.openshouter.domain.TtsVoice
 import org.openshouter.domain.TtsVoiceCandidate
 import org.openshouter.domain.TtsVoicePick
 import org.openshouter.domain.playable
+import org.openshouter.domain.forCarPlayback
 
 internal object TtsEngine {
     fun resolveStream(
         audio: AudioManager,
         preferred: TtsStream,
         allowSilentVibrate: Boolean,
+        carMode: Boolean = false,
     ): TtsStream = preferred.playable(
         isMuted(audio, preferred),
         isMuted(audio, TtsStream.MEDIA),
         audio.ringerMode != AudioManager.RINGER_MODE_NORMAL,
         allowSilentVibrate,
-    )
+    ).forCarPlayback(carMode)
 
     fun applyStream(tts: TextToSpeech, stream: TtsStream) {
         tts.setAudioAttributes(attributes(stream))

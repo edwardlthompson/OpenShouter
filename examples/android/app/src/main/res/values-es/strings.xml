@@ -109,6 +109,7 @@
     <string name="tts_stream_notification">Notificación</string>
     <string name="tts_stream_media">Multimedia</string>
     <string name="tts_stream_alarm">Alarma</string>
+    <string name="tts_stream_car_note">Android Auto y el modo coche usan el flujo multimedia para que la voz se oiga en la radio del coche.</string>
     <string name="tts_delay">Retraso antes de hablar (segundos)</string>
     <string name="tts_max_length">Máximo de caracteres hablados (0 es ilimitado)</string>
     <string name="tts_audio_focus">Pausar o bajar otro audio</string>

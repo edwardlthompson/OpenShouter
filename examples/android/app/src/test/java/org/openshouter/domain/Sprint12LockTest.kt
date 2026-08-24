@@ -45,6 +45,14 @@ class TtsStreamPlayableTest {
             ),
         )
     }
+
+    @Test
+    fun carModeMapsNotificationToMedia() {
+        assertEquals(TtsStream.MEDIA, TtsStream.NOTIFICATION.forCarPlayback(true))
+        assertEquals(TtsStream.NOTIFICATION, TtsStream.NOTIFICATION.forCarPlayback(false))
+        assertEquals(TtsStream.MEDIA, TtsStream.MEDIA.forCarPlayback(true))
+        assertEquals(TtsStream.ALARM, TtsStream.ALARM.forCarPlayback(true))
+    }
 }
 
 class TtsVoiceTest {

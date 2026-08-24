@@ -29,6 +29,7 @@ internal class TtsPlayback(
     private val abandonFocus: () -> Unit,
     private val requestFocus: (TtsPlaybackPolicy, TtsStream) -> Unit,
     private val isSilent: () -> Boolean,
+    private val carMode: () -> Boolean,
 ) {
     @Volatile var looping: SpokenEvent? = null
     private val player = TtsFilePlayer(context)
@@ -58,7 +59,7 @@ internal class TtsPlayback(
         lastPolicy = policy
         lastAllowSilent = allowSilent
         looping = event.takeIf { it.looping }
-        lastStream = TtsEngine.resolveStream(audio, event.stream ?: policy.stream, allowSilent)
+        lastStream = TtsEngine.resolveStream(audio, event.stream ?: policy.stream, allowSilent, carMode())
         TtsEngine.applyVoice(engine, policy.voice)
         TtsEngine.applyStream(engine, lastStream)
         requestFocus(policy, lastStream)

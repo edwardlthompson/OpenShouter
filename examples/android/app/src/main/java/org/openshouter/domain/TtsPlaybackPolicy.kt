@@ -14,6 +14,10 @@ fun TtsStream.playable(
     return this
 }
 
+/** Android Auto routes notification-class speech poorly; use media on the car path. */
+fun TtsStream.forCarPlayback(carMode: Boolean): TtsStream =
+    if (carMode && this == TtsStream.NOTIFICATION) TtsStream.MEDIA else this
+
 data class TtsPlaybackPolicy(
     val stream: TtsStream = TtsStream.MEDIA,
     val delaySeconds: Int = 0,

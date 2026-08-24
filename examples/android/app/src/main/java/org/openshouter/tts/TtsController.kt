@@ -54,6 +54,7 @@ class TtsController @Inject constructor(
             }
         },
         isSilent = { route.isSilent() },
+        carMode = { route.carModeActive() },
     )
 
     fun languageTags(enginePackage: String = boundEngine.orEmpty()): List<String> {

@@ -116,6 +116,11 @@ fun TtsSettingsScreen(
                         onPlayback(playback.copy(stream = stream).clamp())
                     },
                 )
+                Text(
+                    stringResource(R.string.tts_stream_car_note),
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                )
                 TtsVoicePicker(
                     playback = playback,
                     onPlayback = onPlayback,
