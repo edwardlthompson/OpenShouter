@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
-# Wrapper: sign + upload openshouter-X.Y.Z-foss.apk (logic in scripts/lib/publish_foss_apk.py).
-# Uses This Computer's debug keystore. Do not upload CI-built APKs.
+# Build a Gradle release-signed APK and upload openshouter-X.Y.Z-foss.apk.
+# Requires examples/android/keystore.properties or RELEASE_* env vars.
 set -euo pipefail
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 PY="${AGENT_PYTHON:-python3}"

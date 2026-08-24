@@ -1,3 +1,5 @@
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.compose)
@@ -10,6 +12,17 @@ kotlin {
         jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17)
     }
 }
+
+val keystoreProperties = Properties().apply {
+    val file = rootProject.file("keystore.properties")
+    if (file.isFile) {
+        load(file.inputStream())
+    }
+}
+
+fun signingProp(envKey: String, propKey: String): String? =
+    System.getenv(envKey)?.takeIf { it.isNotBlank() }
+        ?: keystoreProperties.getProperty(propKey)?.takeIf { it.isNotBlank() }
 
 android {
     namespace = "dev.foss.goldenpath"
@@ -24,9 +37,23 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    signingConfigs {
+        create("release") {
+            val storePath = signingProp("RELEASE_STORE_FILE", "storeFile") ?: return@create
+            storeFile = rootProject.file(storePath)
+            storePassword = signingProp("RELEASE_STORE_PASSWORD", "storePassword")
+            keyAlias = signingProp("RELEASE_KEY_ALIAS", "keyAlias")
+            keyPassword = signingProp("RELEASE_KEY_PASSWORD", "keyPassword")
+        }
+    }
+
     buildTypes {
         release {
             isMinifyEnabled = false
+            val releaseSigning = signingConfigs.getByName("release")
+            if (releaseSigning.storeFile?.isFile == true) {
+                signingConfig = releaseSigning
+            }
         }
     }
 

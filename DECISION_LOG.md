@@ -17,6 +17,13 @@
 
 ## Entries
 
+### 2026-08-24 — Release-signed FOSS APKs
+- **Status:** Accepted
+- **Context:** GitHub Releases used a post-build apksigner pass with the Android debug keystore. Users asked for proper release signing.
+- **Decision:** Gradle `signingConfigs.release` reads `examples/android/keystore.properties` or `RELEASE_*` env vars. `publish-foss-apk` uploads Gradle-signed `app-release.apk` and rejects debug certificates. One-time keystore via `scripts/generate-release-keystore.sh` (gitignored).
+- **Alternatives considered:** Keep debug signing (rejected). CI-held secrets only (rejected: breaks local `/ship` on This Computer).
+- **Consequences:** New release key cannot update over prior debug-key sideloads without uninstall. Back up `openshouter-release.keystore`.
+
 ### 2026-08-24 — /ship v0.8.2
 - **Status:** Accepted
 - **Context:** Android Auto ducked media but did not play notification-stream TTS on the head unit. User asked for auto-media routing and a Voice settings note.

@@ -25,7 +25,7 @@ Create/update RELEASE_NOTES.md from CHANGELOG, BUILD_PLAN rows, recent commits (
 ## Step 4 — Release
 
 - Merge Release Please PR: `python3 scripts/agent-run.py merge-release-please-pr --wait 300` (auto-merge queue, then `--admin` fallback; requires admin `gh auth`)
-- Publish installer: `python3 scripts/agent-run.py publish-foss-apk` (signed `openshouter-X.Y.Z-foss.apk`; halt if missing)
+- Publish installer: `python3 scripts/agent-run.py publish-foss-apk` (release-signed `openshouter-X.Y.Z-foss.apk`; requires `keystore.properties`)
 - Update @AGENT_MEMORY.md and @DECISION_LOG.md at milestone boundary
 
 ## Step 5 — Cleanup

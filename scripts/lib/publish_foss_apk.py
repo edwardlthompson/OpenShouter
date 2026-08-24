@@ -1,4 +1,4 @@
-"""Sign a local release APK and upload openshouter-X.Y.Z-foss.apk."""
+"""Build a Gradle release-signed APK and upload openshouter-X.Y.Z-foss.apk."""
 from __future__ import annotations
 
 import os
@@ -10,7 +10,9 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 ANDROID = ROOT / "examples" / "android"
+RELEASE_APK_DIR = ANDROID / "app" / "build" / "outputs" / "apk" / "release"
 VERSION_RE = re.compile(r"^[0-9]+\.[0-9]+\.[0-9]+$")
+DEBUG_MARKERS = ("Android Debug", "androiddebugkey", "CN=Android Debug")
 
 
 def asset_name(ver: str) -> str:
@@ -29,12 +31,55 @@ def version() -> str:
     return raw
 
 
-def debug_keystore() -> Path:
-    home = Path(os.environ.get("USERPROFILE") or os.environ.get("HOME") or "")
-    ks = home / ".android" / "debug.keystore"
-    if not ks.is_file():
-        die("FAIL: debug.keystore not found (expected %USERPROFILE%/.android/debug.keystore)")
-    return ks
+def load_keystore_properties(android_dir: Path = ANDROID) -> dict[str, str]:
+    props_file = android_dir / "keystore.properties"
+    if not props_file.is_file():
+        return {}
+    props: dict[str, str] = {}
+    for line in props_file.read_text(encoding="utf-8").splitlines():
+        line = line.strip()
+        if not line or line.startswith("#") or "=" not in line:
+            continue
+        key, value = line.split("=", 1)
+        props[key.strip()] = value.strip()
+    return props
+
+
+def release_signing_ready(android_dir: Path = ANDROID) -> tuple[bool, str]:
+    props = load_keystore_properties(android_dir)
+    store_file = os.environ.get("RELEASE_STORE_FILE", "").strip() or props.get("storeFile", "").strip()
+    store_password = os.environ.get("RELEASE_STORE_PASSWORD", "").strip() or props.get("storePassword", "").strip()
+    key_alias = os.environ.get("RELEASE_KEY_ALIAS", "").strip() or props.get("keyAlias", "").strip()
+    key_password = os.environ.get("RELEASE_KEY_PASSWORD", "").strip() or props.get("keyPassword", "").strip()
+    if not store_file:
+        return False, "missing store file (keystore.properties or RELEASE_STORE_FILE)"
+    store_path = Path(store_file)
+    if not store_path.is_absolute():
+        store_path = android_dir / store_path
+    if not store_path.is_file():
+        return False, f"keystore not found: {store_path}"
+    missing = [name for name, value in (
+        ("store password", store_password),
+        ("key alias", key_alias),
+        ("key password", key_password),
+    ) if not value]
+    if missing:
+        return False, "missing " + ", ".join(missing)
+    return True, str(store_path)
+
+
+def find_release_apk() -> Path:
+    signed = RELEASE_APK_DIR / "app-release.apk"
+    unsigned = RELEASE_APK_DIR / "app-release-unsigned.apk"
+    if signed.is_file():
+        return signed
+    if unsigned.is_file():
+        die(
+            "FAIL: Gradle produced an unsigned release APK.\n"
+            "Configure examples/android/keystore.properties (see keystore.properties.example)\n"
+            "or set RELEASE_* env vars, then run scripts/generate-release-keystore.sh once.",
+        )
+    die(f"FAIL: no release APK under {RELEASE_APK_DIR}")
 
 
 def apksigner() -> Path:
@@ -63,6 +108,20 @@ def run(cmd: list[str], *, cwd: Path | None = None, env: dict[str, str] | None =
     subprocess.run(cmd, cwd=cwd, env=env, check=True)
 
 
+def run_capture(cmd: list[str]) -> str:
+    if cmd and cmd[0].endswith(".bat"):
+        cmd = ["cmd.exe", "/c", *cmd]
+    return subprocess.check_output(cmd, text=True)
+
+
+def assert_release_signed(apk: Path, signer: Path) -> None:
+    verify_cmd = [str(signer), "verify", "--verbose", str(apk)]
+    run(verify_cmd if signer.suffix.lower() != ".bat" else ["cmd.exe", "/c", *verify_cmd])
+    certs = run_capture([str(signer), "verify", "--print-certs", str(apk)]).lower()
+    if any(marker.lower() in certs for marker in DEBUG_MARKERS):
+        die("FAIL: APK is debug-signed; release keystore is required")
+
+
 def main(argv: list[str]) -> int:
     tag = ""
     force = False
@@ -80,6 +139,13 @@ def main(argv: list[str]) -> int:
             print("Usage: publish-foss-apk [--tag vX.Y.Z] [--force]")
             return 0
         die(f"Unknown option: {argv[i]}")
+    ready, detail = release_signing_ready()
+    if not ready:
+        die(
+            "FAIL: release signing not configured — "
+            f"{detail}.\n"
+            "Run: bash scripts/generate-release-keystore.sh (once), then retry.",
+        )
     ver = version()
     tag = tag or f"v{ver}"
     asset = asset_name(ver)
@@ -99,26 +165,16 @@ def main(argv: list[str]) -> int:
     env = os.environ.copy()
     env.setdefault("SOURCE_DATE_EPOCH", "1700000000")
     gradle = ANDROID / ("gradlew.bat" if os.name == "nt" else "gradlew")
-    print(f"Building release APK (SOURCE_DATE_EPOCH={env['SOURCE_DATE_EPOCH']})...")
+    print(f"Building release-signed APK (SOURCE_DATE_EPOCH={env['SOURCE_DATE_EPOCH']})...")
+    print(f"Release keystore: {detail}")
     run([str(gradle), "assembleRelease", "--no-daemon"], cwd=ANDROID, env=env)
-    apks = list((ANDROID / "app/build/outputs/apk/release").glob("*.apk"))
-    if not apks:
-        die("FAIL: no release APK under app/build/outputs/apk/release")
+    built = find_release_apk()
     dest = ROOT / "dist" / asset
     dest.parent.mkdir(parents=True, exist_ok=True)
+    shutil.copy2(built, dest)
     signer = apksigner()
-    ks = debug_keystore()
-    print(f"Signing {asset} with local debug keystore...")
-    sign_cmd = [str(signer), "sign", "--ks", str(ks), "--ks-key-alias", "androiddebugkey",
-                "--ks-pass", "pass:android", "--key-pass", "pass:android",
-                "--out", str(dest), str(apks[0])]
-    if signer.suffix.lower() == ".bat":
-        sign_cmd = ["cmd.exe", "/c", *sign_cmd]
-    run(sign_cmd)
-    verify_cmd = [str(signer), "verify", "--verbose", str(dest)]
-    if signer.suffix.lower() == ".bat":
-        verify_cmd = ["cmd.exe", "/c", *verify_cmd]
-    run(verify_cmd)
+    print(f"Verifying release signature for {asset}...")
+    assert_release_signed(dest, signer)
     print(f"Uploading {asset} to {tag}...")
     run(["gh", "release", "upload", tag, str(dest), "--clobber"])
     print(f"OK   published {asset} on {tag}")

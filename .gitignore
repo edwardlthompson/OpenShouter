@@ -51,6 +51,9 @@ playwright-report/
 .env
 .env.*
 !.env.example
+examples/android/keystore.properties
+examples/android/*.keystore
+examples/android/*.jks
 
 # Live user configs (examples committed; copies from init)
 .app-update.json
