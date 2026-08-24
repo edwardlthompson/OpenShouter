@@ -98,10 +98,11 @@ OpenShouter is a FOSS recreation/enhancement of classic Shouter (`com.bhkapps.sh
 | 2026-08-23 | `/ship` v0.8.0 | `feat` → minor; RP #22 admin-merged; voice quality dropdowns + engine catalog | Instrumented settings test must open/dismiss the theme dropdown; name APKs `openshouter-X.Y.Z-foss.apk` |
 | 2026-08-24 | Hourly shout vs bedtime | Dropped `setAlarmClock`; TIME_TICK + exact-while-idle; notification stream unchanged | Re-enable bedtime once after install if it already exited |
 | 2026-08-24 | `/ship` v0.8.1 | `fix` → patch; RP #23 admin-merged; signed `openshouter-0.8.1-foss.apk` on release | Same empty-job PR checks as KB-016 |
+| 2026-08-24 | `/ship` v0.8.2 | Android Auto auto-media + Voice settings note; RP #25 admin-merged | Run `publish-foss-apk` only after `git pull` post-merge |
 ## Template Provenance
 
 - **Source template:** `edwardlthompson/agent-project-bootstrap`
 - **Bootstrap scaffold / standards:** `0.17.0` / `0.21.0` (not product semver)
-- **Product version:** `0.8.1` (see `.template-version`)
+- **Product version:** `0.8.2` (see `.template-version`)
 - **Last update check:** See `.template-update.json`
 - **Stack selection:** `.cursor/stack-selection.json` (`android`, `foss`, pruned)

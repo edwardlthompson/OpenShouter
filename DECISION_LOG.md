@@ -17,6 +17,13 @@
 
 ## Entries
 
+### 2026-08-24 — /ship v0.8.2
+- **Status:** Accepted
+- **Context:** Android Auto ducked media but did not play notification-stream TTS on the head unit. User asked for auto-media routing and a Voice settings note.
+- **Decision:** `fix` → patch 0.8.2. Detect car UI / automotive / BUS audio route; remap notification stream to media at speak time. Admin-merge Release Please #25 (KB-016). Upload `openshouter-0.8.2-foss.apk` after merge pull.
+- **Alternatives considered:** Force Media globally (rejected: phone users prefer notification stream). New toggle (rejected: automatic is enough).
+- **Consequences:** https://github.com/edwardlthompson/OpenShouter/releases/tag/v0.8.2. Voice → Audio stream shows the car-mode note.
+
 ### 2026-08-24 — /ship v0.8.1
 - **Status:** Accepted
 - **Context:** Hourly time shout used `setAlarmClock`, which Android treats as the next wake alarm and exits bedtime. Fix was already on `main` as `a8d4b39`.
