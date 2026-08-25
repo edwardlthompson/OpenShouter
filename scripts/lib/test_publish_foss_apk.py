@@ -1,21 +1,19 @@
 """Tests for release APK publish helpers."""
 from __future__ import annotations
 
+import sys
 import tempfile
 import unittest
 from pathlib import Path
 
-import sys
-
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from publish_foss_apk import DEBUG_MARKERS, release_signing_ready
+from publish_foss_signing import DEBUG_MARKERS, release_signing_ready
 
 
 class PublishFossApkTest(unittest.TestCase):
     def test_release_signing_missing_without_props(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
-            android = Path(tmp)
-            ready, reason = release_signing_ready(android)
+            ready, reason = release_signing_ready(Path(tmp))
             self.assertFalse(ready)
             self.assertIn("missing", reason)
 
