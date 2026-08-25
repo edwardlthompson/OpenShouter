@@ -17,6 +17,13 @@
 
 ## Entries
 
+### 2026-08-24 — /ship v0.9.0
+- **Status:** Accepted
+- **Context:** 24-hour time shouts read digit-by-digit (`21:00` → “twenty one zero zero”). Release signing (`feat`) and the military-time fix were ready together.
+- **Decision:** Release Please treated `feat(release)` as minor → **0.9.0**. Admin-merge #26 (KB-016). Sync `build.gradle.kts` versionName after merge. Upload release-signed `openshouter-0.9.0-foss.apk`.
+- **Alternatives considered:** Force patch 0.8.3 (rejected: conventional-commit `feat` correctly bumps minor).
+- **Consequences:** https://github.com/edwardlthompson/OpenShouter/releases/tag/v0.9.0. 24-hour `%time` speaks NATO-style English.
+
 ### 2026-08-24 — Release-signed FOSS APKs
 - **Status:** Accepted
 - **Context:** GitHub Releases used a post-build apksigner pass with the Android debug keystore. Users asked for proper release signing.

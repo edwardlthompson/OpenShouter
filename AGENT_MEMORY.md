@@ -100,10 +100,11 @@ OpenShouter is a FOSS recreation/enhancement of classic Shouter (`com.bhkapps.sh
 | 2026-08-24 | `/ship` v0.8.1 | `fix` → patch; RP #23 admin-merged; signed `openshouter-0.8.1-foss.apk` on release | Same empty-job PR checks as KB-016 |
 | 2026-08-24 | `/ship` v0.8.2 | Android Auto auto-media + Voice settings note; RP #25 admin-merged | Run `publish-foss-apk` only after `git pull` post-merge |
 | 2026-08-24 | Release signing | Gradle release keystore; no debug apksigner pass | Back up `openshouter-release.keystore`; uninstall debug builds before first release-signed install |
+| 2026-08-24 | `/ship` v0.9.0 | Military/Zulu time TTS + release signing; RP #26 → 0.9.0 | Sync `versionName` in build.gradle.kts after RP merge |
 ## Template Provenance
 
 - **Source template:** `edwardlthompson/agent-project-bootstrap`
 - **Bootstrap scaffold / standards:** `0.17.0` / `0.21.0` (not product semver)
-- **Product version:** `0.8.2` (see `.template-version`)
+- **Product version:** `0.9.0` (see `.template-version`)
 - **Last update check:** See `.template-update.json`
 - **Stack selection:** `.cursor/stack-selection.json` (`android`, `foss`, pruned)
