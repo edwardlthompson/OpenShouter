@@ -34,8 +34,9 @@ class TimeShoutAnnouncer @Inject constructor(
         val slot = TimeShout.currentSlotStartMillis(now, interval)
         if (!TimeShout.shouldSpeakSlot(slot, lastSlot, now, requireAligned, interval)) return
         lastSlot = slot
-        val clock = TimeShout.formatClock(
-            Instant.ofEpochMilli(slot).atZone(ZoneId.systemDefault()),
+        val zoned = Instant.ofEpochMilli(slot).atZone(ZoneId.systemDefault())
+        val clock = TimeShout.formatClockForSpeech(
+            zoned,
             snap.timeHourStyle,
             DateFormat.is24HourFormat(context),
         )

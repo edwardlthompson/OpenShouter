@@ -93,4 +93,15 @@ object TimeShout {
         val pattern = if (use24Hour(style, system24Hour)) "HH:mm" else "h:mm a"
         return now.format(DateTimeFormatter.ofPattern(pattern, locale))
     }
+
+    fun formatClockForSpeech(
+        now: ZonedDateTime,
+        style: TimeHourStyle,
+        system24Hour: Boolean,
+        locale: Locale = Locale.getDefault(),
+    ): String = if (use24Hour(style, system24Hour)) {
+        MilitaryTime.speakAt(now)
+    } else {
+        formatClock(now, style, system24Hour, locale)
+    }
 }
