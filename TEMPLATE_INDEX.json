@@ -1191,6 +1191,27 @@
       "owner": "maintainer"
     },
     {
+      "path": "scripts/generate-release-keystore.sh",
+      "purpose": "Create gitignored openshouter-release.keystore and keystore.properties once",
+      "read_when": "milestone_boundary",
+      "update_when": "milestone_boundary",
+      "owner": "maintainer"
+    },
+    {
+      "path": "scripts/lib/publish_foss_signing.py",
+      "purpose": "Release keystore readiness and apksigner verify helpers for FOSS APK publish",
+      "read_when": "milestone_boundary",
+      "update_when": "milestone_boundary",
+      "owner": "maintainer"
+    },
+    {
+      "path": "examples/android/keystore.properties.example",
+      "purpose": "Example Gradle release signing properties (copy to gitignored keystore.properties)",
+      "read_when": "milestone_boundary",
+      "update_when": "milestone_boundary",
+      "owner": "maintainer"
+    },
+    {
       "path": "scripts/verify-reproducible-apk.sh",
       "purpose": "Local double-build APK hash check (SOURCE_DATE_EPOCH parity with CI)",
       "read_when": "milestone_boundary",
