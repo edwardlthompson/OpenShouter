@@ -6,6 +6,29 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.9.0](https://github.com/edwardlthompson/OpenShouter/compare/v0.8.2...v0.9.0) (2026-08-25)
+
+
+### Added
+
+* **release:** sign FOSS APKs with release keystore ([580e05f](https://github.com/edwardlthompson/OpenShouter/commit/580e05f4f01075c3dc1d10ea4c2871ba5e69b40d))
+
+
+### Fixed
+
+* **android:** speak 24-hour time in military style ([4f62f22](https://github.com/edwardlthompson/OpenShouter/commit/4f62f2223207950ae58627ac34f5a8a71fbf7fb8))
+
+
+### Changed
+
+* index release keystore scripts in TEMPLATE_INDEX ([3869da7](https://github.com/edwardlthompson/OpenShouter/commit/3869da757a683f0cc6963b5be057dd7249e0a6ff))
+
+
+### Documentation
+
+* note release keystore milestone ([82d502a](https://github.com/edwardlthompson/OpenShouter/commit/82d502a362a7c3393a9b369956f11fb020e27295))
+* record v0.8.2 ship milestone ([bc50960](https://github.com/edwardlthompson/OpenShouter/commit/bc509601ede8d2c95938ad9212e93bce81fd50f3))
+
 ## [0.8.2](https://github.com/edwardlthompson/OpenShouter/compare/v0.8.1...v0.8.2) (2026-08-24)
 
 
