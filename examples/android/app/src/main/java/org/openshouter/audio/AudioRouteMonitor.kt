@@ -12,6 +12,7 @@ import android.os.Build
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 import javax.inject.Singleton
+import org.openshouter.domain.CarAudioRoute
 import org.openshouter.domain.RingerSilent
 
 @Singleton
@@ -69,4 +70,4 @@ private fun AudioDeviceInfo.isHeadsetLike(): Boolean {
     return Build.VERSION.SDK_INT >= 31 && type == AudioDeviceInfo.TYPE_BLE_HEADSET
 }
 
-private fun AudioDeviceInfo.isCarRoute(): Boolean = type == AudioDeviceInfo.TYPE_BUS
+private fun AudioDeviceInfo.isCarRoute(): Boolean = CarAudioRoute.isCarOutput(type)

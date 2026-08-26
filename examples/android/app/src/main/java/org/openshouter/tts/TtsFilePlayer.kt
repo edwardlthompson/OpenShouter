@@ -10,8 +10,10 @@ internal class TtsFilePlayer(private val context: Context) {
     private val session = TtsSpeakSession(context)
     private var player: MediaPlayer? = null
 
+    fun arm() = session.start()
+
     fun play(file: File, stream: TtsStream, times: Int, onComplete: () -> Unit) {
-        stop()
+        haltPlayer()
         if (!file.exists() || file.length() <= 0L) {
             onComplete()
             return
@@ -21,17 +23,21 @@ internal class TtsFilePlayer(private val context: Context) {
     }
 
     fun stop() {
-        runCatching {
-            player?.stop()
-            player?.release()
-        }
-        player = null
+        haltPlayer()
         session.stop()
     }
 
     fun release() {
         stop()
         session.release()
+    }
+
+    private fun haltPlayer() {
+        runCatching {
+            player?.stop()
+            player?.release()
+        }
+        player = null
     }
 
     private fun playOnce(file: File, stream: TtsStream, left: Int, onComplete: () -> Unit) {

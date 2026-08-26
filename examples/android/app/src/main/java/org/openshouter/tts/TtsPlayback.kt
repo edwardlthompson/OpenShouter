@@ -62,8 +62,9 @@ internal class TtsPlayback(
         lastStream = TtsEngine.resolveStream(audio, event.stream ?: policy.stream, allowSilent, carMode())
         TtsEngine.applyVoice(engine, policy.voice)
         TtsEngine.applyStream(engine, lastStream)
-        requestFocus(policy, lastStream)
         player.stop()
+        player.arm()
+        requestFocus(policy, lastStream)
         val id = UUID.randomUUID().toString()
         val file = File(cacheDir, "os-tts-$id.wav")
         currentUtterance = id
@@ -117,7 +118,7 @@ internal class TtsPlayback(
                         ready(),
                         event,
                         snap.ttsPlayback.clamp(),
-                        ChannelStates.allowSilentVibrate(snap, event.kind),
+                        ChannelStates.allowPlaybackWhenSilent(snap, event.kind),
                         false,
                         setPending,
                     )

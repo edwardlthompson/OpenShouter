@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Fixed
+
+* **android:** announce ringing cellular and WhatsApp calls (GATE_CALL was blocking RINGING; ongoing VoIP notifications were dropped)
+
 ## [0.9.0](https://github.com/edwardlthompson/OpenShouter/compare/v0.8.2...v0.9.0) (2026-08-25)
 
 
@@ -52,8 +58,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Documentation
 
 * record v0.8.0 ship regressions ([e04648e](https://github.com/edwardlthompson/OpenShouter/commit/e04648e7d4c47adec96bc0756774634206ee9c16))
-
-## [Unreleased]
 
 ## [0.8.0](https://github.com/edwardlthompson/OpenShouter/compare/v0.7.0...v0.8.0) (2026-08-23)
 

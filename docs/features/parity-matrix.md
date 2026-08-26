@@ -26,6 +26,8 @@ Interactive filterable table: Cursor canvas `feature-parity-matrix.canvas.tsx` (
 
 **Wrap-up 2026-08-24:** Hourly time shout is a regular announcement (`TIME_TICK` + exact-while-idle). Not `setAlarmClock`, so bedtime stays on. Time row stays Yes.
 
+**Wrap-up 2026-08-26:** Incoming cellular/WhatsApp shouts: RINGING is not in-call; call channel ignores screen-off-only and silent/vibrate; ongoing VoIP notifications speak the app name. Call rows stay Yes.
+
 Status: **Yes** shipped · **Partial** logic or subset UI · **No** missing · **Skip** will not copy (FOSS / out of scope).
 
 ## Summary
@@ -111,7 +113,7 @@ Dashboard master + sectioned Hear / History / Phone cards · searchable app-spea
 | Device states | Per-channel headphone/silent | Yes | No | Yes | Shipped ChannelStateScreen grid + stream/repeat |
 | Device states | Silent/vibrate + in-call flags | Yes | Yes | Yes | Shipped DeviceStatePolicy toggles |
 | TTS | Stream / audio focus / pitch / voice test | Stream | Stream+focus | Yes | Pitch + pause-media + language dropdowns + engine source + quality floor |
-| Call | Looping ID + contacts | Yes | No | Yes | Shipped |
+| Call | Looping ID + contacts | Yes | No | Yes | RINGING not GATE_CALL; VoIP ongoing CATEGORY_CALL + app label |
 | Call | Unknown toggle, nick/blacklist, missed | Yes | No | Yes | Shipped ContactRules + speakUnknown + missed RING→IDLE |
 | Message | Dedicated SMS/MMS shout | Yes | Via apps | Yes | Extras/sender parse; no `READ_SMS` |
 | Time | Interval + exact opt-in | Yes | No | Yes | 15/30/60 + `timeShoutExact` via `setExactAndAllowWhileIdle` + `TIME_TICK`; not `setAlarmClock` |

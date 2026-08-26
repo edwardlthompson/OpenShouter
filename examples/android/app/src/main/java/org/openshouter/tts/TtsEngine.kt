@@ -35,9 +35,14 @@ internal object TtsEngine {
     }
 
     fun attributes(stream: TtsStream): AudioAttributes {
+        val content = if (stream == TtsStream.MEDIA) {
+            AudioAttributes.CONTENT_TYPE_MUSIC
+        } else {
+            AudioAttributes.CONTENT_TYPE_SPEECH
+        }
         val builder = AudioAttributes.Builder()
             .setUsage(usage(stream))
-            .setContentType(AudioAttributes.CONTENT_TYPE_SPEECH)
+            .setContentType(content)
         if (Build.VERSION.SDK_INT >= 32) {
             builder.setSpatializationBehavior(AudioAttributes.SPATIALIZATION_BEHAVIOR_NEVER)
         }

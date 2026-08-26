@@ -43,11 +43,16 @@ object TtsFormat {
     fun missedCall(nameOrNumber: String): String =
         call(MISSED_DEFAULT, nameOrNumber)
 
-    fun call(template: String, name: String, number: String = "", sim: String = ""): String =
-        render(
-            template.ifBlank { CALL_DEFAULT },
-            mapOf("name" to name, "number" to number, "sim" to sim),
-        )
+    fun call(
+        template: String,
+        name: String,
+        number: String = "",
+        sim: String = "",
+        app: String = "",
+    ): String = render(
+        template.ifBlank { CALL_DEFAULT },
+        mapOf("name" to name, "number" to number, "sim" to sim, "app" to app),
+    )
 
     fun message(template: String, name: String, text: String): String =
         render(template.ifBlank { MESSAGE_DEFAULT }, mapOf("name" to name, "text" to text))

@@ -1,5 +1,6 @@
 package org.openshouter.notification
 
+import org.openshouter.call.CallNotification
 import org.openshouter.domain.AppOverride
 import org.openshouter.domain.AppSpeakPolicy
 import org.openshouter.domain.IgnoreReason
@@ -22,6 +23,21 @@ internal object NotificationPosted {
         priorityDnd: Boolean,
     ) {
         val settings = ep.settings().snapshot()
+        if (CallNotification.routeAsCall(
+                facts.app,
+                facts.categoryCall,
+                facts.isOngoing,
+                settings.callsEnabled,
+            )
+        ) {
+            val incoming = CallNotification.event(settings, facts.title, facts.people, label)
+                ?: return
+            NotificationHistory.speakOrIgnore(
+                ep, settings, ShoutChannel.CALL, SpokenEvent.Kind.CALL, incoming.utterance, facts,
+                silentExempt = true, looping = incoming.looping,
+            )
+            return
+        }
         if (!settings.notificationsEnabled) return
         if (MessageChannel.isMessaging(facts.app)) {
             val spoken = MessageChannel.utterance(

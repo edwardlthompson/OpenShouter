@@ -8,6 +8,7 @@ import java.util.Calendar
 import javax.inject.Inject
 import javax.inject.Singleton
 import org.openshouter.audio.AudioRouteMonitor
+import org.openshouter.call.CallSuppression
 import org.openshouter.domain.AnnouncementGate
 import org.openshouter.domain.AppSettings
 import org.openshouter.domain.ChannelStates
@@ -33,11 +34,12 @@ class SpeakGate @Inject constructor(
         val minute = cal.get(Calendar.HOUR_OF_DAY) * 60 + cal.get(Calendar.MINUTE)
         val day = cal.get(Calendar.DAY_OF_WEEK)
         val pm = context.getSystemService(Context.POWER_SERVICE) as PowerManager
-        val silent = audio.isSilent() && !silentExempt
+        val callExempt = channel == ShoutChannel.CALL
+        val silent = audio.isSilent() && !silentExempt && !callExempt
         val inCall = runCatching {
             val tm = context.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
             @Suppress("DEPRECATION")
-            tm.callState != TelephonyManager.CALL_STATE_IDLE
+            CallSuppression.blocksOtherShouts(tm.callState)
         }.getOrDefault(false)
         val resolved = if (channel == null) {
             settings.deviceState
@@ -52,8 +54,9 @@ class SpeakGate @Inject constructor(
         val device = resolved.copy(
             allowSilentVibrate = resolved.allowSilentVibrate && settings.deviceState.allowSilentVibrate,
         )
+        val gated = if (callExempt) settings.copy(screenOffOnly = false) else settings
         return AnnouncementGate.denyReason(
-            settings,
+            gated,
             minute,
             day,
             pm.isInteractive,

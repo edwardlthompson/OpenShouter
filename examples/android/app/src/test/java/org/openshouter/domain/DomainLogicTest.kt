@@ -32,6 +32,10 @@ class TtsFormatTest {
     @Test
     fun incomingCallPhrase() {
         assertEquals("Incoming call from Ada", TtsFormat.incomingCall("Ada"))
+        assertEquals(
+            "Incoming WhatsApp call from Ada",
+            TtsFormat.call("Incoming %app call from %name", "Ada", app = "WhatsApp"),
+        )
     }
 
     @Test

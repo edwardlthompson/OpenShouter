@@ -23,6 +23,7 @@ internal data class NotificationFacts(
     val postedAt: Long,
     val rank: Int,
     val categoryCall: Boolean,
+    val isOngoing: Boolean,
     val isTest: Boolean,
 ) {
     companion object {
@@ -40,6 +41,7 @@ internal data class NotificationFacts(
                 postedAt = sbn.postTime,
                 rank = NotificationRank.effective(sbn.notification.priority, channelImp),
                 categoryCall = sbn.notification.category == Notification.CATEGORY_CALL,
+                isOngoing = sbn.isOngoing,
                 isTest = TestNotification.isSelfTest(sbn.packageName, sbn.notification.channelId),
             )
         }

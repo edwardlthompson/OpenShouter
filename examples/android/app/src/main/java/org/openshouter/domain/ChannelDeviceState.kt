@@ -43,6 +43,9 @@ object ChannelStates {
             resolve(settings.channelStates, channelFor(kind), settings.deviceState, settings.ttsPlayback)
                 .device.allowSilentVibrate
 
+    fun allowPlaybackWhenSilent(settings: AppSettings, kind: SpokenEvent.Kind): Boolean =
+        kind == SpokenEvent.Kind.CALL || allowSilentVibrate(settings, kind)
+
     fun spoken(
         settings: AppSettings,
         channel: ShoutChannel,

@@ -183,7 +183,6 @@
 | **Cause** | `MenuDropdown` hides options until expanded. `ExposedDropdownMenu` consumes the first Back to dismiss the menu |
 | **Fix** | Open the current value (`System theme`), pick `Dark theme`, then Back until `Check for updates` is gone |
 | **Prevention** | Settings smoke tests must expand exclusive-choice dropdowns; do not assert a chip label that is only inside the menu |
-
 ### KB-020 — HUMAN leftover sprint blocks need `parallel_exception`
 
 | Field | Detail |
@@ -192,3 +191,11 @@
 | **Cause** | `check-build-plan-parallel.sh` treats leftover headings as sprint blocks; a single `[HUMAN]` row is not a Parallel table |
 | **Fix** | Add `<!-- parallel_exception: HUMAN-only leftover; AGENT/AUTO archived -->` under the leftover heading |
 | **Prevention** | After `/cleanup`, leftover HUMAN/ADB sections keep a `parallel_exception` comment or a Parallel table |
+### KB-023 — Incoming calls silenced by GATE_CALL and ongoing NLS drop
+
+| Field | Detail |
+|-------|--------|
+| **Symptom** | Cellular and WhatsApp calls on OP13 (CPH2655) never shout, not even the app name. Listener, FGS, READ_PHONE_STATE, and READ_CALL_LOG are fine |
+| **Cause** | SpeakGate treated RINGING as in-call (GATE_CALL). The listener dropped all ongoing posts, so WhatsApp/CallStyle never reached TTS. WhatsApp was also hijacked onto the message channel (off by default). PHONE_STATE was registered without an export flag, aborting TelephonyCallback on API 34+ if that register threw |
+| **Fix** | In-call suppression is OFFHOOK only. CALL channel ignores screen-off-only and silent/vibrate. Ongoing VoIP/CATEGORY_CALL posts go through CallChannel with the app label. Register PHONE_STATE with ContextCompat.RECEIVER_EXPORTED; register TelephonyCallback even if the receiver fails |
+| **Prevention** | CallSuppressionTest and CallNotificationTest cover RINGING vs OFFHOOK and WhatsApp vs dialer routing. Do not skip sbn.isOngoing for incoming-call posts |

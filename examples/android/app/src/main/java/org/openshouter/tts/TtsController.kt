@@ -99,7 +99,7 @@ class TtsController @Inject constructor(
         scope.launch {
             val snap = settings.snapshot()
             val policy = snap.ttsPlayback.clamp()
-            val allowSilent = ChannelStates.allowSilentVibrate(snap, event.kind)
+            val allowSilent = ChannelStates.allowPlaybackWhenSilent(snap, event.kind)
             if (!immediate && !(event.looping && playback.looping != null) && policy.delaySeconds > 0) {
                 delay(policy.delaySeconds * 1000L)
             }

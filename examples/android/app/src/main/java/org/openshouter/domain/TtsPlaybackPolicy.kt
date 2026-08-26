@@ -18,6 +18,18 @@ fun TtsStream.playable(
 fun TtsStream.forCarPlayback(carMode: Boolean): TtsStream =
     if (carMode && this == TtsStream.NOTIFICATION) TtsStream.MEDIA else this
 
+/** Output types that should remap to media and publish a playable MediaSession. */
+object CarAudioRoute {
+    const val TYPE_A2DP = 8
+    const val TYPE_USB_ACCESSORY = 12
+    const val TYPE_BUS = 21
+
+    fun isCarOutput(type: Int): Boolean = when (type) {
+        TYPE_A2DP, TYPE_USB_ACCESSORY, TYPE_BUS -> true
+        else -> false
+    }
+}
+
 data class TtsPlaybackPolicy(
     val stream: TtsStream = TtsStream.MEDIA,
     val delaySeconds: Int = 0,

@@ -14,17 +14,29 @@ object CallChannel {
         rawNumber: String,
         contactName: String?,
         sim: String = "",
+        appLabel: String = "",
     ): SpokenEvent? {
         val resolved = ContactRules.apply(settings.contactRule, rawNumber, contactName)
         if (resolved.blocked) return null
-        if (!resolved.known && !settings.missedCall.speakUnknown) return null
+        val name = when {
+            resolved.known -> resolved.spoken
+            appLabel.isNotBlank() -> appLabel
+            !settings.missedCall.speakUnknown -> return null
+            else -> resolved.spoken
+        }
+        val template = if (appLabel.isNotBlank() && resolved.known && "%app" !in settings.callFormat) {
+            "Incoming %app call from %name"
+        } else {
+            settings.callFormat
+        }
         return ChannelStates.spoken(
             settings, ShoutChannel.CALL, SpokenEvent.Kind.CALL,
             TtsFormat.call(
-                settings.callFormat,
-                resolved.spoken,
+                template,
+                name,
                 ContactRule.speakableNumber(rawNumber),
                 sim,
+                appLabel,
             ),
             looping = true,
         )

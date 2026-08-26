@@ -53,6 +53,14 @@ class TtsStreamPlayableTest {
         assertEquals(TtsStream.MEDIA, TtsStream.MEDIA.forCarPlayback(true))
         assertEquals(TtsStream.ALARM, TtsStream.ALARM.forCarPlayback(true))
     }
+
+    @Test
+    fun carOutputsIncludeA2dpUsbAndBus() {
+        assertTrue(CarAudioRoute.isCarOutput(CarAudioRoute.TYPE_A2DP))
+        assertTrue(CarAudioRoute.isCarOutput(CarAudioRoute.TYPE_USB_ACCESSORY))
+        assertTrue(CarAudioRoute.isCarOutput(CarAudioRoute.TYPE_BUS))
+        assertFalse(CarAudioRoute.isCarOutput(2))
+    }
 }
 
 class TtsVoiceTest {

@@ -1,10 +1,10 @@
 package org.openshouter.domain
 
 import org.junit.Assert.assertEquals
-import org.openshouter.call.CallChannel
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Test
+import org.openshouter.call.CallChannel
 
 class IncomingCallTest {
     @Test
@@ -25,6 +25,15 @@ class IncomingCallTest {
         assertEquals("5 5 5 1 2 1 2 1 2 1", IncomingCallEvent("555-121-2121", null, CallPhase.RINGING).spokenName)
         val spoken = CallChannel.incoming(AppSettings(), "+1 (555) 123-4567", null)
         assertEquals("Incoming call from 5 5 5 1 2 3 4 5 6 7", spoken?.utterance)
+    }
+
+    @Test
+    fun voipCallSpeaksAppName() {
+        val unknown = CallChannel.incoming(AppSettings(), "", null, appLabel = "WhatsApp")
+        assertEquals("Incoming call from WhatsApp", unknown?.utterance)
+        assertTrue(unknown!!.looping)
+        val named = CallChannel.incoming(AppSettings(), "5551212", "Ada", appLabel = "WhatsApp")
+        assertEquals("Incoming WhatsApp call from Ada", named?.utterance)
     }
 }
 

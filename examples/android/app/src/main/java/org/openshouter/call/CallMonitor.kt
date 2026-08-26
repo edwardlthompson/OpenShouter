@@ -65,7 +65,14 @@ class CallMonitor @Inject constructor(
             return
         }
         runCatching {
-            context.registerReceiver(phoneReceiver, IntentFilter(TelephonyManager.ACTION_PHONE_STATE_CHANGED))
+            ContextCompat.registerReceiver(
+                context,
+                phoneReceiver,
+                IntentFilter(TelephonyManager.ACTION_PHONE_STATE_CHANGED),
+                ContextCompat.RECEIVER_EXPORTED,
+            )
+        }
+        runCatching {
             if (Build.VERSION.SDK_INT >= 31) {
                 val cb = object : TelephonyCallback(), TelephonyCallback.CallStateListener {
                     override fun onCallStateChanged(state: Int) = onState(state, "")
