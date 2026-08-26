@@ -143,6 +143,7 @@
 | **Seen again** | v0.6.0 Release Please #19 — `--auto` failed; admin merge after push-SHA CI/CodeQL/Security Scan green |
 | **Seen again** | v0.7.0 Release Please #20 — `--auto` failed; admin merge after push-SHA CI/CodeQL/Security Scan green |
 | **Seen again** | v0.8.0 Release Please #22 — `--auto` failed; admin merge after push-SHA CI/CodeQL/Security Scan green |
+| **Seen again** | v0.9.1 Release Please #27 — `--auto` failed; admin merge. Merge-commit CI/Release Please `startup_failure`/`queued`; GitHub Release created from merge SHA |
 ### KB-021 — OP13 release APK silent under AudioHardening
 
 | Field | Detail |

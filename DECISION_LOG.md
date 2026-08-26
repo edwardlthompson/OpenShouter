@@ -17,6 +17,13 @@
 
 ## Entries
 
+### 2026-08-26 — /ship v0.9.1
+- **Status:** Accepted
+- **Context:** OP13 (CPH2655) did not shout cellular or WhatsApp calls. RINGING was GATE_CALL; ongoing VoIP posts were dropped.
+- **Decision:** `fix` → patch **0.9.1**. Admin-merge Release Please #27 (KB-016). Merge-commit Actions stayed queued/`startup_failure`; created GitHub Release `v0.9.1` from `02a56d7` and uploaded release-signed `openshouter-0.9.1-foss.apk`. Bump `versionCode` 16 so sideloads replace 0.9.0.
+- **Alternatives considered:** Wait for queued Release Please to mint the tag (rejected: blocked `/ship`). Keep versionCode 15 (rejected: cannot update over 0.9.0).
+- **Consequences:** https://github.com/edwardlthompson/OpenShouter/releases/tag/v0.9.1. Incoming calls shout on vibrate; WhatsApp ongoing call posts speak the app name.
+
 ### 2026-08-24 — /ship v0.9.0
 - **Status:** Accepted
 - **Context:** 24-hour time shouts read digit-by-digit (`21:00` → “twenty one zero zero”). Release signing (`feat`) and the military-time fix were ready together.
