@@ -6,6 +6,23 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.9.1](https://github.com/edwardlthompson/OpenShouter/compare/v0.9.0...v0.9.1) (2026-08-26)
+
+
+### Fixed
+
+* **android:** announce ringing and WhatsApp calls ([7b6f017](https://github.com/edwardlthompson/OpenShouter/commit/7b6f017da11bf8bd8103ed911106fc861b24c6ce))
+
+
+### Changed
+
+* **android:** sync versionName 0.9.0 with release tag ([5322553](https://github.com/edwardlthompson/OpenShouter/commit/53225530f17d33c97ed68b5be92ef056ca17779d))
+
+
+### Documentation
+
+* record v0.9.0 ship milestone ([f69f39b](https://github.com/edwardlthompson/OpenShouter/commit/f69f39b4991a821ab5bbe5ad0c0191a2fec23660))
+
 ## [Unreleased]
 
 ### Fixed
