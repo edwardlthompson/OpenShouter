@@ -28,6 +28,8 @@ Interactive filterable table: Cursor canvas `feature-parity-matrix.canvas.tsx` (
 
 **Wrap-up 2026-08-26:** Incoming cellular/WhatsApp shouts: RINGING is not in-call; call channel ignores screen-off-only and silent/vibrate; ongoing VoIP notifications speak the app name. Call rows stay Yes.
 
+**Wrap-up 2026-08-26 (Android Auto):** Projected AA / DHU speaks via `USAGE_ASSISTANCE_NAVIGATION_GUIDANCE` after `CarConnectionState` 1/2. TTS stream row stays Yes.
+
 Status: **Yes** shipped · **Partial** logic or subset UI · **No** missing · **Skip** will not copy (FOSS / out of scope).
 
 ## Summary
@@ -85,7 +87,7 @@ Not copied: Play analytics.
 
 ## OpenShouter today
 
-Dashboard master + sectioned Hear / History / Phone cards · searchable app-speak list · extra format tokens · full AppOverride merge · regex + require/ignore + empty/group/repeat · looping caller ID + nick/blacklist + call format + `%sim` · missed-call RING→IDLE · unknown callers speak spaced digits · message extras/sender (no `READ_SMS`) · battery situation phrases including percent status · shake slider + live g-meter + flip + screen mute · 24-hour quiet grid · TTS in-process WAV + engine language picker + test notification · per-channel headphone/stream/repeat + silent/vibrate · 15/30/60 time shout + 12/24/system clock + `%time` builder · reminder hour/day/week/month/year + also-notify · SAF settings zip · classic Shouter import (root dump or OEM provider) · OEM autostart · silent geofences · FGS · QS tile · widget · history + ignore-reason · Spanish + French overlays · calendar shout with 5/15/30 look-ahead · Bluetooth connect/battery · quiet Venmo donate + filename-based GitHub updates · SpeakGate miss rows · REPEAT collapse · min importance + Priority-DND high/call.
+Dashboard master + sectioned Hear / History / Phone cards · searchable app-speak list · extra format tokens · full AppOverride merge · regex + require/ignore + empty/group/repeat · looping caller ID + nick/blacklist + call format + `%sim` · missed-call RING→IDLE · unknown callers speak spaced digits · message extras/sender (no `READ_SMS`) · battery situation phrases including percent status · shake slider + live g-meter + flip + screen mute · 24-hour quiet grid · TTS in-process WAV + engine language picker + test notification · Android Auto / DHU navigation-guidance speech · per-channel headphone/stream/repeat + silent/vibrate · 15/30/60 time shout + 12/24/system clock + `%time` builder · reminder hour/day/week/month/year + also-notify · SAF settings zip · classic Shouter import (root dump or OEM provider) · OEM autostart · silent geofences · FGS · QS tile · widget · history + ignore-reason · Spanish + French overlays · calendar shout with 5/15/30 look-ahead · Bluetooth connect/battery · quiet Venmo donate + filename-based GitHub updates · SpeakGate miss rows · REPEAT collapse · min importance + Priority-DND high/call.
 
 ## Matrix
 
@@ -112,7 +114,7 @@ Dashboard master + sectioned Hear / History / Phone cards · searchable app-spea
 | Device states | Global screen-off / headset-only | Yes | Yes | Yes | Shipped |
 | Device states | Per-channel headphone/silent | Yes | No | Yes | Shipped ChannelStateScreen grid + stream/repeat |
 | Device states | Silent/vibrate + in-call flags | Yes | Yes | Yes | Shipped DeviceStatePolicy toggles |
-| TTS | Stream / audio focus / pitch / voice test | Stream | Stream+focus | Yes | Pitch + pause-media + language dropdowns + engine source + quality floor |
+| TTS | Stream / audio focus / pitch / voice test | Stream | Stream+focus | Yes | Pitch + pause-media + language dropdowns; AA/DHU uses navigation-guidance usage |
 | Call | Looping ID + contacts | Yes | No | Yes | RINGING not GATE_CALL; VoIP ongoing CATEGORY_CALL + app label |
 | Call | Unknown toggle, nick/blacklist, missed | Yes | No | Yes | Shipped ContactRules + speakUnknown + missed RING→IDLE |
 | Message | Dedicated SMS/MMS shout | Yes | Via apps | Yes | Extras/sender parse; no `READ_SMS` |

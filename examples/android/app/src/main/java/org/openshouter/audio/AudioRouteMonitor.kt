@@ -43,12 +43,14 @@ class AudioRouteMonitor @Inject constructor(
     }
 
     fun carModeActive(): Boolean {
+        if (CarProjection.connected(app)) return true
         if (uiMode?.currentModeType == Configuration.UI_MODE_TYPE_CAR) return true
         if (app.packageManager.hasSystemFeature(PackageManager.FEATURE_AUTOMOTIVE)) return true
         return audio.getDevices(AudioManager.GET_DEVICES_OUTPUTS).any { it.isCarRoute() }
     }
 
     fun start(onChange: () -> Unit) {
+        CarProjection.observe(app, onChange)
         if (Build.VERSION.SDK_INT >= 23) {
             audio.registerAudioDeviceCallback(object : AudioDeviceCallback() {
                 override fun onAudioDevicesAdded(added: Array<out AudioDeviceInfo>?) = onChange()

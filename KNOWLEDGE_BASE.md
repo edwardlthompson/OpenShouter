@@ -200,3 +200,11 @@
 | **Cause** | SpeakGate treated RINGING as in-call (GATE_CALL). The listener dropped all ongoing posts, so WhatsApp/CallStyle never reached TTS. WhatsApp was also hijacked onto the message channel (off by default). PHONE_STATE was registered without an export flag, aborting TelephonyCallback on API 34+ if that register threw |
 | **Fix** | In-call suppression is OFFHOOK only. CALL channel ignores screen-off-only and silent/vibrate. Ongoing VoIP/CATEGORY_CALL posts go through CallChannel with the app label. Register PHONE_STATE with ContextCompat.RECEIVER_EXPORTED; register TelephonyCallback even if the receiver fails |
 | **Prevention** | CallSuppressionTest and CallNotificationTest cover RINGING vs OFFHOOK and WhatsApp vs dialer routing. Do not skip sbn.isOngoing for incoming-call posts |
+### KB-024 — Android Auto / DHU ignores notification and media TTS
+
+| Field | Detail |
+|-------|--------|
+| **Symptom** | Voice plays on the phone speaker (or not at all) while Desktop Head Unit / car Android Auto is connected. 0.8.2 remapped notification to media; still silent on the head unit |
+| **Cause** | DHU projection does not set UI_MODE_TYPE_CAR or expose BUS/USB_ACCESSORY devices (mCarModeEnabled=false). AA AudioHardening also blocks USAGE_MEDIA unless the app is the selected media source. USAGE_NOTIFICATION never enters the car TTS channel |
+| **Fix** | Detect projection via content://androidx.car.app.connection (CarConnectionState 1/2). On that path play WAV with USAGE_ASSISTANCE_NAVIGATION_GUIDANCE plus transient ducking focus. Skip MediaSession on the car path so AA uses the TTS stream, not media |
+| **Prevention** | With DHU up, content query shows CarConnectionState=2 and dumpsys audio shows OpenShouter USAGE_ASSISTANCE_NAVIGATION_GUIDANCE. Gearhead logs CAR.AUDIO.TTS / nabling stream: TTS. Do not treat A2DP-only as sufficient AA detection |

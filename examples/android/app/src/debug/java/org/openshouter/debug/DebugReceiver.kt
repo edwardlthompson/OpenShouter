@@ -7,6 +7,7 @@ import android.telephony.TelephonyManager
 import dagger.hilt.android.EntryPointAccessors
 import kotlinx.coroutines.runBlocking
 import org.openshouter.backup.BackupImport
+import org.openshouter.domain.SpokenEvent
 import org.openshouter.service.OpenShouterEntryPoint
 import org.openshouter.service.OpenShouterRuntime
 
@@ -24,6 +25,13 @@ class DebugReceiver : BroadcastReceiver() {
             )
             "org.openshouter.debug.IDLE" -> ep.calls().onState(TelephonyManager.CALL_STATE_IDLE, "")
             "org.openshouter.debug.INTERRUPT" -> ep.tts().interrupt()
+            "org.openshouter.debug.SPEAK" -> ep.tts().speak(
+                SpokenEvent(
+                    SpokenEvent.Kind.NOTIFICATION,
+                    intent.getStringExtra("text") ?: "OpenShouter voice test",
+                ),
+                immediate = true,
+            )
             "org.openshouter.debug.IMPORT_SHOUTER" -> {
                 val pending = goAsync()
                 Thread {

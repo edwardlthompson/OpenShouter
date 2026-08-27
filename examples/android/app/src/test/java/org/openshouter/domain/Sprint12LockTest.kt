@@ -58,8 +58,12 @@ class TtsStreamPlayableTest {
     fun carOutputsIncludeA2dpUsbAndBus() {
         assertTrue(CarAudioRoute.isCarOutput(CarAudioRoute.TYPE_A2DP))
         assertTrue(CarAudioRoute.isCarOutput(CarAudioRoute.TYPE_USB_ACCESSORY))
+        assertTrue(CarAudioRoute.isCarOutput(CarAudioRoute.TYPE_USB_DEVICE))
         assertTrue(CarAudioRoute.isCarOutput(CarAudioRoute.TYPE_BUS))
         assertFalse(CarAudioRoute.isCarOutput(2))
+        assertTrue(CarAudioRoute.projectionConnected(CarAudioRoute.CONNECTION_PROJECTION))
+        assertTrue(CarAudioRoute.projectionConnected(CarAudioRoute.CONNECTION_NATIVE))
+        assertFalse(CarAudioRoute.projectionConnected(0))
     }
 }
 

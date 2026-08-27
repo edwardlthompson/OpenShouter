@@ -10,7 +10,12 @@ internal class TtsFilePlayer(private val context: Context) {
     private val session = TtsSpeakSession(context)
     private var player: MediaPlayer? = null
 
-    fun arm() = session.start()
+    @Volatile private var car = false
+
+    fun arm(carMode: Boolean = false) {
+        car = carMode
+        if (carMode) session.stop() else session.start()
+    }
 
     fun play(file: File, stream: TtsStream, times: Int, onComplete: () -> Unit) {
         haltPlayer()
@@ -18,7 +23,7 @@ internal class TtsFilePlayer(private val context: Context) {
             onComplete()
             return
         }
-        session.start()
+        if (car) session.stop() else session.start()
         playOnce(file, stream, times.coerceAtLeast(1), onComplete)
     }
 
@@ -43,7 +48,7 @@ internal class TtsFilePlayer(private val context: Context) {
     private fun playOnce(file: File, stream: TtsStream, left: Int, onComplete: () -> Unit) {
         val next = MediaPlayer()
         player = next
-        next.setAudioAttributes(TtsEngine.attributes(stream))
+        next.setAudioAttributes(TtsEngine.attributes(stream, car))
         next.setVolume(1f, 1f)
         next.setWakeMode(context, PowerManager.PARTIAL_WAKE_LOCK)
         next.setOnCompletionListener {

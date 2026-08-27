@@ -27,7 +27,7 @@ internal class TtsPlayback(
     private val scope: CoroutineScope,
     private val cacheDir: File,
     private val abandonFocus: () -> Unit,
-    private val requestFocus: (TtsPlaybackPolicy, TtsStream) -> Unit,
+    private val requestFocus: (TtsPlaybackPolicy, TtsStream, Boolean) -> Unit,
     private val isSilent: () -> Boolean,
     private val carMode: () -> Boolean,
 ) {
@@ -49,7 +49,8 @@ internal class TtsPlayback(
         userRequested: Boolean,
         setPending: (SpokenEvent) -> Unit,
     ): Boolean {
-        if (isSilent() && !allowSilent && !userRequested) return false
+        val car = carMode()
+        if (!car && isSilent() && !allowSilent && !userRequested) return false
         val text = policy.prepareUtterance(event.utterance)
         if (text.isBlank()) return false
         if (engine == null || !ready) {
@@ -59,12 +60,12 @@ internal class TtsPlayback(
         lastPolicy = policy
         lastAllowSilent = allowSilent
         looping = event.takeIf { it.looping }
-        lastStream = TtsEngine.resolveStream(audio, event.stream ?: policy.stream, allowSilent, carMode())
+        lastStream = TtsEngine.resolveStream(audio, event.stream ?: policy.stream, allowSilent, car)
         TtsEngine.applyVoice(engine, policy.voice)
-        TtsEngine.applyStream(engine, lastStream)
+        TtsEngine.applyStream(engine, lastStream, car)
         player.stop()
-        player.arm()
-        requestFocus(policy, lastStream)
+        player.arm(car)
+        requestFocus(policy, lastStream, car)
         val id = UUID.randomUUID().toString()
         val file = File(cacheDir, "os-tts-$id.wav")
         currentUtterance = id

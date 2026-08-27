@@ -8,6 +8,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+* **android:** play Android Auto and DHU speech as navigation guidance
+
 ## [0.9.1](https://github.com/edwardlthompson/OpenShouter/compare/v0.9.0...v0.9.1) (2026-08-26)
 
 

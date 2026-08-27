@@ -8,6 +8,7 @@
                 <action android:name="org.openshouter.debug.RING" />
                 <action android:name="org.openshouter.debug.IDLE" />
                 <action android:name="org.openshouter.debug.INTERRUPT" />
+                <action android:name="org.openshouter.debug.SPEAK" />
                 <action android:name="org.openshouter.debug.IMPORT_SHOUTER" />
             </intent-filter>
         </receiver>

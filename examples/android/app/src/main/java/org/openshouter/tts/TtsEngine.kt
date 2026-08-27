@@ -30,18 +30,18 @@ internal object TtsEngine {
         allowSilentVibrate,
     ).forCarPlayback(carMode)
 
-    fun applyStream(tts: TextToSpeech, stream: TtsStream) {
-        tts.setAudioAttributes(attributes(stream))
+    fun applyStream(tts: TextToSpeech, stream: TtsStream, carMode: Boolean = false) {
+        tts.setAudioAttributes(attributes(stream, carMode))
     }
 
-    fun attributes(stream: TtsStream): AudioAttributes {
-        val content = if (stream == TtsStream.MEDIA) {
+    fun attributes(stream: TtsStream, carMode: Boolean = false): AudioAttributes {
+        val content = if (!carMode && stream == TtsStream.MEDIA) {
             AudioAttributes.CONTENT_TYPE_MUSIC
         } else {
             AudioAttributes.CONTENT_TYPE_SPEECH
         }
         val builder = AudioAttributes.Builder()
-            .setUsage(usage(stream))
+            .setUsage(if (carMode) AudioAttributes.USAGE_ASSISTANCE_NAVIGATION_GUIDANCE else usage(stream))
             .setContentType(content)
         if (Build.VERSION.SDK_INT >= 32) {
             builder.setSpatializationBehavior(AudioAttributes.SPATIALIZATION_BEHAVIOR_NEVER)
@@ -110,7 +110,12 @@ internal object TtsEngine {
         TtsStream.NOTIFICATION -> AudioAttributes.USAGE_NOTIFICATION
     }
 
-    fun requestFocus(audio: AudioManager, pauseMedia: Boolean, stream: TtsStream): AudioFocusRequest? {
+    fun requestFocus(
+        audio: AudioManager,
+        pauseMedia: Boolean,
+        stream: TtsStream,
+        carMode: Boolean = false,
+    ): AudioFocusRequest? {
         if (Build.VERSION.SDK_INT < 26) return null
         val gain = if (pauseMedia) {
             AudioManager.AUDIOFOCUS_GAIN_TRANSIENT
@@ -118,7 +123,8 @@ internal object TtsEngine {
             AudioManager.AUDIOFOCUS_GAIN_TRANSIENT_MAY_DUCK
         }
         val req = AudioFocusRequest.Builder(gain)
-            .setAudioAttributes(attributes(stream))
+            .setAudioAttributes(attributes(stream, carMode))
+            .setAcceptsDelayedFocusGain(false)
             .build()
         runCatching { audio.requestAudioFocus(req) }
         return req

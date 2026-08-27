@@ -48,9 +48,9 @@ class TtsController @Inject constructor(
         scope,
         appContext.cacheDir,
         abandonFocus = { abandonFocus() },
-        requestFocus = { policy, stream ->
+        requestFocus = { policy, stream, car ->
             if (policy.audioFocus) {
-                focusRequest = TtsEngine.requestFocus(audio, policy.pauseMedia, stream)
+                focusRequest = TtsEngine.requestFocus(audio, policy.pauseMedia, stream, car)
             }
         },
         isSilent = { route.isSilent() },

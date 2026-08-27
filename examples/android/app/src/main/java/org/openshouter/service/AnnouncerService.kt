@@ -31,6 +31,7 @@ import org.openshouter.power.PowerMonitor
 import org.openshouter.time.TimeShoutMonitor
 import org.openshouter.time.TimeShoutScheduler
 import org.openshouter.tts.TtsController
+import org.openshouter.domain.SpokenEvent
 
 @AndroidEntryPoint
 class AnnouncerService : Service() {
@@ -89,8 +90,12 @@ class AnnouncerService : Service() {
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         runCatching { calls.start() }
-        if (BuildConfig.DEBUG) {
-            when (intent?.action) {
+        when (intent?.action) {
+            ACTION_TTS_TEST -> tts.speak(
+                SpokenEvent(SpokenEvent.Kind.NOTIFICATION, getString(R.string.tts_test_phrase)),
+                immediate = true,
+            )
+            else -> if (BuildConfig.DEBUG) when (intent?.action) {
                 ACTION_DEBUG_RING -> calls.onState(
                     TelephonyManager.CALL_STATE_RINGING,
                     intent.getStringExtra(EXTRA_NUMBER).orEmpty(),
@@ -120,6 +125,7 @@ class AnnouncerService : Service() {
 
     companion object {
         const val CHANNEL = "openshouter-fg"
+        const val ACTION_TTS_TEST = "org.openshouter.action.TTS_TEST"
         const val ACTION_DEBUG_RING = "org.openshouter.debug.RING"
         const val ACTION_DEBUG_IDLE = "org.openshouter.debug.IDLE"
         const val ACTION_DEBUG_INTERRUPT = "org.openshouter.debug.INTERRUPT"

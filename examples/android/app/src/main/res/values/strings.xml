@@ -109,7 +109,7 @@
     <string name="tts_stream_notification">Notification</string>
     <string name="tts_stream_media">Media</string>
     <string name="tts_stream_alarm">Alarm</string>
-    <string name="tts_stream_car_note">Android Auto and car mode use the media stream so speech plays on your head unit.</string>
+    <string name="tts_stream_car_note">Android Auto and car mode speak as navigation guidance so the head unit plays the voice.</string>
     <string name="tts_delay">Delay before speak (seconds)</string>
     <string name="tts_max_length">Max spoken characters (0 is unlimited)</string>
     <string name="tts_audio_focus">Pause or dim other media</string>

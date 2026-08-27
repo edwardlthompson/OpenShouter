@@ -14,20 +14,28 @@ fun TtsStream.playable(
     return this
 }
 
-/** Android Auto routes notification-class speech poorly; use media on the car path. */
+/** Phone mute fallback still maps to media; car path uses navigation-guidance usage. */
 fun TtsStream.forCarPlayback(carMode: Boolean): TtsStream =
     if (carMode && this == TtsStream.NOTIFICATION) TtsStream.MEDIA else this
 
-/** Output types that should remap to media and publish a playable MediaSession. */
+/** Output types and AA projection states that should use navigation-guidance audio. */
 object CarAudioRoute {
     const val TYPE_A2DP = 8
+    const val TYPE_HDMI = 9
+    const val TYPE_USB_DEVICE = 11
     const val TYPE_USB_ACCESSORY = 12
+    const val TYPE_DOCK = 13
     const val TYPE_BUS = 21
+    const val CONNECTION_NATIVE = 1
+    const val CONNECTION_PROJECTION = 2
 
     fun isCarOutput(type: Int): Boolean = when (type) {
-        TYPE_A2DP, TYPE_USB_ACCESSORY, TYPE_BUS -> true
+        TYPE_A2DP, TYPE_HDMI, TYPE_USB_DEVICE, TYPE_USB_ACCESSORY, TYPE_DOCK, TYPE_BUS -> true
         else -> false
     }
+
+    fun projectionConnected(state: Int): Boolean =
+        state == CONNECTION_NATIVE || state == CONNECTION_PROJECTION
 }
 
 data class TtsPlaybackPolicy(

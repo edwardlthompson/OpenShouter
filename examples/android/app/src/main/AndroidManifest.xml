@@ -35,10 +35,12 @@
         <package android:name="com.bhkapps.proshouter" />
         <package android:name="com.bhkapps.shouter" />
         <package android:name="com.google.android.tts" />
+        <package android:name="com.google.android.projection.gearhead" />
         <package android:name="com.github.olga_yakovleva.rhvoice.android" />
         <package android:name="org.woheller69.ttsengine" />
         <provider android:authorities="bhkapps.proshouter" />
         <provider android:authorities="bhkapps.shouter" />
+        <provider android:authorities="androidx.car.app.connection" />
         <intent>
             <action android:name="android.intent.action.TTS_SERVICE" />
         </intent>
