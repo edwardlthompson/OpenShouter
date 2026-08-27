@@ -6,6 +6,24 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.9.2](https://github.com/edwardlthompson/OpenShouter/compare/v0.9.1...v0.9.2) (2026-08-27)
+
+
+### Fixed
+
+* **android:** play TTS on Android Auto head unit ([82e4d31](https://github.com/edwardlthompson/OpenShouter/commit/82e4d313ca6687620d3aaf0b6934119916f0c0e5))
+
+
+### Changed
+
+* **android:** sync versionName 0.9.1 with release tag ([93859e9](https://github.com/edwardlthompson/OpenShouter/commit/93859e9d0be302c1a07685c97c307fe75eb49604))
+* retrigger Release Please after v0.9.1 tag ([c39bb04](https://github.com/edwardlthompson/OpenShouter/commit/c39bb041d5451ce610136178452c766e2522bef5))
+
+
+### Documentation
+
+* restore CHANGELOG Unreleased heading ([95c0605](https://github.com/edwardlthompson/OpenShouter/commit/95c0605783e88df229ad7eae9b442fff2e923fb1))
+
 ## [Unreleased]
 
 ### Fixed
