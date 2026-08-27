@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
 ## [0.9.2](https://github.com/edwardlthompson/OpenShouter/compare/v0.9.1...v0.9.2) (2026-08-27)
 
 
@@ -23,12 +25,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Documentation
 
 * restore CHANGELOG Unreleased heading ([95c0605](https://github.com/edwardlthompson/OpenShouter/commit/95c0605783e88df229ad7eae9b442fff2e923fb1))
-
-## [Unreleased]
-
-### Fixed
-
-* **android:** play Android Auto and DHU speech as navigation guidance
 
 ## [0.9.1](https://github.com/edwardlthompson/OpenShouter/compare/v0.9.0...v0.9.1) (2026-08-26)
 

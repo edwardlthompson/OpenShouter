@@ -17,6 +17,13 @@
 
 ## Entries
 
+### 2026-08-26 — /ship v0.9.2
+- **Status:** Accepted
+- **Context:** Android Auto / DHU did not play OpenShouter speech. 0.8.2 remapped notification to media, but DHU is not car UI mode and AudioHardening blocks media unless the app is the selected source.
+- **Decision:** `fix` → patch **0.9.2**. Detect AA projection via CarConnection (`CarConnectionState` 1/2). Play WAV as `USAGE_ASSISTANCE_NAVIGATION_GUIDANCE`. Admin-merge Release Please #28 (KB-016) after retriggering RP (it tried to recreate v0.9.1). Bump `versionCode` 17 so sideloads replace 0.9.1.
+- **Alternatives considered:** Keep media-stream remap (rejected: DHU evidence showed builtin speaker). Wait for RP to open 0.9.2 without a retrigger commit (rejected: duplicate tag on #27).
+- **Consequences:** https://github.com/edwardlthompson/OpenShouter/releases/tag/v0.9.2. Gearhead `CAR.AUDIO.TTS` / `AUDIO_STREAM_GUIDANCE` on DHU.
+
 ### 2026-08-26 — /ship v0.9.1
 - **Status:** Accepted
 - **Context:** OP13 (CPH2655) did not shout cellular or WhatsApp calls. RINGING was GATE_CALL; ongoing VoIP posts were dropped.
