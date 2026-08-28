@@ -31,7 +31,7 @@ import org.openshouter.service.OpenShouterEntryPoint
 import org.openshouter.ui.apps.AppSpeakScreen
 import org.openshouter.ui.dashboard.DashboardScreen
 import org.openshouter.ui.filters.FiltersScreen
-import org.openshouter.ui.history.HistoryScreen
+import org.openshouter.ui.history.HistoryPane
 import org.openshouter.ui.places.PlacesScreen
 import org.openshouter.ui.quiet.QuietHoursScreen
 import org.openshouter.ui.setup.SetupScreen
@@ -131,14 +131,9 @@ fun OpenShouterPanes(
             scrollStore = scrollStore,
             modifier = modifier,
         )
-        pane == Pane.History -> HistoryScreen(
-            rows = history,
-            showSpoken = showSpoken,
-            onShowSpoken = onShowSpoken,
-            onClear = { scope.launch { ep.history().clear() } },
-            onBack = { onPane(Pane.Home) },
-            scrollStore = scrollStore,
-            modifier = modifier,
+        pane == Pane.History -> HistoryPane(
+            history, showSpoken, onShowSpoken, appRules, ep, scope,
+            { onPane(Pane.Home) }, scrollStore, modifier,
         )
         pane == Pane.Filters -> FiltersScreen(
             rules = regexRules,

@@ -25,7 +25,7 @@ Requires `gh` CLI authenticated with admin access. On API `422` (plan or permiss
 
 **Rulesets fallback:** GitHub repos using **rulesets** instead of classic branch protection return `404` from `repos/{owner}/{repo}/branches/{branch}/protection`. In that case, confirm equivalent rules in **Settings → Rules → Rulesets** (required status checks, block force pushes, require linear history). Rulesets **Bypass list** (Add bypass → GitHub Actions) lives there — not under **Settings → Branches**. Classic branch protection on **personal** repos has no bypass list; admins bypass by default unless "Do not allow bypassing the above settings" is enabled.
 
-**Note:** Workflow rollup names (`CI`, `Security Scan`, `CodeQL`) and CI job names (`Repo Hygiene`, `Feature Gate`) must match GitHub check contexts exactly. Override with `GITHUB_REQUIRED_CHECKS` if your repo uses different names.
+**Note:** Branch protection matches **job** `name:` fields, not workflow titles. `ci.yml` / `security.yml` / `codeql.yml` each end with a rollup job named `CI`, `Security Scan`, or `CodeQL`. CI also defines `Repo Hygiene` and `Feature Gate`. Override with `GITHUB_REQUIRED_CHECKS` if your repo uses different names.
 
 **Public repos:** Dependabot alerts are free.
 

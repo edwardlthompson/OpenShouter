@@ -2,6 +2,17 @@
 
 > Archive of finished BUILD_PLAN items.
 
+## /ship v0.10.0 (2026-08-28)
+
+- ✅ [AUTO] `pre-release-gate.sh` (local + push-SHA CI/CodeQL/Security Scan)
+- ✅ [HUMAN] Approve release tag when product-ready (`/ship` + merge automation)
+- ✅ [AUTO] Release Please #32 merged (`v0.10.0`)
+
+## Sprint 20 — Clickable history mute (2026-08-28)
+
+- ✅ [AGENT] Lock `HistoryEntity.channelId` / `channelName`, Room v5, and persist from `NotificationFacts` (`docs/features/history-mute.md`)
+- ✅ [AUTO] `python3 scripts/agent-run.py watch-agent-gates --once --autofix`
+
 ## /ship v0.8.0 (2026-08-23)
 
 - ✅ [AUTO] `pre-release-gate.sh` (local + push-SHA CI/CodeQL/Security Scan)

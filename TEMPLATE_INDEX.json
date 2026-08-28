@@ -1,5 +1,5 @@
 {
-  "template_version": "0.9.2",
+  "template_version": "0.10.0",
   "entry_points": {
     "bootstrap": "docs/START_HERE.md",
     "reference": "docs/FOR_AGENTS.md",
@@ -472,6 +472,27 @@
     {
       "path": "scripts/check-github-ci.sh",
       "purpose": "Poll GitHub Actions CI/Security/CodeQL status for a commit",
+      "read_when": "release",
+      "update_when": "milestone_boundary",
+      "owner": "maintainer"
+    },
+    {
+      "path": "scripts/assert-workflow-rollup.sh",
+      "purpose": "Fail a required-check rollup when any needed Actions job failed",
+      "read_when": "release",
+      "update_when": "milestone_boundary",
+      "owner": "maintainer"
+    },
+    {
+      "path": "scripts/check-required-status-jobs.sh",
+      "purpose": "Assert CI/Security Scan/CodeQL job names match branch protection",
+      "read_when": "release",
+      "update_when": "milestone_boundary",
+      "owner": "maintainer"
+    },
+    {
+      "path": "scripts/lib/workflow_rollup.py",
+      "purpose": "Evaluate Actions needs JSON for required-check rollup jobs",
       "read_when": "release",
       "update_when": "milestone_boundary",
       "owner": "maintainer"

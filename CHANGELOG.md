@@ -11,6 +11,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 * **android:** put Theme and update-check Settings on MenuScaffold and add a Dashboard Settings row
+* **release:** do not mint patches from chore commits; bump Gradle versionName in the Release Please PR
+
+## [0.10.0](https://github.com/edwardlthompson/OpenShouter/compare/v0.9.2...v0.10.0) (2026-08-28)
+
+
+### Added
+
+* **android:** tap history to mute app or notification channel ([#30](https://github.com/edwardlthompson/OpenShouter/issues/30)) ([c4bbe40](https://github.com/edwardlthompson/OpenShouter/commit/c4bbe400d56a1b9a0f6ad851626ab0f823f25803))
+
+
+### Changed
+
+* **android:** sync versionName 0.9.2 with release tag ([705ea8d](https://github.com/edwardlthompson/OpenShouter/commit/705ea8d7ff8128e88c63f8cf443e4ab2f4599ac0))
 
 ## [0.9.2](https://github.com/edwardlthompson/OpenShouter/compare/v0.9.1...v0.9.2) (2026-08-27)
 

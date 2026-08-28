@@ -543,3 +543,39 @@ jobs:
       - run: test -z "$(gofmt -l .)"
       - run: go test ./...
 
+  ci:
+    name: CI
+    if: always()
+    needs:
+      - stack-presence
+      - path-changes
+      - encoding-check
+      - file-limits
+      - repo-hygiene
+      - feature-gate
+      - validate-index
+      - workflow-actions
+      - validate-bootstrap
+      - web
+      - python
+      - node
+      - android-structure
+      - android-build
+      - android-instrumented
+      - coverage-comment
+      - upgrade-simulation
+      - template-update-check
+      - pr-title
+      - android-release
+      - lightroom
+      - rust
+      - go
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - name: Require CI jobs
+        env:
+          ROLLUP_RESULTS: ${{ toJSON(needs) }}
+          ROLLUP_ALLOW_FAILURE: template-update-check
+        run: bash scripts/assert-workflow-rollup.sh
+

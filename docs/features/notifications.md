@@ -7,3 +7,4 @@ Gap vs Voice Notify (app picker, per-app overrides, delay/stream/log UI): [`pari
 ## Acceptance
 
 - Listener bound; filtered spam is silent; history row stored locally
+- History rows open a mute dialog (OpenShouter app toggle + that notification channel in system settings)
