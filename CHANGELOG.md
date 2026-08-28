@@ -20,6 +20,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 * **android:** put Theme and update-check Settings on MenuScaffold and add a Dashboard Settings row
 * **release:** do not mint patches from chore commits; bump Gradle versionName in the Release Please PR
+* **release:** do not mint patches from docs commits (ship notes)
 
 ## [0.10.0](https://github.com/edwardlthompson/OpenShouter/compare/v0.9.2...v0.10.0) (2026-08-28)
 

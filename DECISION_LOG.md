@@ -17,6 +17,13 @@
 
 ## Entries
 
+### 2026-08-28 — Stop docs from minting Release Please patches
+- **Status:** Accepted
+- **Context:** `docs: record v0.11.0 ship` opened Release Please #37 (`v0.11.1`) with only that note. Same loop as KB-023 chore.
+- **Decision:** Drop `docs` from `changelog-sections`. Leave #37 unmerged.
+- **Alternatives considered:** Merge 0.11.1 (rejected: empty docs patch). Keep Documentation section (rejected: `hidden` still bumps).
+- **Consequences:** Ship-notes commits stay off the release train. Close #37 after this lands.
+
 ### 2026-08-28 — /ship v0.11.0
 - **Status:** Accepted
 - **Context:** Cloud agent shipped history mute (0.10.0) without a signed APK, then opened Settings chrome #31. Phantom 0.10.1 was leftover from a chore versionName sync.

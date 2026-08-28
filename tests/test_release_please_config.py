@@ -13,9 +13,10 @@ class ReleasePleaseConfigTests(unittest.TestCase):
     def setUp(self) -> None:
         self.data = json.loads(CONFIG.read_text(encoding="utf-8"))
 
-    def test_chore_is_not_a_changelog_section(self) -> None:
+    def test_non_release_types_are_not_changelog_sections(self) -> None:
         types = [row.get("type") for row in self.data.get("changelog-sections", [])]
         self.assertNotIn("chore", types)
+        self.assertNotIn("docs", types)
 
     def test_gradle_version_name_is_extra_file(self) -> None:
         extras = self.data["packages"]["."]["extra-files"]
