@@ -28,6 +28,7 @@ fun HistoryMuteDialog(
     onOpenChannelSettings: () -> Unit,
     onDismiss: () -> Unit,
     showShoutToggle: Boolean = true,
+    showChannelToggle: Boolean = true,
     callRepeat: CallRepeatMode? = null,
     onCallRepeatChange: (CallRepeatMode) -> Unit = {},
     cellularRepeats: Boolean = false,
@@ -55,21 +56,30 @@ fun HistoryMuteDialog(
                 if (callRepeat != null) {
                     CallRepeatDropdown(mode = callRepeat, onChange = onCallRepeatChange)
                 }
-                MenuToggle(
-                    channelLabel,
-                    channelOn,
-                    { on ->
-                        channelOn = on
-                        onOpenChannelSettings()
-                    },
-                    showDivider = showShoutToggle || cellularRepeats || callRepeat != null,
-                )
-                Text(
-                    stringResource(R.string.history_channel_settings_help),
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    modifier = Modifier.padding(horizontal = SpacingMd),
-                )
+                if (showChannelToggle) {
+                    MenuToggle(
+                        channelLabel,
+                        channelOn,
+                        { on ->
+                            channelOn = on
+                            onOpenChannelSettings()
+                        },
+                        showDivider = showShoutToggle || cellularRepeats || callRepeat != null,
+                    )
+                    Text(
+                        stringResource(R.string.history_channel_settings_help),
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        modifier = Modifier.padding(horizontal = SpacingMd),
+                    )
+                } else if (!showShoutToggle && !cellularRepeats && callRepeat == null) {
+                    Text(
+                        stringResource(R.string.history_internal_help),
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        modifier = Modifier.padding(horizontal = SpacingMd),
+                    )
+                }
             }
         },
         confirmButton = {

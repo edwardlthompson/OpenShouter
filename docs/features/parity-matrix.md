@@ -40,6 +40,8 @@ Interactive filterable table: Cursor canvas `feature-parity-matrix.canvas.tsx` (
 
 **Wrap-up 2026-08-28 (`/ship` v0.12.0):** Signed APK on https://github.com/edwardlthompson/OpenShouter/releases/tag/v0.12.0. Sideloaded versionCode 20 on CPH2583 and CPH2655. Call row stays Yes.
 
+**Wrap-up 2026-08-28 (Sprint 22):** Time, battery, reminder, calendar, and Bluetooth shouts write history rows (`kind` + spoken). List shows a source label instead of a package. History row stays Yes.
+
 Status: **Yes** shipped · **Partial** logic or subset UI · **No** missing · **Skip** will not copy (FOSS / out of scope).
 
 ## Summary
@@ -97,7 +99,7 @@ Not copied: Play analytics.
 
 ## OpenShouter today
 
-Dashboard master + sectioned Hear / History / Phone cards · searchable app-speak list · extra format tokens · full AppOverride merge · regex + require/ignore + empty/group/repeat · looping caller ID + nick/blacklist + call format + `%sim` · missed-call RING→IDLE · unknown callers speak spaced digits · message extras/sender (no `READ_SMS`) · battery situation phrases including percent status · shake slider + live g-meter + flip + screen mute · 24-hour quiet grid · TTS in-process WAV + engine language picker + test notification · Android Auto / DHU navigation-guidance speech · per-channel headphone/stream/repeat + silent/vibrate · 15/30/60 time shout + 12/24/system clock + `%time` builder · reminder hour/day/week/month/year + also-notify · SAF settings zip · classic Shouter import (root dump or OEM provider) · OEM autostart · silent geofences · FGS · QS tile · widget · history + ignore-reason + tap-to-mute · Spanish + French overlays · calendar shout with 5/15/30 look-ahead · Bluetooth connect/battery · quiet Venmo donate + filename-based GitHub updates · SpeakGate miss rows · REPEAT collapse · min importance + Priority-DND high/call.
+Dashboard master + sectioned Hear / History / Phone cards · searchable app-speak list · extra format tokens · full AppOverride merge · regex + require/ignore + empty/group/repeat · looping caller ID + nick/blacklist + call format + `%sim` · missed-call RING→IDLE · unknown callers speak spaced digits · message extras/sender (no `READ_SMS`) · battery situation phrases including percent status · shake slider + live g-meter + flip + screen mute · 24-hour quiet grid · TTS in-process WAV + engine language picker + test notification · Android Auto / DHU navigation-guidance speech · per-channel headphone/stream/repeat + silent/vibrate · 15/30/60 time shout + 12/24/system clock + `%time` builder · reminder hour/day/week/month/year + also-notify · SAF settings zip · classic Shouter import (root dump or OEM provider) · OEM autostart · silent geofences · FGS · QS tile · widget · history + ignore-reason + tap-to-mute + built-in shout rows · Spanish + French overlays · calendar shout with 5/15/30 look-ahead · Bluetooth connect/battery · quiet Venmo donate + filename-based GitHub updates · SpeakGate miss rows · REPEAT collapse · min importance + Priority-DND high/call.
 
 ## Matrix
 
@@ -132,7 +134,7 @@ Dashboard master + sectioned Hear / History / Phone cards · searchable app-spea
 | Battery | Events + custom phrases | Yes | No | Yes | Shipped situation picker + `%level` phrases |
 | Reminders | Recurring voice list | Yes | No | Yes | Hour/day/week/month/year dropdown + AlarmManager sync |
 | Location | Placebook proximity | Yes | No | Skip | Keep silent fences |
-| History | Viewer + ignore reasons | Yes | Yes | Yes | Clickable rows; mute dialog (app shout + VoIP Incoming calls + channel settings) |
+| History | Viewer + ignore reasons | Yes | Yes | Yes | Clickable rows; mute dialog (app shout + VoIP Incoming calls + channel settings); time/battery/reminder/calendar/Bluetooth shouts recorded |
 | Backup | Settings zip | No | Yes | Yes | Shipped SAF CreateDocument/OpenDocument; history excluded |
 | Backup | Import classic Shouter | Yes | No | Yes | Shipped Welcome/Backup root dump or OEM provider; no shoutlogs |
 | Distro | GMS analytics / Facebook | Yes | Play analytics | Skip | Forbidden |

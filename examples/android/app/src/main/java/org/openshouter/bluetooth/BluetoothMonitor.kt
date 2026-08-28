@@ -17,7 +17,9 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
+import org.openshouter.data.HistoryDao
 import org.openshouter.data.SettingsRepository
+import org.openshouter.data.ShoutHistoryStore
 import org.openshouter.domain.AppSettings
 import org.openshouter.domain.ChannelStates
 import org.openshouter.domain.ShoutChannel
@@ -31,6 +33,7 @@ class BluetoothMonitor @Inject constructor(
     private val settings: SettingsRepository,
     private val tts: TtsController,
     private val gate: SpeakGate,
+    private val history: HistoryDao,
 ) : BroadcastReceiver() {
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.Default)
     @Volatile private var started = false
@@ -78,6 +81,7 @@ class BluetoothMonitor @Inject constructor(
 
     private suspend fun speak(snap: AppSettings, phrase: String) {
         if (phrase.isBlank()) return
+        ShoutHistoryStore.insertOnce(history, SpokenEvent.Kind.BLUETOOTH, phrase)
         tts.speak(ChannelStates.spoken(snap, ShoutChannel.BLUETOOTH, SpokenEvent.Kind.BLUETOOTH, phrase))
     }
 

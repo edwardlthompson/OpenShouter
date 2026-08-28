@@ -12,7 +12,9 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
+import org.openshouter.data.HistoryDao
 import org.openshouter.data.SettingsRepository
+import org.openshouter.data.ShoutHistoryStore
 import org.openshouter.domain.PowerEvent
 import org.openshouter.domain.PowerKind
 import org.openshouter.domain.PowerRules
@@ -26,6 +28,7 @@ class PowerMonitor @Inject constructor(
     private val settings: SettingsRepository,
     private val tts: TtsController,
     private val gate: SpeakGate,
+    private val history: HistoryDao,
 ) : BroadcastReceiver() {
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.Default)
     private var lastFull = false
@@ -88,6 +91,7 @@ class PowerMonitor @Inject constructor(
         if (!gate.allow(snap, org.openshouter.domain.ShoutChannel.BATTERY)) return
         val phrase = snap.batteryPhrases.spoken(event)
         if (phrase.isBlank()) return
+        ShoutHistoryStore.insertOnce(history, SpokenEvent.Kind.POWER, phrase)
         tts.speak(
             org.openshouter.domain.ChannelStates.spoken(
                 snap,

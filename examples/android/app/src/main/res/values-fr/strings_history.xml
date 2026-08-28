@@ -10,4 +10,11 @@
     <string name="apps_call_repeat_once">Une fois</string>
     <string name="apps_call_repeat_until">Jusqu’à réponse</string>
     <string name="apps_call_repeat_off">Désactivé</string>
+    <string name="history_source_time">Heure</string>
+    <string name="history_source_power">Batterie</string>
+    <string name="history_source_reminder">Rappel</string>
+    <string name="history_source_calendar">Agenda</string>
+    <string name="history_source_bluetooth">Bluetooth</string>
+    <string name="history_source_geo">Lieu</string>
+    <string name="history_internal_help">Cette annonce se gère dans les réglages OpenShouter, pas dans une autre application</string>
 </resources>

@@ -10,4 +10,11 @@
     <string name="apps_call_repeat_once">Una vez</string>
     <string name="apps_call_repeat_until">Hasta contestar</string>
     <string name="apps_call_repeat_off">Desactivado</string>
+    <string name="history_source_time">Hora</string>
+    <string name="history_source_power">Batería</string>
+    <string name="history_source_reminder">Recordatorio</string>
+    <string name="history_source_calendar">Calendario</string>
+    <string name="history_source_bluetooth">Bluetooth</string>
+    <string name="history_source_geo">Lugar</string>
+    <string name="history_internal_help">Este anuncio se gestiona en los ajustes de OpenShouter, no en otra aplicación</string>
 </resources>

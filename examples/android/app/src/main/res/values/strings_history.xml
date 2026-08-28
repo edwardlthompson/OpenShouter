@@ -10,4 +10,11 @@
     <string name="apps_call_repeat_once">Once</string>
     <string name="apps_call_repeat_until">Until answered</string>
     <string name="apps_call_repeat_off">Off</string>
+    <string name="history_source_time">Time</string>
+    <string name="history_source_power">Battery</string>
+    <string name="history_source_reminder">Reminder</string>
+    <string name="history_source_calendar">Calendar</string>
+    <string name="history_source_bluetooth">Bluetooth</string>
+    <string name="history_source_geo">Place</string>
+    <string name="history_internal_help">This announcement is managed in OpenShouter settings, not another app</string>
 </resources>

@@ -25,6 +25,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+* **android:** record time, battery, reminder, calendar, and Bluetooth shouts in announcement history
 * **android:** VoIP incoming calls speak once by default; Phone still loops until answered
 
 ### Changed

@@ -16,7 +16,9 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
+import org.openshouter.data.HistoryDao
 import org.openshouter.data.SettingsRepository
+import org.openshouter.data.ShoutHistoryStore
 import org.openshouter.domain.ChannelStates
 import org.openshouter.domain.ShoutChannel
 import org.openshouter.domain.SpokenEvent
@@ -29,6 +31,7 @@ class CalendarMonitor @Inject constructor(
     private val settings: SettingsRepository,
     private val tts: TtsController,
     private val gate: SpeakGate,
+    private val history: HistoryDao,
 ) : BroadcastReceiver() {
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.Default)
     @Volatile private var started = false
@@ -63,6 +66,7 @@ class CalendarMonitor @Inject constructor(
         if (title.isEmpty()) return
         lastSpoken = event.first to event.second
         val spoken = context.getString(R.string.calendar_soon, title)
+        ShoutHistoryStore.insertOnce(history, SpokenEvent.Kind.CALENDAR, spoken)
         tts.speak(ChannelStates.spoken(snap, ShoutChannel.CALENDAR, SpokenEvent.Kind.CALENDAR, spoken))
     }
 

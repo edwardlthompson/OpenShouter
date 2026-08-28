@@ -12,8 +12,10 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.openshouter.alarm.AlarmScheduler
+import org.openshouter.data.HistoryDao
 import org.openshouter.data.ReminderDao
 import org.openshouter.data.SettingsRepository
+import org.openshouter.data.ShoutHistoryStore
 import org.openshouter.domain.ChannelStates
 import org.openshouter.domain.ReminderContract
 import org.openshouter.domain.ShoutChannel
@@ -29,6 +31,7 @@ class ReminderReceiver : BroadcastReceiver() {
     @Inject lateinit var gate: SpeakGate
     @Inject lateinit var reminders: ReminderDao
     @Inject lateinit var scheduler: AlarmScheduler
+    @Inject lateinit var history: HistoryDao
 
     override fun onReceive(context: Context, intent: Intent) {
         if (intent.action != ReminderContract.ACTION) return
@@ -43,6 +46,7 @@ class ReminderReceiver : BroadcastReceiver() {
                 val snap = settings.snapshot()
                 val row = reminders.enabled().firstOrNull { it.id == id } ?: return@launch
                 if (!gate.allow(snap, ShoutChannel.REMINDER)) return@launch
+                ShoutHistoryStore.insertOnce(history, SpokenEvent.Kind.REMINDER, row.text)
                 tts.speak(ChannelStates.spoken(snap, ShoutChannel.REMINDER, SpokenEvent.Kind.REMINDER, row.text))
                 if (alsoNotify || row.alsoNotify) postNotice(app)
                 val next = row.copy(
