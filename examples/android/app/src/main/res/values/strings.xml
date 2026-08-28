@@ -273,7 +273,7 @@
     <string name="nav_calendar">Calendar shout</string>
     <string name="nav_bluetooth">Bluetooth shout</string>
     <string name="calendar_enable">Announce upcoming events</string>
-    <string name="calendar_help">Reads the next event title in the look-ahead window. Titles stay on-device and are never logged.</string>
+    <string name="calendar_help">Uses calendars already synced on this phone. Grant Android Calendar access — you do not sign into Google Calendar here. Speaks each timed title once when it starts within the look-ahead window.</string>
     <string name="calendar_lookahead">Look-ahead</string>
     <string name="calendar_lookahead_min">%1$d min</string>
     <string name="calendar_soon">Upcoming: %1$s</string>
