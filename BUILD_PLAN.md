@@ -226,6 +226,7 @@ grep '\[AUTO\]' BUILD_PLAN.md
 
 > **Sprint 20** AGENT/AUTO archived in COMPLETED_TASKS.md @ `9a54070`.
 > **/ship v0.10.0** archived in COMPLETED_TASKS.md @ `9a54070`.
+> **/ship v0.11.0** archived in COMPLETED_TASKS.md @ `909cd58`.
 
 ### Sprint 20 leftover (ADB)
 
@@ -286,6 +287,7 @@ grep '\[AUTO\]' BUILD_PLAN.md
 | Sprint 19 — Shouter setting transfer parity | Complete (AGENT) | `COMPLETED_TASKS.md` |
 | Sprint 20 — Clickable history mute | Complete (AGENT/AUTO) | `COMPLETED_TASKS.md` |
 | /ship v0.10.0 | Complete | `COMPLETED_TASKS.md` |
+| /ship v0.11.0 | Complete | `COMPLETED_TASKS.md` |
 | /ship v0.6.0 | Complete | `COMPLETED_TASKS.md` |
 | /ship v0.7.0 | Complete | `COMPLETED_TASKS.md` |
 | /ship v0.8.0 | Complete | `COMPLETED_TASKS.md` |

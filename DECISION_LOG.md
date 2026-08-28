@@ -17,6 +17,13 @@
 
 ## Entries
 
+### 2026-08-28 — /ship v0.11.0
+- **Status:** Accepted
+- **Context:** Cloud agent shipped history mute (0.10.0) without a signed APK, then opened Settings chrome #31. Phantom 0.10.1 was leftover from a chore versionName sync.
+- **Decision:** Merge #31, let Release Please retarget #35 to **0.11.0**, bump `versionCode` 19 on the release PR, merge, and upload release-signed `openshouter-0.11.0-foss.apk` from This Computer.
+- **Alternatives considered:** Upload APK onto v0.10.0 only (rejected: would omit Settings chrome). Merge phantom 0.10.1 first (rejected: empty patch).
+- **Consequences:** Sideloads replace 0.9.2 (17) and any 0.10.0 (18) builds. ADB history-dialog smoke remains on HUMAN_BACKLOG.
+
 ### 2026-08-28 — Stop chore from minting Release Please patches
 - **Status:** Accepted
 - **Context:** Syncing `versionName` to 0.10.0 opened Release Please #35 (`v0.10.1`) with only that chore. Merging it would loop.

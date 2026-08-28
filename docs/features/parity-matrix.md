@@ -34,6 +34,8 @@ Interactive filterable table: Cursor canvas `feature-parity-matrix.canvas.tsx` (
 
 **Wrap-up 2026-08-28 (`/push` v0.10.0):** Shipped on https://github.com/edwardlthompson/OpenShouter/releases/tag/v0.10.0. Required-check rollups unblocked agent merges. Signed APK still This Computer. History row stays Yes.
 
+**Wrap-up 2026-08-28 (`/ship` v0.11.0):** Settings pane uses MenuScaffold and a Dashboard Settings row. Signed APK on https://github.com/edwardlthompson/OpenShouter/releases/tag/v0.11.0. Theme row stays Yes.
+
 Status: **Yes** shipped · **Partial** logic or subset UI · **No** missing · **Skip** will not copy (FOSS / out of scope).
 
 ## Summary

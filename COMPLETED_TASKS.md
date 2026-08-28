@@ -2,6 +2,11 @@
 
 > Archive of finished BUILD_PLAN items.
 
+## /ship v0.11.0 (2026-08-28)
+
+- ✅ [HUMAN] Merge Settings chrome #31 and Release Please #35 (`v0.11.0`)
+- ✅ [HUMAN] `publish-foss-apk` → `openshouter-0.11.0-foss.apk` (versionCode 19)
+
 ## /ship v0.10.0 (2026-08-28)
 
 - ✅ [AUTO] `pre-release-gate.sh` (local + push-SHA CI/CodeQL/Security Scan)
