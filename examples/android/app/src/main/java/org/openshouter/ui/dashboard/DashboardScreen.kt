@@ -67,7 +67,12 @@ fun DashboardScreen(
             MenuLink(stringResource(R.string.oem_title), onOpenOem, showDivider = true)
             MenuLink(stringResource(R.string.nav_backup), onOpenBackup, showDivider = true)
             MenuLink(stringResource(R.string.dashboard_open_setup), onOpenSetup, showDivider = true)
-            MenuLink(stringResource(R.string.settings_title), onOpenSettings, showDivider = true)
+            MenuLink(
+                stringResource(R.string.settings_title),
+                onOpenSettings,
+                stringResource(R.string.settings_appearance),
+                true,
+            )
             MenuLink(
                 stringResource(R.string.about_donate),
                 { uriHandler.openUri(DonateLinks.VENMO_URL) },

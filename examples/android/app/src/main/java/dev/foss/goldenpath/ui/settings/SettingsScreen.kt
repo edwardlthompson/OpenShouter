@@ -31,7 +31,7 @@ fun SettingsScreen(
     )
     val selected = SettingsLogic.themeModeName(themeMode.name)
     MenuScaffold(stringResource(R.string.settings_title), scrollStore, "settings", onBack, modifier) {
-        MenuSection(stringResource(R.string.settings_title)) {
+        MenuSection(stringResource(R.string.settings_appearance)) {
             MenuBody {
                 MenuDropdown(
                     label = stringResource(R.string.settings_theme_label),
