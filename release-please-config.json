@@ -18,7 +18,6 @@
     { "type": "feat", "section": "Added" },
     { "type": "fix", "section": "Fixed" },
     { "type": "perf", "section": "Changed" },
-    { "type": "revert", "section": "Changed" },
-    { "type": "docs", "section": "Documentation" }
+    { "type": "revert", "section": "Changed" }
   ]
 }
