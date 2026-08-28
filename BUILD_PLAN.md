@@ -224,25 +224,14 @@ grep '\[AUTO\]' BUILD_PLAN.md
 
 ---
 
-### Sprint 20 — Clickable history mute
+> **Sprint 20** AGENT/AUTO archived in COMPLETED_TASKS.md @ `9a54070`.
+> **/ship v0.10.0** archived in COMPLETED_TASKS.md @ `9a54070`.
 
-<!-- agent_count_target: 2 | sequential_lock_step: 1 -->
+### Sprint 20 leftover (ADB)
 
-Tap an announcement to mute it in OpenShouter or open that notification channel in the posting app’s settings.
+<!-- parallel_exception: ADB leftover -->
 
-### Sequential (must complete in order)
-
-1. ✅ [AGENT] Lock `HistoryEntity.channelId` / `channelName`, Room v5, and persist from `NotificationFacts` (`docs/features/history-mute.md`)
-
-### Parallel (safe after Sequential step 1)
-
-| Task | Owner | Isolated scope |
-|------|-------|----------------|
-| History dialog + pane | AGENT | `examples/android/app/src/main/java/org/openshouter/ui/history/` |
-| Channel target + speak tests | AGENT | `examples/android/app/src/test/java/org/openshouter/domain/` |
-
-3. ✅ [AUTO] `python3 scripts/agent-run.py watch-agent-gates --once --autofix`
-4. 🔲 [ADB] Tap a history row; OpenShouter switch updates Apps to shout; channel switch highlights that channel in app notification settings
+- 🔲 [ADB] Tap a history row; OpenShouter switch updates Apps to shout; channel switch highlights that channel in app notification settings
 
 ---
 
@@ -295,6 +284,8 @@ Tap an announcement to mute it in OpenShouter or open that notification channel 
 | /ship v0.5.0 | Complete | `COMPLETED_TASKS.md` |
 | Sprint 18 — Import classic Shouter apps | Complete (AGENT) | `COMPLETED_TASKS.md` |
 | Sprint 19 — Shouter setting transfer parity | Complete (AGENT) | `COMPLETED_TASKS.md` |
+| Sprint 20 — Clickable history mute | Complete (AGENT/AUTO) | `COMPLETED_TASKS.md` |
+| /ship v0.10.0 | Complete | `COMPLETED_TASKS.md` |
 | /ship v0.6.0 | Complete | `COMPLETED_TASKS.md` |
 | /ship v0.7.0 | Complete | `COMPLETED_TASKS.md` |
 | /ship v0.8.0 | Complete | `COMPLETED_TASKS.md` |
