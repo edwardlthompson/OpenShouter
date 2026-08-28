@@ -5,4 +5,9 @@
     <string name="history_channel_settings">This notification channel</string>
     <string name="history_channel_settings_help">Opens this channel in the app\'s notification settings so you can turn it off there</string>
     <string name="history_dialog_close">Close</string>
+    <string name="history_call_cellular_repeats">Phone calls repeat until answered</string>
+    <string name="apps_call_repeat_label">Incoming calls</string>
+    <string name="apps_call_repeat_once">Once</string>
+    <string name="apps_call_repeat_until">Until answered</string>
+    <string name="apps_call_repeat_off">Off</string>
 </resources>

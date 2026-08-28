@@ -17,5 +17,16 @@ class HistoryEntityTest {
         assertEquals(IgnoreReason.NONE.name, row.ignoreReason)
         assertEquals("", row.channelId)
         assertEquals("", row.channelName)
+        assertEquals("NOTIFICATION", row.kind)
+    }
+
+    @Test
+    fun cellularCallRowHasEmptyTitleAndCallKind() {
+        val row = org.openshouter.call.CallHistory.ringingRow(9L, "Incoming call from Ada")
+        assertEquals("com.android.phone", row.packageName)
+        assertEquals("", row.title)
+        assertEquals("", row.text)
+        assertEquals("CALL", row.kind)
+        assertEquals("Incoming call from Ada", row.spoken)
     }
 }

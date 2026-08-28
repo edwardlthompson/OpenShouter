@@ -5,4 +5,9 @@
     <string name="history_channel_settings">Ce canal de notification</string>
     <string name="history_channel_settings_help">Ouvre ce canal dans les paramètres de notification de l’application pour le désactiver là</string>
     <string name="history_dialog_close">Fermer</string>
+    <string name="history_call_cellular_repeats">Les appels du téléphone se répètent jusqu’à ce qu’on réponde</string>
+    <string name="apps_call_repeat_label">Appels entrants</string>
+    <string name="apps_call_repeat_once">Une fois</string>
+    <string name="apps_call_repeat_until">Jusqu’à réponse</string>
+    <string name="apps_call_repeat_off">Désactivé</string>
 </resources>

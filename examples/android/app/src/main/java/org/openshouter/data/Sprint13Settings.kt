@@ -8,6 +8,8 @@ import javax.inject.Singleton
 import org.openshouter.domain.AppOverride
 import org.openshouter.domain.AppOverrides
 import org.openshouter.domain.BatteryPhrases
+import org.openshouter.domain.CallRepeatMode
+import org.openshouter.domain.CallRepeatModes
 import org.openshouter.domain.ChannelDeviceState
 import org.openshouter.domain.ChannelStates
 import org.openshouter.domain.ContactRule
@@ -57,5 +59,9 @@ class Sprint13Settings @Inject constructor(
         if (row.packageName.isBlank()) return@edit
         current[row.packageName] = row
         prefs[SettingsKeys.APP_FORMATS] = AppOverrides.encodeFull(current)
+    }
+
+    suspend fun setCallRepeatModes(map: Map<String, CallRepeatMode>) = context.osDataStore.edit {
+        it[SettingsSprint13.CALL_REPEAT] = CallRepeatModes.encode(map)
     }
 }

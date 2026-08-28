@@ -13,7 +13,7 @@ import androidx.sqlite.db.SupportSQLiteDatabase
         AppSpeakEntity::class,
         ReminderEntity::class,
     ],
-    version = 5,
+    version = 6,
     exportSchema = false,
 )
 abstract class AppDatabase : RoomDatabase() {
@@ -57,5 +57,11 @@ val MIGRATION_4_5 = Migration(4, 5) { db: SupportSQLiteDatabase ->
     )
     db.execSQL(
         "ALTER TABLE notification_history ADD COLUMN channelName TEXT NOT NULL DEFAULT ''",
+    )
+}
+
+val MIGRATION_5_6 = Migration(5, 6) { db: SupportSQLiteDatabase ->
+    db.execSQL(
+        "ALTER TABLE notification_history ADD COLUMN kind TEXT NOT NULL DEFAULT 'NOTIFICATION'",
     )
 }

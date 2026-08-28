@@ -43,6 +43,10 @@ import dev.foss.goldenpath.ui.theme.SpacingMd
 import org.openshouter.apps.InstalledApp
 import org.openshouter.domain.AppSpeakList
 import org.openshouter.domain.AppSpeakRule
+import org.openshouter.domain.CallRepeatMode
+import org.openshouter.domain.CallRepeatModes
+import org.openshouter.message.MessageChannel
+import org.openshouter.ui.call.CallRepeatDropdown
 import org.openshouter.ui.menu.MenuScrollStore
 import org.openshouter.ui.menu.highRefreshScroll
 import org.openshouter.ui.menu.rememberMenuListScroll
@@ -54,6 +58,8 @@ fun AppSpeakScreen(
     apps: List<InstalledApp>,
     onRuleChange: (String, Boolean, Boolean) -> Unit,
     onBulkChange: (List<String>, Boolean, Boolean) -> Unit,
+    callRepeatModes: Map<String, CallRepeatMode> = emptyMap(),
+    onCallRepeatChange: (String, CallRepeatMode) -> Unit = { _, _ -> },
     onBack: () -> Unit,
     scrollStore: MenuScrollStore,
     modifier: Modifier = Modifier,
@@ -175,7 +181,9 @@ fun AppSpeakScreen(
                         app = app,
                         speakAppName = rule?.speakAppName == true,
                         speakNotification = rule?.speakNotification == true,
+                        callRepeat = CallRepeatModes.modeFor(app.packageName, callRepeatModes),
                         onChange = onRuleChange,
+                        onCallRepeatChange = onCallRepeatChange,
                     )
                 }
             }
@@ -188,7 +196,9 @@ private fun AppSpeakRow(
     app: InstalledApp,
     speakAppName: Boolean,
     speakNotification: Boolean,
+    callRepeat: CallRepeatMode,
     onChange: (String, Boolean, Boolean) -> Unit,
+    onCallRepeatChange: (String, CallRepeatMode) -> Unit,
 ) {
     val nameLabel = stringResource(R.string.apps_toggle_name, app.label)
     val bodyLabel = stringResource(R.string.apps_toggle_notification, app.label)
@@ -210,6 +220,12 @@ private fun AppSpeakRow(
                 description = bodyLabel,
                 checked = speakNotification,
                 onChecked = { onChange(app.packageName, speakAppName, it) },
+            )
+        }
+        if (MessageChannel.isMessaging(app.packageName)) {
+            CallRepeatDropdown(
+                mode = callRepeat,
+                onChange = { onCallRepeatChange(app.packageName, it) },
             )
         }
     }

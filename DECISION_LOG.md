@@ -17,6 +17,13 @@
 
 ## Entries
 
+### 2026-08-28 — Call repeat once vs until answered
+- **Status:** Accepted
+- **Context:** WhatsApp incoming calls looped after answer because VoIP uses NLS, never telephony OFFHOOK, and the ongoing notification stays up.
+- **Decision:** Cellular stays UNTIL_ANSWERED via CallMonitor. VoIP defaults to ONCE per package (`CallRepeatMode`), keyed by `package+sbn.key`. Same-key posts are ignored; in-call/removed interrupts. ONCE forces `repeatCount` 0. `MODE_IN_COMMUNICATION` stops TTS only for an active VoIP gate package.
+- **Alternatives considered:** Treat all CALL channel events as looping; stop all loops on communication mode (would kill Phone rings).
+- **Consequences:** Apps to shout still controls messages only. Sideload needs versionCode 20. Device confirmation is BUILD_PLAN ADB.
+
 ### 2026-08-28 — Stop docs from minting Release Please patches
 - **Status:** Accepted
 - **Context:** `docs: record v0.11.0 ship` opened Release Please #37 (`v0.11.1`) with only that note. Same loop as KB-023 chore.

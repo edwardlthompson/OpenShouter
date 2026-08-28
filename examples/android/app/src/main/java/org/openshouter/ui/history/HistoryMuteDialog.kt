@@ -15,6 +15,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import dev.foss.goldenpath.R
 import dev.foss.goldenpath.ui.theme.SpacingMd
+import org.openshouter.domain.CallRepeatMode
+import org.openshouter.ui.call.CallRepeatDropdown
 import org.openshouter.ui.menu.MenuToggle
 
 @Composable
@@ -25,6 +27,10 @@ fun HistoryMuteDialog(
     channelLabel: String,
     onOpenChannelSettings: () -> Unit,
     onDismiss: () -> Unit,
+    showShoutToggle: Boolean = true,
+    callRepeat: CallRepeatMode? = null,
+    onCallRepeatChange: (CallRepeatMode) -> Unit = {},
+    cellularRepeats: Boolean = false,
 ) {
     var channelOn by remember { mutableStateOf(true) }
     AlertDialog(
@@ -32,11 +38,23 @@ fun HistoryMuteDialog(
         title = { Text(stringResource(R.string.history_manage_title, appLabel)) },
         text = {
             Column {
-                MenuToggle(
-                    stringResource(R.string.history_toggle_openshouter),
-                    shoutEnabled,
-                    onShoutChange,
-                )
+                if (showShoutToggle) {
+                    MenuToggle(
+                        stringResource(R.string.history_toggle_openshouter),
+                        shoutEnabled,
+                        onShoutChange,
+                    )
+                }
+                if (cellularRepeats) {
+                    Text(
+                        stringResource(R.string.history_call_cellular_repeats),
+                        style = MaterialTheme.typography.bodyMedium,
+                        modifier = Modifier.padding(horizontal = SpacingMd, vertical = SpacingMd),
+                    )
+                }
+                if (callRepeat != null) {
+                    CallRepeatDropdown(mode = callRepeat, onChange = onCallRepeatChange)
+                }
                 MenuToggle(
                     channelLabel,
                     channelOn,
@@ -44,7 +62,7 @@ fun HistoryMuteDialog(
                         channelOn = on
                         onOpenChannelSettings()
                     },
-                    showDivider = true,
+                    showDivider = showShoutToggle || cellularRepeats || callRepeat != null,
                 )
                 Text(
                     stringResource(R.string.history_channel_settings_help),

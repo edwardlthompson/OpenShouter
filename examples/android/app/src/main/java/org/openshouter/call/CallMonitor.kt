@@ -19,6 +19,7 @@ import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.openshouter.contacts.ContactsLookup
+import org.openshouter.data.HistoryDao
 import org.openshouter.data.SettingsRepository
 import org.openshouter.domain.CallPhase
 import org.openshouter.domain.IncomingCallEvent
@@ -34,6 +35,7 @@ class CallMonitor @Inject constructor(
     private val lookup: CallLogLookup,
     private val tts: TtsController,
     private val gate: SpeakGate,
+    private val history: HistoryDao,
 ) {
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
     private val telephony = context.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
@@ -41,7 +43,7 @@ class CallMonitor @Inject constructor(
     @Volatile private var lastPhase = CallPhase.IDLE
     @Volatile private var lastNumber = ""
     @Volatile private var lastSim = ""
-
+    @Volatile private var historyLogged = false
     private val phoneReceiver = object : BroadcastReceiver() {
         override fun onReceive(ctx: Context?, intent: Intent?) {
             if (intent?.action != TelephonyManager.ACTION_PHONE_STATE_CHANGED) return
@@ -105,6 +107,7 @@ class CallMonitor @Inject constructor(
             val ringingNumber = lastNumber
             lastPhase = phase
             lastNumber = ""
+            historyLogged = false
             tts.interrupt()
             if (wasRinging && phase == CallPhase.IDLE && ringingNumber.isNotBlank()) {
                 scope.launch { announceMissed(ringingNumber) }
@@ -130,6 +133,10 @@ class CallMonitor @Inject constructor(
             val spoken = CallChannel.incoming(snap, resolved, event.displayName, lastSim)
                 ?: return@launch
             tts.speak(spoken)
+            if (!historyLogged) {
+                historyLogged = true
+                launch(Dispatchers.IO) { CallHistory.insertOnce(history, spoken.utterance) }
+            }
         }
     }
 

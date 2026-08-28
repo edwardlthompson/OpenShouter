@@ -46,4 +46,5 @@ data class AppSettings(
     val calendarLookaheadMinutes: Int = 15,
     val bluetoothConnectAlert: Boolean = false,
     val bluetoothBatteryAlert: Boolean = false,
+    val callRepeatModes: Map<String, CallRepeatMode> = emptyMap(),
 )

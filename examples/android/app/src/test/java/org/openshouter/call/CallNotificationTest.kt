@@ -66,6 +66,33 @@ class CallNotificationTest {
         )
         assertNull(blocked)
     }
+
+    @Test
+    fun answeredInCallDoesNotProduceLoopingEvent() {
+        val session = CallAnnounceSession()
+        val incoming = CallPosted.action(
+            "com.whatsapp", "wa-call", categoryCall = true, isOngoing = true,
+            callType = VoipCallPhaseLogic.TYPE_INCOMING, session = session,
+        )
+        assertEquals(CallAnnounceAction.ANNOUNCE, incoming)
+        val spoken = CallPosted.eventFor(AppSettings(), "Ada", "", "WhatsApp", "com.whatsapp")
+        assertFalse(spoken!!.looping)
+        assertEquals(0, spoken.repeatCount)
+        assertEquals(
+            CallAnnounceAction.IGNORE,
+            CallPosted.action(
+                "com.whatsapp", "wa-call", categoryCall = true, isOngoing = true,
+                callType = VoipCallPhaseLogic.TYPE_INCOMING, session = session,
+            ),
+        )
+        assertEquals(
+            CallAnnounceAction.INTERRUPT,
+            CallPosted.action(
+                "com.whatsapp", "wa-call", categoryCall = true, isOngoing = true,
+                callType = VoipCallPhaseLogic.TYPE_ONGOING, session = session,
+            ),
+        )
+    }
 }
 
 class CallSuppressionTest {

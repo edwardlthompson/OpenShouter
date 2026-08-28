@@ -52,9 +52,10 @@ object ChannelStates {
         kind: SpokenEvent.Kind,
         utterance: String,
         looping: Boolean = false,
+        repeatCount: Int? = null,
     ): SpokenEvent {
         val state = resolve(settings.channelStates, channel, settings.deviceState, settings.ttsPlayback)
-        return SpokenEvent(kind, utterance, looping, state.repeatCount, state.stream)
+        return SpokenEvent(kind, utterance, looping, repeatCount ?: state.repeatCount, state.stream)
     }
 
     fun parse(stored: Set<String>): Map<ShoutChannel, ChannelDeviceState> =

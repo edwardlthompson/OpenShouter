@@ -106,6 +106,12 @@ fun OpenShouterPanes(
             onBulkChange = { pkgs, name, notif ->
                 scope.launch { ep.appSpeak().setMany(pkgs, name, notif) }
             },
+            callRepeatModes = settings.callRepeatModes,
+            onCallRepeatChange = { pkg, mode ->
+                scope.launch {
+                    ep.sprint13().setCallRepeatModes(settings.callRepeatModes + (pkg to mode))
+                }
+            },
             onBack = { onPane(if (settings.setupComplete) Pane.Home else Pane.Setup) },
             scrollStore = scrollStore,
             modifier = modifier,
@@ -132,9 +138,8 @@ fun OpenShouterPanes(
             modifier = modifier,
         )
         pane == Pane.History -> HistoryPane(
-            history, showSpoken, onShowSpoken, appRules, ep, scope,
-            { onPane(Pane.Home) }, scrollStore, modifier,
-        )
+            history, showSpoken, onShowSpoken, appRules, settings.callRepeatModes, ep, scope,
+            { onPane(Pane.Home) }, scrollStore, modifier)
         pane == Pane.Filters -> FiltersScreen(
             rules = regexRules,
             policy = settings.notificationPolicy,

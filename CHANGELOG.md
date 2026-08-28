@@ -16,9 +16,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+* **android:** VoIP incoming calls speak once by default; Phone still loops until answered
+
 ### Changed
 
-* **android:** put Theme and update-check Settings on MenuScaffold and add a Dashboard Settings row
+* **android:** per-app Incoming calls policy independent of Apps to shout
+* **android:** announcement history records cellular CALL rows
 * **release:** do not mint patches from chore commits; bump Gradle versionName in the Release Please PR
 * **release:** do not mint patches from docs commits (ship notes)
 

@@ -41,11 +41,15 @@ object CallNotification {
         title: String,
         people: String,
         appLabel: String,
+        looping: Boolean = true,
+        repeatCount: Int? = null,
     ): SpokenEvent? = CallChannel.incoming(
         settings,
         people,
         callerName(title),
         appLabel = appLabel,
+        looping = looping,
+        repeatCount = repeatCount,
     )
 
     internal fun isStatusPhrase(value: String): Boolean {

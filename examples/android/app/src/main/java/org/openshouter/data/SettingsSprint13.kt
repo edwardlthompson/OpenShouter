@@ -7,6 +7,7 @@ import org.openshouter.domain.AppOverrides
 import org.openshouter.domain.AppSettings
 import org.openshouter.domain.BatteryPhrases
 import org.openshouter.domain.BatterySituation
+import org.openshouter.domain.CallRepeatModes
 import org.openshouter.domain.ChannelStates
 import org.openshouter.domain.ContactRule
 import org.openshouter.domain.TimeHourStyle
@@ -25,6 +26,7 @@ internal object SettingsSprint13 {
     val MSG_FMT = stringPreferencesKey("msg_fmt")
     val TIME_FMT = stringPreferencesKey("time_fmt")
     val TIME_HOUR = stringPreferencesKey("time_hour")
+    val CALL_REPEAT = stringSetPreferencesKey("call_repeat")
 
     fun apply(base: AppSettings, prefs: Preferences): AppSettings {
         val enabled = (prefs[BATT_ON] ?: emptySet()).mapNotNull {
@@ -46,6 +48,7 @@ internal object SettingsSprint13 {
             timeFormat = prefs[TIME_FMT] ?: TtsFormat.TIME_DEFAULT,
             timeHourStyle = TimeHourStyle.parse(prefs[TIME_HOUR]),
             appOverrides = AppOverrides.parseFull(prefs[SettingsKeys.APP_FORMATS] ?: emptySet()),
+            callRepeatModes = CallRepeatModes.parse(prefs[CALL_REPEAT] ?: emptySet()),
         )
     }
 }

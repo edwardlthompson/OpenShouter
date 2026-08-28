@@ -8,6 +8,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import org.openshouter.data.HistoryEntity
 import org.openshouter.domain.AppSpeakRule
+import org.openshouter.domain.CallRepeatMode
 import org.openshouter.domain.HistorySpeak
 import org.openshouter.notification.NotificationChannelSettings
 import org.openshouter.service.OpenShouterEntryPoint
@@ -19,6 +20,7 @@ fun HistoryPane(
     showSpoken: Boolean,
     onShowSpoken: (Boolean) -> Unit,
     appRules: List<AppSpeakRule>,
+    callRepeatModes: Map<String, CallRepeatMode>,
     ep: OpenShouterEntryPoint,
     scope: CoroutineScope,
     onBack: () -> Unit,
@@ -35,6 +37,10 @@ fun HistoryPane(
         onShoutChange = { pkg, on ->
             val flags = HistorySpeak.enabledFlags(on)
             scope.launch { ep.appSpeak().set(pkg, flags.first, flags.second) }
+        },
+        callRepeatModes = callRepeatModes,
+        onCallRepeatChange = { pkg, mode ->
+            scope.launch { ep.sprint13().setCallRepeatModes(callRepeatModes + (pkg to mode)) }
         },
         onOpenChannelSettings = { pkg, channelId ->
             NotificationChannelSettings.launch(context, pkg, channelId)

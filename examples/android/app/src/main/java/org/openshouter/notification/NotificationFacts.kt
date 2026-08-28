@@ -27,6 +27,8 @@ internal data class NotificationFacts(
     val isTest: Boolean,
     val channelId: String = "",
     val channelName: String = "",
+    val notificationKey: String = "",
+    val callType: Int? = null,
 ) {
     companion object {
         fun from(
@@ -53,6 +55,14 @@ internal data class NotificationFacts(
                 isTest = TestNotification.isSelfTest(sbn.packageName, sbn.notification.channelId),
                 channelId = channelId,
                 channelName = channelName,
+                notificationKey = sbn.key.orEmpty(),
+                callType = runCatching {
+                    if (extras.containsKey(Notification.EXTRA_CALL_TYPE)) {
+                        extras.getInt(Notification.EXTRA_CALL_TYPE)
+                    } else {
+                        null
+                    }
+                }.getOrNull(),
             )
         }
 

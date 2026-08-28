@@ -35,6 +35,20 @@ class SettingsBackupTest {
     }
 
     @Test
+    fun zipRoundTripCallRepeatModes() {
+        val settings = AppSettings(
+            callRepeatModes = mapOf(
+                "com.whatsapp" to org.openshouter.domain.CallRepeatMode.ONCE,
+                "org.telegram.messenger" to org.openshouter.domain.CallRepeatMode.UNTIL_ANSWERED,
+            ),
+        )
+        val (json, _) = SettingsBackup.fromZip(SettingsBackup.toZip(settings, emptyList()))
+        val modes = json.getJSONObject("callRepeatModes")
+        assertEquals("ONCE", modes.getString("com.whatsapp"))
+        assertEquals("UNTIL_ANSWERED", modes.getString("org.telegram.messenger"))
+    }
+
+    @Test
     fun fromZipRejectsOversizedPayload() {
         val huge = ByteArray(BackupLimits.MAX_ZIP_BYTES + 1)
         val (settings, rules) = SettingsBackup.fromZip(huge)

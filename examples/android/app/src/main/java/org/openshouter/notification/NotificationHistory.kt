@@ -42,14 +42,17 @@ internal object NotificationHistory {
         facts: NotificationFacts,
         silentExempt: Boolean = false,
         looping: Boolean = false,
+        repeatCount: Int? = null,
     ) {
         val deny = ep.gate().denyReason(settings, channel, silentExempt)
         if (deny != null) {
-            insert(ep, facts, "", deny)
+            insert(ep, facts, "", deny, kind)
             return
         }
-        insert(ep, facts, spoken, IgnoreReason.NONE)
-        ep.tts().speak(ChannelStates.spoken(settings, channel, kind, spoken, looping = looping))
+        insert(ep, facts, spoken, IgnoreReason.NONE, kind)
+        ep.tts().speak(
+            ChannelStates.spoken(settings, channel, kind, spoken, looping = looping, repeatCount = repeatCount),
+        )
     }
 
     private suspend fun insert(
@@ -57,6 +60,7 @@ internal object NotificationHistory {
         facts: NotificationFacts,
         spoken: String,
         reason: IgnoreReason,
+        kind: SpokenEvent.Kind = SpokenEvent.Kind.NOTIFICATION,
     ) {
         ep.history().insert(
             HistoryEntity(
@@ -68,6 +72,7 @@ internal object NotificationHistory {
                 ignoreReason = reason.name,
                 channelId = facts.channelId,
                 channelName = facts.channelName,
+                kind = kind.name,
             ),
         )
         ep.history().pruneTo(100)

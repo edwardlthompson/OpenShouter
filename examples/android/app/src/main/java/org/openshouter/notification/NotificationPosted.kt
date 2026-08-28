@@ -1,7 +1,12 @@
 package org.openshouter.notification
 
+import org.openshouter.call.CallAnnounceAction
+import org.openshouter.call.CallAnnounceSession
+import org.openshouter.call.CallLoopGate
 import org.openshouter.call.CallNotification
+import org.openshouter.call.CallPosted
 import org.openshouter.domain.AppOverride
+import org.openshouter.domain.AppSettings
 import org.openshouter.domain.AppSpeakPolicy
 import org.openshouter.domain.IgnoreReason
 import org.openshouter.domain.NotificationPolicy
@@ -21,6 +26,7 @@ internal object NotificationPosted {
         clock: RepeatClock,
         label: String,
         priorityDnd: Boolean,
+        session: CallAnnounceSession,
     ) {
         val settings = ep.settings().snapshot()
         if (CallNotification.routeAsCall(
@@ -30,12 +36,7 @@ internal object NotificationPosted {
                 settings.callsEnabled,
             )
         ) {
-            val incoming = CallNotification.event(settings, facts.title, facts.people, label)
-                ?: return
-            NotificationHistory.speakOrIgnore(
-                ep, settings, ShoutChannel.CALL, SpokenEvent.Kind.CALL, incoming.utterance, facts,
-                silentExempt = true, looping = incoming.looping,
-            )
+            handleVoip(facts, ep, settings, label, session)
             return
         }
         if (!settings.notificationsEnabled) return
@@ -85,6 +86,30 @@ internal object NotificationPosted {
         NotificationHistory.speakOrIgnore(
             ep, settings, ShoutChannel.NOTIFICATION, SpokenEvent.Kind.NOTIFICATION, filtered, facts,
             settings.notificationPolicy.dndExempt(priorityDnd, highOrCall),
+        )
+    }
+
+    private suspend fun handleVoip(
+        facts: NotificationFacts,
+        ep: OpenShouterEntryPoint,
+        settings: AppSettings,
+        label: String,
+        session: CallAnnounceSession,
+    ) {
+        val action = CallPosted.action(
+            facts.app, facts.notificationKey, facts.categoryCall, facts.isOngoing, facts.callType, session,
+        )
+        if (action == CallAnnounceAction.INTERRUPT) {
+            CallLoopGate.clear()
+            ep.tts().interrupt()
+            return
+        }
+        if (action != CallAnnounceAction.ANNOUNCE) return
+        val incoming = CallPosted.eventFor(settings, facts.title, facts.people, label, facts.app) ?: return
+        CallLoopGate.onVoipAnnounce(facts.app)
+        NotificationHistory.speakOrIgnore(
+            ep, settings, ShoutChannel.CALL, SpokenEvent.Kind.CALL, incoming.utterance, facts,
+            silentExempt = true, looping = incoming.looping, repeatCount = incoming.repeatCount,
         )
     }
 

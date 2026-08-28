@@ -18,6 +18,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.openshouter.audio.AudioRouteMonitor
+import org.openshouter.call.CallLoopGate
 import org.openshouter.data.SettingsRepository
 import org.openshouter.domain.ChannelStates
 import org.openshouter.domain.SpokenEvent
@@ -134,6 +135,9 @@ class TtsController @Inject constructor(
         }
         override fun onDone(utteranceId: String?) {
             scope.launch(Dispatchers.Main.immediate) {
+                if (CallLoopGate.cutVoip(audio.mode == AudioManager.MODE_IN_COMMUNICATION) { interrupt() }) {
+                    return@launch
+                }
                 playback.playSynthesized(engine, ready, utteranceId)
             }
         }

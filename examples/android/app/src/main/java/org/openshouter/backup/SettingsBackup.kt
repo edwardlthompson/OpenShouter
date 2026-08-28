@@ -9,6 +9,8 @@ import org.json.JSONArray
 import org.json.JSONObject
 import org.openshouter.domain.AppSettings
 import org.openshouter.domain.AppSpeakRule
+import org.openshouter.domain.CallRepeatMode
+import org.openshouter.domain.CallRepeatModes
 
 object SettingsBackup {
     fun toZip(settings: AppSettings, rules: List<AppSpeakRule>): ByteArray {
@@ -55,7 +57,18 @@ object SettingsBackup {
         .put("timeShoutEnabled", settings.timeShoutEnabled)
         .put("timeShoutIntervalMinutes", settings.timeShoutIntervalMinutes)
         .put("timeShoutExact", settings.timeShoutExact)
+        .put("callRepeatModes", callRepeatJson(settings.callRepeatModes))
         .toString()
+
+    private fun callRepeatJson(map: Map<String, CallRepeatMode>): JSONObject {
+        val obj = JSONObject()
+        CallRepeatModes.encode(map).forEach { row ->
+            val idx = row.indexOf('=')
+            if (idx <= 0) return@forEach
+            obj.put(row.substring(0, idx), row.substring(idx + 1))
+        }
+        return obj
+    }
 
     private fun rulesJson(rules: List<AppSpeakRule>): String {
         val arr = JSONArray()

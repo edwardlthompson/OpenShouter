@@ -12,7 +12,12 @@ import androidx.compose.ui.res.stringResource
 import dev.foss.goldenpath.R
 import java.text.DateFormat
 import java.util.Date
+import org.openshouter.call.CallNotification
 import org.openshouter.data.HistoryEntity
+import org.openshouter.domain.CallRepeatMode
+import org.openshouter.domain.CallRepeatModes
+import org.openshouter.domain.SpokenEvent
+import org.openshouter.message.MessageChannel
 import org.openshouter.notification.NotificationFacts
 import org.openshouter.ui.menu.MenuBody
 import org.openshouter.ui.menu.MenuLink
@@ -28,6 +33,8 @@ fun HistoryScreen(
     onShowSpoken: (Boolean) -> Unit,
     shouted: (String) -> Boolean,
     onShoutChange: (String, Boolean) -> Unit,
+    callRepeatModes: Map<String, CallRepeatMode>,
+    onCallRepeatChange: (String, CallRepeatMode) -> Unit,
     onOpenChannelSettings: (String, String) -> Unit,
     onClear: () -> Unit,
     onBack: () -> Unit,
@@ -76,6 +83,11 @@ fun HistoryScreen(
         val channelLabel = row.channelName.ifBlank {
             stringResource(R.string.history_channel_settings)
         }
+        val cellular = row.kind == SpokenEvent.Kind.CALL.name &&
+            CallNotification.isCellularDialer(row.packageName)
+        val showCallRepeat = !cellular && (
+            MessageChannel.isMessaging(row.packageName) || row.kind == SpokenEvent.Kind.CALL.name
+        )
         HistoryMuteDialog(
             appLabel = appLabel,
             shoutEnabled = shouted(row.packageName),
@@ -83,6 +95,14 @@ fun HistoryScreen(
             channelLabel = channelLabel,
             onOpenChannelSettings = { onOpenChannelSettings(row.packageName, row.channelId) },
             onDismiss = { selected = null },
+            showShoutToggle = !cellular,
+            callRepeat = if (showCallRepeat) {
+                CallRepeatModes.modeFor(row.packageName, callRepeatModes)
+            } else {
+                null
+            },
+            onCallRepeatChange = { mode -> onCallRepeatChange(row.packageName, mode) },
+            cellularRepeats = cellular,
         )
     }
 }

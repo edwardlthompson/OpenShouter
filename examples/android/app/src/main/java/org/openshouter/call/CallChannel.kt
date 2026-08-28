@@ -15,6 +15,8 @@ object CallChannel {
         contactName: String?,
         sim: String = "",
         appLabel: String = "",
+        looping: Boolean = true,
+        repeatCount: Int? = null,
     ): SpokenEvent? {
         val resolved = ContactRules.apply(settings.contactRule, rawNumber, contactName)
         if (resolved.blocked) return null
@@ -38,7 +40,8 @@ object CallChannel {
                 sim,
                 appLabel,
             ),
-            looping = true,
+            looping = looping,
+            repeatCount = repeatCount,
         )
     }
 

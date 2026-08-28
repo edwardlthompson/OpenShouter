@@ -36,6 +36,8 @@ Interactive filterable table: Cursor canvas `feature-parity-matrix.canvas.tsx` (
 
 **Wrap-up 2026-08-28 (`/ship` v0.11.0):** Settings pane uses MenuScaffold and a Dashboard Settings row. Signed APK on https://github.com/edwardlthompson/OpenShouter/releases/tag/v0.11.0. Theme row stays Yes.
 
+**Wrap-up 2026-08-28 (Sprint 21):** VoIP incoming calls speak once by default; Phone still loops until answered. Per-app Incoming calls policy is independent of Apps to shout. Cellular rings write one CALL history row. Call row stays Yes.
+
 Status: **Yes** shipped · **Partial** logic or subset UI · **No** missing · **Skip** will not copy (FOSS / out of scope).
 
 ## Summary
@@ -121,14 +123,14 @@ Dashboard master + sectioned Hear / History / Phone cards · searchable app-spea
 | Device states | Per-channel headphone/silent | Yes | No | Yes | Shipped ChannelStateScreen grid + stream/repeat |
 | Device states | Silent/vibrate + in-call flags | Yes | Yes | Yes | Shipped DeviceStatePolicy toggles |
 | TTS | Stream / audio focus / pitch / voice test | Stream | Stream+focus | Yes | Pitch + pause-media + language dropdowns; AA/DHU uses navigation-guidance usage |
-| Call | Looping ID + contacts | Yes | No | Yes | RINGING not GATE_CALL; VoIP ongoing CATEGORY_CALL + app label |
+| Call | Looping ID + contacts | Yes | No | Yes | RINGING not GATE_CALL; VoIP default ONCE; Phone UNTIL_ANSWERED; same-key session |
 | Call | Unknown toggle, nick/blacklist, missed | Yes | No | Yes | Shipped ContactRules + speakUnknown + missed RING→IDLE |
 | Message | Dedicated SMS/MMS shout | Yes | Via apps | Yes | Extras/sender parse; no `READ_SMS` |
 | Time | Interval + exact opt-in | Yes | No | Yes | 15/30/60 + `timeShoutExact` via `setExactAndAllowWhileIdle` + `TIME_TICK`; not `setAlarmClock` |
 | Battery | Events + custom phrases | Yes | No | Yes | Shipped situation picker + `%level` phrases |
 | Reminders | Recurring voice list | Yes | No | Yes | Hour/day/week/month/year dropdown + AlarmManager sync |
 | Location | Placebook proximity | Yes | No | Skip | Keep silent fences |
-| History | Viewer + ignore reasons | Yes | Yes | Yes | Clickable rows; mute dialog (app shout + channel settings) |
+| History | Viewer + ignore reasons | Yes | Yes | Yes | Clickable rows; mute dialog (app shout + VoIP Incoming calls + channel settings) |
 | Backup | Settings zip | No | Yes | Yes | Shipped SAF CreateDocument/OpenDocument; history excluded |
 | Backup | Import classic Shouter | Yes | No | Yes | Shipped Welcome/Backup root dump or OEM provider; no shoutlogs |
 | Distro | GMS analytics / Facebook | Yes | Play analytics | Skip | Forbidden |

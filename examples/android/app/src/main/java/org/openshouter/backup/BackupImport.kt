@@ -4,6 +4,7 @@ import android.content.Context
 import org.openshouter.data.ReminderEntity
 import org.openshouter.domain.AppSettings
 import org.openshouter.domain.AppSpeakRule
+import org.openshouter.domain.CallRepeatMode
 import org.openshouter.domain.ReminderInterval
 import org.openshouter.reminder.ReminderAlarms
 import org.openshouter.service.OpenShouterEntryPoint
@@ -101,6 +102,17 @@ object BackupImport {
             json.optInt("timeShoutIntervalMinutes", current.timeShoutIntervalMinutes),
             json.optBoolean("timeShoutExact", true),
         )
+        json.optJSONObject("callRepeatModes")?.let { obj ->
+            val map = buildMap {
+                obj.keys().forEach { pkg ->
+                    if (pkg.isBlank()) return@forEach
+                    val mode = runCatching { CallRepeatMode.valueOf(obj.optString(pkg)) }.getOrNull()
+                        ?: CallRepeatMode.ONCE
+                    put(pkg, mode)
+                }
+            }
+            ep.sprint13().setCallRepeatModes(map)
+        }
         return applyRules(ep, rules)
     }
 }

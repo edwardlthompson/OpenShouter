@@ -29,5 +29,9 @@ class ChannelSpokenTest {
         val event = ChannelStates.spoken(settings, ShoutChannel.CALL, SpokenEvent.Kind.CALL, "x")
         assertEquals(TtsStream.ALARM, event.stream)
         assertEquals(2, event.repeatCount)
+        val once = ChannelStates.spoken(
+            settings, ShoutChannel.CALL, SpokenEvent.Kind.CALL, "x", looping = false, repeatCount = 0,
+        )
+        assertEquals(0, once.repeatCount)
     }
 }
