@@ -25,11 +25,19 @@ internal data class NotificationFacts(
     val categoryCall: Boolean,
     val isOngoing: Boolean,
     val isTest: Boolean,
+    val channelId: String = "",
+    val channelName: String = "",
 ) {
     companion object {
-        fun from(sbn: StatusBarNotification, nm: NotificationManager?): NotificationFacts {
+        fun from(
+            sbn: StatusBarNotification,
+            nm: NotificationManager?,
+            channelName: String = "",
+        ): NotificationFacts {
             val extras = sbn.notification.extras
-            val channelImp = sbn.notification.channelId
+            val channelId = sbn.notification.channelId.orEmpty()
+            val channelImp = channelId
+                .takeIf { it.isNotEmpty() }
                 ?.let { nm?.getNotificationChannel(it)?.importance } ?: 3
             return NotificationFacts(
                 app = sbn.packageName,
@@ -43,6 +51,8 @@ internal data class NotificationFacts(
                 categoryCall = sbn.notification.category == Notification.CATEGORY_CALL,
                 isOngoing = sbn.isOngoing,
                 isTest = TestNotification.isSelfTest(sbn.packageName, sbn.notification.channelId),
+                channelId = channelId,
+                channelName = channelName,
             )
         }
 

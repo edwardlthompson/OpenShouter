@@ -224,6 +224,28 @@ grep '\[AUTO\]' BUILD_PLAN.md
 
 ---
 
+### Sprint 20 — Clickable history mute
+
+<!-- agent_count_target: 2 | sequential_lock_step: 1 -->
+
+Tap an announcement to mute it in OpenShouter or open that notification channel in the posting app’s settings.
+
+### Sequential (must complete in order)
+
+1. 🔲 [AGENT] Lock `HistoryEntity.channelId` / `channelName`, Room v5, and persist from `NotificationFacts` (`docs/features/history-mute.md`)
+
+### Parallel (safe after Sequential step 1)
+
+| Task | Owner | Isolated scope |
+|------|-------|----------------|
+| History dialog + pane | AGENT | `examples/android/app/src/main/java/org/openshouter/ui/history/` |
+| Channel target + speak tests | AGENT | `examples/android/app/src/test/java/org/openshouter/domain/` |
+
+3. 🔲 [AUTO] `python3 scripts/agent-run.py watch-agent-gates --once --autofix`
+4. 🔲 [ADB] Tap a history row; OpenShouter switch updates Apps to shout; channel switch highlights that channel in app notification settings
+
+---
+
 ## Ongoing Maintenance (recurring)
 
 ### Weekly
