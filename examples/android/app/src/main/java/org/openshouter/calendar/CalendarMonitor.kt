@@ -86,7 +86,8 @@ class CalendarMonitor @Inject constructor(
             CalendarContract.Instances.VISIBLE,
             CalendarContract.Instances.SELF_ATTENDEE_STATUS,
         )
-        val events = load(uri, full, now) ?: load(uri, full.copyOf(3), now) ?: return null
+        val basic = arrayOf(full[0], full[1], full[2])
+        val events = load(uri, full, now) ?: load(uri, basic, now) ?: return null
         return CalendarShout.pickNext(events, now, spoken, lookAheadMs)
     }
 
