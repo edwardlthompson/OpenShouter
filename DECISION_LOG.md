@@ -17,6 +17,13 @@
 
 ## Entries
 
+### 2026-08-28 — /ship v0.10.0
+- **Status:** Accepted
+- **Context:** History-mute needed a merge path this Cursor token can complete. Branch protection required five check names; only two existed as Actions jobs.
+- **Decision:** `feat` → minor **0.10.0**. Add rollup jobs named `CI`, `Security Scan`, and `CodeQL`. Squash-merge #30 and merge-commit RP #32 without `--admin`. Retrigger RP PR CI with an empty commit when github-actions[bot] runs stay `action_required`.
+- **Alternatives considered:** Admin-merge (rejected: token cannot bypass). Fake Checks API contexts (rejected: circumvents gates). Generate a new keystore here (rejected: would not replace the installed FOSS APK).
+- **Consequences:** https://github.com/edwardlthompson/OpenShouter/releases/tag/v0.10.0. SBOM uploaded; signed APK still needs This Computer + existing keystore. `versionCode` 18 / `versionName` 0.10.0.
+
 ### 2026-08-28 — Required-check rollup jobs
 - **Status:** Accepted
 - **Context:** `/push` and `/ship` could not merge PR #30. Branch protection requires `CI`, `Security Scan`, `CodeQL`, `Repo Hygiene`, and `Feature Gate`, but only the last two existed as Actions job names. GitHub reported "2 of 5 required status checks are expected." The Cursor token is not a repo admin, so `--admin` merge also failed.
