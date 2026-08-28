@@ -17,6 +17,13 @@
 
 ## Entries
 
+### 2026-08-28 — Stop chore from minting Release Please patches
+- **Status:** Accepted
+- **Context:** Syncing `versionName` to 0.10.0 opened Release Please #35 (`v0.10.1`) with only that chore. Merging it would loop.
+- **Decision:** Remove `chore` from `changelog-sections`. Add `build.gradle.kts` to extra-files with `x-release-please-version`. Leave #35 unmerged (close or let RP drop it).
+- **Alternatives considered:** Merge 0.10.1 (rejected: infinite versionName loop). Hide chore but keep it releasable (rejected: `hidden` still bumps).
+- **Consequences:** Future RP release PRs bump `versionName`. Manual `chore(android): sync versionName` is unnecessary.
+
 ### 2026-08-28 — /ship v0.10.0
 - **Status:** Accepted
 - **Context:** History-mute needed a merge path this Cursor token can complete. Branch protection required five check names; only two existed as Actions jobs.

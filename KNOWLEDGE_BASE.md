@@ -168,6 +168,14 @@
 | **Cause** | Child `.template-version` / Release Please / `CITATION.cff` track **product** semver (0.3.x), not agent-project-bootstrap |
 | **Fix** | Keep `.template-version` on the last shipped product. Record template provenance in `AGENT_MEMORY.md` and `AGENTS.md` |
 | **Prevention** | Never run `sync-template-version.sh` to adopt an upstream template number. `pre-release-gate` CI wait needs a **pushed** SHA
+### KB-023 — `chore` must not mint a Release Please patch
+
+| Field | Detail |
+|-------|--------|
+| **Symptom** | After `chore(android): sync versionName`, Release Please opens `chore(main): release X.Y.Z+1` with only that sync |
+| **Cause** | `changelog-sections` listed `chore` → Changed, so chore commits are releasable |
+| **Fix** | Drop `chore` from `changelog-sections`. Put `versionName` in extra-files with `// x-release-please-version` so the release PR updates Gradle |
+| **Prevention** | `tests/test_release_please_config.py`. Do not merge a release PR whose only change is a versionName sync |
 ### KB-019 — `feat` is a minor bump; keep CITATION.cff on the tag
 
 | Field | Detail |

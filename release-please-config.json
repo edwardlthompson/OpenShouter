@@ -7,7 +7,8 @@
       "extra-files": [
         ".template-version",
         "TEMPLATE_INDEX.json",
-        "CITATION.cff"
+        "CITATION.cff",
+        "examples/android/app/build.gradle.kts"
       ],
       "include-component-in-tag": false,
       "include-v-in-tag": true
@@ -18,7 +19,6 @@
     { "type": "fix", "section": "Fixed" },
     { "type": "perf", "section": "Changed" },
     { "type": "revert", "section": "Changed" },
-    { "type": "docs", "section": "Documentation" },
-    { "type": "chore", "section": "Changed" }
+    { "type": "docs", "section": "Documentation" }
   ]
 }
