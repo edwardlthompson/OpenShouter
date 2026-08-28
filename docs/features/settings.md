@@ -4,7 +4,7 @@
 
 ## Acceptance criteria
 
-- ✅ User can open a Settings panel/screen from the main navigation
+- ✅ User can open a Settings panel/screen from the toolbar gear and the Dashboard Phone and backup list
 - ✅ Theme preference (light/dark/system) persists across restarts
 - ✅ Update-check toggle respects opt-in telemetry policy (`docs/PRIVACY.md`)
 - ✅ Offline: settings load last persisted values; no network required for display
@@ -34,3 +34,4 @@
 
 - Reuse `ThemePreferences` patterns from `examples/android/.../ui/theme/` where applicable
 - Gate after each AGENT BUILD_PLAN step: `bash scripts/watch-agent-gates.sh --once --autofix --step <scaffold|tests|wire>`
+- Theme + opt-in update check live on the Golden Path Settings pane (`MenuScaffold` + `MenuToggle`). Dashboard **Phone and backup** also opens that pane so Settings is not gear-only.

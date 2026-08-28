@@ -61,6 +61,7 @@ fun OpenShouterPanes(
     scope: CoroutineScope,
     onPane: (Pane) -> Unit,
     onShowSpoken: (Boolean) -> Unit,
+    onOpenSettings: () -> Unit = {},
     scrollStore: MenuScrollStore,
     modifier: Modifier = Modifier,
 ) {
@@ -92,6 +93,7 @@ fun OpenShouterPanes(
             onOpenOverrides = { onPane(Pane.Overrides) },
             onOpenPlaces = { onPane(Pane.Places) },
             onOpenOem = { onPane(Pane.Oem) },
+            onOpenSettings = onOpenSettings,
             scrollStore = scrollStore,
             modifier = modifier,
         )

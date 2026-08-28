@@ -35,6 +35,7 @@
     <string name="settings_theme_mode_light">Tema claro</string>
     <string name="settings_theme_mode_dark">Tema oscuro</string>
     <string name="settings_update_check_label">Buscar actualizaciones</string>
+    <string name="settings_appearance">Apariencia</string>
     <string name="about_debug_navigation_mode">Navegación: %1$s (margen %2$ddp)</string>
     <string name="nav_mode_three_button">3 botones</string>
     <string name="nav_mode_two_button">2 botones</string>
