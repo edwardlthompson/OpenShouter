@@ -17,6 +17,13 @@
 
 ## Entries
 
+### 2026-08-28 — /ship v1.0.0
+- **Status:** Accepted
+- **Context:** Cloud agent opened [#39](https://github.com/edwardlthompson/OpenShouter/pull/39) (built-in shout history). User asked to merge and release v1.
+- **Decision:** Merge #39 after CI green, bump `versionCode` 21, commit `Release-As: 1.0.0`, merge Release Please #40, upload release-signed `openshouter-1.0.0-foss.apk`.
+- **Alternatives considered:** Ship as 0.13.0 (rejected: user asked for v1). Wait on live-call ADB before tagging (rejected: ADB leftovers stay on the board).
+- **Consequences:** https://github.com/edwardlthompson/OpenShouter/releases/tag/v1.0.0. Sideloads replace 0.12.0. Sprint 22 Time-row smoke and Sprint 21 call-repeat smoke remain ADB.
+
 ### 2026-08-28 — Record built-in shouts in history
 - **Status:** Accepted
 - **Context:** Only notification and cellular-call paths wrote `HistoryEntity`. Time (and battery/reminder/calendar/Bluetooth) spoke with no row.
