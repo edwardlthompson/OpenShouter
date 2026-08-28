@@ -142,9 +142,9 @@ class CallMonitor @Inject constructor(
 
     private suspend fun announceMissed(number: String) {
         val snap = settings.snapshot()
-        val name = contacts.nameFor(number)
-        val spoken = CallChannel.missed(snap, number, name) ?: return
+        val spoken = CallChannel.missed(snap, number, contacts.nameFor(number)) ?: return
         if (!gate.allow(snap, org.openshouter.domain.ShoutChannel.CALL)) return
         tts.speak(spoken)
+        CallHistory.insertOnce(history, spoken.utterance)
     }
 }

@@ -239,6 +239,14 @@ grep '\[AUTO\]' BUILD_PLAN.md
 
 ---
 
+### Sprint 22 — Record shouts in announcement history
+
+- ✅ [AGENT] Persist TIME/POWER/REMINDER/CALENDAR/BLUETOOTH history rows (`docs/features/shout-history.md`)
+- 🔲 [AUTO] `python3 scripts/agent-run.py watch-agent-gates --once --autofix`
+- 🔲 [ADB] After a time shout, Announcement history shows a Time row; Show spoken text reveals the phrase
+
+---
+
 ## Ongoing Maintenance (recurring)
 
 ### Weekly

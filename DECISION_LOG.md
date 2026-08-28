@@ -17,6 +17,13 @@
 
 ## Entries
 
+### 2026-08-28 — Record built-in shouts in history
+- **Status:** Accepted
+- **Context:** Only notification and cellular-call paths wrote `HistoryEntity`. Time (and battery/reminder/calendar/Bluetooth) spoke with no row.
+- **Decision:** `ShoutHistoryStore.insertOnce` after those speak sites; reuse Room `kind`. UI labels by kind. Skip `NOTIFICATION`/`MESSAGE`/`CALL` to avoid doubles.
+- **Alternatives considered:** Record inside `TtsController` (rejected: 150-line cap + would duplicate notification rows). Synthetic `org.openshouter.time` packages (rejected: kind is enough).
+- **Consequences:** Announcement history lists Time/Battery/Reminder/Calendar/Bluetooth. Tap does not open Apps-to-shout or channel settings for those rows.
+
 ### 2026-08-28 — /ship v0.12.0
 - **Status:** Accepted
 - **Context:** WhatsApp persist-loop after answer needed a release over 0.11.0. Feat landed as `66584d0`; Release Please #37 tagged **0.12.0**.

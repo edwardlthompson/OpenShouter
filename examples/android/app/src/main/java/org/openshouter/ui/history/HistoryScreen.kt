@@ -16,6 +16,7 @@ import org.openshouter.call.CallNotification
 import org.openshouter.data.HistoryEntity
 import org.openshouter.domain.CallRepeatMode
 import org.openshouter.domain.CallRepeatModes
+import org.openshouter.domain.ShoutHistory
 import org.openshouter.domain.SpokenEvent
 import org.openshouter.message.MessageChannel
 import org.openshouter.notification.NotificationFacts
@@ -65,8 +66,10 @@ fun HistoryScreen(
                         reason,
                         row.spoken.takeIf { showSpoken && it.isNotBlank() },
                     ).joinToString("\n").ifBlank { null }
+                    val sourceRes = historySourceLabel(row.kind)
+                    val headline = sourceRes?.let { stringResource(it) } ?: row.packageName
                     MenuLink(
-                        stringResource(R.string.history_row, row.packageName, formattedTime),
+                        stringResource(R.string.history_row, headline, formattedTime),
                         { selected = row },
                         supporting = supporting,
                         showDivider = index > 0,
@@ -77,15 +80,22 @@ fun HistoryScreen(
     }
     val row = selected
     if (row != null) {
-        val appLabel = remember(row.packageName) {
+        val internal = ShoutHistory.isInternalKind(row.kind)
+        val sourceRes = historySourceLabel(row.kind)
+        val packageLabel = remember(row.packageName) {
             NotificationFacts.label(context.packageManager, row.packageName)
+        }
+        val appLabel = if (internal && sourceRes != null) {
+            stringResource(sourceRes)
+        } else {
+            packageLabel
         }
         val channelLabel = row.channelName.ifBlank {
             stringResource(R.string.history_channel_settings)
         }
-        val cellular = row.kind == SpokenEvent.Kind.CALL.name &&
+        val cellular = !internal && row.kind == SpokenEvent.Kind.CALL.name &&
             CallNotification.isCellularDialer(row.packageName)
-        val showCallRepeat = !cellular && (
+        val showCallRepeat = !internal && !cellular && (
             MessageChannel.isMessaging(row.packageName) || row.kind == SpokenEvent.Kind.CALL.name
         )
         HistoryMuteDialog(
@@ -95,7 +105,8 @@ fun HistoryScreen(
             channelLabel = channelLabel,
             onOpenChannelSettings = { onOpenChannelSettings(row.packageName, row.channelId) },
             onDismiss = { selected = null },
-            showShoutToggle = !cellular,
+            showShoutToggle = !internal && !cellular,
+            showChannelToggle = !internal,
             callRepeat = if (showCallRepeat) {
                 CallRepeatModes.modeFor(row.packageName, callRepeatModes)
             } else {

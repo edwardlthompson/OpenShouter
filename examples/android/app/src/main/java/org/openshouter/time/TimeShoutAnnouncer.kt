@@ -7,7 +7,9 @@ import java.time.Instant
 import java.time.ZoneId
 import javax.inject.Inject
 import javax.inject.Singleton
+import org.openshouter.data.HistoryDao
 import org.openshouter.data.SettingsRepository
+import org.openshouter.data.ShoutHistoryStore
 import org.openshouter.domain.ChannelStates
 import org.openshouter.domain.ShoutChannel
 import org.openshouter.domain.SpokenEvent
@@ -22,6 +24,7 @@ class TimeShoutAnnouncer @Inject constructor(
     private val settings: SettingsRepository,
     private val tts: TtsController,
     private val gate: SpeakGate,
+    private val history: HistoryDao,
 ) {
     @Volatile private var lastSlot: Long = Long.MIN_VALUE
 
@@ -42,6 +45,7 @@ class TimeShoutAnnouncer @Inject constructor(
         )
         val phrase = TtsFormat.time(snap.timeFormat, clock)
         if (phrase.isNotBlank()) {
+            ShoutHistoryStore.insertOnce(history, SpokenEvent.Kind.TIME, phrase)
             tts.speak(ChannelStates.spoken(snap, ShoutChannel.TIME, SpokenEvent.Kind.TIME, phrase))
         }
     }
