@@ -17,6 +17,13 @@
 
 ## Entries
 
+### 2026-08-28 — Required-check rollup jobs
+- **Status:** Accepted
+- **Context:** `/push` and `/ship` could not merge PR #30. Branch protection requires `CI`, `Security Scan`, `CodeQL`, `Repo Hygiene`, and `Feature Gate`, but only the last two existed as Actions job names. GitHub reported "2 of 5 required status checks are expected." The Cursor token is not a repo admin, so `--admin` merge also failed.
+- **Decision:** Add terminal rollup jobs with those exact `name:` fields. `scripts/assert-workflow-rollup.sh` fails the rollup if any needed job failed or was cancelled (`template-update-check` may fail). Gate the names with `check-required-status-jobs.sh`.
+- **Alternatives considered:** Fake Checks API contexts (rejected: circumvents gates). Change required checks via API (rejected: 403). Keep admin-merge (rejected: this token cannot bypass).
+- **Consequences:** After the rollups run, `gh pr merge` works without admin. KB-016 Release Please PRs still skip empty-job waits; they now get real rollup contexts from `main`.
+
 ### 2026-08-28 — Clickable history mute
 - **Status:** Accepted
 - **Context:** Announcement history was a static list. Users needed a way to stop shouting an app or disable that notification channel at the OS.
