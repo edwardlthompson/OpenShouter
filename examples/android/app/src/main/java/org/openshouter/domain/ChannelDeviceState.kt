@@ -6,9 +6,11 @@ data class ChannelDeviceState(
     val device: DeviceStatePolicy = DeviceStatePolicy(),
     val stream: TtsStream = TtsStream.NOTIFICATION,
     val repeatCount: Int = 0,
+    val appNameCooldownSeconds: Int = AppNameCooldown.DEFAULT_SECONDS,
 ) {
     fun clamp(): ChannelDeviceState = copy(
         repeatCount = repeatCount.coerceIn(0, TtsPlaybackPolicy.MAX_REPEAT_COUNT),
+        appNameCooldownSeconds = AppNameCooldown.clampSeconds(appNameCooldownSeconds),
     )
 
     fun mergePlayback(global: TtsPlaybackPolicy): TtsPlaybackPolicy =
@@ -80,6 +82,8 @@ object ChannelStates {
                     TtsStream.valueOf(fields["st"] ?: TtsStream.NOTIFICATION.name)
                 }.getOrDefault(TtsStream.NOTIFICATION),
                 repeatCount = fields["rc"]?.toIntOrNull() ?: 0,
+                appNameCooldownSeconds = fields["ac"]?.toIntOrNull()
+                    ?: AppNameCooldown.DEFAULT_SECONDS,
             ).clamp()
         }.toMap()
 
@@ -97,6 +101,7 @@ object ChannelStates {
                 "ic=${bit(d.allowInCall)}",
                 "st=${clamped.stream.name}",
                 "rc=${clamped.repeatCount}",
+                "ac=${clamped.appNameCooldownSeconds}",
             ).joinToString("|")
         }.toSet()
 

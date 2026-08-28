@@ -42,13 +42,15 @@ Interactive filterable table: Cursor canvas `feature-parity-matrix.canvas.tsx` (
 
 **Wrap-up 2026-08-28 (Sprint 22):** Time, battery, reminder, calendar, and Bluetooth shouts write history rows (`kind` + spoken). List shows a source label instead of a package. History row stays Yes.
 
+**Wrap-up 2026-08-28 (Sprint 23):** Per-channel App name cooldown dropdown (default 30s) omits repeating the same app name on notification and message shouts. Notification row stays Yes.
+
 Status: **Yes** shipped · **Partial** logic or subset UI · **No** missing · **Skip** will not copy (FOSS / out of scope).
 
 ## Summary
 
 | Bucket | Count (OpenShouter) |
 |--------|---------------------|
-| Yes | Master enable, widget, QS tile, FGS, boot, mute gestures + live g-meter, notification TTS, call loop, missed-call RING→IDLE, silent geofences, theme, GitHub updates, searchable app-speak picker, 24-hour quiet grid, history + ignore-reason, regex + require/ignore lists, empty/group/repeat, extra format tokens, repeat count + screen-off loop, test notification, pause-media, pitch, OEM autostart, TTS/device-state settings, engine language picker, per-channel headphone/stream/repeat grid, 15/30/60 time shout + exact opt-in + 12/24 clock style, nick/blacklist, call/message/time builders, battery situation phrases, reminder hour/day/week/month/year + also-notify, SAF backup, classic Shouter import, full AppOverride merge |
+| Yes | Master enable, widget, QS tile, FGS, boot, mute gestures + live g-meter, notification TTS, call loop, missed-call RING→IDLE, silent geofences, theme, GitHub updates, searchable app-speak picker, 24-hour quiet grid, history + ignore-reason, regex + require/ignore lists, empty/group/repeat, extra format tokens, repeat count + screen-off loop, test notification, pause-media, pitch, OEM autostart, TTS/device-state settings, engine language picker, per-channel headphone/stream/repeat grid + app-name cooldown, 15/30/60 time shout + exact opt-in + 12/24 clock style, nick/blacklist, call/message/time builders, battery situation phrases, reminder hour/day/week/month/year + also-notify, SAF backup, classic Shouter import, full AppOverride merge |
 | Partial | — |
 | No | — |
 | Skip | Placebook companion, GMS/Firebase analytics, Facebook/rate/share, in-app language clone, `READ_SMS` |
@@ -124,7 +126,7 @@ Dashboard master + sectioned Hear / History / Phone cards · searchable app-spea
 | Notifications | Delay / max length / screen-off repeat | No | Yes | Yes | Shipped delay/max + screen-off loop |
 | Notifications | Test notification | No | Yes | Yes | Shipped TestNotification.post |
 | Device states | Global screen-off / headset-only | Yes | Yes | Yes | Shipped |
-| Device states | Per-channel headphone/silent | Yes | No | Yes | Shipped ChannelStateScreen grid + stream/repeat |
+| Device states | Per-channel headphone/silent | Yes | No | Yes | Shipped ChannelStateScreen grid + stream/repeat + app-name cooldown |
 | Device states | Silent/vibrate + in-call flags | Yes | Yes | Yes | Shipped DeviceStatePolicy toggles |
 | TTS | Stream / audio focus / pitch / voice test | Stream | Stream+focus | Yes | Pitch + pause-media + language dropdowns; AA/DHU uses navigation-guidance usage |
 | Call | Looping ID + contacts | Yes | No | Yes | RINGING not GATE_CALL; VoIP default ONCE; Phone UNTIL_ANSWERED; same-key session |

@@ -5,6 +5,7 @@ import org.openshouter.call.CallAnnounceSession
 import org.openshouter.call.CallLoopGate
 import org.openshouter.call.CallNotification
 import org.openshouter.call.CallPosted
+import org.openshouter.domain.AppNameCooldown
 import org.openshouter.domain.AppOverride
 import org.openshouter.domain.AppSettings
 import org.openshouter.domain.AppSpeakPolicy
@@ -41,11 +42,18 @@ internal object NotificationPosted {
         }
         if (!settings.notificationsEnabled) return
         if (MessageChannel.isMessaging(facts.app)) {
+            val now = System.currentTimeMillis()
+            val includeApp = AppNameCooldown.include(
+                settings, ShoutChannel.MESSAGE, clock.appNameAt(facts.app), now,
+            )
             val spoken = MessageChannel.utterance(
                 settings,
                 MessageChannel.parse(facts.title, facts.text, facts.people),
                 null,
+                label,
+                includeApp,
             ) ?: return
+            if (includeApp) clock.markAppName(facts.app, now)
             NotificationHistory.speakOrIgnore(
                 ep, settings, ShoutChannel.MESSAGE, SpokenEvent.Kind.MESSAGE, spoken, facts,
             )
@@ -70,9 +78,12 @@ internal object NotificationPosted {
             return
         }
         val format = AppOverride(facts.app, settings.appFormats[facts.app]).mergeFormat(settings.ttsFormat)
+        val includeApp = AppNameCooldown.include(
+            settings, ShoutChannel.NOTIFICATION, clock.appNameAt(facts.app), now,
+        )
         val spoken = NotificationUtterance.build(
             rule, facts.app, settings.messageChannel.speakBody, format, label,
-            facts.title, facts.text, facts.tokens,
+            facts.title, facts.text, facts.tokens, includeApp,
         )
         if (spoken.isBlank()) return
         val filtered = RegexFilter.apply(spoken, regexRules(ep))
@@ -80,6 +91,7 @@ internal object NotificationPosted {
             NotificationHistory.recordIgnore(ep, settings, clock, facts, key, now, IgnoreReason.FILTER)
             return
         }
+        if (includeApp) clock.markAppName(facts.app, now)
         clock.lastKey = key
         clock.lastAt = now
         val highOrCall = facts.categoryCall || facts.rank >= NotificationRank.HIGH

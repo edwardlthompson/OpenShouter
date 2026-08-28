@@ -99,6 +99,17 @@ fun ChannelStateScreen(
                         persist(settings, channel, current.copy(repeatCount = current.repeatCount + 1).clamp(), onSave)
                     }) { Text(stringResource(R.string.quiet_plus)) }
                 }
+                AppNameCooldownDropdown(
+                    seconds = current.appNameCooldownSeconds,
+                    onChange = { seconds ->
+                        persist(
+                            settings,
+                            channel,
+                            current.copy(appNameCooldownSeconds = seconds).clamp(),
+                            onSave,
+                        )
+                    },
+                )
             }
         }
     }

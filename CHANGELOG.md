@@ -25,6 +25,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+* **android:** per-channel app-name cooldown so burst notifications do not repeat the app name
 * **android:** record time, battery, reminder, calendar, and Bluetooth shouts in announcement history
 * **android:** VoIP incoming calls speak once by default; Phone still loops until answered
 

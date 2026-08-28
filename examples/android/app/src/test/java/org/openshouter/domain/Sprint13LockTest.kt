@@ -32,8 +32,16 @@ class ChannelDeviceStateTest {
         val parsed = ChannelStates.parse(encoded)[ShoutChannel.CALL]!!
         assertEquals(TtsStream.ALARM, parsed.stream)
         assertEquals(TtsPlaybackPolicy.MAX_REPEAT_COUNT, parsed.repeatCount)
+        assertEquals(AppNameCooldown.DEFAULT_SECONDS, parsed.appNameCooldownSeconds)
         assertTrue(parsed.device.allowInCall)
         assertFalse(parsed.device.allowScreenOn)
+        val legacy = ChannelStates.parse(
+            setOf("CALL|so=1|sf=1|ho=1|hf=1|sv=0|ic=0|st=NOTIFICATION|rc=1"),
+        )[ShoutChannel.CALL]!!
+        assertEquals(AppNameCooldown.DEFAULT_SECONDS, legacy.appNameCooldownSeconds)
+        val off = ChannelDeviceState(appNameCooldownSeconds = 0).clamp()
+        val offParsed = ChannelStates.parse(ChannelStates.encode(mapOf(ShoutChannel.MESSAGE to off)))
+        assertEquals(0, offParsed.getValue(ShoutChannel.MESSAGE).appNameCooldownSeconds)
         val inherited = ChannelStates.resolve(
             emptyMap(),
             ShoutChannel.TIME,
