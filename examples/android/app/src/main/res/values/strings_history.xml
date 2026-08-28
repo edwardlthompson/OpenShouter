@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="history_manage_title">Manage %1$s</string>
+    <string name="history_toggle_openshouter">Shout with OpenShouter</string>
+    <string name="history_channel_settings">This notification channel</string>
+    <string name="history_channel_settings_help">Opens this channel in the app\'s notification settings so you can turn it off there</string>
+    <string name="history_dialog_close">Close</string>
+</resources>

@@ -17,6 +17,8 @@ data class HistoryEntity(
     val text: String,
     val spoken: String,
     val ignoreReason: String = IgnoreReason.NONE.name,
+    val channelId: String = "",
+    val channelName: String = "",
 )
 
 @Entity(tableName = "regex_rules")

@@ -66,6 +66,8 @@ internal object NotificationHistory {
                 text = facts.text,
                 spoken = spoken,
                 ignoreReason = reason.name,
+                channelId = facts.channelId,
+                channelName = facts.channelName,
             ),
         )
         ep.history().pruneTo(100)

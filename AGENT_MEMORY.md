@@ -102,7 +102,7 @@ OpenShouter is a FOSS recreation/enhancement of classic Shouter (`com.bhkapps.sh
 | 2026-08-24 | Release signing | Gradle release keystore; no debug apksigner pass | Back up `openshouter-release.keystore`; uninstall debug builds before first release-signed install |
 | 2026-08-24 | `/ship` v0.9.0 | Military/Zulu time TTS + release signing; RP #26 → 0.9.0 | Sync `versionName` in build.gradle.kts after RP merge |
 | 2026-08-26 | `/ship` v0.9.1 | Call RINGING/WhatsApp shout fix; RP #27 admin-merged; tag created after merge-commit workflows queued | Bump `versionCode` before `publish-foss-apk` so sideloads replace 0.9.0 |
-| 2026-08-26 | `/ship` v0.9.2 | AA/DHU navigation-guidance TTS; RP #28 admin-merged; retrigger after duplicate v0.9.1 tag | Bump `versionCode` 17 before `publish-foss-apk` so sideloads replace 0.9.1 |
+| 2026-08-28 | Sprint 20 history mute | Tap history row: OpenShouter app shout toggle + channel settings intent with highlight extras | ADB walk still needed on a device |
 ## Template Provenance
 
 - **Source template:** `edwardlthompson/agent-project-bootstrap`

@@ -477,6 +477,27 @@
       "owner": "maintainer"
     },
     {
+      "path": "scripts/assert-workflow-rollup.sh",
+      "purpose": "Fail a required-check rollup when any needed Actions job failed",
+      "read_when": "release",
+      "update_when": "milestone_boundary",
+      "owner": "maintainer"
+    },
+    {
+      "path": "scripts/check-required-status-jobs.sh",
+      "purpose": "Assert CI/Security Scan/CodeQL job names match branch protection",
+      "read_when": "release",
+      "update_when": "milestone_boundary",
+      "owner": "maintainer"
+    },
+    {
+      "path": "scripts/lib/workflow_rollup.py",
+      "purpose": "Evaluate Actions needs JSON for required-check rollup jobs",
+      "read_when": "release",
+      "update_when": "milestone_boundary",
+      "owner": "maintainer"
+    },
+    {
       "path": "scripts/check-github-ci.ps1",
       "purpose": "Windows wrapper to poll GitHub Actions workflow status",
       "read_when": "release",

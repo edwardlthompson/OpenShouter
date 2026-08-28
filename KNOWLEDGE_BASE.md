@@ -138,7 +138,7 @@
 | **Symptom** | `chore(main): release X.Y.Z` PR is MERGEABLE but BLOCKED; CI/CodeQL/Security Scan show `action_required` with zero jobs |
 | **Cause** | `pull_request` workflows on `release-please--branches--main` never start jobs (approval / first-run gate) |
 | **Fix** | `merge-release-please-pr.sh` admin fallback: `gh pr merge --admin` after `--auto` fails |
-| **Prevention** | Do not wait for empty-job PR checks. Push-SHA CI/CodeQL/Security Scan on `main` are the real gate |
+| **Prevention** | Job-level rollups named `CI`, `Security Scan`, and `CodeQL` report the required check contexts. Do not wait for empty-job PR checks. Push-SHA CI/CodeQL/Security Scan on `main` are the real gate |
 | **Seen again** | v0.5.0 Release Please #17 — `--auto` failed; admin merge after push-SHA CI/CodeQL/Security Scan green |
 | **Seen again** | v0.6.0 Release Please #19 — `--auto` failed; admin merge after push-SHA CI/CodeQL/Security Scan green |
 | **Seen again** | v0.7.0 Release Please #20 — `--auto` failed; admin merge after push-SHA CI/CodeQL/Security Scan green |

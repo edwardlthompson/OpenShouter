@@ -14,6 +14,7 @@ import org.openshouter.data.HistoryDao
 import org.openshouter.data.MIGRATION_1_2
 import org.openshouter.data.MIGRATION_2_3
 import org.openshouter.data.MIGRATION_3_4
+import org.openshouter.data.MIGRATION_4_5
 import org.openshouter.data.PlaceDao
 import org.openshouter.data.RegexDao
 import org.openshouter.data.ReminderDao
@@ -25,7 +26,7 @@ object DatabaseModule {
     @Singleton
     fun database(@ApplicationContext context: Context): AppDatabase =
         Room.databaseBuilder(context, AppDatabase::class.java, "openshouter.db")
-            .addMigrations(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4)
+            .addMigrations(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4, MIGRATION_4_5)
             .build()
 
     @Provides

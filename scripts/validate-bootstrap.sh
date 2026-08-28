@@ -130,6 +130,7 @@ if [ -f examples/python/pyproject.toml ] && [ ! -f examples/python/uv.lock ]; th
 fi
 
 run_check bash scripts/check-python-pytest-workflow.sh
+run_check bash scripts/check-required-status-jobs.sh
 
 if ! grep -q '\[AGENT\]' BUILD_PLAN.md && ! grep -q '\[HUMAN\]' BUILD_PLAN.md; then
   echo "MISSING: BUILD_PLAN.md owner labels"

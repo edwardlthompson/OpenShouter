@@ -30,9 +30,19 @@ class OpenShouterNotificationListener : NotificationListenerService() {
             OpenShouterEntryPoint::class.java,
         )
         val nm = getSystemService(NotificationManager::class.java)
-        val facts = NotificationFacts.from(sbn, nm)
+        val channelName = channelNameFor(sbn)
+        val facts = NotificationFacts.from(sbn, nm, channelName)
         val label = NotificationFacts.label(packageManager, facts.app)
         val priorityDnd = ep.audio().isPriorityDnd()
         scope.launch { NotificationPosted.handle(facts, ep, clock, label, priorityDnd) }
     }
+
+    private fun channelNameFor(sbn: StatusBarNotification): String = runCatching {
+        val ranking = Ranking()
+        if (currentRanking.getRanking(sbn.key, ranking)) {
+            ranking.channel?.name?.toString().orEmpty()
+        } else {
+            ""
+        }
+    }.getOrDefault("")
 }

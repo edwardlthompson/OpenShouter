@@ -72,3 +72,15 @@ jobs:
         working-directory: examples/android
         run: chmod +x gradlew && ./gradlew assembleDebug --no-daemon
       - uses: github/codeql-action/analyze@v4
+
+  codeql:
+    name: CodeQL
+    if: always()
+    needs: [stack-presence, analyze]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - name: Require CodeQL jobs
+        env:
+          ROLLUP_RESULTS: ${{ toJSON(needs) }}
+        run: bash scripts/assert-workflow-rollup.sh

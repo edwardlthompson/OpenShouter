@@ -17,6 +17,20 @@
 
 ## Entries
 
+### 2026-08-28 — Required-check rollup jobs
+- **Status:** Accepted
+- **Context:** `/push` and `/ship` could not merge PR #30. Branch protection requires `CI`, `Security Scan`, `CodeQL`, `Repo Hygiene`, and `Feature Gate`, but only the last two existed as Actions job names. GitHub reported "2 of 5 required status checks are expected." The Cursor token is not a repo admin, so `--admin` merge also failed.
+- **Decision:** Add terminal rollup jobs with those exact `name:` fields. `scripts/assert-workflow-rollup.sh` fails the rollup if any needed job failed or was cancelled (`template-update-check` may fail). Gate the names with `check-required-status-jobs.sh`.
+- **Alternatives considered:** Fake Checks API contexts (rejected: circumvents gates). Change required checks via API (rejected: 403). Keep admin-merge (rejected: this token cannot bypass).
+- **Consequences:** After the rollups run, `gh pr merge` works without admin. KB-016 Release Please PRs still skip empty-job waits; they now get real rollup contexts from `main`.
+
+### 2026-08-28 — Clickable history mute
+- **Status:** Accepted
+- **Context:** Announcement history was a static list. Users needed a way to stop shouting an app or disable that notification channel at the OS.
+- **Decision:** Tap a history row to open a dialog with (1) Apps-to-shout toggle for that package and (2) a channel switch that launches `ACTION_CHANNEL_NOTIFICATION_SETTINGS` with Settings highlight extras (`:settings:fragment_args_key`) so the exact channel is selected. Persist `channelId`/`channelName` on Room v5. Blank channel id opens the app notification page.
+- **Alternatives considered:** Master announcer toggle from history (rejected: too broad). Directly disabling another app’s channel (rejected: no public API). `ACTION_APP_NOTIFICATION_SETTINGS` only (kept as fallback).
+- **Consequences:** History rows are buttons. Channel importance stays in system settings. Message/call shout paths still use their own toggles; Apps to shout matches the picker.
+
 ### 2026-08-26 — /ship v0.9.2
 - **Status:** Accepted
 - **Context:** Android Auto / DHU did not play OpenShouter speech. 0.8.2 remapped notification to media, but DHU is not car UI mode and AudioHardening blocks media unless the app is the selected source.
