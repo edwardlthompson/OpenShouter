@@ -254,7 +254,7 @@ grep '\[AUTO\]' BUILD_PLAN.md
 <!-- parallel_exception: single vertical slice; one AGENT row -->
 
 - ✅ [AGENT] Per-channel app-name cooldown dropdown (`docs/features/app-name-cooldown.md`)
-- 🔲 [AUTO] `python3 scripts/agent-run.py watch-agent-gates --once --autofix`
+- ✅ [AUTO] `python3 scripts/agent-run.py watch-agent-gates --once --autofix`
 - 🔲 [ADB] Drop several photos into Messages; first shout may say Messages, later ones do not repeat it within 30s
 
 ---
