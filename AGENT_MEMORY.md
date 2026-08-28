@@ -102,9 +102,9 @@ OpenShouter is a FOSS recreation/enhancement of classic Shouter (`com.bhkapps.sh
 | 2026-08-24 | Release signing | Gradle release keystore; no debug apksigner pass | Back up `openshouter-release.keystore`; uninstall debug builds before first release-signed install |
 | 2026-08-24 | `/ship` v0.9.0 | Military/Zulu time TTS + release signing; RP #26 → 0.9.0 | Sync `versionName` in build.gradle.kts after RP merge |
 | 2026-08-26 | `/ship` v0.9.1 | Call RINGING/WhatsApp shout fix; RP #27 admin-merged; tag created after merge-commit workflows queued | Bump `versionCode` before `publish-foss-apk` so sideloads replace 0.9.0 |
-| 2026-08-28 | Sprint 20 history mute | Tap history row: OpenShouter app shout toggle + channel settings intent with highlight extras | ADB walk still needed on a device |
-| 2026-08-28 | `/ship` v0.10.0 | History mute + required-check rollups; PR #30 and RP #32 merged without admin | Signed APK deferred to 0.11.0; ADB history-dialog smoke still open |
-| 2026-08-28 | `/ship` v0.11.0 | Settings chrome #31 + RP #35; signed `openshouter-0.11.0-foss.apk` (versionCode 19) | ADB history-dialog smoke still open |
+| 2026-08-28 | Sprint 20 history mute | Tap history row: OpenShouter app shout toggle + channel settings intent with highlight extras | Confirmed on CPH2583 with v0.11.0 |
+| 2026-08-28 | `/ship` v0.10.0 | History mute + required-check rollups; PR #30 and RP #32 merged without admin | Signed APK deferred to 0.11.0 |
+| 2026-08-28 | `/ship` v0.11.0 | Settings chrome #31 + RP #35; signed `openshouter-0.11.0-foss.apk` (versionCode 19) | Sideloaded on CPH2583; history-dialog ADB confirmed |
 ## Template Provenance
 
 - **Source template:** `edwardlthompson/agent-project-bootstrap`

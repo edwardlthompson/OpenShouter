@@ -24,6 +24,13 @@
 - **Alternatives considered:** Merge 0.11.1 (rejected: empty docs patch). Keep Documentation section (rejected: `hidden` still bumps).
 - **Consequences:** Ship-notes commits stay off the release train. Close #37 after this lands.
 
+### 2026-08-28 — History mute ADB on CPH2583
+- **Status:** Accepted
+- **Context:** Sprint 20 leftover needed a device: tap history, OpenShouter shout switch, channel settings.
+- **Decision:** Sideload release-signed v0.11.0 on OP12 (`b5214fc6`). Snapchat row toggled Apps to shout off then restored. Test-notification row opened ColorOS channel settings titled **OpenShouter** (channel name stored).
+- **Alternatives considered:** Leave Snapchat muted after the off-toggle (rejected: restore both speak flags).
+- **Consequences:** ADB leftover archived. Legacy history rows without a channel name still fall back to "This notification channel".
+
 ### 2026-08-28 — /ship v0.11.0
 - **Status:** Accepted
 - **Context:** Cloud agent shipped history mute (0.10.0) without a signed APK, then opened Settings chrome #31. Phantom 0.10.1 was leftover from a chore versionName sync.

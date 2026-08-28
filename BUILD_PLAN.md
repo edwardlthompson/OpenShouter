@@ -227,12 +227,7 @@ grep '\[AUTO\]' BUILD_PLAN.md
 > **Sprint 20** AGENT/AUTO archived in COMPLETED_TASKS.md @ `9a54070`.
 > **/ship v0.10.0** archived in COMPLETED_TASKS.md @ `9a54070`.
 > **/ship v0.11.0** archived in COMPLETED_TASKS.md @ `909cd58`.
-
-### Sprint 20 leftover (ADB)
-
-<!-- parallel_exception: ADB leftover -->
-
-- 🔲 [ADB] Tap a history row; OpenShouter switch updates Apps to shout; channel switch highlights that channel in app notification settings
+> **Sprint 20 leftover ADB** archived in COMPLETED_TASKS.md @ `83b45d9`.
 
 ---
 
@@ -288,6 +283,7 @@ grep '\[AUTO\]' BUILD_PLAN.md
 | Sprint 20 — Clickable history mute | Complete (AGENT/AUTO) | `COMPLETED_TASKS.md` |
 | /ship v0.10.0 | Complete | `COMPLETED_TASKS.md` |
 | /ship v0.11.0 | Complete | `COMPLETED_TASKS.md` |
+| Sprint 20 leftover ADB (history mute on CPH2583) | Complete | `COMPLETED_TASKS.md` |
 | /ship v0.6.0 | Complete | `COMPLETED_TASKS.md` |
 | /ship v0.7.0 | Complete | `COMPLETED_TASKS.md` |
 | /ship v0.8.0 | Complete | `COMPLETED_TASKS.md` |

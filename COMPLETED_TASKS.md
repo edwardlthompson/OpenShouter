@@ -2,6 +2,10 @@
 
 > Archive of finished BUILD_PLAN items.
 
+## Sprint 20 leftover ADB (2026-08-28)
+
+- ✅ [ADB] Tap a history row; OpenShouter switch updates Apps to shout; channel switch highlights that channel in app notification settings (CPH2583, v0.11.0)
+
 ## /ship v0.11.0 (2026-08-28)
 
 - ✅ [HUMAN] Merge Settings chrome #31 and Release Please #35 (`v0.11.0`)
