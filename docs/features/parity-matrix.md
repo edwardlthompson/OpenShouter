@@ -38,6 +38,8 @@ Interactive filterable table: Cursor canvas `feature-parity-matrix.canvas.tsx` (
 
 **Wrap-up 2026-08-28 (Sprint 21):** VoIP incoming calls speak once by default; Phone still loops until answered. Per-app Incoming calls policy is independent of Apps to shout. Cellular rings write one CALL history row. Call row stays Yes.
 
+**Wrap-up 2026-08-28 (`/ship` v0.12.0):** Signed APK on https://github.com/edwardlthompson/OpenShouter/releases/tag/v0.12.0. Sideloaded versionCode 20 on CPH2583 and CPH2655. Call row stays Yes.
+
 Status: **Yes** shipped · **Partial** logic or subset UI · **No** missing · **Skip** will not copy (FOSS / out of scope).
 
 ## Summary

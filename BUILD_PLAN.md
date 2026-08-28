@@ -228,31 +228,14 @@ grep '\[AUTO\]' BUILD_PLAN.md
 > **/ship v0.10.0** archived in COMPLETED_TASKS.md @ `9a54070`.
 > **/ship v0.11.0** archived in COMPLETED_TASKS.md @ `909cd58`.
 > **Sprint 20 leftover ADB** archived in COMPLETED_TASKS.md @ `83b45d9`.
+> **Sprint 21** AGENT/AUTO archived in COMPLETED_TASKS.md @ `66584d0`.
+> **/ship v0.12.0** archived in COMPLETED_TASKS.md @ `5816578`.
 
-### Sprint 21 — Call repeat once vs until answered
+### Sprint 21 leftover ADB
 
-<!-- parallel_exception: AGENT A–D implemented inline after Sequential lock; ADB leftover -->
+<!-- parallel_exception: HUMAN leftover; AGENT/AUTO archived -->
 
-Shared schema: `CallRepeatMode`, `VoipCallPhase`, `CallAnnounceSession`, `CallLoopGate`, `HistoryEntity.kind`, DataStore `call_repeat`. Spec: `docs/features/call-repeat.md`.
-
-#### Sequential (lock first)
-
-- ✅ [AGENT] Spec `docs/features/call-repeat.md` + lock `CallRepeatMode` / `VoipCallPhase` / `CallAnnounceSession` / `CallLoopGate` + unit tests
-
-#### Parallel (after Sequential)
-
-| Agent | Scope | Paths |
-|-------|-------|-------|
-| A | NLS + Posted + Facts | `examples/android/app/src/main/java/org/openshouter/notification/`, `examples/android/app/src/main/java/org/openshouter/call/` adapters |
-| B | CallMonitor history + Room v6 | `examples/android/app/src/main/java/org/openshouter/data/`, `examples/android/app/src/main/java/org/openshouter/di/DatabaseModule.kt`, `examples/android/app/src/main/java/org/openshouter/call/CallMonitor.kt` |
-| C | Apps to shout + history dialog + i18n | `examples/android/app/src/main/java/org/openshouter/ui/apps/`, `examples/android/app/src/main/java/org/openshouter/ui/history/`, `examples/android/app/src/main/res/values*/` |
-| D | Backup JSON + KB-023 + parity | `examples/android/app/src/main/java/org/openshouter/backup/`, `KNOWLEDGE_BASE.md`, `docs/features/parity-matrix.md` |
-- ✅ [AGENT] Parallel A — `onNotificationRemoved`, CallStyle/session, VoIP-only `MODE_IN_COMMUNICATION` interrupt, ONCE `repeatCount` 0
-- ✅ [AGENT] Parallel B — one CALL history row per RINGING; Room v6 `kind`; `MIGRATION_5_6`
-- ✅ [AGENT] Parallel C — Incoming calls dropdown on Apps to shout (messaging) and history (VoIP/messaging)
-- ✅ [AGENT] Parallel D — `callRepeatModes` backup round-trip; KB-023; parity wrap-up
-- ✅ [AUTO] `watch-agent-gates.sh --once --autofix`; `versionCode` bump for sideload over 0.11.0
-- 🔲 [ADB] WhatsApp Once then silence after answer; Phone still loops until answer (CPH2583)
+- 🔲 [ADB] WhatsApp Once then silence after answer; Phone still loops until answer (CPH2583 / CPH2655, v0.12.0 sideloaded)
 
 ---
 
@@ -309,6 +292,8 @@ Shared schema: `CallRepeatMode`, `VoipCallPhase`, `CallAnnounceSession`, `CallLo
 | /ship v0.10.0 | Complete | `COMPLETED_TASKS.md` |
 | /ship v0.11.0 | Complete | `COMPLETED_TASKS.md` |
 | Sprint 20 leftover ADB (history mute on CPH2583) | Complete | `COMPLETED_TASKS.md` |
+| Sprint 21 — Call repeat once vs until answered | Complete (AGENT/AUTO) | `COMPLETED_TASKS.md` |
+| /ship v0.12.0 | Complete | `COMPLETED_TASKS.md` |
 | /ship v0.6.0 | Complete | `COMPLETED_TASKS.md` |
 | /ship v0.7.0 | Complete | `COMPLETED_TASKS.md` |
 | /ship v0.8.0 | Complete | `COMPLETED_TASKS.md` |

@@ -105,11 +105,11 @@ OpenShouter is a FOSS recreation/enhancement of classic Shouter (`com.bhkapps.sh
 | 2026-08-28 | Sprint 20 history mute | Tap history row: OpenShouter app shout toggle + channel settings intent with highlight extras | Confirmed on CPH2583 with v0.11.0 |
 | 2026-08-28 | `/ship` v0.10.0 | History mute + required-check rollups; PR #30 and RP #32 merged without admin | Signed APK deferred to 0.11.0 |
 | 2026-08-28 | `/ship` v0.11.0 | Settings chrome #31 + RP #35; signed `openshouter-0.11.0-foss.apk` (versionCode 19) | Sideloaded on CPH2583; history-dialog ADB confirmed |
-| 2026-08-28 | Sprint 21 call repeat | VoIP default ONCE; Phone UNTIL_ANSWERED; `CallAnnounceSession` + Room v6 `kind`; versionCode 20 | ADB leftover: WhatsApp once then silence; Phone still loops |
+| 2026-08-28 | `/ship` v0.12.0 | VoIP once-by-default; RP #37; signed `openshouter-0.12.0-foss.apk` (versionCode 20) | Sideloaded on CPH2583 (`b5214fc6`) and CPH2655 (`8bf09993`); ADB leftover is call-repeat smoke |
 ## Template Provenance
 
 - **Source template:** `edwardlthompson/agent-project-bootstrap`
 - **Bootstrap scaffold / standards:** `0.17.0` / `0.21.0` (not product semver)
-- **Product version:** `0.11.0` (see `.template-version`)
+- **Product version:** `0.12.0` (see `.template-version`)
 - **Last update check:** See `.template-update.json`
 - **Stack selection:** `.cursor/stack-selection.json` (`android`, `foss`, pruned)

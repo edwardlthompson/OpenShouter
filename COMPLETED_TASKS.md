@@ -2,6 +2,21 @@
 
 > Archive of finished BUILD_PLAN items.
 
+## /ship v0.12.0 (2026-08-28)
+
+- ✅ [AUTO] `pre-release-gate.sh` (local + HEAD CI/CodeQL/Security Scan)
+- ✅ [HUMAN] Approve release tag when product-ready (`/ship` + Release Please #37)
+- ✅ [AUTO] `publish-foss-apk` → `openshouter-0.12.0-foss.apk` (versionCode 20)
+
+## Sprint 21 — Call repeat once vs until answered (2026-08-28)
+
+- ✅ [AGENT] Spec `docs/features/call-repeat.md` + lock `CallRepeatMode` / `VoipCallPhase` / `CallAnnounceSession` / `CallLoopGate` + unit tests
+- ✅ [AGENT] Parallel A — `onNotificationRemoved`, CallStyle/session, VoIP-only `MODE_IN_COMMUNICATION` interrupt, ONCE `repeatCount` 0
+- ✅ [AGENT] Parallel B — one CALL history row per RINGING; Room v6 `kind`; `MIGRATION_5_6`
+- ✅ [AGENT] Parallel C — Incoming calls dropdown on Apps to shout (messaging) and history (VoIP/messaging)
+- ✅ [AGENT] Parallel D — `callRepeatModes` backup round-trip; KB-023; parity wrap-up
+- ✅ [AUTO] `watch-agent-gates.sh --once --autofix`; `versionCode` bump for sideload over 0.11.0
+
 ## Sprint 20 leftover ADB (2026-08-28)
 
 - ✅ [ADB] Tap a history row; OpenShouter switch updates Apps to shout; channel switch highlights that channel in app notification settings (CPH2583, v0.11.0)

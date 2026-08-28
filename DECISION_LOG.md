@@ -17,6 +17,13 @@
 
 ## Entries
 
+### 2026-08-28 — /ship v0.12.0
+- **Status:** Accepted
+- **Context:** WhatsApp persist-loop after answer needed a release over 0.11.0. Feat landed as `66584d0`; Release Please #37 tagged **0.12.0**.
+- **Decision:** Merge #37, upload release-signed `openshouter-0.12.0-foss.apk` (versionCode 20) from This Computer, sideload onto CPH2583 and CPH2655.
+- **Alternatives considered:** Upload a CI-built APK (rejected: unsigned/debug). Merge empty 0.11.1 docs patch (rejected: #38 dropped docs from changelog-sections).
+- **Consequences:** https://github.com/edwardlthompson/OpenShouter/releases/tag/v0.12.0. ADB leftover is WhatsApp once-then-silence vs Phone loop-until-answered.
+
 ### 2026-08-28 — Call repeat once vs until answered
 - **Status:** Accepted
 - **Context:** WhatsApp incoming calls looped after answer because VoIP uses NLS, never telephony OFFHOOK, and the ongoing notification stays up.
