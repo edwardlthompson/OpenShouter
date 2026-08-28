@@ -6,6 +6,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.11.0](https://github.com/edwardlthompson/OpenShouter/compare/v0.10.0...v0.11.0) (2026-08-28)
+
+
+### Added
+
+* **android:** open Settings from dashboard with menu chrome ([74fe06e](https://github.com/edwardlthompson/OpenShouter/commit/74fe06e688cd65abdba89c986e3e667713130180))
+* **android:** open Settings from dashboard with menu chrome ([#31](https://github.com/edwardlthompson/OpenShouter/issues/31)) ([74fe06e](https://github.com/edwardlthompson/OpenShouter/commit/74fe06e688cd65abdba89c986e3e667713130180))
+
 ## [Unreleased]
 
 ### Changed
