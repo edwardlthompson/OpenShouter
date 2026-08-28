@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Added
+
+* **android:** record time, battery, reminder, calendar, and Bluetooth shouts in announcement history
+
 ## [0.12.0](https://github.com/edwardlthompson/OpenShouter/compare/v0.11.0...v0.12.0) (2026-08-28)
 
 
@@ -20,20 +26,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 * **android:** open Settings from dashboard with menu chrome ([74fe06e](https://github.com/edwardlthompson/OpenShouter/commit/74fe06e688cd65abdba89c986e3e667713130180))
 * **android:** open Settings from dashboard with menu chrome ([#31](https://github.com/edwardlthompson/OpenShouter/issues/31)) ([74fe06e](https://github.com/edwardlthompson/OpenShouter/commit/74fe06e688cd65abdba89c986e3e667713130180))
-
-## [Unreleased]
-
-### Added
-
-* **android:** record time, battery, reminder, calendar, and Bluetooth shouts in announcement history
-* **android:** VoIP incoming calls speak once by default; Phone still loops until answered
-
-### Changed
-
-* **android:** per-app Incoming calls policy independent of Apps to shout
-* **android:** announcement history records cellular CALL rows
-* **release:** do not mint patches from chore commits; bump Gradle versionName in the Release Please PR
-* **release:** do not mint patches from docs commits (ship notes)
 
 ## [0.10.0](https://github.com/edwardlthompson/OpenShouter/compare/v0.9.2...v0.10.0) (2026-08-28)
 
