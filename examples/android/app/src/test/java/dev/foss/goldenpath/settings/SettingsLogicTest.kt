@@ -25,4 +25,18 @@ class SettingsLogicTest {
     fun enablingPreservesCurrentInterval() {
         assertEquals("monthly", SettingsLogic.intervalForToggle(true, "monthly"))
     }
+
+    @Test
+    fun themeModeNameKeepsKnownModes() {
+        assertEquals("Dark", SettingsLogic.themeModeName("Dark"))
+        assertEquals("Light", SettingsLogic.themeModeName("Light"))
+        assertEquals("System", SettingsLogic.themeModeName("System"))
+    }
+
+    @Test
+    fun themeModeNameFallsBackWhenUnknown() {
+        assertEquals("System", SettingsLogic.themeModeName(""))
+        assertEquals("System", SettingsLogic.themeModeName("sepia"))
+        assertEquals("Light", SettingsLogic.themeModeName("", "Light"))
+    }
 }

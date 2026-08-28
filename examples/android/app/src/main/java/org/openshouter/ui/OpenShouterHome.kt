@@ -21,7 +21,10 @@ import org.openshouter.ui.home.Pane
 import org.openshouter.ui.menu.rememberMenuScrollStore
 
 @Composable
-fun OpenShouterHome(modifier: Modifier = Modifier) {
+fun OpenShouterHome(
+    modifier: Modifier = Modifier,
+    onOpenSettings: () -> Unit = {},
+) {
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
     val ep = remember {
@@ -71,6 +74,7 @@ fun OpenShouterHome(modifier: Modifier = Modifier) {
         scope = scope,
         onPane = { pane = it },
         onShowSpoken = { showSpoken = it },
+        onOpenSettings = onOpenSettings,
         scrollStore = scrollStore,
         modifier = modifier,
     )

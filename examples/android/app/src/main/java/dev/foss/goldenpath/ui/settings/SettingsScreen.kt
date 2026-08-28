@@ -1,22 +1,18 @@
 package dev.foss.goldenpath.ui.settings
 
-import androidx.activity.compose.BackHandler
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Switch
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import dev.foss.goldenpath.R
-import dev.foss.goldenpath.ui.theme.SpacingMd
+import dev.foss.goldenpath.settings.SettingsLogic
 import dev.foss.goldenpath.ui.theme.ThemeMode
+import org.openshouter.ui.menu.MenuBody
 import org.openshouter.ui.menu.MenuDropdown
+import org.openshouter.ui.menu.MenuScaffold
+import org.openshouter.ui.menu.MenuScrollStore
+import org.openshouter.ui.menu.MenuSection
+import org.openshouter.ui.menu.MenuToggle
+import org.openshouter.ui.menu.rememberMenuScrollStore
 
 @Composable
 fun SettingsScreen(
@@ -26,41 +22,34 @@ fun SettingsScreen(
     onUpdateCheckChange: (Boolean) -> Unit,
     onBack: () -> Unit,
     modifier: Modifier = Modifier,
+    scrollStore: MenuScrollStore = rememberMenuScrollStore(),
 ) {
-    BackHandler(onBack = onBack)
-    Column(
-        modifier = modifier
-            .verticalScroll(rememberScrollState())
-            .padding(SpacingMd),
-        verticalArrangement = Arrangement.spacedBy(SpacingMd),
-    ) {
-        Text(
-            text = stringResource(R.string.settings_title),
-            style = MaterialTheme.typography.headlineSmall,
-        )
-        val themes = listOf(
-            ThemeMode.System to stringResource(R.string.settings_theme_mode_system),
-            ThemeMode.Light to stringResource(R.string.settings_theme_mode_light),
-            ThemeMode.Dark to stringResource(R.string.settings_theme_mode_dark),
-        )
-        MenuDropdown(
-            label = stringResource(R.string.settings_theme_label),
-            text = themes.firstOrNull { it.first == themeMode }?.second ?: themes.first().second,
-            options = themes.map { it.first.name to it.second },
-            onSelect = { name ->
-                val mode = runCatching { ThemeMode.valueOf(name) }.getOrDefault(ThemeMode.System)
-                onThemeModeSelect(mode)
-            },
-        )
-        androidx.compose.foundation.layout.Row(
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(SpacingMd),
-        ) {
-            Text(
-                text = stringResource(R.string.settings_update_check_label),
-                modifier = Modifier.weight(1f),
+    val themes = listOf(
+        ThemeMode.System to stringResource(R.string.settings_theme_mode_system),
+        ThemeMode.Light to stringResource(R.string.settings_theme_mode_light),
+        ThemeMode.Dark to stringResource(R.string.settings_theme_mode_dark),
+    )
+    val selected = SettingsLogic.themeModeName(themeMode.name)
+    MenuScaffold(stringResource(R.string.settings_title), scrollStore, "settings", onBack, modifier) {
+        MenuSection(stringResource(R.string.settings_title)) {
+            MenuBody {
+                MenuDropdown(
+                    label = stringResource(R.string.settings_theme_label),
+                    text = themes.firstOrNull { it.first.name == selected }?.second ?: themes.first().second,
+                    options = themes.map { it.first.name to it.second },
+                    onSelect = { name ->
+                        val mode = runCatching { ThemeMode.valueOf(SettingsLogic.themeModeName(name)) }
+                            .getOrDefault(ThemeMode.System)
+                        onThemeModeSelect(mode)
+                    },
+                )
+            }
+            MenuToggle(
+                label = stringResource(R.string.settings_update_check_label),
+                checked = updateCheckEnabled,
+                onChange = onUpdateCheckChange,
+                showDivider = true,
             )
-            Switch(checked = updateCheckEnabled, onCheckedChange = onUpdateCheckChange)
         }
     }
 }
