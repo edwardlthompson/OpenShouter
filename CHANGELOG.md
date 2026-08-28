@@ -6,6 +6,24 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.0](https://github.com/edwardlthompson/OpenShouter/compare/v0.12.0...v1.0.0) (2026-08-28)
+
+
+### chore
+
+* **release:** prepare v1.0.0 release ([75a976e](https://github.com/edwardlthompson/OpenShouter/commit/75a976e02a6e6e6621b307caed2fd34760aecfe3))
+
+
+### Added
+
+* **android:** record time and other shouts in history ([31f6413](https://github.com/edwardlthompson/OpenShouter/commit/31f6413aa84ea65d5cf0654382feb2a6d537a64b))
+* **android:** record time and other shouts in history ([65ae869](https://github.com/edwardlthompson/OpenShouter/commit/65ae869e5267f3fa86d2ef21fb06d3c7b0e5a4bd))
+
+
+### Fixed
+
+* add Sprint 22 parallel_exception for BUILD_PLAN gate ([b7f0414](https://github.com/edwardlthompson/OpenShouter/commit/b7f0414325bb173b2b1585052a35fc5c4b38acc6))
+
 ## [Unreleased]
 
 ### Added
