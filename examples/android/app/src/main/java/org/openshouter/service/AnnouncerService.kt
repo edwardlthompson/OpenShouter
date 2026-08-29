@@ -90,6 +90,7 @@ class AnnouncerService : Service() {
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         runCatching { calls.start() }
+        runCatching { calendar.start() }
         when (intent?.action) {
             ACTION_TTS_TEST -> tts.speak(
                 SpokenEvent(SpokenEvent.Kind.NOTIFICATION, getString(R.string.tts_test_phrase)),
