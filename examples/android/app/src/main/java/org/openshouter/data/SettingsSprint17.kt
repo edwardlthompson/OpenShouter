@@ -13,6 +13,7 @@ internal object SettingsSprint17 {
     val MIN_IMPORTANCE = stringPreferencesKey("min_importance")
     val DND_PRIORITY = booleanPreferencesKey("dnd_priority")
     val CAL_LOOKAHEAD = intPreferencesKey("cal_lookahead")
+    val SHOW_SPOKEN = booleanPreferencesKey("history_show_spoken")
 
     fun apply(base: AppSettings, prefs: Preferences): AppSettings = base.copy(
         notificationPolicy = base.notificationPolicy.copy(
@@ -23,5 +24,6 @@ internal object SettingsSprint17 {
         calendarLookaheadMinutes = CalendarShout.clampMinutes(
             prefs[CAL_LOOKAHEAD] ?: CalendarShout.DEFAULT_MINUTES,
         ),
+        showSpokenText = prefs[SHOW_SPOKEN] ?: false,
     )
 }

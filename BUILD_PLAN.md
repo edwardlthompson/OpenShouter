@@ -253,6 +253,31 @@ grep '\[AUTO\]' BUILD_PLAN.md
 
 ---
 
+### Sprint 24 — Silence competing sounds
+
+<!-- parallel_exception: single feature container; one agent sequential slice -->
+
+Feature spec: `docs/features/silence-competing-sounds.md`
+
+### Parallelization
+
+| Agent | Scope | Status |
+|-------|-------|--------|
+| Logic + tests | `silence/`, `data/SoundLeakStore.kt` | Sequential (same wiring) |
+| View + i18n | `ui/silence/`, `strings_silence.xml`, Welcome/Dashboard | Sequential |
+| Wiring | Room v7, listener, AnnouncerService, manifest | Sequential |
+
+`agent_count_target`: 1 (overlapping listener + Room + Welcome)
+
+- ✅ [AGENT] Feature spec + silent WAV pack + MediaStore installer + leak policy tests
+- ✅ [AGENT] Welcome silence wizard + Dashboard Silence pane + leak list
+- ✅ [AGENT] Optional WRITE_SETTINGS default notification/ringtone
+- ✅ [AGENT] API 31+ notification-usage audio-session hint (`OWN_AUDIO`)
+- 🔲 [ADB] On CPH2583 / CPH2655 (sideloaded 1.2.0 versionCode 29): LineageOS None clears Default sound leak rows; install OpenShouter Silent, confirm a custom-channel ding is listed and the channel page opens
+- 🔲 [HUMAN] Confirm ColorOS Silent-still-dings workaround on both phones
+
+---
+
 ## Ongoing Maintenance (recurring)
 
 ### Weekly

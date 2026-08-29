@@ -35,6 +35,7 @@ fun DashboardScreen(
     onOpenOverrides: () -> Unit,
     onOpenPlaces: () -> Unit,
     onOpenOem: () -> Unit,
+    onOpenSilence: () -> Unit,
     onOpenSettings: () -> Unit = {},
     scrollStore: MenuScrollStore,
     modifier: Modifier = Modifier,
@@ -54,6 +55,12 @@ fun DashboardScreen(
         MenuSection(stringResource(R.string.menu_section_hear)) {
             MenuLink(stringResource(R.string.nav_rules), onOpenRules)
             MenuLink(stringResource(R.string.announcer_title), onOpenAnnouncerSettings, stringResource(R.string.nav_announcer), true)
+            MenuLink(
+                stringResource(R.string.nav_silence),
+                onOpenSilence,
+                stringResource(R.string.silence_help_short),
+                true,
+            )
             MenuLink(stringResource(R.string.tts_title), onOpenTts, stringResource(R.string.nav_tts), true)
             MenuLink(stringResource(R.string.nav_filters), onOpenFilters, showDivider = true)
             MenuLink(stringResource(R.string.nav_overrides), onOpenOverrides, showDivider = true)

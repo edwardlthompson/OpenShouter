@@ -43,6 +43,7 @@ fun AnnouncerSettingsScreen(
     onOpenPower: () -> Unit = {},
     onOpenCalendar: () -> Unit = {},
     onOpenBluetooth: () -> Unit = {},
+    onOpenSilence: () -> Unit = {},
     onCalendar: (Boolean) -> Unit = {},
     onBluetoothConnect: (Boolean) -> Unit = {},
     onBack: () -> Unit,
@@ -89,7 +90,12 @@ fun AnnouncerSettingsScreen(
             MenuToggle(stringResource(R.string.announcer_headset), settings.headsetOnly, onHeadsetOnly, true)
         }
         MenuSection(stringResource(R.string.menu_section_silence)) {
-            MenuToggle(stringResource(R.string.announcer_shake), settings.shakeToSilence, onShake)
+            MenuLink(
+                stringResource(R.string.nav_silence),
+                onOpenSilence,
+                stringResource(R.string.silence_help_short),
+            )
+            MenuToggle(stringResource(R.string.announcer_shake), settings.shakeToSilence, onShake, true)
             if (settings.shakeToSilence) {
                 MenuRule()
                 MenuBody { ShakeSettings(settings.shakeThreshold, onShakeThreshold) }

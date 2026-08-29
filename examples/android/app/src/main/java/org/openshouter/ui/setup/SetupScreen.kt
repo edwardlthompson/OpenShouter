@@ -34,6 +34,7 @@ import org.openshouter.setup.SetupPalette
 import org.openshouter.ui.menu.MenuBody
 import org.openshouter.ui.menu.MenuScaffold
 import org.openshouter.ui.menu.MenuScrollStore
+import org.openshouter.ui.menu.MenuLink
 import org.openshouter.ui.menu.MenuSection
 
 @Composable
@@ -41,6 +42,7 @@ fun SetupScreen(
     onContinue: () -> Unit,
     appCount: Int = 0,
     onPickApps: () -> Unit = {},
+    onOpenSilence: () -> Unit = {},
     onImportInstalled: suspend () -> Int = { 0 },
     onImportBytes: suspend (ByteArray) -> Int = { 0 },
     scrollStore: MenuScrollStore,
@@ -112,6 +114,13 @@ fun SetupScreen(
         }
         SetupRow(R.string.setup_apps, appCount > 0, onPickApps)
         }
+        MenuSection(stringResource(R.string.nav_silence)) {
+            MenuLink(
+                stringResource(R.string.nav_silence),
+                onOpenSilence,
+                stringResource(R.string.silence_help_short),
+            )
+        }
         Button(onClick = onContinue, modifier = Modifier.fillMaxWidth()) {
             Text(stringResource(R.string.setup_continue))
         }
@@ -119,7 +128,7 @@ fun SetupScreen(
 }
 
 @Composable
-private fun SetupRow(labelRes: Int, granted: Boolean, onClick: () -> Unit) {
+internal fun SetupRow(labelRes: Int, granted: Boolean, onClick: () -> Unit) {
     val label = stringResource(labelRes)
     val status = stringResource(if (granted) R.string.setup_granted else R.string.setup_needed)
     Row(

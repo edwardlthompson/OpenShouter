@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="nav_silence">Silence competing sounds</string>
+    <string name="silence_help">Install OpenShouter Silent, then pick it (or None) as the notification sound so shouts are not talking over dings.</string>
+    <string name="silence_help_short">Stop OS and app dings from talking over shouts</string>
+    <string name="silence_oem_hint">This phone often plays a sound even when Silent is selected. Choose OpenShouter Silent in Sound settings, not the empty Silent row.</string>
+    <string name="silence_install">Install OpenShouter Silent</string>
+    <string name="silence_open_sounds">Open sound settings</string>
+    <string name="silence_open_ringtone">Open ringtone picker</string>
+    <string name="silence_write_settings">Allow changing default sounds</string>
+    <string name="silence_set_notification">Use as default notification sound</string>
+    <string name="silence_set_ringtone">Use as default ringtone</string>
+    <string name="silence_leaks_help">These apps posted a notification that still has a sound, or played their own notification audio. Channels that only use the system default are ignored when that default is None or OpenShouter Silent. OpenShouter cannot mute another app. Set that channel to None or OpenShouter Silent and the row leaves this list.</string>
+    <string name="silence_leaks_empty">No competing sounds seen yet. Keep notification access on and wait for a notification.</string>
+    <string name="silence_open_leaks">Apps that still make a sound</string>
+    <string name="silence_evidence_channel">Channel sound</string>
+    <string name="silence_evidence_notification">Notification sound</string>
+    <string name="silence_evidence_default">Default sound</string>
+    <string name="silence_evidence_own">App plays its own sound</string>
+    <string name="silence_leak_row">%1$s · %2$s</string>
+</resources>

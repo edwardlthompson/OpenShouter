@@ -14,5 +14,6 @@ class Sprint15LockTest {
         assertEquals(ShoutChannel.BLUETOOTH, ChannelStates.channelFor(SpokenEvent.Kind.BLUETOOTH))
         assertEquals(false, AppSettings().calendarShoutEnabled)
         assertEquals(false, AppSettings().bluetoothConnectAlert)
+        assertEquals(false, AppSettings().showSpokenText)
     }
 }

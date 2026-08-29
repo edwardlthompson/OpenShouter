@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="nav_silence">Silenciar sonidos que compiten</string>
+    <string name="silence_help">Instala OpenShouter Silent y elígelo (o Ninguno) como sonido de notificación para que los anuncios no hablen encima de los timbres.</string>
+    <string name="silence_help_short">Evita que los timbres del sistema y de las apps hablen encima de los anuncios</string>
+    <string name="silence_oem_hint">Este teléfono a menudo suena aunque elijas Silencio. Elige OpenShouter Silent en Sonido, no la fila Silencio vacía.</string>
+    <string name="silence_install">Instalar OpenShouter Silent</string>
+    <string name="silence_open_sounds">Abrir ajustes de sonido</string>
+    <string name="silence_open_ringtone">Abrir selector de tono</string>
+    <string name="silence_write_settings">Permitir cambiar los sonidos predeterminados</string>
+    <string name="silence_set_notification">Usar como sonido de notificación</string>
+    <string name="silence_set_ringtone">Usar como tono de llamada</string>
+    <string name="silence_leaks_help">Estas apps publicaron una notificación que aún tiene sonido, o reprodujeron su propio audio. Los canales que solo usan el sonido predeterminado se ignoran si ese predeterminado es Ninguno o OpenShouter Silent. OpenShouter no puede silenciar otra app. Pon ese canal en Ninguno o OpenShouter Silent y la fila desaparece de esta lista.</string>
+    <string name="silence_leaks_empty">Aún no hay sonidos que compitan. Deja el acceso a notificaciones activado y espera una notificación.</string>
+    <string name="silence_open_leaks">Apps que aún suenan</string>
+    <string name="silence_evidence_channel">Sonido del canal</string>
+    <string name="silence_evidence_notification">Sonido de la notificación</string>
+    <string name="silence_evidence_default">Sonido predeterminado</string>
+    <string name="silence_evidence_own">La app reproduce su propio sonido</string>
+    <string name="silence_leak_row">%1$s · %2$s</string>
+</resources>

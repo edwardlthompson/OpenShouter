@@ -9,6 +9,7 @@ Time, battery, reminder, calendar, and Bluetooth shouts write an announcement-hi
 - ✅ Notification and message paths stay on `NotificationHistory` (no double row)
 - ✅ Cellular calls stay on `CallHistory` (incoming + missed); VoIP stays on the listener path
 - ✅ History list labels built-in shouts as Time / Battery / Reminder / Calendar / Bluetooth
+- ✅ **Show spoken text** persists in DataStore (`history_show_spoken`); default off
 - ✅ Tap on a built-in row does not open Apps-to-shout or another app’s channel settings
 - ✅ TalkBack: row is a button; dialog title uses the source label
 - ✅ i18n: `history_source_*` / `history_internal_help` in `strings_history.xml` (en/es/fr)
@@ -29,7 +30,6 @@ Time, battery, reminder, calendar, and Bluetooth shouts write an announcement-hi
 | View | `ui/history/HistoryScreen.kt`, `HistorySourceLabel.kt`, `HistoryMuteDialog.kt` |
 | Tests | `ShoutHistoryTest` |
 | Wiring | `TimeShoutAnnouncer`, `PowerMonitor`, `ReminderReceiver`, `CalendarMonitor`, `BluetoothMonitor`; composition root unchanged |
-
 ## Critique
 
 | Issue | Resolution |
@@ -42,7 +42,6 @@ Time, battery, reminder, calendar, and Bluetooth shouts write an announcement-hi
 | Mute dialog on Time row | Internal kinds hide Apps-to-shout and channel settings. Artifact: `HistoryMuteDialog.showChannelToggle` |
 | PII in logcat | Do not log spoken phrases, numbers, or names. History stores spoken on-device like notifications |
 | `strings.xml` 300-line cap | New keys live in `strings_history.xml` |
-
 ## Notes
 
 - Room already has `kind` (v6). No schema change.

@@ -81,6 +81,7 @@ fun AnnouncerPane(
         onOpenPower = { onPane(Pane.Power) },
         onOpenCalendar = { onPane(Pane.Calendar) },
         onOpenBluetooth = { onPane(Pane.Bluetooth) },
+        onOpenSilence = { onPane(Pane.Silence) },
         onCalendar = { on -> scope.launch { ep.sprint15().setCalendar(on) } },
         onBluetoothConnect = { on ->
             scope.launch { ep.sprint15().setBluetooth(on, settings.bluetoothBatteryAlert) }

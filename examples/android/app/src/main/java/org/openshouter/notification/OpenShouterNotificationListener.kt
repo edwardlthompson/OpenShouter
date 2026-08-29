@@ -14,6 +14,9 @@ import org.openshouter.call.CallAnnounceSession
 import org.openshouter.call.CallLoopGate
 import org.openshouter.call.CallNotification
 import org.openshouter.service.OpenShouterEntryPoint
+import org.openshouter.silence.SoundEvidence
+import org.openshouter.silence.SoundLeakWatch
+import org.openshouter.silence.SystemDefaultSound
 
 class OpenShouterNotificationListener : NotificationListenerService() {
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.Default)
@@ -31,10 +34,35 @@ class OpenShouterNotificationListener : NotificationListenerService() {
         }
         val ep = entryPoint()
         val nm = getSystemService(NotificationManager::class.java)
-        val facts = NotificationFacts.from(sbn, nm, channelNameFor(sbn))
+        val ranking = rankingOf(sbn)
+        val facts = NotificationFacts.from(sbn, nm, ranking?.channel?.name?.toString().orEmpty())
         val label = NotificationFacts.label(packageManager, facts.app)
         val priorityDnd = ep.audio().isPriorityDnd()
-        scope.launch { NotificationPosted.handle(facts, ep, clock, label, priorityDnd, session) }
+        scope.launch {
+            recordLeak(sbn, ranking)
+            NotificationPosted.handle(facts, ep, clock, label, priorityDnd, session)
+        }
+    }
+
+    override fun onListenerConnected() {
+        SoundLeakRescan.listener = this
+        runCatching { entryPoint().audioSessions().start() }
+    }
+
+    override fun onListenerDisconnected() {
+        if (SoundLeakRescan.listener === this) SoundLeakRescan.listener = null
+    }
+
+    fun rescanActive() {
+        scope.launch {
+            val dao = entryPoint().soundLeaks()
+            if (SystemDefaultSound.notificationIsSilent(this@OpenShouterNotificationListener)) {
+                dao.deleteByEvidence(SoundEvidence.DEFAULT_SOUND.name)
+            }
+            runCatching { activeNotifications }.getOrDefault(emptyArray()).forEach { sbn ->
+                recordLeak(sbn, rankingOf(sbn))
+            }
+        }
     }
 
     override fun onNotificationRemoved(sbn: StatusBarNotification) {
@@ -52,12 +80,12 @@ class OpenShouterNotificationListener : NotificationListenerService() {
         OpenShouterEntryPoint::class.java,
     )
 
-    private fun channelNameFor(sbn: StatusBarNotification): String = runCatching {
+    private fun rankingOf(sbn: StatusBarNotification): Ranking? = runCatching {
         val ranking = Ranking()
-        if (currentRanking.getRanking(sbn.key, ranking)) {
-            ranking.channel?.name?.toString().orEmpty()
-        } else {
-            ""
-        }
-    }.getOrDefault("")
+        ranking.takeIf { currentRanking.getRanking(sbn.key, it) }
+    }.getOrNull()
+
+    private suspend fun recordLeak(sbn: StatusBarNotification, ranking: Ranking?) {
+        SoundLeakWatch.apply(entryPoint().soundLeaks(), SoundLeakWatch.inspect(this, sbn, ranking))
+    }
 }

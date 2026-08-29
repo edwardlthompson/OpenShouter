@@ -17,6 +17,13 @@
 
 ## Entries
 
+### 2026-08-29 — Silence competing sounds
+- **Status:** Accepted
+- **Context:** Shouts lose to OEM/app dings. ColorOS Silent is often a broken URI. Some apps play their own MediaPlayer tone. User asked for a silent pack, a leak scanner, and Welcome instructions.
+- **Decision:** One Sprint 24 slice: valid silent WAV in MediaStore, Welcome/Dashboard wizard, listener leak list (package + channel only), optional WRITE_SETTINGS default, API 31+ notification-usage OWN_AUDIO hint. Do not claim we can mute another app.
+- **Alternatives considered:** Force-mute via Accessibility/Device Admin (rejected: FOSS ethics and OEM breakage). Audio-only scanner without a silent file (rejected: ColorOS has no None). Auto-set defaults on first launch (rejected: surprises people who still want a ringtone).
+- **Consequences:** Room v7 `sound_leaks`. ADB leftover on CPH2583/CPH2655. Feature spec `docs/features/silence-competing-sounds.md`.
+
 ### 2026-08-29 — /ship v1.1.1
 - **Status:** Accepted
 - **Context:** App name cooldown shipped in 1.1.0 but lived under Voice → per-channel states. User asked for it on Announcer and invoked `/ship`.

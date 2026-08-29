@@ -75,6 +75,10 @@ class SettingsRepository @Inject constructor(
         context.osDataStore.edit { it[SettingsKeys.SETUP] = value }
     }
 
+    suspend fun setShowSpokenText(value: Boolean) {
+        context.osDataStore.edit { it[SettingsSprint17.SHOW_SPOKEN] = value }
+    }
+
     suspend fun setTimeShout(enabled: Boolean, intervalMinutes: Int, exact: Boolean = true) {
         context.osDataStore.edit {
             it[SettingsKeys.TIME] = enabled

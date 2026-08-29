@@ -47,4 +47,5 @@ data class AppSettings(
     val bluetoothConnectAlert: Boolean = false,
     val bluetoothBatteryAlert: Boolean = false,
     val callRepeatModes: Map<String, CallRepeatMode> = emptyMap(),
+    val showSpokenText: Boolean = false,
 )

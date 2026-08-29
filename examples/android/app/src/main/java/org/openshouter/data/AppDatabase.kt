@@ -12,8 +12,9 @@ import androidx.sqlite.db.SupportSQLiteDatabase
         PlaceEntity::class,
         AppSpeakEntity::class,
         ReminderEntity::class,
+        SoundLeakEntity::class,
     ],
-    version = 6,
+    version = 7,
     exportSchema = false,
 )
 abstract class AppDatabase : RoomDatabase() {
@@ -22,6 +23,7 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun places(): PlaceDao
     abstract fun appSpeak(): AppSpeakDao
     abstract fun reminders(): ReminderDao
+    abstract fun soundLeaks(): SoundLeakDao
 }
 
 val MIGRATION_1_2 = Migration(1, 2) { db: SupportSQLiteDatabase ->
@@ -63,5 +65,17 @@ val MIGRATION_4_5 = Migration(4, 5) { db: SupportSQLiteDatabase ->
 val MIGRATION_5_6 = Migration(5, 6) { db: SupportSQLiteDatabase ->
     db.execSQL(
         "ALTER TABLE notification_history ADD COLUMN kind TEXT NOT NULL DEFAULT 'NOTIFICATION'",
+    )
+}
+
+val MIGRATION_6_7 = Migration(6, 7) { db: SupportSQLiteDatabase ->
+    db.execSQL(
+        "CREATE TABLE IF NOT EXISTS sound_leaks (" +
+            "packageName TEXT NOT NULL, " +
+            "channelId TEXT NOT NULL, " +
+            "channelName TEXT NOT NULL, " +
+            "evidence TEXT NOT NULL, " +
+            "lastSeen INTEGER NOT NULL, " +
+            "PRIMARY KEY(packageName, channelId))",
     )
 }

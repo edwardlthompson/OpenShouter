@@ -12,6 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import dagger.hilt.android.EntryPointAccessors
+import kotlinx.coroutines.launch
 import org.openshouter.apps.InstalledAppCatalog
 import org.openshouter.domain.AppSettings
 import org.openshouter.service.OpenShouterEntryPoint
@@ -39,9 +40,9 @@ fun OpenShouterHome(
     val history by ep.history().recent().collectAsStateWithLifecycle(emptyList())
     val regexRules by ep.regex().all().collectAsStateWithLifecycle(emptyList())
     val reminders by ep.reminders().all().collectAsStateWithLifecycle(emptyList())
+    val leaks by ep.soundLeaks().recent().collectAsStateWithLifecycle(emptyList())
     val installedApps = remember(context) { InstalledAppCatalog.list(context) }
     var pane by remember { mutableStateOf(Pane.Home) }
-    var showSpoken by remember { mutableStateOf(false) }
     val scrollStore = rememberMenuScrollStore()
     BackHandler(enabled = pane != Pane.Home) {
         pane = pane.backTarget()
@@ -67,13 +68,14 @@ fun OpenShouterHome(
         history = history,
         regexRules = regexRules,
         reminders = reminders,
+        leaks = leaks,
         installedApps = installedApps,
-        showSpoken = showSpoken,
+        showSpoken = settings.showSpokenText,
         showSetup = pane == Pane.Setup || (pane == Pane.Home && !settings.setupComplete),
         ep = ep,
         scope = scope,
         onPane = { pane = it },
-        onShowSpoken = { showSpoken = it },
+        onShowSpoken = { on -> scope.launch { ep.settings().setShowSpokenText(on) } },
         onOpenSettings = onOpenSettings,
         scrollStore = scrollStore,
         modifier = modifier,

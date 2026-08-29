@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="nav_silence">Couper les sons concurrents</string>
+    <string name="silence_help">Installez OpenShouter Silent, puis choisissez-le (ou Aucun) comme son de notification pour que les annonces ne parlent pas par-dessus les bips.</string>
+    <string name="silence_help_short">Empêcher les bips système et des applis de parler par-dessus les annonces</string>
+    <string name="silence_oem_hint">Ce téléphone joue souvent un son même si Silence est choisi. Choisissez OpenShouter Silent dans Son, pas la ligne Silence vide.</string>
+    <string name="silence_install">Installer OpenShouter Silent</string>
+    <string name="silence_open_sounds">Ouvrir les réglages sonores</string>
+    <string name="silence_open_ringtone">Ouvrir le sélecteur de sonnerie</string>
+    <string name="silence_write_settings">Autoriser le changement des sons par défaut</string>
+    <string name="silence_set_notification">Utiliser comme son de notification</string>
+    <string name="silence_set_ringtone">Utiliser comme sonnerie</string>
+    <string name="silence_leaks_help">Ces applis ont publié une notification qui a encore un son, ou ont joué leur propre audio. Les canaux qui n’utilisent que le son par défaut sont ignorés si ce défaut est Aucun ou OpenShouter Silent. OpenShouter ne peut pas couper une autre appli. Mettez ce canal sur Aucun ou OpenShouter Silent et la ligne quitte cette liste.</string>
+    <string name="silence_leaks_empty">Aucun son concurrent pour l’instant. Gardez l’accès aux notifications et attendez une notification.</string>
+    <string name="silence_open_leaks">Applis qui sonnent encore</string>
+    <string name="silence_evidence_channel">Son du canal</string>
+    <string name="silence_evidence_notification">Son de la notification</string>
+    <string name="silence_evidence_default">Son par défaut</string>
+    <string name="silence_evidence_own">L’appli joue son propre son</string>
+    <string name="silence_leak_row">%1$s · %2$s</string>
+</resources>

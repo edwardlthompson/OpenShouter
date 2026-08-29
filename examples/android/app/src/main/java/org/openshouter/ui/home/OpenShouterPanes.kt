@@ -1,11 +1,9 @@
 package org.openshouter.ui.home
 
 import android.content.Intent
-import android.net.Uri
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import dev.foss.goldenpath.R
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import org.openshouter.apps.InstalledApp
@@ -15,7 +13,6 @@ import org.openshouter.data.RegexEntity
 import org.openshouter.data.ReminderEntity
 import org.openshouter.domain.AppSettings
 import org.openshouter.domain.AppSpeakRule
-import org.openshouter.domain.SpokenEvent
 import org.openshouter.backup.BackupImport
 import org.openshouter.backup.BackupScreen
 import org.openshouter.backup.SettingsBackup
@@ -38,12 +35,13 @@ import org.openshouter.ui.setup.SetupScreen
 import org.openshouter.reminder.ReminderScreen
 import org.openshouter.reminder.reminderDefaults
 import org.openshouter.time.TimeShoutScreen
-import org.openshouter.notification.TestNotification
+import org.openshouter.data.SoundLeakEntity
+import org.openshouter.notification.NotificationChannelSettings
 import org.openshouter.oem.OemScreen
 import org.openshouter.ui.menu.MenuScrollStore
-import org.openshouter.ui.tts.TtsSettingsScreen
+import org.openshouter.ui.silence.SilenceScreen
 
-enum class Pane { Setup, Home, Rules, Announcer, Quiet, History, Filters, Tts, Time, Reminders, Backup, Overrides, Places, Oem, Contacts, Messages, Power, Calendar, Bluetooth }
+enum class Pane { Setup, Home, Rules, Announcer, Quiet, History, Filters, Tts, Time, Reminders, Backup, Overrides, Places, Oem, Contacts, Messages, Power, Calendar, Bluetooth, Silence }
 
 @Composable
 fun OpenShouterPanes(
@@ -54,6 +52,7 @@ fun OpenShouterPanes(
     history: List<HistoryEntity>,
     regexRules: List<RegexEntity>,
     reminders: List<ReminderEntity>,
+    leaks: List<SoundLeakEntity>,
     installedApps: List<InstalledApp>,
     showSpoken: Boolean,
     showSetup: Boolean,
@@ -74,6 +73,7 @@ fun OpenShouterPanes(
             },
             appCount = appRules.count { it.active },
             onPickApps = { onPane(Pane.Rules) },
+            onOpenSilence = { onPane(Pane.Silence) },
             onImportInstalled = { BackupImport.applyInstalled(ep, context) },
             onImportBytes = { bytes -> BackupImport.applyBytes(ep, settings, bytes, context) },
             scrollStore = scrollStore,
@@ -93,6 +93,7 @@ fun OpenShouterPanes(
             onOpenOverrides = { onPane(Pane.Overrides) },
             onOpenPlaces = { onPane(Pane.Places) },
             onOpenOem = { onPane(Pane.Oem) },
+            onOpenSilence = { onPane(Pane.Silence) },
             onOpenSettings = onOpenSettings,
             scrollStore = scrollStore,
             modifier = modifier,
@@ -154,43 +155,10 @@ fun OpenShouterPanes(
             scrollStore = scrollStore,
             modifier = modifier,
         )
-        pane == Pane.Tts -> TtsSettingsScreen(
-            settings = settings,
-            onPlayback = { policy -> scope.launch { ep.settings().setTtsPlayback(policy) } },
-            onFormatChange = { value -> scope.launch { ep.settings().setFormat(value) } },
-            onDeviceState = { policy -> scope.launch { ep.settings().setDeviceState(policy) } },
-            onTest = {
-                ep.tts().speak(
-                    SpokenEvent(
-                        SpokenEvent.Kind.NOTIFICATION,
-                        context.getString(R.string.tts_test_phrase),
-                        stream = settings.ttsPlayback.stream,
-                    ),
-                    immediate = true,
-                )
-            },
-            onPostTest = { TestNotification.post(context) },
-            onOpenSystemTts = {
-                runCatching { context.startActivity(Intent("com.android.settings.TTS_SETTINGS").addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)) }
-            },
-            languages = ep.tts().languageTags(settings.ttsPlayback.voice.engine),
-            voices = ep.tts().voices(settings.ttsPlayback.voice.engine),
-            engineGen = ep.tts().engineGen,
-            loadLanguages = { ep.tts().languageTags(settings.ttsPlayback.voice.engine) },
-            loadVoices = { ep.tts().voices(settings.ttsPlayback.voice.engine) },
-            engines = ep.tts().installedEngines(),
-            downloads = ep.tts().downloadOffers(),
-            onOpenUrl = { url ->
-                if (!url.startsWith("https://")) return@TtsSettingsScreen
-                runCatching {
-                    context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
-                }
-            },
-            onOpenApp = { pkg ->
-                val launch = context.packageManager.getLaunchIntentForPackage(pkg) ?: return@TtsSettingsScreen
-                runCatching { context.startActivity(launch.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)) }
-            },
-            onChannelStates = { map -> scope.launch { ep.sprint13().setChannelStates(map) } },
+        pane == Pane.Tts -> TtsPane(settings, ep, scope, { onPane(Pane.Home) }, scrollStore, modifier)
+        pane == Pane.Silence -> SilenceScreen(
+            leaks = leaks,
+            onOpenChannel = { pkg, channel -> NotificationChannelSettings.launch(context, pkg, channel) },
             onBack = { onPane(Pane.Home) },
             scrollStore = scrollStore,
             modifier = modifier,

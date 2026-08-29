@@ -46,6 +46,7 @@ class AnnouncerService : Service() {
     @Inject lateinit var timeTicks: TimeShoutMonitor
     @Inject lateinit var calendar: CalendarMonitor
     @Inject lateinit var bluetooth: BluetoothMonitor
+    @Inject lateinit var audioSessions: org.openshouter.silence.AudioSessionMonitor
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.Default)
 
     override fun onCreate() {
@@ -85,6 +86,7 @@ class AnnouncerService : Service() {
         runCatching { calendar.start() }
         runCatching { bluetooth.start() }
         runCatching { timeTicks.start() }
+        runCatching { audioSessions.start() }
         scope.launch { timeShout.sync(settings.snapshot()) }
     }
 

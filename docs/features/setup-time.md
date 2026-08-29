@@ -6,6 +6,7 @@ First-run welcome lists one **Activate** button per runtime/special permission, 
 
 - Welcome shows until Continue; dashboard can reopen it
 - Buttons: notification access, POST_NOTIFICATIONS (API 33+), phone, contacts, call log, fine location, background location, ignore-battery, app battery details, exact alarms
+- After permissions, a Silence competing sounds section installs OpenShouter Silent and opens system sound settings (`docs/features/silence-competing-sounds.md`)
 - Time shout toggle: announce on the hour when master announcements are on
 - Keep-alive: FGS + boot/replace + `TIME_TICK` + exact-while-idle (not alarm-clock); TTS queues if the engine is still warming
 
