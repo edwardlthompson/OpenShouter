@@ -2,6 +2,17 @@
 
 > Archive of finished BUILD_PLAN items.
 
+## /ship v1.0.0 (2026-08-28)
+
+- ✅ [AUTO] `pre-release-gate.sh` (HEAD CI/CodeQL/Security Scan)
+- ✅ [HUMAN] Approve release tag when product-ready (`/ship` + Release Please #40)
+- ✅ [AUTO] `publish-foss-apk` → `openshouter-1.0.0-foss.apk` (versionCode 21)
+
+## Sprint 22 — Record shouts in announcement history (2026-08-28)
+
+- ✅ [AGENT] Persist TIME/POWER/REMINDER/CALENDAR/BLUETOOTH history rows (`docs/features/shout-history.md`)
+- ✅ [AUTO] `python3 scripts/agent-run.py watch-agent-gates --once --autofix`
+
 ## /ship v0.12.0 (2026-08-28)
 
 - ✅ [AUTO] `pre-release-gate.sh` (local + HEAD CI/CodeQL/Security Scan)
