@@ -6,6 +6,19 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.0](https://github.com/edwardlthompson/OpenShouter/compare/v1.0.0...v1.1.0) (2026-08-29)
+
+
+### Added
+
+* **android:** add per-channel app name cooldown ([e2c0c33](https://github.com/edwardlthompson/OpenShouter/commit/e2c0c333cca62ddd777174fae8003b6764e1e944))
+
+
+### Fixed
+
+* **android:** keep calendar Instances column arrays non-null ([71aead5](https://github.com/edwardlthompson/OpenShouter/commit/71aead5f629c0f0cc12c2d2d6a761a0ed4866bd7))
+* **android:** speak upcoming calendar events after grant ([95e5230](https://github.com/edwardlthompson/OpenShouter/commit/95e5230f19e15f80ab39c09415ebe74508647d65))
+
 ## [1.0.0](https://github.com/edwardlthompson/OpenShouter/compare/v0.12.0...v1.0.0) (2026-08-28)
 
 
