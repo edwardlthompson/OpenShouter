@@ -46,6 +46,8 @@ Interactive filterable table: Cursor canvas `feature-parity-matrix.canvas.tsx` (
 
 **Wrap-up 2026-08-28 (Sprint 23):** Per-channel App name cooldown dropdown (default 30s) omits repeating the same app name on notification and message shouts. Notification row stays Yes.
 
+**Wrap-up 2026-08-29:** Calendar shout starts `TIME_TICK` before `READ_CALENDAR`, picks the next timed visible event, and requests Android calendar access from the enable toggle. Calendar row stays Yes.
+
 Status: **Yes** shipped · **Partial** logic or subset UI · **No** missing · **Skip** will not copy (FOSS / out of scope).
 
 ## Summary
