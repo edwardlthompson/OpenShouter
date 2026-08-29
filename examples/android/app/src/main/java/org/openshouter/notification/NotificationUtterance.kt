@@ -1,5 +1,6 @@
 package org.openshouter.notification
 
+import org.openshouter.domain.AppNameCooldown
 import org.openshouter.domain.AppSpeakRule
 import org.openshouter.domain.TtsFormat
 
@@ -14,11 +15,22 @@ object NotificationUtterance {
         title: String,
         text: String,
         extras: Map<String, String>,
+        includeAppName: Boolean = true,
     ): String {
         val effective = rule ?: AppSpeakRule(app, speakAppName = true, speakNotification = speakBody)
         if (!effective.active) return ""
-        if (effective.speakAppName && !effective.speakNotification) return label.trim()
-        val spokenApp = if (effective.speakAppName) label else ""
-        return TtsFormat.notification(format, spokenApp, title, text, extras)
+        val sayName = effective.speakAppName && includeAppName
+        if (sayName && !effective.speakNotification) return label.trim()
+        if (!sayName && !effective.speakNotification) return ""
+        val spokenApp = if (sayName) label else ""
+        val spokenTitle = if (!includeAppName && AppNameCooldown.isAppLabel(title, label)) {
+            ""
+        } else {
+            title
+        }
+        if (spokenApp.isEmpty() && spokenTitle.isEmpty()) {
+            return TtsFormat.notification("%text", "", "", text, extras)
+        }
+        return TtsFormat.notification(format, spokenApp, spokenTitle, text, extras)
     }
 }

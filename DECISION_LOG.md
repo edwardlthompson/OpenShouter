@@ -17,6 +17,13 @@
 
 ## Entries
 
+### 2026-08-28 — Per-channel app name cooldown
+- **Status:** Accepted
+- **Context:** Burst posts (30 photos into Messages) repeated the app name every time. Same-key REPEAT only collapses identical title+text.
+- **Decision:** Store `appNameCooldownSeconds` on `ChannelDeviceState` (default 30). Dropdown Off/10s/30s/1m/2m/5m. Omit `%app` and an app-label title/sender during the window.
+- **Alternatives considered:** Suppress the whole shout (rejected: still want photo text). Global-only cooldown (rejected: user asked per channel).
+- **Consequences:** Voice channel screen has the dropdown. Message and notification paths share `RepeatClock` last-app-name times.
+
 ### 2026-08-28 — /ship v1.0.0
 - **Status:** Accepted
 - **Context:** Cloud agent opened [#39](https://github.com/edwardlthompson/OpenShouter/pull/39) (built-in shout history). User asked to merge and release v1.

@@ -11,6 +11,13 @@ internal class RepeatClock {
     var lastAt: Long = 0L
     var lastRecordedKey: String? = null
     var lastRecordedAt: Long = 0L
+    private val appNameAt = HashMap<String, Long>()
+
+    fun appNameAt(pkg: String): Long = appNameAt[pkg] ?: 0L
+
+    fun markAppName(pkg: String, now: Long) {
+        if (pkg.isNotBlank()) appNameAt[pkg] = now
+    }
 }
 
 internal data class NotificationFacts(

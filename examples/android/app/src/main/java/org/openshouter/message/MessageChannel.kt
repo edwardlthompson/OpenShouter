@@ -1,6 +1,7 @@
 package org.openshouter.message
 
 import org.openshouter.contacts.ContactRules
+import org.openshouter.domain.AppNameCooldown
 import org.openshouter.domain.AppSettings
 import org.openshouter.domain.SpokenEvent
 import org.openshouter.domain.TtsFormat
@@ -28,13 +29,27 @@ object MessageChannel {
         return MessageParse(sender = sender, body = text.trim())
     }
 
-    fun utterance(settings: AppSettings, parsed: MessageParse, contactName: String?): String? {
+    fun utterance(
+        settings: AppSettings,
+        parsed: MessageParse,
+        contactName: String?,
+        appLabel: String = "",
+        includeAppName: Boolean = true,
+    ): String? {
         val policy = settings.messageChannel
         if (!policy.enabled) return null
         val resolved = ContactRules.apply(settings.contactRule, parsed.sender, contactName)
         if (resolved.blocked || !policy.allows(resolved.known)) return null
         val body = if (policy.speakBody) parsed.body else ""
-        val spoken = TtsFormat.message(settings.messageFormat, resolved.spoken, body)
+        val name = if (!includeAppName && AppNameCooldown.isAppLabel(parsed.sender, appLabel)) {
+            ""
+        } else {
+            resolved.spoken
+        }
+        if (name.isBlank() && !includeAppName) {
+            return body.takeIf { it.isNotBlank() }
+        }
+        val spoken = TtsFormat.message(settings.messageFormat, name, body)
         return spoken.takeIf { it.isNotBlank() }
     }
 

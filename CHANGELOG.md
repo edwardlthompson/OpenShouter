@@ -28,7 +28,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-* **android:** record time, battery, reminder, calendar, and Bluetooth shouts in announcement history
+* **android:** per-channel app-name cooldown so burst notifications do not repeat the app name
 
 ## [0.12.0](https://github.com/edwardlthompson/OpenShouter/compare/v0.11.0...v0.12.0) (2026-08-28)
 
