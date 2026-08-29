@@ -50,6 +50,8 @@ Interactive filterable table: Cursor canvas `feature-parity-matrix.canvas.tsx` (
 
 **Wrap-up 2026-08-29 (`/ship` v1.1.0):** Signed APK on https://github.com/edwardlthompson/OpenShouter/releases/tag/v1.1.0 (`versionCode` 22). Notification and calendar rows stay Yes.
 
+**Wrap-up 2026-08-29 (Announcer cooldown):** App name cooldown sits on Announcer → What to shout and still on Voice → per-channel states. Notification row stays Yes.
+
 Status: **Yes** shipped · **Partial** logic or subset UI · **No** missing · **Skip** will not copy (FOSS / out of scope).
 
 ## Summary
@@ -132,7 +134,7 @@ Dashboard master + sectioned Hear / History / Phone cards · searchable app-spea
 | Notifications | Delay / max length / screen-off repeat | No | Yes | Yes | Shipped delay/max + screen-off loop |
 | Notifications | Test notification | No | Yes | Yes | Shipped TestNotification.post |
 | Device states | Global screen-off / headset-only | Yes | Yes | Yes | Shipped |
-| Device states | Per-channel headphone/silent | Yes | No | Yes | Shipped ChannelStateScreen grid + stream/repeat + app-name cooldown |
+| Device states | Per-channel headphone/silent | Yes | No | Yes | Shipped ChannelStateScreen grid + stream/repeat + app-name cooldown (also on Announcer) |
 | Device states | Silent/vibrate + in-call flags | Yes | Yes | Yes | Shipped DeviceStatePolicy toggles |
 | TTS | Stream / audio focus / pitch / voice test | Stream | Stream+focus | Yes | Pitch + pause-media + language dropdowns; AA/DHU uses navigation-guidance usage |
 | Call | Looping ID + contacts | Yes | No | Yes | RINGING not GATE_CALL; VoIP default ONCE; Phone UNTIL_ANSWERED; same-key session |

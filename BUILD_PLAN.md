@@ -232,20 +232,13 @@ grep '\[AUTO\]' BUILD_PLAN.md
 > **/ship v0.12.0** archived in COMPLETED_TASKS.md @ `5816578`.
 > **Sprint 22** AGENT/AUTO archived in COMPLETED_TASKS.md @ `38525c3`.
 > **/ship v1.0.0** archived in COMPLETED_TASKS.md @ `38525c3`.
+> **Sprint 22 leftover ADB** archived in COMPLETED_TASKS.md (2026-08-29).
 
 ### Sprint 21 leftover ADB
 
 <!-- parallel_exception: HUMAN leftover; AGENT/AUTO archived -->
 
-- 🔲 [ADB] WhatsApp Once then silence after answer; Phone still loops until answer (CPH2583 / CPH2655, v0.12.0 sideloaded)
-
----
-
-### Sprint 22 leftover ADB
-
-<!-- parallel_exception: HUMAN leftover; AGENT/AUTO archived -->
-
-- 🔲 [ADB] After a time shout, Announcement history shows a Time row; Show spoken text reveals the phrase (v1.0.0 sideloaded)
+- 🔲 [ADB] WhatsApp Once then silence after answer; Phone still loops until answer (CPH2583 / CPH2655, v1.1.0 sideloaded; Incoming calls = Once in Apps to shout; release APK has no debug RING — needs a live WhatsApp + cellular ring)
 
 ---
 
@@ -255,7 +248,7 @@ grep '\[AUTO\]' BUILD_PLAN.md
 
 <!-- parallel_exception: HUMAN leftover; AGENT/AUTO archived -->
 
-- 🔲 [ADB] Drop several photos into Messages; first shout may say Messages, later ones do not repeat it within 30s (v1.1.0 sideloaded)
+- 🔲 [ADB] Drop several photos into Messages; first shout may say Messages, later ones do not repeat it within 30s (v1.1.0 sideloaded; Message channel cooldown UI is 30s; Google Messages app-name + notification now selected on both phones)
 
 ---
 
