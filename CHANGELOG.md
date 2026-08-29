@@ -6,6 +6,16 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Added
+
+* **android:** per-channel app-name cooldown so burst notifications do not repeat the app name
+
+### Fixed
+
+* **android:** speak upcoming calendar events after calendar permission is granted
+
 ## [1.0.0](https://github.com/edwardlthompson/OpenShouter/compare/v0.12.0...v1.0.0) (2026-08-28)
 
 
@@ -23,12 +33,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 * add Sprint 22 parallel_exception for BUILD_PLAN gate ([b7f0414](https://github.com/edwardlthompson/OpenShouter/commit/b7f0414325bb173b2b1585052a35fc5c4b38acc6))
-
-## [Unreleased]
-
-### Added
-
-* **android:** per-channel app-name cooldown so burst notifications do not repeat the app name
 
 ## [0.12.0](https://github.com/edwardlthompson/OpenShouter/compare/v0.11.0...v0.12.0) (2026-08-28)
 
