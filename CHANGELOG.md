@@ -6,26 +6,30 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [1.1.1](https://github.com/edwardlthompson/OpenShouter/compare/v1.1.0...v1.1.1) (2026-08-29)
+## [Unreleased]
 
+### Added
+
+* **android:** silent sound pack, Welcome silence wizard, channel leak list, optional default-sound write, and notification-usage audio hints
+
+### Fixed
+
+* **android:** persist Show spoken text across app restarts
+* **android:** move Silence competing sounds to Hear and Announcer; drop leak rows when a channel is silent
+* **android:** ignore default-sound channels when the system notification sound is None or OpenShouter Silent
+* **android:** trust LineageOS None on OnePlus hardware so default-sound leak rows clear
+
+## [1.1.1](https://github.com/edwardlthompson/OpenShouter/compare/v1.1.0...v1.1.1) (2026-08-29)
 
 ### Fixed
 
 * **android:** put App name cooldown on the Announcer menu ([8bbb3da](https://github.com/edwardlthompson/OpenShouter/commit/8bbb3da0889587249f6ef5989fe640295a003bd9))
 
-## [Unreleased]
-
-### Fixed
-
-* **android:** put App name cooldown on the Announcer menu
-
 ## [1.1.0](https://github.com/edwardlthompson/OpenShouter/compare/v1.0.0...v1.1.0) (2026-08-29)
-
 
 ### Added
 
 * **android:** add per-channel app name cooldown ([e2c0c33](https://github.com/edwardlthompson/OpenShouter/commit/e2c0c333cca62ddd777174fae8003b6764e1e944))
-
 
 ### Fixed
 
@@ -34,17 +38,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [1.0.0](https://github.com/edwardlthompson/OpenShouter/compare/v0.12.0...v1.0.0) (2026-08-28)
 
-
 ### chore
 
 * **release:** prepare v1.0.0 release ([75a976e](https://github.com/edwardlthompson/OpenShouter/commit/75a976e02a6e6e6621b307caed2fd34760aecfe3))
-
 
 ### Added
 
 * **android:** record time and other shouts in history ([31f6413](https://github.com/edwardlthompson/OpenShouter/commit/31f6413aa84ea65d5cf0654382feb2a6d537a64b))
 * **android:** record time and other shouts in history ([65ae869](https://github.com/edwardlthompson/OpenShouter/commit/65ae869e5267f3fa86d2ef21fb06d3c7b0e5a4bd))
-
 
 ### Fixed
 
@@ -52,13 +53,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.12.0](https://github.com/edwardlthompson/OpenShouter/compare/v0.11.0...v0.12.0) (2026-08-28)
 
-
 ### Added
 
 * **android:** speak VoIP incoming calls once by default ([66584d0](https://github.com/edwardlthompson/OpenShouter/commit/66584d049048b49eda0f41d9e744d3bc7497f72b))
 
 ## [0.11.0](https://github.com/edwardlthompson/OpenShouter/compare/v0.10.0...v0.11.0) (2026-08-28)
-
 
 ### Added
 
@@ -67,11 +66,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.10.0](https://github.com/edwardlthompson/OpenShouter/compare/v0.9.2...v0.10.0) (2026-08-28)
 
-
 ### Added
 
 * **android:** tap history to mute app or notification channel ([#30](https://github.com/edwardlthompson/OpenShouter/issues/30)) ([c4bbe40](https://github.com/edwardlthompson/OpenShouter/commit/c4bbe400d56a1b9a0f6ad851626ab0f823f25803))
-
 
 ### Changed
 
@@ -79,17 +76,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.9.2](https://github.com/edwardlthompson/OpenShouter/compare/v0.9.1...v0.9.2) (2026-08-27)
 
-
 ### Fixed
 
 * **android:** play TTS on Android Auto head unit ([82e4d31](https://github.com/edwardlthompson/OpenShouter/commit/82e4d313ca6687620d3aaf0b6934119916f0c0e5))
-
 
 ### Changed
 
 * **android:** sync versionName 0.9.1 with release tag ([93859e9](https://github.com/edwardlthompson/OpenShouter/commit/93859e9d0be302c1a07685c97c307fe75eb49604))
 * retrigger Release Please after v0.9.1 tag ([c39bb04](https://github.com/edwardlthompson/OpenShouter/commit/c39bb041d5451ce610136178452c766e2522bef5))
-
 
 ### Documentation
 
@@ -97,16 +91,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.9.1](https://github.com/edwardlthompson/OpenShouter/compare/v0.9.0...v0.9.1) (2026-08-26)
 
-
 ### Fixed
 
 * **android:** announce ringing and WhatsApp calls ([7b6f017](https://github.com/edwardlthompson/OpenShouter/commit/7b6f017da11bf8bd8103ed911106fc861b24c6ce))
 
-
 ### Changed
 
 * **android:** sync versionName 0.9.0 with release tag ([5322553](https://github.com/edwardlthompson/OpenShouter/commit/53225530f17d33c97ed68b5be92ef056ca17779d))
-
 
 ### Documentation
 
@@ -114,21 +105,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.9.0](https://github.com/edwardlthompson/OpenShouter/compare/v0.8.2...v0.9.0) (2026-08-25)
 
-
 ### Added
 
 * **release:** sign FOSS APKs with release keystore ([580e05f](https://github.com/edwardlthompson/OpenShouter/commit/580e05f4f01075c3dc1d10ea4c2871ba5e69b40d))
-
 
 ### Fixed
 
 * **android:** speak 24-hour time in military style ([4f62f22](https://github.com/edwardlthompson/OpenShouter/commit/4f62f2223207950ae58627ac34f5a8a71fbf7fb8))
 
-
 ### Changed
 
 * index release keystore scripts in TEMPLATE_INDEX ([3869da7](https://github.com/edwardlthompson/OpenShouter/commit/3869da757a683f0cc6963b5be057dd7249e0a6ff))
-
 
 ### Documentation
 
@@ -137,11 +124,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.8.2](https://github.com/edwardlthompson/OpenShouter/compare/v0.8.1...v0.8.2) (2026-08-24)
 
-
 ### Fixed
 
 * **android:** auto media stream in Android Auto ([72dcbc6](https://github.com/edwardlthompson/OpenShouter/commit/72dcbc6e2983730fd1e0e208938b8144301d693f))
-
 
 ### Documentation
 
@@ -149,11 +134,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.8.1](https://github.com/edwardlthompson/OpenShouter/compare/v0.8.0...v0.8.1) (2026-08-24)
 
-
 ### Fixed
 
 * **android:** keep hourly shout from ending bedtime ([a8d4b39](https://github.com/edwardlthompson/OpenShouter/commit/a8d4b39ddf3ea43056dc1e915677b266876b5350))
-
 
 ### Documentation
 
@@ -161,17 +144,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.8.0](https://github.com/edwardlthompson/OpenShouter/compare/v0.7.0...v0.8.0) (2026-08-23)
 
-
 ### Added
 
 * **android:** add voice quality dropdowns and engine catalog ([423fbce](https://github.com/edwardlthompson/OpenShouter/commit/423fbcefea3746bb6d51ede2ef51e84cc6cb64a5))
-
 
 ### Fixed
 
 * **android:** dismiss theme dropdown before leaving settings ([d13638f](https://github.com/edwardlthompson/OpenShouter/commit/d13638f434ce29f074775e0543807c1a46b2c59d))
 * **android:** open theme dropdown in settings UI test ([a4c0ae1](https://github.com/edwardlthompson/OpenShouter/commit/a4c0ae13a212a694971621a8e2e6ac6bfd94c1f8))
-
 
 ### Documentation
 
@@ -179,16 +159,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.7.0](https://github.com/edwardlthompson/OpenShouter/compare/v0.6.0...v0.7.0) (2026-08-23)
 
-
 ### Added
 
 * **android:** tighten apps-to-shout and backup limits ([1cb14b1](https://github.com/edwardlthompson/OpenShouter/commit/1cb14b1faec1b6db9e1957af3deb74ab05fd7be7))
 
-
 ### Changed
 
 * **release:** upload signed FOSS APK on every ship ([ad557fe](https://github.com/edwardlthompson/OpenShouter/commit/ad557fe808066c073d3ddb625249d73130225b74))
-
 
 ### Documentation
 
@@ -196,11 +173,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.6.0](https://github.com/edwardlthompson/OpenShouter/compare/v0.5.0...v0.6.0) (2026-08-22)
 
-
 ### Added
 
 * **android:** import classic Shouter settings ([6ed7985](https://github.com/edwardlthompson/OpenShouter/commit/6ed7985ef47459bd0b8f6c4ff7f7b20047181efd))
-
 
 ### Documentation
 

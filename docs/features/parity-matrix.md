@@ -54,6 +54,8 @@ Interactive filterable table: Cursor canvas `feature-parity-matrix.canvas.tsx` (
 
 **Wrap-up 2026-08-29 (`/ship` v1.1.1):** Signed APK on https://github.com/edwardlthompson/OpenShouter/releases/tag/v1.1.1 (`versionCode` 23). Sideloaded on CPH2583 and CPH2655. Notification row stays Yes.
 
+**Wrap-up 2026-08-29 (Sprint 24):** OpenShouter Silent pack, Welcome silence wizard, channel leak list, optional default-sound write, and `OWN_AUDIO` hints. OpenShouter extra — notification row stays Yes.
+
 Status: **Yes** shipped · **Partial** logic or subset UI · **No** missing · **Skip** will not copy (FOSS / out of scope).
 
 ## Summary
