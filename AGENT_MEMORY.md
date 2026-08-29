@@ -110,10 +110,11 @@ OpenShouter is a FOSS recreation/enhancement of classic Shouter (`com.bhkapps.sh
 | 2026-08-29 | `/ship` v1.1.0 | Cloud #41 cooldown + #42 calendar grant; RP #43; signed `openshouter-1.1.0-foss.apk` (versionCode 22) | ADB leftovers: photo-burst cooldown + Time-row history + call-repeat smoke |
 | 2026-08-29 | `/ship` v1.1.1 | Announcer App name cooldown; RP #44; signed `openshouter-1.1.1-foss.apk` (versionCode 23) | Sideloaded on CPH2583 and CPH2655; photo-burst + call-repeat ADB still open |
 | 2026-08-29 | Sprint 24 silence pack | Silent WAV + Welcome wizard + leak list + optional default write + OWN_AUDIO hint; gates green | ADB: install Silent on CPH2583/CPH2655 and confirm a Messages ding is listed |
+| 2026-08-29 | `/ship` v1.2.0 | Silence competing sounds; RP #45; signed `openshouter-1.2.0-foss.apk` (versionCode 29) | Sideloaded on CPH2583 and CPH2655; Sprint 24 ADB/HUMAN leftovers stay open |
 ## Template Provenance
 
 - **Source template:** `edwardlthompson/agent-project-bootstrap`
 - **Bootstrap scaffold / standards:** `0.17.0` / `0.21.0` (not product semver)
-- **Product version:** `1.1.1` (see `.template-version`)
+- **Product version:** `1.2.0` (see `.template-version`)
 - **Last update check:** See `.template-update.json`
 - **Stack selection:** `.cursor/stack-selection.json` (`android`, `foss`, pruned)

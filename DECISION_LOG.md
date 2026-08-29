@@ -17,6 +17,13 @@
 
 ## Entries
 
+### 2026-08-29 — /ship v1.2.0
+- **Status:** Accepted
+- **Context:** Sprint 24 silence pack plus LineageOS None-on-OnePlus leak-list bug. User invoked `/ship` and asked to sideload both phones.
+- **Decision:** `feat` → minor `1.2.0`, `versionCode` 29, merge Release Please #45, upload release-signed `openshouter-1.2.0-foss.apk`, sideload CPH2583 and CPH2655.
+- **Alternatives considered:** Patch `1.1.2` (rejected: new Hear/Announcer wizard and leak list). Wait on ColorOS Silent HUMAN leftover (rejected: both phones run LineageOS).
+- **Consequences:** https://github.com/edwardlthompson/OpenShouter/releases/tag/v1.2.0. Sprint 24 ADB/HUMAN leftovers stay on the board.
+
 ### 2026-08-29 — Silence competing sounds
 - **Status:** Accepted
 - **Context:** Shouts lose to OEM/app dings. ColorOS Silent is often a broken URI. Some apps play their own MediaPlayer tone. User asked for a silent pack, a leak scanner, and Welcome instructions.

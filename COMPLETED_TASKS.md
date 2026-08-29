@@ -2,6 +2,13 @@
 
 > Archive of finished BUILD_PLAN items.
 
+## /ship v1.2.0 (2026-08-29)
+
+- ✅ [AUTO] `pre-release-gate.sh` (HEAD CI/CodeQL/Security Scan)
+- ✅ [HUMAN] Approve release tag when product-ready (`/ship` + Release Please #45)
+- ✅ [AUTO] `publish-foss-apk` → `openshouter-1.2.0-foss.apk` (versionCode 29)
+- ✅ [ADB] Sideload v1.2.0 on CPH2583 and CPH2655
+
 ## /ship v1.1.1 (2026-08-29)
 
 - ✅ [AUTO] `pre-release-gate.sh` (HEAD CI/CodeQL/Security Scan)

@@ -215,4 +215,12 @@
 | **Symptom** | Voice plays on the phone speaker (or not at all) while Desktop Head Unit / car Android Auto is connected. 0.8.2 remapped notification to media; still silent on the head unit |
 | **Cause** | DHU projection does not set UI_MODE_TYPE_CAR or expose BUS/USB_ACCESSORY devices (mCarModeEnabled=false). AA AudioHardening also blocks USAGE_MEDIA unless the app is the selected media source. USAGE_NOTIFICATION never enters the car TTS channel |
 | **Fix** | Detect projection via content://androidx.car.app.connection (CarConnectionState 1/2). On that path play WAV with USAGE_ASSISTANCE_NAVIGATION_GUIDANCE plus transient ducking focus. Skip MediaSession on the car path so AA uses the TTS stream, not media |
-| **Prevention** | With DHU up, content query shows CarConnectionState=2 and dumpsys audio shows OpenShouter USAGE_ASSISTANCE_NAVIGATION_GUIDANCE. Gearhead logs CAR.AUDIO.TTS / nabling stream: TTS. Do not treat A2DP-only as sufficient AA detection |
+| **Prevention** | With DHU up, content query shows CarConnectionState=2 and dumpsys audio shows OpenShouter USAGE_ASSISTANCE_NAVIGATION_GUIDANCE. Gearhead logs CAR.AUDIO.TTS / enabling stream: TTS. Do not treat A2DP-only as sufficient AA detection |
+### KB-025 — Windows `simulate-template-upgrade` drops path slashes
+
+| Field | Detail |
+|-------|--------|
+| **Symptom** | Local `/ship` regress fails `check-bootstrap-engine.sh` with `/bin/bash: C:Users...scriptscheck-required-status-jobs.sh: No such file` |
+| **Cause** | Git Bash on Windows concatenates a Windows path without separators when the upgrade sim invokes a `.sh` from Python |
+| **Fix** | Treat as local-only. Linux CI job **Template Upgrade Simulation** is the gate |
+| **Prevention** | Do not block `/ship` on this Windows flake when `pre-release-gate` and the main CI upgrade job are green |
