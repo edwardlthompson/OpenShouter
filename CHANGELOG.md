@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.2.0](https://github.com/edwardlthompson/OpenShouter/compare/v1.1.1...v1.2.0) (2026-08-29)
+
+
+### Added
+
+* **android:** silence competing notification sounds ([ae13f39](https://github.com/edwardlthompson/OpenShouter/commit/ae13f39af99f4aad5e3e2fb07170dcb132ca17b0))
+
 ## [Unreleased]
 
 ### Added
