@@ -249,13 +249,13 @@ grep '\[AUTO\]' BUILD_PLAN.md
 
 ---
 
-### Sprint 23 — App name cooldown per shout channel
+> **Sprint 23** archived in COMPLETED_TASKS.md @ `63ad5a6`.
 
-<!-- parallel_exception: single vertical slice; one AGENT row -->
+### Sprint 23 leftover ADB
 
-- ✅ [AGENT] Per-channel app-name cooldown dropdown (`docs/features/app-name-cooldown.md`)
-- ✅ [AUTO] `python3 scripts/agent-run.py watch-agent-gates --once --autofix`
-- 🔲 [ADB] Drop several photos into Messages; first shout may say Messages, later ones do not repeat it within 30s
+<!-- parallel_exception: HUMAN leftover; AGENT/AUTO archived -->
+
+- 🔲 [ADB] Drop several photos into Messages; first shout may say Messages, later ones do not repeat it within 30s (v1.1.0 sideloaded)
 
 ---
 
@@ -316,6 +316,8 @@ grep '\[AUTO\]' BUILD_PLAN.md
 | /ship v0.12.0 | Complete | `COMPLETED_TASKS.md` |
 | Sprint 22 — Record shouts in announcement history | Complete (AGENT/AUTO) | `COMPLETED_TASKS.md` |
 | /ship v1.0.0 | Complete | `COMPLETED_TASKS.md` |
+| Sprint 23 — App name cooldown per shout channel | Complete (AGENT/AUTO) | `COMPLETED_TASKS.md` |
+| /ship v1.1.0 | Complete | `COMPLETED_TASKS.md` |
 | /ship v0.6.0 | Complete | `COMPLETED_TASKS.md` |
 | /ship v0.7.0 | Complete | `COMPLETED_TASKS.md` |
 | /ship v0.8.0 | Complete | `COMPLETED_TASKS.md` |

@@ -17,6 +17,13 @@
 
 ## Entries
 
+### 2026-08-29 — /ship v1.1.0
+- **Status:** Accepted
+- **Context:** Cloud agents opened [#41](https://github.com/edwardlthompson/OpenShouter/pull/41) (app-name cooldown) and draft [#42](https://github.com/edwardlthompson/OpenShouter/pull/42) (calendar grant/scan). User asked to review, merge, and ship.
+- **Decision:** Merge #42 then #41 after CI green, bump `versionCode` 22, merge Release Please #43, upload release-signed `openshouter-1.1.0-foss.apk`.
+- **Alternatives considered:** Ship cooldown only (rejected: calendar silence was a user-visible bug on the same cloud pass). Wait on photo-burst ADB before tagging (rejected: ADB leftovers stay on the board).
+- **Consequences:** https://github.com/edwardlthompson/OpenShouter/releases/tag/v1.1.0. Sideloads replace 1.0.0. Sprint 23 photo-burst, Sprint 22 Time-row, and Sprint 21 call-repeat smokes remain ADB.
+
 ### 2026-08-28 — Per-channel app name cooldown
 - **Status:** Accepted
 - **Context:** Burst posts (30 photos into Messages) repeated the app name every time. Same-key REPEAT only collapses identical title+text.

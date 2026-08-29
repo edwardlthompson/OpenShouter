@@ -2,6 +2,17 @@
 
 > Archive of finished BUILD_PLAN items.
 
+## /ship v1.1.0 (2026-08-29)
+
+- ✅ [AUTO] `pre-release-gate.sh` (HEAD CI/CodeQL/Security Scan)
+- ✅ [HUMAN] Approve release tag when product-ready (`/ship` + Release Please #43)
+- ✅ [AUTO] `publish-foss-apk` → `openshouter-1.1.0-foss.apk` (versionCode 22)
+
+## Sprint 23 — App name cooldown per shout channel (2026-08-29)
+
+- ✅ [AGENT] Per-channel app-name cooldown dropdown (`docs/features/app-name-cooldown.md`)
+- ✅ [AUTO] `python3 scripts/agent-run.py watch-agent-gates --once --autofix`
+
 ## /ship v1.0.0 (2026-08-28)
 
 - ✅ [AUTO] `pre-release-gate.sh` (HEAD CI/CodeQL/Security Scan)

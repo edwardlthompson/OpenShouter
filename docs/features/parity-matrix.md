@@ -48,6 +48,8 @@ Interactive filterable table: Cursor canvas `feature-parity-matrix.canvas.tsx` (
 
 **Wrap-up 2026-08-29:** Calendar shout starts `TIME_TICK` before `READ_CALENDAR`, picks the next timed visible event, and requests Android calendar access from the enable toggle. Calendar row stays Yes.
 
+**Wrap-up 2026-08-29 (`/ship` v1.1.0):** Signed APK on https://github.com/edwardlthompson/OpenShouter/releases/tag/v1.1.0 (`versionCode` 22). Notification and calendar rows stay Yes.
+
 Status: **Yes** shipped · **Partial** logic or subset UI · **No** missing · **Skip** will not copy (FOSS / out of scope).
 
 ## Summary
