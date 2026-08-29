@@ -6,6 +6,30 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.0](https://github.com/edwardlthompson/OpenShouter/compare/v0.12.0...v1.0.0) (2026-08-28)
+
+
+### chore
+
+* **release:** prepare v1.0.0 release ([75a976e](https://github.com/edwardlthompson/OpenShouter/commit/75a976e02a6e6e6621b307caed2fd34760aecfe3))
+
+
+### Added
+
+* **android:** record time and other shouts in history ([31f6413](https://github.com/edwardlthompson/OpenShouter/commit/31f6413aa84ea65d5cf0654382feb2a6d537a64b))
+* **android:** record time and other shouts in history ([65ae869](https://github.com/edwardlthompson/OpenShouter/commit/65ae869e5267f3fa86d2ef21fb06d3c7b0e5a4bd))
+
+
+### Fixed
+
+* add Sprint 22 parallel_exception for BUILD_PLAN gate ([b7f0414](https://github.com/edwardlthompson/OpenShouter/commit/b7f0414325bb173b2b1585052a35fc5c4b38acc6))
+
+## [Unreleased]
+
+### Added
+
+* **android:** per-channel app-name cooldown so burst notifications do not repeat the app name
+
 ## [0.12.0](https://github.com/edwardlthompson/OpenShouter/compare/v0.11.0...v0.12.0) (2026-08-28)
 
 
@@ -20,21 +44,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 * **android:** open Settings from dashboard with menu chrome ([74fe06e](https://github.com/edwardlthompson/OpenShouter/commit/74fe06e688cd65abdba89c986e3e667713130180))
 * **android:** open Settings from dashboard with menu chrome ([#31](https://github.com/edwardlthompson/OpenShouter/issues/31)) ([74fe06e](https://github.com/edwardlthompson/OpenShouter/commit/74fe06e688cd65abdba89c986e3e667713130180))
-
-## [Unreleased]
-
-### Added
-
-* **android:** per-channel app-name cooldown so burst notifications do not repeat the app name
-* **android:** record time, battery, reminder, calendar, and Bluetooth shouts in announcement history
-* **android:** VoIP incoming calls speak once by default; Phone still loops until answered
-
-### Changed
-
-* **android:** per-app Incoming calls policy independent of Apps to shout
-* **android:** announcement history records cellular CALL rows
-* **release:** do not mint patches from chore commits; bump Gradle versionName in the Release Please PR
-* **release:** do not mint patches from docs commits (ship notes)
 
 ## [0.10.0](https://github.com/edwardlthompson/OpenShouter/compare/v0.9.2...v0.10.0) (2026-08-28)
 

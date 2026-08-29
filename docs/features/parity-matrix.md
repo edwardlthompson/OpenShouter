@@ -42,6 +42,8 @@ Interactive filterable table: Cursor canvas `feature-parity-matrix.canvas.tsx` (
 
 **Wrap-up 2026-08-28 (Sprint 22):** Time, battery, reminder, calendar, and Bluetooth shouts write history rows (`kind` + spoken). List shows a source label instead of a package. History row stays Yes.
 
+**Wrap-up 2026-08-28 (`/ship` v1.0.0):** Signed APK on https://github.com/edwardlthompson/OpenShouter/releases/tag/v1.0.0 (`versionCode` 21). History row stays Yes.
+
 **Wrap-up 2026-08-28 (Sprint 23):** Per-channel App name cooldown dropdown (default 30s) omits repeating the same app name on notification and message shouts. Notification row stays Yes.
 
 Status: **Yes** shipped · **Partial** logic or subset UI · **No** missing · **Skip** will not copy (FOSS / out of scope).

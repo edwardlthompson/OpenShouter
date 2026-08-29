@@ -230,6 +230,8 @@ grep '\[AUTO\]' BUILD_PLAN.md
 > **Sprint 20 leftover ADB** archived in COMPLETED_TASKS.md @ `83b45d9`.
 > **Sprint 21** AGENT/AUTO archived in COMPLETED_TASKS.md @ `66584d0`.
 > **/ship v0.12.0** archived in COMPLETED_TASKS.md @ `5816578`.
+> **Sprint 22** AGENT/AUTO archived in COMPLETED_TASKS.md @ `38525c3`.
+> **/ship v1.0.0** archived in COMPLETED_TASKS.md @ `38525c3`.
 
 ### Sprint 21 leftover ADB
 
@@ -239,13 +241,11 @@ grep '\[AUTO\]' BUILD_PLAN.md
 
 ---
 
-### Sprint 22 — Record shouts in announcement history
+### Sprint 22 leftover ADB
 
-<!-- parallel_exception: single vertical slice; one AGENT row -->
+<!-- parallel_exception: HUMAN leftover; AGENT/AUTO archived -->
 
-- ✅ [AGENT] Persist TIME/POWER/REMINDER/CALENDAR/BLUETOOTH history rows (`docs/features/shout-history.md`)
-- ✅ [AUTO] `python3 scripts/agent-run.py watch-agent-gates --once --autofix`
-- 🔲 [ADB] After a time shout, Announcement history shows a Time row; Show spoken text reveals the phrase
+- 🔲 [ADB] After a time shout, Announcement history shows a Time row; Show spoken text reveals the phrase (v1.0.0 sideloaded)
 
 ---
 
@@ -314,6 +314,8 @@ grep '\[AUTO\]' BUILD_PLAN.md
 | Sprint 20 leftover ADB (history mute on CPH2583) | Complete | `COMPLETED_TASKS.md` |
 | Sprint 21 — Call repeat once vs until answered | Complete (AGENT/AUTO) | `COMPLETED_TASKS.md` |
 | /ship v0.12.0 | Complete | `COMPLETED_TASKS.md` |
+| Sprint 22 — Record shouts in announcement history | Complete (AGENT/AUTO) | `COMPLETED_TASKS.md` |
+| /ship v1.0.0 | Complete | `COMPLETED_TASKS.md` |
 | /ship v0.6.0 | Complete | `COMPLETED_TASKS.md` |
 | /ship v0.7.0 | Complete | `COMPLETED_TASKS.md` |
 | /ship v0.8.0 | Complete | `COMPLETED_TASKS.md` |
