@@ -11,7 +11,7 @@
 | Architecture | Clean Architecture + MVVM | ADR-0001 | Hilt DI, Room, DataStore, Coroutines/Flow |
 | License | MIT | - | Pure FOSS; no Play Services |
 | Distribution | GitHub Releases only | - | No Play Store, no F-Droid listing, no Play Core |
-| Template | agent-project-bootstrap | 0.17.0 scaffold; standards 0.21.0; product 1.1.0 | Product semver stays in `.template-version` |
+| Template | agent-project-bootstrap | 0.17.0 scaffold; standards 0.21.0; product 1.1.1 | Product semver stays in `.template-version` |
 ## Active Modules
 
 - ❌ Web / PWA (`modules/web/MODULE.md`)
@@ -108,10 +108,11 @@ OpenShouter is a FOSS recreation/enhancement of classic Shouter (`com.bhkapps.sh
 | 2026-08-28 | `/ship` v0.12.0 | VoIP once-by-default; RP #37; signed `openshouter-0.12.0-foss.apk` (versionCode 20) | Sideloaded on CPH2583 (`b5214fc6`) and CPH2655 (`8bf09993`); ADB leftover is call-repeat smoke |
 | 2026-08-28 | `/ship` v1.0.0 | Cloud Sprint 22 history #39; `Release-As: 1.0.0`; RP #40; signed `openshouter-1.0.0-foss.apk` (versionCode 21) | ADB leftovers: call-repeat smoke + Time-row history smoke |
 | 2026-08-29 | `/ship` v1.1.0 | Cloud #41 cooldown + #42 calendar grant; RP #43; signed `openshouter-1.1.0-foss.apk` (versionCode 22) | ADB leftovers: photo-burst cooldown + Time-row history + call-repeat smoke |
+| 2026-08-29 | `/ship` v1.1.1 | Announcer App name cooldown; RP #44; signed `openshouter-1.1.1-foss.apk` (versionCode 23) | Sideloaded on CPH2583 and CPH2655; photo-burst + call-repeat ADB still open |
 ## Template Provenance
 
 - **Source template:** `edwardlthompson/agent-project-bootstrap`
 - **Bootstrap scaffold / standards:** `0.17.0` / `0.21.0` (not product semver)
-- **Product version:** `1.1.0` (see `.template-version`)
+- **Product version:** `1.1.1` (see `.template-version`)
 - **Last update check:** See `.template-update.json`
 - **Stack selection:** `.cursor/stack-selection.json` (`android`, `foss`, pruned)

@@ -2,6 +2,13 @@
 
 > Archive of finished BUILD_PLAN items.
 
+## /ship v1.1.1 (2026-08-29)
+
+- ✅ [AUTO] `pre-release-gate.sh` (HEAD CI/CodeQL/Security Scan)
+- ✅ [HUMAN] Approve release tag when product-ready (`/ship` + Release Please #44)
+- ✅ [AUTO] `publish-foss-apk` → `openshouter-1.1.1-foss.apk` (versionCode 23)
+- ✅ [ADB] Sideload v1.1.1 on CPH2583 and CPH2655
+
 ## Sprint 22 leftover ADB (2026-08-29)
 
 - ✅ [ADB] After a time shout, Announcement history shows a Time row; Show spoken text reveals the phrase (CPH2655, v1.1.0). Room TIME rows at 07:00, 08:00, and 09:00 (spoken length 29–30); history list showed Time; Show spoken text revealed the phrase. CPH2583: time shout enabled, 15-minute interval persisted; 09:00 slot missed the 2-minute grace after enable.

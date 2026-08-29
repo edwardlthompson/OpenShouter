@@ -17,6 +17,13 @@
 
 ## Entries
 
+### 2026-08-29 — /ship v1.1.1
+- **Status:** Accepted
+- **Context:** App name cooldown shipped in 1.1.0 but lived under Voice → per-channel states. User asked for it on Announcer and invoked `/ship`.
+- **Decision:** Put the dropdown on Announcer → What to shout; write Message + Notification together. Patch `1.1.1`, `versionCode` 23, merge Release Please #44, upload release-signed `openshouter-1.1.1-foss.apk`, sideload both phones.
+- **Alternatives considered:** Keep Voice-only placement (rejected: not discoverable). `feat` minor 1.2.0 (rejected: same setting, new location).
+- **Consequences:** https://github.com/edwardlthompson/OpenShouter/releases/tag/v1.1.1. Photo-burst and call-repeat ADB leftovers stay open.
+
 ### 2026-08-29 — /ship v1.1.0
 - **Status:** Accepted
 - **Context:** Cloud agents opened [#41](https://github.com/edwardlthompson/OpenShouter/pull/41) (app-name cooldown) and draft [#42](https://github.com/edwardlthompson/OpenShouter/pull/42) (calendar grant/scan). User asked to review, merge, and ship.
