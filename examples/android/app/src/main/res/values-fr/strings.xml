@@ -273,7 +273,7 @@
     <string name="nav_calendar">Annonce agenda</string>
     <string name="nav_bluetooth">Annonce Bluetooth</string>
     <string name="calendar_enable">Annoncer les événements à venir</string>
-    <string name="calendar_help">Lit le titre du prochain événement dans la fenêtre d’anticipation. Les titres restent sur l’appareil et ne sont jamais journalisés.</string>
+    <string name="calendar_help">Utilise les agendas déjà synchronisés sur ce téléphone. Accordez l’accès Agenda Android — aucune connexion à Google Agenda. Énonce une fois chaque titre horodaté lorsqu’il commence dans la fenêtre d’anticipation.</string>
     <string name="calendar_lookahead">Anticipation</string>
     <string name="calendar_lookahead_min">%1$d min</string>
     <string name="calendar_soon">À venir : %1$s</string>

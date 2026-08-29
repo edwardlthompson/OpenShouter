@@ -5,8 +5,9 @@ Speak the next calendar title in a user-picked look-ahead window (5 / 15 / 30 mi
 ## Acceptance criteria
 
 - Off by default (`calendarShoutEnabled`)
-- Requires `READ_CALENDAR`; setup row explains why
-- Skip blank titles; speak each `eventId+begin` once
+- Requires `READ_CALENDAR`; setup row and Calendar pane explain Android calendar permission plus device-synced calendars (no Google Calendar OAuth)
+- Skip blank titles, all-day, hidden, and declined rows; speak each `eventId+begin` once
+- `CalendarMonitor.start()` registers `TIME_TICK` even before permission; scan no-ops until granted
 - Never log event titles
 
 ## Smoke scenario
@@ -26,7 +27,7 @@ Speak the next calendar title in a user-picked look-ahead window (5 / 15 / 30 mi
 | Wiring | `AnnouncerService` start + `OpenShouterPanes` ≤10 lines |
 ## Fallback validation
 
-Unit tests cover skip/blank/once. Device grant is `[ADB]` on CPH2655.
+Unit tests cover skip/blank/once plus pickNext past/all-day/hidden. Device grant is `[ADB]` on CPH2655.
 
 ## Critique
 
@@ -36,3 +37,5 @@ Unit tests cover skip/blank/once. Device grant is `[ADB]` on CPH2655.
 | Network timeout | N/A — on-device provider |
 | Race | Single `TtsController` queue; lastSpoken pair |
 | Unhandled exceptions | `runCatching` on query; skip event |
+| First Instances row is all-day or in-progress | `pickNext` walks rows; SQL `BEGIN>=now`; skip all-day/hidden/declined |
+| Permission granted after service start | `start()` no longer requires `READ_CALENDAR`; scan checks each tick |

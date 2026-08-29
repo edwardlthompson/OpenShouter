@@ -273,7 +273,7 @@
     <string name="nav_calendar">Anuncio de calendario</string>
     <string name="nav_bluetooth">Anuncio Bluetooth</string>
     <string name="calendar_enable">Anunciar eventos próximos</string>
-    <string name="calendar_help">Lee el título del próximo evento en la ventana de anticipación. Los títulos quedan en el dispositivo y nunca se registran.</string>
+    <string name="calendar_help">Usa los calendarios ya sincronizados en este teléfono. Concede el permiso de calendario de Android; no se inicia sesión en Google Calendar. Dice cada título con hora una vez cuando empieza dentro de la ventana de anticipación.</string>
     <string name="calendar_lookahead">Anticipación</string>
     <string name="calendar_lookahead_min">%1$d min</string>
     <string name="calendar_soon">Próximo: %1$s</string>

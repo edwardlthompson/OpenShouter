@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import dev.foss.goldenpath.R
+import org.openshouter.calendar.CalendarEnableToggle
 import org.openshouter.domain.AppSettings
 import org.openshouter.domain.QuietHours
 import org.openshouter.gesture.ShakeSettings
@@ -51,7 +52,7 @@ fun AnnouncerSettingsScreen(
             MenuToggle(stringResource(R.string.announcer_time), settings.timeShoutEnabled, onTimeShout, true)
             MenuToggle(stringResource(R.string.announcer_missed), settings.missedCall.enabled, onMissed, true)
             MenuToggle(stringResource(R.string.announcer_messages), settings.messageChannel.enabled, onMessages, true)
-            MenuToggle(stringResource(R.string.calendar_enable), settings.calendarShoutEnabled, onCalendar, true)
+            CalendarEnableToggle(settings.calendarShoutEnabled, onCalendar, showDivider = true)
             MenuToggle(stringResource(R.string.bluetooth_connect), settings.bluetoothConnectAlert, onBluetoothConnect, true)
         }
         MenuSection(stringResource(R.string.menu_section_more)) {
