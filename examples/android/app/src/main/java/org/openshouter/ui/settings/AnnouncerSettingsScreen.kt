@@ -5,8 +5,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import dev.foss.goldenpath.R
 import org.openshouter.calendar.CalendarEnableToggle
+import org.openshouter.domain.AppNameCooldown
 import org.openshouter.domain.AppSettings
 import org.openshouter.domain.QuietHours
+import org.openshouter.domain.ShoutChannel
+import org.openshouter.ui.channel.AppNameCooldownDropdown
 import org.openshouter.gesture.ShakeSettings
 import org.openshouter.ui.menu.MenuBody
 import org.openshouter.ui.menu.MenuLink
@@ -32,6 +35,7 @@ fun AnnouncerSettingsScreen(
     onTimeShout: (Boolean) -> Unit,
     onMissed: (Boolean) -> Unit,
     onMessages: (Boolean) -> Unit,
+    onAppNameCooldown: (Int) -> Unit = {},
     onOpenQuiet: () -> Unit,
     onOpenTime: () -> Unit,
     onOpenContacts: () -> Unit = {},
@@ -54,6 +58,12 @@ fun AnnouncerSettingsScreen(
             MenuToggle(stringResource(R.string.announcer_messages), settings.messageChannel.enabled, onMessages, true)
             CalendarEnableToggle(settings.calendarShoutEnabled, onCalendar, showDivider = true)
             MenuToggle(stringResource(R.string.bluetooth_connect), settings.bluetoothConnectAlert, onBluetoothConnect, true)
+            MenuBody {
+                AppNameCooldownDropdown(
+                    seconds = AppNameCooldown.secondsFor(settings, ShoutChannel.MESSAGE),
+                    onChange = onAppNameCooldown,
+                )
+            }
         }
         MenuSection(stringResource(R.string.menu_section_more)) {
             MenuLink(stringResource(R.string.announcer_time_customize), onOpenTime)

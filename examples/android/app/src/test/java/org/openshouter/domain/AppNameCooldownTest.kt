@@ -46,4 +46,12 @@ class AppNameCooldownTest {
         assertFalse(AppNameCooldown.isAppLabel("Jane", "Messages"))
         assertFalse(AppNameCooldown.isAppLabel("", "Messages"))
     }
+
+    @Test
+    fun announcerDropdownWritesMessageAndNotification() {
+        val updated = AppNameCooldown.applyToSpoken(AppSettings(), 60)
+        assertEquals(60, updated.getValue(ShoutChannel.MESSAGE).appNameCooldownSeconds)
+        assertEquals(60, updated.getValue(ShoutChannel.NOTIFICATION).appNameCooldownSeconds)
+        assertFalse(updated.containsKey(ShoutChannel.CALL))
+    }
 }

@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
+import org.openshouter.domain.AppNameCooldown
 import org.openshouter.domain.AppSettings
 import org.openshouter.service.OpenShouterEntryPoint
 import org.openshouter.ui.menu.MenuScrollStore
@@ -69,6 +70,9 @@ fun AnnouncerPane(
         },
         onMessages = { on ->
             scope.launch { ep.settings().setMessageChannel(settings.messageChannel.copy(enabled = on)) }
+        },
+        onAppNameCooldown = { seconds ->
+            scope.launch { ep.sprint13().setChannelStates(AppNameCooldown.applyToSpoken(settings, seconds)) }
         },
         onOpenQuiet = { onPane(Pane.Quiet) },
         onOpenTime = { onPane(Pane.Time) },

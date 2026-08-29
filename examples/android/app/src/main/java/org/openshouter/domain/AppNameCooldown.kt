@@ -37,4 +37,19 @@ object AppNameCooldown {
         val app = label.trim()
         return spoken.isNotEmpty() && app.isNotEmpty() && spoken.equals(app, ignoreCase = true)
     }
+
+    fun applyToSpoken(settings: AppSettings, seconds: Int): Map<ShoutChannel, ChannelDeviceState> {
+        val clamped = clampSeconds(seconds)
+        return SPOKEN_CHANNELS.fold(settings.channelStates) { acc, channel ->
+            val current = ChannelStates.resolve(
+                acc,
+                channel,
+                settings.deviceState,
+                settings.ttsPlayback,
+            )
+            acc + (channel to current.copy(appNameCooldownSeconds = clamped).clamp())
+        }
+    }
+
+    private val SPOKEN_CHANNELS = listOf(ShoutChannel.NOTIFICATION, ShoutChannel.MESSAGE)
 }

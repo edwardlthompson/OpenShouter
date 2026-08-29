@@ -4,7 +4,8 @@ A dropdown on each shout channel sets how long OpenShouter waits before saying t
 
 ## Acceptance criteria
 
-- ✅ Voice → per-channel states has an **App name cooldown** dropdown (Off, 10s, 30s, 1 min, 2 min, 5 min)
+- ✅ Announcer (What to shout) has an **App name cooldown** dropdown (Off, 10s, 30s, 1 min, 2 min, 5 min) that writes Message + Notification
+- ✅ Voice → per-channel states still has the same dropdown per channel
 - ✅ Default is 30 seconds on every channel, including previously saved rows that omit `ac`
 - ✅ Off (0) always speaks the app name
 - ✅ Notification path omits `%app` and a title that equals the app label during the window
@@ -27,10 +28,9 @@ A dropdown on each shout channel sets how long OpenShouter waits before saying t
 | Layer | Path |
 |-------|------|
 | Logic | `domain/AppNameCooldown.kt`, `domain/ChannelDeviceState.kt` |
-| View | `ui/channel/AppNameCooldownDropdown.kt`, `ChannelStateScreen.kt` |
+| View | `ui/channel/AppNameCooldownDropdown.kt`, `AnnouncerSettingsScreen.kt`, `ChannelStateScreen.kt` |
 | Tests | `AppNameCooldownTest`, `NotificationUtteranceTest`, `MessageChannelTest`, `Sprint13LockTest` |
-| Wiring | Existing `onChannelStates` in Voice / ChannelStateScreen (0 new composition-root lines) |
-
+| Wiring | `AnnouncerPane.onAppNameCooldown` → `setChannelStates` (1 line) |
 ## Critique
 
 | Issue | Resolution |
@@ -43,7 +43,6 @@ A dropdown on each shout channel sets how long OpenShouter waits before saying t
 | PII in logcat | Do not log title, text, sender, or spoken phrase |
 | `strings.xml` 300-line cap | Keys live in `strings_channel.xml` |
 | Filter ignore after name included | Mark app-name time only after regex lets the utterance through |
-
 ## Notes
 
 - Call / time / battery rows show the same dropdown; only notification and message speak paths apply it.
