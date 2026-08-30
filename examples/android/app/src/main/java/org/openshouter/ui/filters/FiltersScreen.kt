@@ -56,6 +56,12 @@ fun FiltersScreen(
             MenuToggle(stringResource(R.string.filters_ignore_repeats), policy.ignoreRepeats, {
                 onPolicy(policy.copy(ignoreRepeats = it))
             }, true)
+            MenuToggle(stringResource(R.string.filters_ignore_bubbles), policy.ignoreBubbles, {
+                onPolicy(policy.copy(ignoreBubbles = it))
+            }, true)
+            MenuToggle(stringResource(R.string.filters_ignore_work_profile), policy.ignoreWorkProfile, {
+                onPolicy(policy.copy(ignoreWorkProfile = it))
+            }, true)
             MenuToggle(stringResource(R.string.filters_collapse_repeats), policy.collapseRepeats, {
                 onPolicy(policy.copy(collapseRepeats = it))
             }, true)

@@ -26,7 +26,11 @@ object CallChannel {
             !settings.missedCall.speakUnknown -> return null
             else -> resolved.spoken
         }
-        val template = if (appLabel.isNotBlank() && resolved.known && "%app" !in settings.callFormat) {
+        val isConf = settings.telephonyExtras.conferenceHintEnabled &&
+            (name.contains("conference", ignoreCase = true) || name.contains("participants", ignoreCase = true))
+        val template = if (isConf) {
+            "Conference call from %name"
+        } else if (appLabel.isNotBlank() && resolved.known && "%app" !in settings.callFormat) {
             "Incoming %app call from %name"
         } else {
             settings.callFormat

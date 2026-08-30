@@ -11,6 +11,8 @@ data class AppOverride(
     val stream: TtsStream? = null,
     val delaySeconds: Int? = null,
     val maxLength: Int? = null,
+    val minImportance: SpeakImportance? = null,
+    val appNameCooldownSeconds: Int? = null,
 ) {
     fun mergeFormat(global: String): String = format?.trim()?.takeIf { it.isNotEmpty() } ?: global
 
@@ -55,6 +57,8 @@ object AppOverrides {
         row.stream?.let { parts += "st=${it.name}" }
         row.delaySeconds?.let { parts += "delay=$it" }
         row.maxLength?.let { parts += "max=$it" }
+        row.minImportance?.let { parts += "imp=${it.name}" }
+        row.appNameCooldownSeconds?.let { parts += "cd=$it" }
         if (parts.size == 1) return@mapNotNull null
         parts.joinToString("|")
     }.toSet()
@@ -87,6 +91,8 @@ object AppOverrides {
             stream = fields["st"]?.let { runCatching { TtsStream.valueOf(it) }.getOrNull() },
             delaySeconds = fields["delay"]?.toIntOrNull(),
             maxLength = fields["max"]?.toIntOrNull(),
+            minImportance = fields["imp"]?.let { runCatching { SpeakImportance.valueOf(it) }.getOrNull() },
+            appNameCooldownSeconds = fields["cd"]?.toIntOrNull(),
         )
     }
 

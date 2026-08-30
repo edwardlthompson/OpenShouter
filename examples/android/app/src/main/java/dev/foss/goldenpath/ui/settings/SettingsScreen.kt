@@ -30,6 +30,7 @@ fun SettingsScreen(
         ThemeMode.System to stringResource(R.string.settings_theme_mode_system),
         ThemeMode.Light to stringResource(R.string.settings_theme_mode_light),
         ThemeMode.Dark to stringResource(R.string.settings_theme_mode_dark),
+        ThemeMode.HighContrast to stringResource(R.string.theme_mode_high_contrast),
     )
     val selected = SettingsLogic.themeModeName(themeMode.name)
     MenuScaffold(stringResource(R.string.settings_title), scrollStore, "settings", onBack, modifier) {

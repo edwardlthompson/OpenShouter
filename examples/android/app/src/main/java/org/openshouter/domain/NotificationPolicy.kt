@@ -15,6 +15,9 @@ enum class IgnoreReason {
     GATE_SILENT,
     GATE_CALL,
     IMPORTANCE,
+    BUBBLE,
+    WORK_PROFILE,
+    CONTACT_COOLDOWN,
 }
 
 data class NotificationPolicy(
@@ -26,6 +29,9 @@ data class NotificationPolicy(
     val collapseWindowMs: Long = DEFAULT_COLLAPSE_WINDOW_MS,
     val minImportance: SpeakImportance = SpeakImportance.ANY,
     val dndPriorityOnly: Boolean = true,
+    val ignoreBubbles: Boolean = true,
+    val ignoreWorkProfile: Boolean = false,
+    val contactCooldownSeconds: Int = 0,
 ) {
     fun decide(
         title: String,

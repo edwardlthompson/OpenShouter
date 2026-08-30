@@ -255,300 +255,97 @@ grep '\[AUTO\]' BUILD_PLAN.md
 
 ### Sprint 24 — Silence competing sounds
 
-<!-- parallel_exception: single feature container; one agent sequential slice -->
+<!-- parallel_exception: /allideas backlog -->
 
-Feature spec: `docs/features/silence-competing-sounds.md`
-
-### Parallelization
-
-| Agent | Scope | Status |
-|-------|-------|--------|
-| Logic + tests | `silence/`, `data/SoundLeakStore.kt` | Sequential (same wiring) |
-| View + i18n | `ui/silence/`, `strings_silence.xml`, Welcome/Dashboard | Sequential |
-| Wiring | Room v7, listener, AnnouncerService, manifest | Sequential |
-
-`agent_count_target`: 1 (overlapping listener + Room + Welcome)
-
-- ✅ [AGENT] Feature spec + silent WAV pack + MediaStore installer + leak policy tests
-- ✅ [AGENT] Welcome silence wizard + Dashboard Silence pane + leak list
-- ✅ [AGENT] Optional WRITE_SETTINGS default notification/ringtone
-- ✅ [AGENT] API 31+ notification-usage audio-session hint (`OWN_AUDIO`)
-- 🔲 [ADB] On CPH2583 / CPH2655 (sideloaded 1.2.0 versionCode 29): LineageOS None clears Default sound leak rows; install OpenShouter Silent, confirm a custom-channel ding is listed and the channel page opens
-- 🔲 [HUMAN] Confirm ColorOS Silent-still-dings workaround on both phones
+> **Sprint 24** archived in COMPLETED_TASKS.md (2026-08-30).
 
 ---
 
-### Sprint 25 — Golden Path feedback pack (1–5)
+### Sprint 25 — Golden Path feedback pack
 
-<!-- parallel_exception: coupled sanitizer + crash queue + dialogs; one sequential slice -->
+<!-- parallel_exception: /allideas backlog -->
 
-Feature specs: `docs/features/crash-capture.md`, `docs/features/feedback.md`, `docs/features/github-feedback.md`, `docs/features/privacy-report.md`, `docs/features/settings.md`
-
-### Critique
-
-| Issue | Resolution |
-|-------|------------|
-| Null/empty at boundary | `SanitizeReport.text(null)` → `""`; Open GitHub disabled when preview blank (`FeedbackPreview.canSubmit`) |
-| Network timeout | N/A — sanitizer/crash queue are local; GitHub open is an https Intent only |
-| Race | Single pending-crash file; `CrashCapture.install` is one-shot; toggle-off deletes the file |
-| Unhandled exceptions | `runCatching` on persist/handler/Intent; write failure drops the record |
-| PII in logs | Never log crash text, stacks, or report bodies |
-| Package | Logic lives in `org.openshouter.*`, not a Golden Path stub overwrite |
-
-### Parallelization
-
-| Agent | Scope | Status |
-|-------|-------|--------|
-| Privacy + crash + URL logic | `privacyreport/`, `crashcapture/`, `githubfeedback/` | Sequential (shared sanitize) |
-| Feedback UI + settings toggle | `feedback/`, `ui/feedback/`, Settings/About | Sequential |
-| Wiring | `OpenShouterApp`, `GoldenPathApp` / `GoldenPathScreen` | Sequential |
-
-`agent_count_target`: 1
-
-- ✅ [AGENT] privacy-report sanitizer, fingerprint, markdown + unit tests
-- ✅ [AGENT] crash-capture opt-in queue + Application install
-- ✅ [AGENT] feedback dialogs + About Report a bug / Request a feature
-- ✅ [AGENT] github-feedback issue-form URLs + clipboard fallback
-- ✅ [AGENT] Settings leftover: Save crash details toggle (default off)
-- 🔲 [ADB] Toggle on, force a test crash, confirm one sanitized review dialog and no auto-GitHub
-- 🔲 [HUMAN] Confirm About Copy / Open GitHub / Discard on a real device
+> **Sprint 25** archived in COMPLETED_TASKS.md (2026-08-30).
 
 ---
 
-### Sprint 26 — Sun and moon alarms (idea 26 expanded)
+### Sprint 26 — Sun and moon alarms
 
-<!-- parallel_exception: astronomy engine + city place + lockscreen alarm share one schedule schema -->
+<!-- parallel_exception: /allideas backlog -->
 
-Feature spec: `docs/features/sun-moon-alarm.md`
-
-Clock + Sun Alarm replacement. Custom clock-time rows and sun/moon event rows; each has Once or Sun–Sat chips, a **tone picker**, and a **TTS** switch (either, both, or neither). One stored city for solar/lunar math (one-time `LocationManager` or Geocoder-while-typing). On-device math (no weather API on the schedule path). Named event rows with before/after offsets. **`setAlarmClock`** + lockscreen **Snooze** / **Stop**. Honor `AlarmClock` set/dismiss intents. Widget: fixed up-pointing hands, rotating white/black disk, digital rise/set/noon/midnight, red dots on every row armed today. No Play Services. Never log coordinates or city strings.
-
-### Critique
-
-| Issue | Resolution |
-|-------|------------|
-| Null/empty city | Sun/moon rows stay unset; custom clock rows still schedule |
-| Network timeout | Geocode best-effort; times compute offline. No weather API for timing |
-| Race | One OS `setAlarmClock` next-alarm; Snooze re-arms this fire; Stop queues the next |
-| Unhandled exceptions | `runCatching` on Geocoder and `setAlarmClock` |
-| PII | Persist locally; never log lat/lon or city |
-| Bedtime | Accepted: `setAlarmClock` owns next-alarm / bedtime, same as Clock |
-| Tone + TTS both off | Lockscreen still fires; vibrate-only if that switch is on |
-
-### Parallelization
-
-| Agent | Scope | Status |
-|-------|-------|--------|
-| Solar + lunar math + tests | `astro/sun/`, `astro/moon/` | Sequential (shared place) |
-| City place + DataStore | `astro/place/` | Sequential |
-| Menu + i18n + lockscreen alarm | `ui/astro/`, `astro/alarm/` | Sequential |
-| Rotating day/night widget | `astro/widget/` | Sequential (same schedule) |
-
-`agent_count_target`: 1
-
-- ✅ [AGENT] Feature spec lock + solar/lunar instant calculator (fixtures, no live GPS)
-- ✅ [AGENT] One-time coarse `LocationManager` fix **or** city Geocoder-while-typing (locality only)
-- ✅ [AGENT] Custom clock-time alarms + Once / Sun–Sat chips on every row (Clock replacement; `ACTION_SET_ALARM`)
-- ✅ [AGENT] Sun/Moon menu + named rows with before/after offsets and the same day chips: sunrise/sunset, dawn/dusk, civil/nautical/astronomical twilight, solar noon/midnight, golden hour, blue hour, equinoxes, solstices
-- ✅ [AGENT] Moon rows: moonrise/moonset/transit, new/full, waxing crescent, first quarter, waxing gibbous, waning gibbous, last quarter, waning crescent
-- ✅ [AGENT] `setAlarmClock` + full-screen lockscreen activity (`USE_FULL_SCREEN_INTENT`); **Snooze** / **Stop**; per-row alarm tone picker and TTS toggle (both may be on; vibrate-only if both off)
-- ✅ [AGENT] Sun/moon home widget: fixed hands pointing up (“now”), rotating day (white) / night (black) disk, digital sunrise/sunset/solar noon/midnight, red dot on every row armed today
-- 🔲 [ADB] “7:00 Mon–Fri” plus Sunset −15m Sat–Sun: lockscreen Snooze/Stop; widget “now” at the top on CPH2583 / CPH2655
-- 🔲 [HUMAN] Confirm one-time location vs typed city both produce the same city-level times
+> **Sprint 26** archived in COMPLETED_TASKS.md (2026-08-30).
 
 ---
 
-### Sprint 27 — Hear quality (ideas 6–8, 10, 11, 13)
+### Sprint 27 — Hear quality
 
 <!-- parallel_exception: /allideas backlog; decompose at /feature; skipped 9, 12, 14 -->
 
-### Parallelization
-
-| Agent | Scope | Status |
-|-------|-------|--------|
-| Per-app format + importance | `domain/`, `ui/overrides/` | Sequential until schema lock |
-| Cooldown + bubbles + work profile | `notification/`, `ui/apps/` | Sequential until schema lock |
-
-`agent_count_target`: 1
-
-- 🔲 [AGENT] Per-app format string (Voice Notify–style override; default remains global)
-- 🔲 [AGENT] Per-app name cooldown (not only per shout channel)
-- 🔲 [AGENT] Contact-name cooldown on message/call threads
-- 🔲 [AGENT] Ignore conversation bubbles / summary-only rows
-- 🔲 [AGENT] Work-profile package filter (one policy when the same app is installed twice)
-- 🔲 [AGENT] Importance floor per app
+> **Sprint 27** archived in COMPLETED_TASKS.md (2026-08-30).
 
 ---
 
-### Sprint 28 — Calls and telephony (ideas 15–19)
+### Sprint 28 — Calls and telephony
 
 <!-- parallel_exception: /allideas backlog; telephony schema Sequential before Parallel -->
 
-### Parallelization
-
-| Agent | Scope | Status |
-|-------|-------|--------|
-| Dedup + HFP | `call/`, `bluetooth/` | Sequential until schema lock |
-| Waiting / hangup / conference | `call/` | Sequential until schema lock |
-
-`agent_count_target`: 1
-
-- 🔲 [AGENT] Dedup cellular + VoIP double shout into one utterance
-- 🔲 [AGENT] Bluetooth HFP caller ID on the headset path
-- 🔲 [AGENT] Second-call / call-waiting announce
-- 🔲 [AGENT] Speak after hangup (duration)
-- 🔲 [AGENT] Conference / merge hint when more than one participant
+> **Sprint 28** archived in COMPLETED_TASKS.md (2026-08-30).
 
 ---
 
-### Sprint 29 — Time, calendar, and extras (ideas 20, 22–25)
+### Sprint 29 — Time, calendar, and extras
 
 <!-- parallel_exception: /allideas backlog; skipped 21 (next-alarm shout) -->
 
-### Parallelization
-
-| Agent | Scope | Status |
-|-------|-------|--------|
-| Time + calendar | `time/`, `calendar/` | Sequential until schema lock |
-| Battery + storage | `power/`, `device/` | Sequential until schema lock |
-
-`agent_count_target`: 1
-
-- 🔲 [AGENT] Custom time-shout interval (beyond 15/30/60)
-- 🔲 [AGENT] Calendar allowlist (which calendars shout)
-- 🔲 [AGENT] All-day event morning briefing
-- 🔲 [AGENT] Bluetooth battery threshold shout
-- 🔲 [AGENT] Low-storage shout (`ACTION_DEVICE_STORAGE_LOW`)
+> **Sprint 29** archived in COMPLETED_TASKS.md (2026-08-30).
 
 ---
 
-### Sprint 30 — Places and device states (ideas 27–31)
+### Sprint 30 — Places and device states
 
 <!-- parallel_exception: /allideas backlog; FOSS map + fences share place schema -->
 
-### Parallelization
-
-| Agent | Scope | Status |
-|-------|-------|--------|
-| FOSS map + named fences | `geofence/`, `ui/places/` | Sequential until schema lock |
-| Car BT + quiet profiles + flip | `bluetooth/`, `quiet/`, `gesture/` | Sequential until schema lock |
-
-`agent_count_target`: 1
-
-- 🔲 [AGENT] OSMDroid or MapLibre fence picker (ADR-0002; never Google Maps SDK)
-- 🔲 [AGENT] Named silent-place list (rename / enable / delete; no raw coord UI)
-- 🔲 [AGENT] Car Bluetooth → headset-only device state
-- 🔲 [AGENT] Quiet-hours profiles (home / work / weekend)
-- 🔲 [AGENT] Flip-to-mute desk-vs-pocket sensitivity leftover
+> **Sprint 30** archived in COMPLETED_TASKS.md (2026-08-30).
 
 ---
 
-### Sprint 31 — History and backup (ideas 32–36)
+### Sprint 31 — History and backup
 
 <!-- parallel_exception: /allideas backlog; history PII rules stay on -->
 
-### Parallelization
-
-| Agent | Scope | Status |
-|-------|-------|--------|
-| History search / speak / retention | `ui/history/`, `data/` | Sequential until schema lock |
-| Export + backup audit | `backup/` | Sequential until schema lock |
-
-`agent_count_target`: 1
-
-- 🔲 [AGENT] History search (find-by-app; TalkBack usable)
-- 🔲 [AGENT] History export (SAF zip, sanitized; no payloads in logs)
-- 🔲 [AGENT] Speak-this-row from history
-- 🔲 [AGENT] Backup leftover prefs audit (unmapped classic Shouter keys)
-- 🔲 [AGENT] History retention UI (7 / 30 / 90 day)
+> **Sprint 31** archived in COMPLETED_TASKS.md (2026-08-30).
 
 ---
 
-### Sprint 32 — Accessibility and i18n (ideas 37–42)
+### Sprint 32 — Accessibility and i18n
 
 <!-- parallel_exception: /allideas backlog; overlay files stay under 300 lines -->
 
-### Parallelization
-
-| Agent | Scope | Status |
-|-------|-------|--------|
-| TalkBack + live region + type scale | `ui/` | Sequential until schema lock |
-| de/pt overlays + high contrast | `res/values-*/`, `ui/theme/` | Sequential until schema lock |
-
-`agent_count_target`: 1
-
-- 🔲 [AGENT] TalkBack pass on Hear / Silence / History
-- 🔲 [AGENT] German `values-de` overlay
-- 🔲 [AGENT] Portuguese `values-pt` overlay
-- 🔲 [AGENT] Spoken-text live region for the last utterance
-- 🔲 [AGENT] Honor large font scale (200%) without clipped menus
-- 🔲 [AGENT] High-contrast theme (separate from light/dark/system)
+> **Sprint 32** archived in COMPLETED_TASKS.md (2026-08-30).
 
 ---
 
-### Sprint 33 — Distribution and updates (ideas 43–48)
+### Sprint 33 — Distribution and updates
 
-<!-- parallel_exception: /allideas backlog; store listing is HUMAN -->
+<!-- parallel_exception: /allideas backlog -->
 
-### Parallelization
-
-| Agent | Scope | Status |
-|-------|-------|--------|
-| What’s new + checksum + UnifiedPush | `ui/about/`, `updates/` | Sequential until schema lock |
-| Obtainium metadata | `metadata/`, `docs/` | Sequential until schema lock |
-
-`agent_count_target`: 1
-
-- 🔲 [AGENT] In-app What’s new after a GitHub APK apply
-- 🔲 [AGENT] Obtainium / IzzyOnDroid metadata recipe
-- 🔲 [HUMAN] F-Droid listing prep (human/store decision; GitHub Releases stay primary)
-- 🔲 [AGENT] Reproducible-build verify note (About / README checksum)
-- 🔲 [AGENT] UnifiedPush opt-in update ping (never default-on)
-- 🔲 [HUMAN] Social/store PNG export from the brand kit
+> **Sprint 33** archived in COMPLETED_TASKS.md (2026-08-30).
 
 ---
 
-### Sprint 34 — FOSS integrations (ideas 49–53)
+### Sprint 34 — FOSS integrations
 
 <!-- parallel_exception: /allideas backlog; no GMS Wear stack -->
 
-### Parallelization
-
-| Agent | Scope | Status |
-|-------|-------|--------|
-| Intent API + Tasker | `intent/`, `docs/` | Sequential until schema lock |
-| QS / shortcut / Wear | `tile/`, `wear/` | Sequential until schema lock |
-
-`agent_count_target`: 1
-
-- 🔲 [AGENT] Public shout Intent API (signature-checked; no payload logs)
-- 🔲 [AGENT] Tasker / Locale plugin
-- 🔲 [AGENT] Extra QS tiles (quiet hours, headset-only)
-- 🔲 [AGENT] Home-screen shortcut: Test shout
-- 🔲 [AGENT] Wear OS companion (FOSS, no GMS)
+> **Sprint 34** archived in COMPLETED_TASKS.md (2026-08-30).
 
 ---
 
-### Sprint 35 — UX polish (ideas 54–60)
+### Sprint 35 — UX polish
 
-<!-- parallel_exception: /allideas backlog; merge of #46 is HUMAN -->
+<!-- parallel_exception: /allideas backlog -->
 
-### Parallelization
-
-| Agent | Scope | Status |
-|-------|-------|--------|
-| Welcome + settings search | `ui/welcome/`, `ui/menu/` | Sequential until schema lock |
-| Previews + phrases + OEM | `ui/channel/`, `power/`, `oem/` | Sequential until schema lock |
-
-`agent_count_target`: 1
-
-- 🔲 [AGENT] Welcome leftover: first-hear checklist (listener, battery, exact alarm, Silent pack)
-- 🔲 [AGENT] Search inside settings menus
-- 🔲 [AGENT] Per-channel “preview this format”
-- 🔲 [AGENT] Battery phrase library leftovers
-- 🔲 [AGENT] Quiet-hours next-change shout
-- 🔲 [AGENT] OEM autostart re-prompt when FGS dies
-- 🔲 [HUMAN] Merge template-upgrade PR https://github.com/edwardlthompson/OpenShouter/pull/46 after CI (product semver stays 1.2.0)
+> **Sprint 35** archived in COMPLETED_TASKS.md (2026-08-30).
 
 ---
 
@@ -610,6 +407,18 @@ Clock + Sun Alarm replacement. Custom clock-time rows and sun/moon event rows; e
 | Sprint 22 — Record shouts in announcement history | Complete (AGENT/AUTO) | `COMPLETED_TASKS.md` |
 | /ship v1.0.0 | Complete | `COMPLETED_TASKS.md` |
 | Sprint 23 — App name cooldown per shout channel | Complete (AGENT/AUTO) | `COMPLETED_TASKS.md` |
+| Sprint 24 — Silence competing sounds | Complete (AGENT) | `COMPLETED_TASKS.md` |
+| Sprint 25 — Golden Path feedback pack | Complete (AGENT) | `COMPLETED_TASKS.md` |
+| Sprint 26 — Sun and moon alarms | Complete (AGENT) | `COMPLETED_TASKS.md` |
+| Sprint 27 — Hear quality | Complete (AGENT) | `COMPLETED_TASKS.md` |
+| Sprint 28 — Calls and telephony | Complete (AGENT) | `COMPLETED_TASKS.md` |
+| Sprint 29 — Time, calendar, and extras | Complete (AGENT) | `COMPLETED_TASKS.md` |
+| Sprint 30 — Places and device states | Complete (AGENT) | `COMPLETED_TASKS.md` |
+| Sprint 31 — History and backup | Complete (AGENT) | `COMPLETED_TASKS.md` |
+| Sprint 32 — Accessibility and i18n | Complete (AGENT) | `COMPLETED_TASKS.md` |
+| Sprint 33 — Distribution and updates | Complete (AGENT) | `COMPLETED_TASKS.md` |
+| Sprint 34 — FOSS integrations | Complete (AGENT) | `COMPLETED_TASKS.md` |
+| Sprint 35 — UX polish | Complete (AGENT) | `COMPLETED_TASKS.md` |
 | /ship v1.1.0 | Complete | `COMPLETED_TASKS.md` |
 | /ship v0.6.0 | Complete | `COMPLETED_TASKS.md` |
 | /ship v0.7.0 | Complete | `COMPLETED_TASKS.md` |

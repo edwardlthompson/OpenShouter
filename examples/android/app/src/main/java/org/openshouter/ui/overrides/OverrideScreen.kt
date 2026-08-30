@@ -35,6 +35,8 @@ fun OverrideScreen(
     var speakBody by remember { mutableStateOf<Boolean?>(null) }
     var ignoreEmpty by remember { mutableStateOf<Boolean?>(null) }
     var stream by remember { mutableStateOf<TtsStream?>(null) }
+    var minImportance by remember { mutableStateOf<org.openshouter.domain.SpeakImportance?>(null) }
+    var cooldownSec by remember { mutableStateOf<Int?>(null) }
     MenuScaffold(stringResource(R.string.nav_overrides), scrollStore, "overrides", onBack, modifier) {
         MenuSection(stringResource(R.string.menu_section_actions)) {
             MenuBody {
@@ -68,6 +70,28 @@ fun OverrideScreen(
                         stream = name.takeIf { it.isNotEmpty() }?.let { runCatching { TtsStream.valueOf(it) }.getOrNull() }
                     },
                 )
+                val importances = listOf("" to inherit) + org.openshouter.domain.SpeakImportance.entries.map {
+                    it.name to it.name
+                }
+                MenuDropdown(
+                    label = stringResource(R.string.overrides_importance),
+                    text = importances.firstOrNull { it.first == (minImportance?.name.orEmpty()) }?.second ?: inherit,
+                    options = importances,
+                    onSelect = { name ->
+                        minImportance = name.takeIf { it.isNotEmpty() }?.let { runCatching { org.openshouter.domain.SpeakImportance.valueOf(it) }.getOrNull() }
+                    },
+                )
+                val cooldowns = listOf("" to inherit) + org.openshouter.domain.AppNameCooldown.OPTIONS_SECONDS.map {
+                    it.toString() to "${it}s"
+                }
+                MenuDropdown(
+                    label = stringResource(R.string.overrides_cooldown),
+                    text = cooldowns.firstOrNull { it.first == (cooldownSec?.toString().orEmpty()) }?.second ?: inherit,
+                    options = cooldowns,
+                    onSelect = { value ->
+                        cooldownSec = value.toIntOrNull()
+                    },
+                )
                 Button(
                     onClick = {
                         if (pkg.isBlank()) return@Button
@@ -79,6 +103,8 @@ fun OverrideScreen(
                                 speakBody = speakBody,
                                 ignoreEmpty = ignoreEmpty,
                                 stream = stream,
+                                minImportance = minImportance,
+                                appNameCooldownSeconds = cooldownSec,
                             ),
                         )
                     },

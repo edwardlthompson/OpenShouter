@@ -70,9 +70,11 @@ class TimeShoutTest {
     }
 
     @Test
-    fun invalidIntervalBecomesHour() {
+    fun normalizeIntervalSupportsCustom() {
         assertEquals(TimeShout.INTERVAL_HOUR, TimeShout.normalizeInterval(0))
-        assertEquals(TimeShout.INTERVAL_HOUR, TimeShout.normalizeInterval(7))
+        assertEquals(7, TimeShout.normalizeInterval(7))
+        assertEquals(45, TimeShout.normalizeInterval(45))
+        assertEquals(120, TimeShout.normalizeInterval(120))
     }
 
     @Test

@@ -54,7 +54,7 @@ class GestureMonitor @Inject constructor(
             lastShakeNs = now
             if (cached.shakeToSilence) tts.interrupt()
         }
-        val faceDown = z < -8.5f && abs(x) < 3f && abs(y) < 3f
+        val faceDown = FlipSensitivity.isFaceDown(x, y, z)
         if (faceDown && cached.flipToMute) tts.interrupt()
     }
 

@@ -42,4 +42,8 @@
     <string name="astro_action_snooze">Snooze (%d min)</string>
     <string name="astro_action_stop">Stop</string>
     <string name="astro_widget_desc">Rotating day/night astronomical clock</string>
+    <string name="astro_btn_plus_1h">+1h</string>
+    <string name="astro_btn_plus_5m">+5m</string>
+    <string name="astro_btn_plus_15m">+15m</string>
+    <string name="astro_btn_minus_15m">-15m</string>
 </resources>

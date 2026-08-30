@@ -1,6 +1,5 @@
 package org.openshouter.astro.alarm
 
-import android.app.Activity
 import android.app.KeyguardManager
 import android.content.Context
 import android.media.AudioAttributes
@@ -16,28 +15,14 @@ import android.speech.tts.TextToSpeech
 import android.view.WindowManager
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import dev.foss.goldenpath.R
 import org.openshouter.astro.model.AlarmTarget
 import org.openshouter.astro.model.AstroAlarm
+import org.openshouter.ui.astro.AstroAlarmLockscreenView
 import java.time.LocalTime
-import java.time.format.DateTimeFormatter
 import java.util.Locale
 
 class AstroAlarmActivity : ComponentActivity(), TextToSpeech.OnInitListener {
-
     private var ringtone: Ringtone? = null
     private var vibrator: Vibrator? = null
     private var tts: TextToSpeech? = null
@@ -58,7 +43,7 @@ class AstroAlarmActivity : ComponentActivity(), TextToSpeech.OnInitListener {
         startAlarmOutput(activeAlarm!!)
 
         setContent {
-            AlarmScreen(
+            AstroAlarmLockscreenView(
                 alarm = activeAlarm!!,
                 onSnooze = { onSnoozeClicked() },
                 onStop = { onStopClicked() }
@@ -93,27 +78,22 @@ class AstroAlarmActivity : ComponentActivity(), TextToSpeech.OnInitListener {
                     .setUsage(AudioAttributes.USAGE_ALARM)
                     .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
                     .build()
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-                    isLooping = true
-                }
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) isLooping = true
                 play()
             }
         }
 
         if (alarm.vibrateEnabled) {
             vibrator = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-                val vm = getSystemService(Context.VIBRATOR_MANAGER_SERVICE) as? VibratorManager
-                vm?.defaultVibrator
+                (getSystemService(Context.VIBRATOR_MANAGER_SERVICE) as? VibratorManager)?.defaultVibrator
             } else {
-                @Suppress("DEPRECATION")
-                getSystemService(Context.VIBRATOR_SERVICE) as? Vibrator
+                @Suppress("DEPRECATION") getSystemService(Context.VIBRATOR_SERVICE) as? Vibrator
             }
             val pattern = longArrayOf(0, 800, 400, 800, 400)
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 vibrator?.vibrate(VibrationEffect.createWaveform(pattern, 0))
             } else {
-                @Suppress("DEPRECATION")
-                vibrator?.vibrate(pattern, 0)
+                @Suppress("DEPRECATION") vibrator?.vibrate(pattern, 0)
             }
         }
 
@@ -141,11 +121,7 @@ class AstroAlarmActivity : ComponentActivity(), TextToSpeech.OnInitListener {
 
     private fun onSnoozeClicked() {
         stopAlarmOutput()
-        val alarm = activeAlarm
-        if (alarm != null) {
-            // Re-arm after snooze interval
-            AstroAlarmScheduler.rescheduleAll(this)
-        }
+        AstroAlarmScheduler.rescheduleAll(this)
         finish()
     }
 
@@ -154,11 +130,12 @@ class AstroAlarmActivity : ComponentActivity(), TextToSpeech.OnInitListener {
         val alarm = activeAlarm
         if (alarm != null) {
             val store = AstroAlarmStore(this)
-            if (alarm.isOnce) {
-                store.save(alarm.copy(enabled = false, lastFiredEpochMs = System.currentTimeMillis()))
+            val updated = if (alarm.isOnce) {
+                alarm.copy(enabled = false, lastFiredEpochMs = System.currentTimeMillis())
             } else {
-                store.save(alarm.copy(lastFiredEpochMs = System.currentTimeMillis()))
+                alarm.copy(lastFiredEpochMs = System.currentTimeMillis())
             }
+            store.save(updated)
             AstroAlarmScheduler.rescheduleAll(this)
         }
         finish()
@@ -167,86 +144,5 @@ class AstroAlarmActivity : ComponentActivity(), TextToSpeech.OnInitListener {
     override fun onDestroy() {
         stopAlarmOutput()
         super.onDestroy()
-    }
-}
-
-@Composable
-private fun AlarmScreen(
-    alarm: AstroAlarm,
-    onSnooze: () -> Unit,
-    onStop: () -> Unit
-) {
-    val currentTime = remember {
-        LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm"))
-    }
-
-    Surface(
-        modifier = Modifier.fillMaxSize(),
-        color = MaterialTheme.colorScheme.background
-    ) {
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(24.dp),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.SpaceBetween
-        ) {
-            Spacer(modifier = Modifier.height(32.dp))
-
-            Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                Text(
-                    text = currentTime,
-                    fontSize = 64.sp,
-                    fontWeight = FontWeight.Bold,
-                    color = MaterialTheme.colorScheme.onBackground
-                )
-                Spacer(modifier = Modifier.height(16.dp))
-                Text(
-                    text = alarm.label,
-                    fontSize = 24.sp,
-                    fontWeight = FontWeight.Medium,
-                    textAlign = TextAlign.Center,
-                    color = MaterialTheme.colorScheme.primary
-                )
-            }
-
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(bottom = 32.dp),
-                horizontalArrangement = Arrangement.spacedBy(16.dp)
-            ) {
-                Button(
-                    onClick = onSnooze,
-                    modifier = Modifier
-                        .weight(1f)
-                        .height(56.dp),
-                    shape = RoundedCornerShape(12.dp),
-                    colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.secondary)
-                ) {
-                    Text(
-                        text = stringResource(R.string.astro_action_snooze, alarm.snoozeMinutes),
-                        fontSize = 18.sp,
-                        fontWeight = FontWeight.SemiBold
-                    )
-                }
-
-                Button(
-                    onClick = onStop,
-                    modifier = Modifier
-                        .weight(1f)
-                        .height(56.dp),
-                    shape = RoundedCornerShape(12.dp),
-                    colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.error)
-                ) {
-                    Text(
-                        text = stringResource(R.string.astro_action_stop),
-                        fontSize = 18.sp,
-                        fontWeight = FontWeight.Bold,
-                        color = MaterialTheme.colorScheme.onError
-                    )
-                }
-            }
-        }
     }
 }

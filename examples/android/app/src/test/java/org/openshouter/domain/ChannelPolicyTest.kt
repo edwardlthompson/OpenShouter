@@ -25,7 +25,7 @@ class ChannelPolicyTest {
 
     @Test
     fun timeScheduleNormalizesInterval() {
-        val schedule = TimeShoutSchedule(enabled = true, intervalMinutes = 12, exact = false).normalized()
+        val schedule = TimeShoutSchedule(enabled = true, intervalMinutes = 0, exact = false).normalized()
         assertEquals(TimeShout.INTERVAL_HOUR, schedule.intervalMinutes)
         assertFalse(schedule.exact)
     }

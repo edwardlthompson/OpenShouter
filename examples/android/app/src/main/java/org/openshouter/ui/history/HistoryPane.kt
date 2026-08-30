@@ -49,5 +49,14 @@ fun HistoryPane(
         onBack = onBack,
         scrollStore = scrollStore,
         modifier = modifier,
+        onSpeakRow = { text ->
+            ep.tts().speak(
+                org.openshouter.domain.SpokenEvent(
+                    org.openshouter.domain.SpokenEvent.Kind.NOTIFICATION,
+                    text,
+                ),
+                immediate = true,
+            )
+        },
     )
 }

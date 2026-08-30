@@ -14,9 +14,14 @@ fun GoldenPathTheme(
     val darkTheme = when (themeMode) {
         ThemeMode.System -> systemDark
         ThemeMode.Light -> false
-        ThemeMode.Dark -> true
+        ThemeMode.Dark, ThemeMode.HighContrast -> true
     }
-    val colorScheme = if (darkTheme) DarkGoldenPathColors else LightGoldenPathColors
+    val colorScheme = when (themeMode) {
+        ThemeMode.HighContrast -> HighContrastGoldenPathColors
+        ThemeMode.Dark -> DarkGoldenPathColors
+        ThemeMode.Light -> LightGoldenPathColors
+        ThemeMode.System -> if (systemDark) DarkGoldenPathColors else LightGoldenPathColors
+    }
 
     ApplySystemBarStyle(darkTheme)
 

@@ -37,6 +37,11 @@ class AudioRouteMonitor @Inject constructor(
         return RingerSilent.active(audio.ringerMode == AudioManager.RINGER_MODE_NORMAL, dnd)
     }
 
+    fun isBluetoothScoConnected(): Boolean {
+        val devices = audio.getDevices(AudioManager.GET_DEVICES_OUTPUTS)
+        return devices.any { it.type == AudioDeviceInfo.TYPE_BLUETOOTH_SCO }
+    }
+
     fun headsetConnected(): Boolean {
         val devices = audio.getDevices(AudioManager.GET_DEVICES_OUTPUTS)
         return devices.any { it.isHeadsetLike() }

@@ -6,18 +6,20 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [1.2.0](https://github.com/edwardlthompson/OpenShouter/compare/v1.1.1...v1.2.0) (2026-08-29)
-
-
-### Added
-
-* **android:** silence competing notification sounds ([ae13f39](https://github.com/edwardlthompson/OpenShouter/commit/ae13f39af99f4aad5e3e2fb07170dcb132ca17b0))
-
 ## [Unreleased]
 
 ### Added
 
-* **android:** silent sound pack, Welcome silence wizard, channel leak list, optional default-sound write, and notification-usage audio hints
+* **android:** sun and moon alarm scheduler, lockscreen Snooze/Stop activity, and day/night rotating disk home widget (Sprint 26)
+* **android:** per-app format string, app/contact cooldowns, bubble and work-profile filters, importance floors (Sprint 27)
+* **android:** telephony dedup, Bluetooth HFP caller ID, call waiting announce, hangup duration, conference hints (Sprint 28)
+* **android:** custom time-shout intervals, calendar allowlists, morning briefing, BT battery and low storage alerts (Sprint 29)
+* **android:** FOSS map fence picker, named silent-place list, car Bluetooth detection, quiet-hours profiles, flip-to-mute sensitivity (Sprint 30)
+* **android:** history search, sanitized JSON export, speak-from-history, retention policies (Sprint 31)
+* **android:** TalkBack enhancements, live regions, German and Portuguese localization overlays, high-contrast theme (Sprint 32)
+* **android:** What's New dialog, Obtainium/IzzyOnDroid metadata, UnifiedPush opt-in update ping (Sprint 33)
+* **android:** public shout Intent API, Tasker/Locale plugin, Quick Settings tiles, Wear OS FOSS companion intent hooks (Sprint 34)
+* **android:** settings search, format preview, OEM autostart detection, quiet-hours next-change shouts (Sprint 35)
 
 ### Fixed
 
@@ -25,6 +27,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * **android:** move Silence competing sounds to Hear and Announcer; drop leak rows when a channel is silent
 * **android:** ignore default-sound channels when the system notification sound is None or OpenShouter Silent
 * **android:** trust LineageOS None on OnePlus hardware so default-sound leak rows clear
+
+## [1.2.0](https://github.com/edwardlthompson/OpenShouter/compare/v1.1.1...v1.2.0) (2026-08-29)
+
+### Added
+
+* **android:** silence competing notification sounds ([ae13f39](https://github.com/edwardlthompson/OpenShouter/commit/ae13f39af99f4aad5e3e2fb07170dcb132ca17b0))
 
 ## [1.1.1](https://github.com/edwardlthompson/OpenShouter/compare/v1.1.0...v1.1.1) (2026-08-29)
 

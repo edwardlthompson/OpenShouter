@@ -14,12 +14,18 @@ internal object SettingsSprint17 {
     val DND_PRIORITY = booleanPreferencesKey("dnd_priority")
     val CAL_LOOKAHEAD = intPreferencesKey("cal_lookahead")
     val SHOW_SPOKEN = booleanPreferencesKey("history_show_spoken")
+    val IGNORE_BUBBLES = booleanPreferencesKey("ignore_bubbles")
+    val IGNORE_WORK_PROFILE = booleanPreferencesKey("ignore_work_profile")
+    val CONTACT_COOLDOWN = intPreferencesKey("contact_cooldown_sec")
 
     fun apply(base: AppSettings, prefs: Preferences): AppSettings = base.copy(
         notificationPolicy = base.notificationPolicy.copy(
             collapseRepeats = prefs[COLLAPSE_REPEATS] ?: true,
             minImportance = NotificationRank.parseImportance(prefs[MIN_IMPORTANCE]),
             dndPriorityOnly = prefs[DND_PRIORITY] ?: true,
+            ignoreBubbles = prefs[IGNORE_BUBBLES] ?: true,
+            ignoreWorkProfile = prefs[IGNORE_WORK_PROFILE] ?: false,
+            contactCooldownSeconds = prefs[CONTACT_COOLDOWN] ?: 0,
         ),
         calendarLookaheadMinutes = CalendarShout.clampMinutes(
             prefs[CAL_LOOKAHEAD] ?: CalendarShout.DEFAULT_MINUTES,

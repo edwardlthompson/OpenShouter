@@ -151,11 +151,11 @@ private fun TargetEditor(target: AlarmTarget, onTargetChange: (AlarmTarget) -> U
             }
             Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
                 Button(onClick = { hour = (hour + 1) % 24; onTargetChange(AlarmTarget.CustomClock(hour, minute)) }) {
-                    Text("+1h")
+                    Text(stringResource(R.string.astro_btn_plus_1h))
                 }
                 Spacer(modifier = Modifier.width(16.dp))
                 Button(onClick = { minute = (minute + 5) % 60; onTargetChange(AlarmTarget.CustomClock(hour, minute)) }) {
-                    Text("+5m")
+                    Text(stringResource(R.string.astro_btn_plus_5m))
                 }
             }
         }
@@ -165,9 +165,13 @@ private fun TargetEditor(target: AlarmTarget, onTargetChange: (AlarmTarget) -> U
             Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
                 Text(stringResource(R.string.astro_offset_label, offset))
                 Row {
-                    Button(onClick = { offset -= 15; onTargetChange(target.copy(offsetMinutes = offset)) }) { Text("-15m") }
+                    Button(onClick = { offset -= 15; onTargetChange(target.copy(offsetMinutes = offset)) }) {
+                        Text(stringResource(R.string.astro_btn_minus_15m))
+                    }
                     Spacer(modifier = Modifier.width(8.dp))
-                    Button(onClick = { offset += 15; onTargetChange(target.copy(offsetMinutes = offset)) }) { Text("+15m") }
+                    Button(onClick = { offset += 15; onTargetChange(target.copy(offsetMinutes = offset)) }) {
+                        Text(stringResource(R.string.astro_btn_plus_15m))
+                    }
                 }
             }
         }
@@ -177,9 +181,13 @@ private fun TargetEditor(target: AlarmTarget, onTargetChange: (AlarmTarget) -> U
             Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
                 Text(stringResource(R.string.astro_offset_label, offset))
                 Row {
-                    Button(onClick = { offset -= 15; onTargetChange(target.copy(offsetMinutes = offset)) }) { Text("-15m") }
+                    Button(onClick = { offset -= 15; onTargetChange(target.copy(offsetMinutes = offset)) }) {
+                        Text(stringResource(R.string.astro_btn_minus_15m))
+                    }
                     Spacer(modifier = Modifier.width(8.dp))
-                    Button(onClick = { offset += 15; onTargetChange(target.copy(offsetMinutes = offset)) }) { Text("+15m") }
+                    Button(onClick = { offset += 15; onTargetChange(target.copy(offsetMinutes = offset)) }) {
+                        Text(stringResource(R.string.astro_btn_plus_15m))
+                    }
                 }
             }
         }

@@ -21,5 +21,9 @@ internal fun ignoreReasonLabel(raw: String): Int? {
         IgnoreReason.GATE_CALL,
         -> R.string.history_reason_gate
         IgnoreReason.IMPORTANCE -> R.string.history_reason_importance
+        IgnoreReason.BUBBLE,
+        IgnoreReason.WORK_PROFILE,
+        IgnoreReason.CONTACT_COOLDOWN,
+        -> R.string.history_reason_filter
     }
 }

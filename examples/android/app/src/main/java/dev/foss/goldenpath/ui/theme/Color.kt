@@ -89,3 +89,15 @@ val DarkGoldenPathColors = darkColorScheme(
     onSurfaceVariant = GpDarkOnSurfaceVariant,
     outline = GpDarkOutline,
 )
+
+val HighContrastGoldenPathColors = darkColorScheme(
+    primary = Color(0xFFFFFF00),
+    onPrimary = Color(0xFF000000),
+    background = Color(0xFF000000),
+    onBackground = Color(0xFFFFFFFF),
+    surface = Color(0xFF000000),
+    onSurface = Color(0xFFFFFFFF),
+    surfaceVariant = Color(0xFF1C1C1C),
+    onSurfaceVariant = Color(0xFFFFFFFF),
+    outline = Color(0xFFFFFFFF),
+)
