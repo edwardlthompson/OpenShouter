@@ -31,3 +31,12 @@ First locale overlay. Compose screens keep using `stringResource`; no hardcoded 
 | Network timeout | N/A |
 | Race | N/A — static resources |
 | Unhandled exceptions | XML parse failures fail the unit test |
+
+## Tests
+
+- Automated: yes — Android unit tests under `examples/android/app/src/test/`
+
+## Fallback validation
+
+- Why tests are not feasible: N/A (automated tests exist)
+- Command: `python3 scripts/agent-run.py feature-gate --stack android`

@@ -16,7 +16,15 @@ from human_task_github import (
     automate_branch_protection,
     automate_dependabot_major_merge,
 )
-from human_task_openshouter import extra_human_rules
+from human_task_leftovers import (
+    automate_cii_badge,
+    automate_codeowners_about,
+    automate_crash_proxy_off,
+    automate_dependabot_weekly,
+    automate_mcp_copy,
+    automate_ollama,
+    automate_scorecard_badge,
+)
 from human_task_rows import (
     automate_approve_adr,
     automate_informational,
@@ -33,41 +41,32 @@ HUMAN_RULES: list[tuple[re.Pattern[str], str, object]] = [
     (re.compile(r"Pick Cursor mode", re.I), "human", lambda r, c: automate_informational(r, c, "cursor-mode")),
     (re.compile(r"Bookmark.*BATCH_COMMANDS", re.I), "human", lambda r, c: automate_informational(r, c, "bookmark-commands")),
     (re.compile(r"Fill stack-local config|app-update\.json", re.I), "human", automate_stack_config),
-    (re.compile(r"Approve ADR|Approve.*ADR|per ADR-0001|Approve.*BUILD_PLAN", re.I), "human", automate_approve_adr),
+    (re.compile(r"Approve ADR|Approve.*BUILD_PLAN", re.I), "human", automate_approve_adr),
     (re.compile(r"Optional product smoke", re.I), "human", automate_product_smoke),
     (re.compile(r"Approve release tag", re.I), "human", automate_release_tag),
-    (
-        re.compile(
-            r"required status checks|branch protection|setup-github-repo|Create GitHub repo|Dependabot alerts|private vulnerability",
-            re.I,
-        ),
-        "human",
-        automate_branch_protection,
-    ),
+    (re.compile(r"required status checks|branch protection|setup-github-repo", re.I), "human", automate_branch_protection),
     (re.compile(r"Dependabot PR|Review/merge Dependabot|TypeScript \d+ major", re.I), "human", automate_dependabot_major_merge),
     (re.compile(r"AUTOMERGE_TOKEN", re.I), "human", automate_automerge_token),
+    (re.compile(r"Scorecard badge", re.I), "human", automate_scorecard_badge),
+    (re.compile(r"CII Best Practices", re.I), "human", automate_cii_badge),
+    (re.compile(r"Ollama", re.I), "human", automate_ollama),
+    (re.compile(r"Crash-proxy|DPIA", re.I), "human", automate_crash_proxy_off),
+    (re.compile(r"mcp\.foss\.example|mcp\.json", re.I), "human", automate_mcp_copy),
+    (re.compile(r"Dependabot interval|disable automerge", re.I), "human", automate_dependabot_weekly),
+    (re.compile(r"CODEOWNERS|Watch repo Issues", re.I), "human", automate_codeowners_about),
 ]
-HUMAN_RULES.extend(extra_human_rules())
 
 ADB_RULES: list[tuple[re.Pattern[str], str, object]] = [
     (re.compile(r"instrumented|connectedDebugAndroidTest|\badb\b", re.I), "adb", automate_adb_instrumented),
     (re.compile(r"F-Droid|device dry-run", re.I), "adb", automate_fdroid_dry_run),
     (re.compile(r"emulator|Android SDK", re.I), "adb", automate_android_sdk_smoke),
-    (re.compile(r"CPH2655|dual-SIM|Bluetooth shouts", re.I), "adb", automate_android_sdk_smoke),
 ]
 
 
 def attempt_row(root: Path, owner: str, task: str, sprint: str) -> AttemptResult:
     cfg = resolve_config(root)
     owner_u = owner.upper()
-    if owner_u == "HUMAN":
-        rules = HUMAN_RULES
-    elif owner_u == "ADB":
-        rules = ADB_RULES
-    elif owner_u == "AUTO":
-        rules = [(p, k, h) for p, k, h in extra_human_rules() if k == "auto"]
-    else:
-        rules = []
+    rules = HUMAN_RULES if owner_u == "HUMAN" else ADB_RULES if owner_u == "ADB" else []
     for pattern, _kind, handler in rules:
         if not pattern.search(task):
             continue

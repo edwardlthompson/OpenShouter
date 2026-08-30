@@ -6,25 +6,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
 ## [1.2.0](https://github.com/edwardlthompson/OpenShouter/compare/v1.1.1...v1.2.0) (2026-08-29)
 
 
 ### Added
 
 * **android:** silence competing notification sounds ([ae13f39](https://github.com/edwardlthompson/OpenShouter/commit/ae13f39af99f4aad5e3e2fb07170dcb132ca17b0))
-
-## [Unreleased]
-
-### Added
-
-* **android:** silent sound pack, Welcome silence wizard, channel leak list, optional default-sound write, and notification-usage audio hints
-
-### Fixed
-
-* **android:** persist Show spoken text across app restarts
-* **android:** move Silence competing sounds to Hear and Announcer; drop leak rows when a channel is silent
-* **android:** ignore default-sound channels when the system notification sound is None or OpenShouter Silent
-* **android:** trust LineageOS None on OnePlus hardware so default-sound leak rows clear
 
 ## [1.1.1](https://github.com/edwardlthompson/OpenShouter/compare/v1.1.0...v1.1.1) (2026-08-29)
 

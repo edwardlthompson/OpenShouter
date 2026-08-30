@@ -45,3 +45,12 @@ Tap an announcement history row to mute that app in OpenShouter or open the post
 
 - Message and call shout paths still have their own channel settings; the OpenShouter switch updates Apps to shout the same way the picker does.
 - After each AGENT step: `python3 scripts/agent-run.py watch-agent-gates --once --autofix`
+
+## Tests
+
+- Automated: yes — Android unit tests under `examples/android/app/src/test/`
+
+## Fallback validation
+
+- Why tests are not feasible: N/A (automated tests exist)
+- Command: `python3 scripts/agent-run.py feature-gate --stack android`

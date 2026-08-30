@@ -46,3 +46,12 @@ Time, battery, reminder, calendar, and Bluetooth shouts write an announcement-hi
 
 - Room already has `kind` (v6). No schema change.
 - After each AGENT step: `python3 scripts/agent-run.py watch-agent-gates --once --autofix`
+
+## Tests
+
+- Automated: yes — Android unit tests under `examples/android/app/src/test/`
+
+## Fallback validation
+
+- Why tests are not feasible: N/A (automated tests exist)
+- Command: `python3 scripts/agent-run.py feature-gate --stack android`

@@ -11,6 +11,10 @@ Thank you for contributing to **OpenShouter** — a FOSS Android TTS announcer.
 | `ADB` | Human (Android) | Device testing, F-Droid submission |
 | `AUTO` | CI/scripts | GitHub Actions, Dependabot, pre-commit |
 
+## For coding agents
+
+Read [`AGENTS.md`](AGENTS.md) and [`docs/START_HERE.md`](docs/START_HERE.md) before editing. Run `/build` for the next Sequential row, then `python3 scripts/agent-run.py watch-agent-gates --once --autofix`. Do not `git push` unless a human approved it or the user invoked `/push` or `/ship`. Use Conventional Commits. Do not halt on `[HUMAN]` or `[ADB]` labels — automate first, then backlog.
+
 ## First contribution
 
 Thank you for helping. Read [`docs/BEST_PRACTICES.md`](docs/BEST_PRACTICES.md) if you want the industry *why* behind these files. Questions vs bugs vs vulns: [`SUPPORT.md`](SUPPORT.md).
@@ -23,7 +27,7 @@ Thank you for helping. Read [`docs/BEST_PRACTICES.md`](docs/BEST_PRACTICES.md) i
 
 ## Recommended branching (GitHub Flow)
 
-Short-lived branches, one concern per PR, merge to `main` when required checks are green. Do not force-push `main`.
+Short-lived branches, one concern per PR, merge to `main` when required checks are green. Do not force-push `main`. Required checks (via `scripts/setup-github-repo.sh`): **CI**, **Security Scan**, **CodeQL**, **Repo Hygiene**, **Feature Gate**, **Template Upgrade Simulation (Windows)**.
 
 ## Commit messages
 

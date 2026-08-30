@@ -1,4 +1,4 @@
-"""Tests for release APK publish helpers."""
+"""Tests for release APK signing helpers."""
 from __future__ import annotations
 
 import sys
@@ -6,11 +6,11 @@ import tempfile
 import unittest
 from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).resolve().parent))
-from publish_foss_signing import DEBUG_MARKERS, release_signing_ready
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts" / "lib"))
+from publish_foss_signing import DEBUG_MARKERS, release_signing_ready  # noqa: E402
 
 
-class PublishFossApkTest(unittest.TestCase):
+class PublishFossSigningTest(unittest.TestCase):
     def test_release_signing_missing_without_props(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             ready, reason = release_signing_ready(Path(tmp))
@@ -38,7 +38,3 @@ class PublishFossApkTest(unittest.TestCase):
 
     def test_debug_markers_cover_common_cert_text(self) -> None:
         self.assertIn("Android Debug", DEBUG_MARKERS)
-
-
-if __name__ == "__main__":
-    unittest.main()

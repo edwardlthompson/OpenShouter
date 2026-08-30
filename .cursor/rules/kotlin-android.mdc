@@ -1,6 +1,7 @@
 ---
 description: Kotlin and Gradle conventions for OpenShouter
-globs: "**/*.{kt,kts}"
+globs:
+  - "**/*.{kt,kts}"
 alwaysApply: false
 ---
 

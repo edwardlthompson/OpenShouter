@@ -36,6 +36,8 @@ Reuse Continuum Calendar’s quiet Venmo donate path and installer-filename GitH
 
 Unit tests cover interval, filename parse, newer-than, dismiss, and donate-nudge. Live GitHub/Venmo taps are `[HUMAN]`.
 
+- Command: `python3 scripts/agent-run.py feature-gate --stack android`
+
 ## Critique
 
 | Issue | Resolution |
@@ -49,3 +51,9 @@ Unit tests cover interval, filename parse, newer-than, dismiss, and donate-nudge
 
 - Venmo: `https://venmo.com/code?user_id=1857304970395648420`
 - Do not peer-sync `openshouter_updates` prefs through SAF backup
+
+## Tests
+
+- Automated: yes — Android unit tests under `examples/android/app/src/test/`
+
+- Command: `python3 scripts/agent-run.py feature-gate --stack android`
