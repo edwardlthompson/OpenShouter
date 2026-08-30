@@ -322,18 +322,18 @@ Draft PR: https://github.com/edwardlthompson/OpenShouter/pull/47
 
 Feature spec: `docs/features/sun-moon-alarm.md`
 
-One stored place (one-time `LocationManager` coarse fix **or** typed city with Geocoder autocomplete; **city** is the determining factor). On-device sun/moon math. Independent toggles. Full-screen lockscreen alarm + TTS until dismissed. No Play Services. Never log coordinates or city strings.
+One stored place (one-time `LocationManager` coarse fix **or** typed city with Geocoder autocomplete; **city** is the determining factor). On-device sun/moon math (no weather API on the schedule path). Named alarms with before/after offsets. **`setAlarmClock`** + full-screen lockscreen UI with **Stop** and **Dismiss**. No Play Services. Never log coordinates or city strings. Comparison vs Sun Alarm (`com.vvse.sunalarm`) lives in the spec.
 
 ### Critique
 
 | Issue | Resolution |
 |-------|------------|
-| Null/empty city | Toggles stay off; blank Geocoder → “no city match”; test in spec |
-| Network timeout | Geocode best-effort; times compute offline after persist |
-| Race | One `AstroSchedule` per event id; dismiss stops the loop |
-| Unhandled exceptions | `runCatching` on Geocoder and alarm set |
+| Null/empty city | Alarms stay unset; blank Geocoder → “no city match”; test in spec |
+| Network timeout | Geocode best-effort; times compute offline. No weather API for timing |
+| Race | One OS `setAlarmClock` next-alarm; queue the following event after Dismiss |
+| Unhandled exceptions | `runCatching` on Geocoder and `setAlarmClock` |
 | PII | Persist locally; never log lat/lon or city |
-| Bedtime | Full-screen intent + exact-while-idle, not `setAlarmClock` |
+| Bedtime | Accepted: `setAlarmClock` owns next-alarm / bedtime, same as Clock |
 
 ### Parallelization
 
@@ -347,10 +347,10 @@ One stored place (one-time `LocationManager` coarse fix **or** typed city with G
 
 - 🔲 [AGENT] Feature spec lock + solar/lunar instant calculator (fixtures, no live GPS)
 - 🔲 [AGENT] One-time coarse `LocationManager` fix **or** city Geocoder-while-typing (locality only)
-- 🔲 [AGENT] Sun/Moon menu toggles: sunrise/sunset, dawn/dusk, civil/nautical/astronomical twilight, solar noon/midnight, golden hour, blue hour, equinoxes, solstices
-- 🔲 [AGENT] Moon toggles: moonrise/moonset, new/full, waxing crescent, first quarter, waxing gibbous, waning gibbous, last quarter, waning crescent
-- 🔲 [AGENT] Exact-while-idle schedule + full-screen lockscreen alarm (`USE_FULL_SCREEN_INTENT`) that shouts until Dismiss
-- 🔲 [ADB] City pick + one enabled sunset: lockscreen popup and looping shout until dismiss (CPH2583 / CPH2655)
+- 🔲 [AGENT] Sun/Moon menu + named rows with before/after offsets: sunrise/sunset, dawn/dusk, civil/nautical/astronomical twilight, solar noon/midnight, golden hour, blue hour, equinoxes, solstices
+- 🔲 [AGENT] Moon rows: moonrise/moonset/transit, new/full, waxing crescent, first quarter, waxing gibbous, waning gibbous, last quarter, waning crescent
+- 🔲 [AGENT] `setAlarmClock` + full-screen lockscreen activity (`USE_FULL_SCREEN_INTENT`); **Stop** (halt TTS/sound/vibrate) and **Dismiss** (Stop + close + reschedule next)
+- 🔲 [ADB] City pick + Sunset −15m: lockscreen Stop/Dismiss works on CPH2583 / CPH2655 (Sun Alarm does not)
 - 🔲 [HUMAN] Confirm one-time location vs typed city both produce the same city-level times
 
 ---
