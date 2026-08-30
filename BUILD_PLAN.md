@@ -278,6 +278,277 @@ Feature spec: `docs/features/silence-competing-sounds.md`
 
 ---
 
+### Sprint 25 — Golden Path feedback pack (ideas 1–5)
+
+<!-- parallel_exception: coupled sanitizer + crash queue + dialogs; one sequential slice -->
+
+Add `docs/features/{crash-capture,feedback,github-feedback,privacy-report}.md` at `/feature`. Settings leftover updates `docs/features/settings.md`. Do not overwrite `examples/android/` from upstream stubs.
+
+Draft PR: https://github.com/edwardlthompson/OpenShouter/pull/47
+
+### Critique
+
+| Issue | Resolution |
+|-------|------------|
+| Null/empty at boundary | `SanitizeReport.text(null)` → `""`; Open GitHub disabled when preview blank |
+| Network timeout | N/A — queue is local; GitHub open is an https Intent only |
+| Race | Single pending-crash file; toggle-off deletes it |
+| Unhandled exceptions | `runCatching` on persist/handler/Intent |
+| PII in logs | Never log crash text, stacks, or report bodies |
+
+### Parallelization
+
+| Agent | Scope | Status |
+|-------|-------|--------|
+| Privacy + crash + URL logic | `privacyreport/`, `crashcapture/`, `githubfeedback/` | Sequential (shared sanitize) |
+| Feedback UI + settings toggle | `feedback/`, `ui/feedback/`, Settings/About | Sequential |
+| Wiring | `OpenShouterApp`, `GoldenPathApp` / `GoldenPathScreen` | Sequential |
+
+`agent_count_target`: 1
+
+- 🔲 [AGENT] privacy-report sanitizer, fingerprint, markdown + unit tests
+- 🔲 [AGENT] crash-capture opt-in queue + Application install
+- 🔲 [AGENT] feedback dialogs + About Report a bug / Request a feature
+- 🔲 [AGENT] github-feedback issue-form URLs + clipboard fallback
+- 🔲 [AGENT] Settings leftover: Save crash details toggle (default off)
+- 🔲 [ADB] Toggle on, force a test crash, confirm one sanitized review dialog and no auto-GitHub
+- 🔲 [HUMAN] Confirm About Copy / Open GitHub / Discard on a real device
+
+---
+
+### Sprint 26 — Sun and moon alarms (idea 26 expanded)
+
+<!-- parallel_exception: astronomy engine + city place + lockscreen alarm share one schedule schema -->
+
+Feature spec: `docs/features/sun-moon-alarm.md`
+
+One stored place (one-time `LocationManager` coarse fix **or** typed city with Geocoder autocomplete; **city** is the determining factor). On-device sun/moon math. Independent toggles. Full-screen lockscreen alarm + TTS until dismissed. No Play Services. Never log coordinates or city strings.
+
+### Critique
+
+| Issue | Resolution |
+|-------|------------|
+| Null/empty city | Toggles stay off; blank Geocoder → “no city match”; test in spec |
+| Network timeout | Geocode best-effort; times compute offline after persist |
+| Race | One `AstroSchedule` per event id; dismiss stops the loop |
+| Unhandled exceptions | `runCatching` on Geocoder and alarm set |
+| PII | Persist locally; never log lat/lon or city |
+| Bedtime | Full-screen intent + exact-while-idle, not `setAlarmClock` |
+
+### Parallelization
+
+| Agent | Scope | Status |
+|-------|-------|--------|
+| Solar + lunar math + tests | `astro/sun/`, `astro/moon/` | Sequential (shared place) |
+| City place + DataStore | `astro/place/` | Sequential |
+| Menu + i18n + lockscreen alarm | `ui/astro/`, `astro/alarm/` | Sequential |
+
+`agent_count_target`: 1
+
+- 🔲 [AGENT] Feature spec lock + solar/lunar instant calculator (fixtures, no live GPS)
+- 🔲 [AGENT] One-time coarse `LocationManager` fix **or** city Geocoder-while-typing (locality only)
+- 🔲 [AGENT] Sun/Moon menu toggles: sunrise/sunset, dawn/dusk, civil/nautical/astronomical twilight, solar noon/midnight, golden hour, blue hour, equinoxes, solstices
+- 🔲 [AGENT] Moon toggles: moonrise/moonset, new/full, waxing crescent, first quarter, waxing gibbous, waning gibbous, last quarter, waning crescent
+- 🔲 [AGENT] Exact-while-idle schedule + full-screen lockscreen alarm (`USE_FULL_SCREEN_INTENT`) that shouts until Dismiss
+- 🔲 [ADB] City pick + one enabled sunset: lockscreen popup and looping shout until dismiss (CPH2583 / CPH2655)
+- 🔲 [HUMAN] Confirm one-time location vs typed city both produce the same city-level times
+
+---
+
+### Sprint 27 — Hear quality (ideas 6–8, 10, 11, 13)
+
+<!-- parallel_exception: /allideas backlog; decompose at /feature; skipped 9, 12, 14 -->
+
+### Parallelization
+
+| Agent | Scope | Status |
+|-------|-------|--------|
+| Per-app format + importance | `domain/`, `ui/overrides/` | Sequential until schema lock |
+| Cooldown + bubbles + work profile | `notification/`, `ui/apps/` | Sequential until schema lock |
+
+`agent_count_target`: 1
+
+- 🔲 [AGENT] Per-app format string (Voice Notify–style override; default remains global)
+- 🔲 [AGENT] Per-app name cooldown (not only per shout channel)
+- 🔲 [AGENT] Contact-name cooldown on message/call threads
+- 🔲 [AGENT] Ignore conversation bubbles / summary-only rows
+- 🔲 [AGENT] Work-profile package filter (one policy when the same app is installed twice)
+- 🔲 [AGENT] Importance floor per app
+
+---
+
+### Sprint 28 — Calls and telephony (ideas 15–19)
+
+<!-- parallel_exception: /allideas backlog; telephony schema Sequential before Parallel -->
+
+### Parallelization
+
+| Agent | Scope | Status |
+|-------|-------|--------|
+| Dedup + HFP | `call/`, `bluetooth/` | Sequential until schema lock |
+| Waiting / hangup / conference | `call/` | Sequential until schema lock |
+
+`agent_count_target`: 1
+
+- 🔲 [AGENT] Dedup cellular + VoIP double shout into one utterance
+- 🔲 [AGENT] Bluetooth HFP caller ID on the headset path
+- 🔲 [AGENT] Second-call / call-waiting announce
+- 🔲 [AGENT] Speak after hangup (duration)
+- 🔲 [AGENT] Conference / merge hint when more than one participant
+
+---
+
+### Sprint 29 — Time, calendar, and extras (ideas 20, 22–25)
+
+<!-- parallel_exception: /allideas backlog; skipped 21 (next-alarm shout) -->
+
+### Parallelization
+
+| Agent | Scope | Status |
+|-------|-------|--------|
+| Time + calendar | `time/`, `calendar/` | Sequential until schema lock |
+| Battery + storage | `power/`, `device/` | Sequential until schema lock |
+
+`agent_count_target`: 1
+
+- 🔲 [AGENT] Custom time-shout interval (beyond 15/30/60)
+- 🔲 [AGENT] Calendar allowlist (which calendars shout)
+- 🔲 [AGENT] All-day event morning briefing
+- 🔲 [AGENT] Bluetooth battery threshold shout
+- 🔲 [AGENT] Low-storage shout (`ACTION_DEVICE_STORAGE_LOW`)
+
+---
+
+### Sprint 30 — Places and device states (ideas 27–31)
+
+<!-- parallel_exception: /allideas backlog; FOSS map + fences share place schema -->
+
+### Parallelization
+
+| Agent | Scope | Status |
+|-------|-------|--------|
+| FOSS map + named fences | `geofence/`, `ui/places/` | Sequential until schema lock |
+| Car BT + quiet profiles + flip | `bluetooth/`, `quiet/`, `gesture/` | Sequential until schema lock |
+
+`agent_count_target`: 1
+
+- 🔲 [AGENT] OSMDroid or MapLibre fence picker (ADR-0002; never Google Maps SDK)
+- 🔲 [AGENT] Named silent-place list (rename / enable / delete; no raw coord UI)
+- 🔲 [AGENT] Car Bluetooth → headset-only device state
+- 🔲 [AGENT] Quiet-hours profiles (home / work / weekend)
+- 🔲 [AGENT] Flip-to-mute desk-vs-pocket sensitivity leftover
+
+---
+
+### Sprint 31 — History and backup (ideas 32–36)
+
+<!-- parallel_exception: /allideas backlog; history PII rules stay on -->
+
+### Parallelization
+
+| Agent | Scope | Status |
+|-------|-------|--------|
+| History search / speak / retention | `ui/history/`, `data/` | Sequential until schema lock |
+| Export + backup audit | `backup/` | Sequential until schema lock |
+
+`agent_count_target`: 1
+
+- 🔲 [AGENT] History search (find-by-app; TalkBack usable)
+- 🔲 [AGENT] History export (SAF zip, sanitized; no payloads in logs)
+- 🔲 [AGENT] Speak-this-row from history
+- 🔲 [AGENT] Backup leftover prefs audit (unmapped classic Shouter keys)
+- 🔲 [AGENT] History retention UI (7 / 30 / 90 day)
+
+---
+
+### Sprint 32 — Accessibility and i18n (ideas 37–42)
+
+<!-- parallel_exception: /allideas backlog; overlay files stay under 300 lines -->
+
+### Parallelization
+
+| Agent | Scope | Status |
+|-------|-------|--------|
+| TalkBack + live region + type scale | `ui/` | Sequential until schema lock |
+| de/pt overlays + high contrast | `res/values-*/`, `ui/theme/` | Sequential until schema lock |
+
+`agent_count_target`: 1
+
+- 🔲 [AGENT] TalkBack pass on Hear / Silence / History
+- 🔲 [AGENT] German `values-de` overlay
+- 🔲 [AGENT] Portuguese `values-pt` overlay
+- 🔲 [AGENT] Spoken-text live region for the last utterance
+- 🔲 [AGENT] Honor large font scale (200%) without clipped menus
+- 🔲 [AGENT] High-contrast theme (separate from light/dark/system)
+
+---
+
+### Sprint 33 — Distribution and updates (ideas 43–48)
+
+<!-- parallel_exception: /allideas backlog; store listing is HUMAN -->
+
+### Parallelization
+
+| Agent | Scope | Status |
+|-------|-------|--------|
+| What’s new + checksum + UnifiedPush | `ui/about/`, `updates/` | Sequential until schema lock |
+| Obtainium metadata | `metadata/`, `docs/` | Sequential until schema lock |
+
+`agent_count_target`: 1
+
+- 🔲 [AGENT] In-app What’s new after a GitHub APK apply
+- 🔲 [AGENT] Obtainium / IzzyOnDroid metadata recipe
+- 🔲 [HUMAN] F-Droid listing prep (human/store decision; GitHub Releases stay primary)
+- 🔲 [AGENT] Reproducible-build verify note (About / README checksum)
+- 🔲 [AGENT] UnifiedPush opt-in update ping (never default-on)
+- 🔲 [HUMAN] Social/store PNG export from the brand kit
+
+---
+
+### Sprint 34 — FOSS integrations (ideas 49–53)
+
+<!-- parallel_exception: /allideas backlog; no GMS Wear stack -->
+
+### Parallelization
+
+| Agent | Scope | Status |
+|-------|-------|--------|
+| Intent API + Tasker | `intent/`, `docs/` | Sequential until schema lock |
+| QS / shortcut / Wear | `tile/`, `wear/` | Sequential until schema lock |
+
+`agent_count_target`: 1
+
+- 🔲 [AGENT] Public shout Intent API (signature-checked; no payload logs)
+- 🔲 [AGENT] Tasker / Locale plugin
+- 🔲 [AGENT] Extra QS tiles (quiet hours, headset-only)
+- 🔲 [AGENT] Home-screen shortcut: Test shout
+- 🔲 [AGENT] Wear OS companion (FOSS, no GMS)
+
+---
+
+### Sprint 35 — UX polish (ideas 54–60)
+
+<!-- parallel_exception: /allideas backlog; merge of #46 is HUMAN -->
+
+### Parallelization
+
+| Agent | Scope | Status |
+|-------|-------|--------|
+| Welcome + settings search | `ui/welcome/`, `ui/menu/` | Sequential until schema lock |
+| Previews + phrases + OEM | `ui/channel/`, `power/`, `oem/` | Sequential until schema lock |
+
+`agent_count_target`: 1
+
+- 🔲 [AGENT] Welcome leftover: first-hear checklist (listener, battery, exact alarm, Silent pack)
+- 🔲 [AGENT] Search inside settings menus
+- 🔲 [AGENT] Per-channel “preview this format”
+- 🔲 [AGENT] Battery phrase library leftovers
+- 🔲 [AGENT] Quiet-hours next-change shout
+- 🔲 [AGENT] OEM autostart re-prompt when FGS dies
+- 🔲 [HUMAN] Merge template-upgrade PR https://github.com/edwardlthompson/OpenShouter/pull/46 after CI (product semver stays 1.2.0)
+
+---
+
 ## Ongoing Maintenance (recurring)
 
 ### Weekly
