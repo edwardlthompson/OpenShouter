@@ -17,6 +17,13 @@
 
 ## Entries
 
+### 2026-08-30 — Sprint 25 Golden Path feedback pack (1–5)
+- **Status:** Accepted
+- **Context:** User asked to implement remaining Golden Path slices 1–5 on the product app without overwriting `examples/android/` from upstream stubs.
+- **Decision:** Port sanitizer, opt-in crash queue, About/Settings review UI, and GitHub issue-form URLs under `org.openshouter.*`. Save-crashes defaults off and clears `os_pending_crash.txt`. Open GitHub uses existing `bug_report.yml` / `feature_request.yml`. Never auto-open GitHub or log crash text.
+- **Alternatives considered:** Copy upstream `dev.foss.goldenpath` stubs over the app (rejected: Sprint 1 package + product UI). Add `product_idea.yml` (rejected: repo already has `feature_request.yml`).
+- **Consequences:** Sprint 25 AGENT rows ✅; ADB/HUMAN leftovers stay 🔲. Branch `cursor/golden-path-feedback-c954`.
+
 ### 2026-08-29 — /ship v1.2.0
 - **Status:** Accepted
 - **Context:** Sprint 24 silence pack plus LineageOS None-on-OnePlus leak-list bug. User invoked `/ship` and asked to sideload both phones.

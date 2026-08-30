@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="settings_privacy">Privacidad</string>
+    <string name="settings_feedback_save_crashes">Guardar detalles del fallo para revisarlos</string>
+    <string name="feedback_bug_title">Informar de un error</string>
+    <string name="feedback_feature_title">Pedir una función</string>
+    <string name="feedback_description">Descripción</string>
+    <string name="feedback_copy">Copiar informe</string>
+    <string name="feedback_open">Abrir GitHub</string>
+    <string name="feedback_discard">Descartar</string>
+    <string name="feedback_offline">Sin conexión. Copiar sigue funcionando; Abrir GitHub necesita red.</string>
+    <string name="feedback_clipboard_hint">Revisa la vista previa sanitizada. El portapapeles puede conservar una copia tras Descartar.</string>
+    <string name="feedback_crash_title">La app se recuperó. ¿Revisar y enviar un informe?</string>
+</resources>

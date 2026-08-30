@@ -11,7 +11,7 @@
 | Architecture | Clean Architecture + MVVM | ADR-0001 | Hilt DI, Room, DataStore, Coroutines/Flow |
 | License | MIT | - | Pure FOSS; no Play Services |
 | Distribution | GitHub Releases only | - | No Play Store, no F-Droid listing, no Play Core |
-| Template | agent-project-bootstrap | 0.17.0 scaffold; standards 0.21.0; product 1.1.1 | Product semver stays in `.template-version` |
+| Template | agent-project-bootstrap | 0.17.0 scaffold; standards 0.21.0; product 1.2.0 | Product semver stays in `.template-version` |
 ## Active Modules
 
 - ❌ Web / PWA (`modules/web/MODULE.md`)
@@ -66,6 +66,7 @@ OpenShouter is a FOSS recreation/enhancement of classic Shouter (`com.bhkapps.sh
 
 | Date | Milestone | What worked | What to improve |
 |------|-----------|-------------|-----------------|
+| 2026-08-30 | Sprint 25 GP 1–5 | Opt-in crash review + sanitizer + GitHub issue forms under `org.openshouter` | ADB force-crash + HUMAN Copy/Open/Discard leftovers |
 | 2026-08-13 | Sprint 0 bootstrap | Template clone + android prune + product identity | GitHub CI gate waits on HUMAN remote |
 | 2026-08-13 | Sprints 1–8 AGENT | Domain + services + Compose UI; unit tests + assembleDebug | HUMAN: repo/push/ADR |
 | 2026-08-13 | ADB QA on CPH2583 | Rooted device: listener, history, call debug RING/IDLE, quiet hours, headset-only, geofence, TalkBack, FGS | Compose Espresso tests fail on API 36 InputManager; physical shake not injected |

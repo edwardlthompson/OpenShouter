@@ -30,6 +30,7 @@ import dev.foss.goldenpath.ui.theme.next
 import kotlinx.coroutines.CoroutineScope
 import dev.foss.goldenpath.ui.theme.GoldenPathTheme
 import kotlinx.coroutines.launch
+import org.openshouter.feedback.FeedbackBridge
 import org.openshouter.ui.updates.ProductUpdateHost
 
 @Composable
@@ -48,6 +49,9 @@ fun GoldenPathApp(
     val pendingRestart by appUpdatePreferences.pendingRestart.collectAsStateWithLifecycle(initialValue = false)
     var showAbout by remember { mutableStateOf(false) }
     var showSettings by remember { mutableStateOf(false) }
+    val feedback = remember { FeedbackBridge(context) }
+    var saveCrashes by remember { mutableStateOf(feedback.prefs.saveCrashes()) }
+    var showFeedback by remember { mutableStateOf(feedback.initialKind()) }
     var updateStatus by remember { mutableStateOf(context.getString(R.string.about_update_current)) }
     var applyAsset by remember { mutableStateOf<ReleaseAsset?>(null) }
     val donations = remember { DonationsLoader.load(context) }
@@ -97,9 +101,10 @@ fun GoldenPathApp(
     GoldenPathTheme(themeMode = themeMode) {
         NavigationModeProvider {
             ProductUpdateHost()
-            BackHandler(enabled = showSettings || showAbout) {
+            BackHandler(enabled = showSettings || showAbout || showFeedback != null) {
                 showSettings = false
                 showAbout = false
+                showFeedback = null
             }
             GoldenPathScreen(
                 snackbarHostState = snackbarHostState,
@@ -107,6 +112,10 @@ fun GoldenPathApp(
                 isOnline = isOnline,
                 showAbout = showAbout,
                 showSettings = showSettings,
+                showFeedback = showFeedback,
+                saveCrashes = saveCrashes,
+                releaseRepo = feedback.releaseRepo(),
+                pendingStack = feedback.pendingStack(),
                 updateCheckEnabled = SettingsLogic.isUpdateCheckEnabled(checkInterval),
                 appVersion = appVersion,
                 installedFormat = installedFormat ?: "apk",
@@ -119,6 +128,10 @@ fun GoldenPathApp(
                 onAboutClose = { showAbout = false },
                 onSettingsOpen = { showSettings = !showSettings; if (showSettings) showAbout = false },
                 onSettingsClose = { showSettings = false },
+                onSaveCrashes = { on -> feedback.prefs.setSaveCrashes(on); saveCrashes = on },
+                onReportBug = { showAbout = false; showFeedback = "bug" },
+                onRequestFeature = { showAbout = false; showFeedback = "feature" },
+                onFeedbackClose = { showFeedback = null; feedback.store.clear() },
                 onUpdateCheckChange = { enabled ->
                     scope.launch {
                         appUpdatePreferences.setCheckInterval(

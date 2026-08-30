@@ -278,23 +278,22 @@ Feature spec: `docs/features/silence-competing-sounds.md`
 
 ---
 
-### Sprint 25 — Golden Path feedback pack (ideas 1–5)
+### Sprint 25 — Golden Path feedback pack (1–5)
 
 <!-- parallel_exception: coupled sanitizer + crash queue + dialogs; one sequential slice -->
 
-Add `docs/features/{crash-capture,feedback,github-feedback,privacy-report}.md` at `/feature`. Settings leftover updates `docs/features/settings.md`. Do not overwrite `examples/android/` from upstream stubs.
-
-Draft PR: https://github.com/edwardlthompson/OpenShouter/pull/47
+Feature specs: `docs/features/crash-capture.md`, `docs/features/feedback.md`, `docs/features/github-feedback.md`, `docs/features/privacy-report.md`, `docs/features/settings.md`
 
 ### Critique
 
 | Issue | Resolution |
 |-------|------------|
-| Null/empty at boundary | `SanitizeReport.text(null)` → `""`; Open GitHub disabled when preview blank |
-| Network timeout | N/A — queue is local; GitHub open is an https Intent only |
-| Race | Single pending-crash file; toggle-off deletes it |
-| Unhandled exceptions | `runCatching` on persist/handler/Intent |
+| Null/empty at boundary | `SanitizeReport.text(null)` → `""`; Open GitHub disabled when preview blank (`FeedbackPreview.canSubmit`) |
+| Network timeout | N/A — sanitizer/crash queue are local; GitHub open is an https Intent only |
+| Race | Single pending-crash file; `CrashCapture.install` is one-shot; toggle-off deletes the file |
+| Unhandled exceptions | `runCatching` on persist/handler/Intent; write failure drops the record |
 | PII in logs | Never log crash text, stacks, or report bodies |
+| Package | Logic lives in `org.openshouter.*`, not a Golden Path stub overwrite |
 
 ### Parallelization
 
@@ -306,11 +305,11 @@ Draft PR: https://github.com/edwardlthompson/OpenShouter/pull/47
 
 `agent_count_target`: 1
 
-- 🔲 [AGENT] privacy-report sanitizer, fingerprint, markdown + unit tests
-- 🔲 [AGENT] crash-capture opt-in queue + Application install
-- 🔲 [AGENT] feedback dialogs + About Report a bug / Request a feature
-- 🔲 [AGENT] github-feedback issue-form URLs + clipboard fallback
-- 🔲 [AGENT] Settings leftover: Save crash details toggle (default off)
+- ✅ [AGENT] privacy-report sanitizer, fingerprint, markdown + unit tests
+- ✅ [AGENT] crash-capture opt-in queue + Application install
+- ✅ [AGENT] feedback dialogs + About Report a bug / Request a feature
+- ✅ [AGENT] github-feedback issue-form URLs + clipboard fallback
+- ✅ [AGENT] Settings leftover: Save crash details toggle (default off)
 - 🔲 [ADB] Toggle on, force a test crash, confirm one sanitized review dialog and no auto-GitHub
 - 🔲 [HUMAN] Confirm About Copy / Open GitHub / Discard on a real device
 
