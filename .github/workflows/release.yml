@@ -179,6 +179,9 @@ jobs:
             exit 1
           fi
           files=(packaging/winget/manifest.stub.yaml sbom.cyclonedx.json)
+          [ -f openvex.json ] && files+=(openvex.json) || {
+            [ -f schemas/golden-path/openvex.example.json ] && files+=(schemas/golden-path/openvex.example.json)
+          }
           [ -f sbom-web.cyclonedx.json ] && files+=(sbom-web.cyclonedx.json)
           [ -f sbom-python.cyclonedx.json ] && files+=(sbom-python.cyclonedx.json)
           [ -f sbom-node.cyclonedx.json ] && files+=(sbom-node.cyclonedx.json)
