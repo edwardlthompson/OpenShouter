@@ -1,11 +1,11 @@
 # Feature: sun-moon-alarm
 
-> Replace **Sun Alarm** (`com.vvse.sunalarm`, Volker Voecking) with a FOSS lockscreen alarm that actually appears over the lockscreen. One stored place (one-time fix or typed city). On-device sun/moon math. `AlarmManager.setAlarmClock` + **Snooze** / **Stop**. Home widget: fixed “now” hands, rotating day/night disk. No Play Services.
+> Replace **Sun Alarm** (`com.vvse.sunalarm`) **and** the stock alarm clock. One stored place for solar/lunar math. Custom clock-time alarms. Days-of-week (or once). `setAlarmClock` + **Snooze** / **Stop**. Rotating day/night widget. No Play Services.
 
 ## Acceptance criteria
 
-- 🔲 User-visible behavior: a Sun/Moon alarm menu lists events with optional before/after offsets. At fire time the system alarm clock path shows a full-screen activity **over the lockscreen** and shouts the event until **Snooze** or **Stop**.
-- 🔲 Widget: home-screen analog disk (day white / night black) with **hands fixed pointing up** (“now”). The **background rotates** so the current instant is always at the top. Digital times for sunrise, sunset, solar noon, and solar midnight; a red dot on any of those (and any other events) that have an alarm.
+- 🔲 User-visible behavior: one Alarms menu holds **custom clock-time** rows and **sun/moon event** rows. Each row has days-of-week (or Once). At fire time `setAlarmClock` shows a full-screen activity **over the lockscreen** and shouts until **Snooze** or **Stop**. This is meant to replace the stock Clock alarm list.
+- 🔲 Widget: home-screen analog disk (day white / night black) with **hands fixed pointing up** (“now”). The **background rotates** so the current instant is always at the top. Digital times for sunrise, sunset, solar noon, and solar midnight; a red dot on any of those, plus a tick + time + red dot for every other armed row (event, offset, or custom clock time) that is enabled today.
 - 🔲 Place: one-time `ACCESS_COARSE_LOCATION` via `LocationManager` (never `play-services-location`), **or** a city search field that resolves while typing. The **city** (locality) is the stored place, not a street address.
 - 🔲 Offline/error: after a place is stored, event times are computed on-device (no weather API). Failed geocode leaves the last good city. Missing permission with no city stored keeps alarms unset and shows why.
 - 🔲 Accessibility: **Snooze** and **Stop** are labelled buttons (not icon-only); TalkBack reads the event title. Widget `contentDescription` speaks next rise/set, not a picture-only face.
@@ -21,16 +21,29 @@
 ## Alarm UX (must beat Sun Alarm on lockscreen)
 
 - Schedule with **`AlarmManager.setAlarmClock`** so the OS treats this as a clock alarm (status-bar alarm indicator, Doze exemption, lockscreen). Also `USE_FULL_SCREEN_INTENT` + `showWhenLocked` / `turnScreenOn` + `SCHEDULE_EXACT_ALARM` rationale.
-- **Stop:** halt TTS, sound, and vibration, close the full-screen UI, mark this occurrence done, and schedule the next event.
+- **Stop:** halt TTS, sound, and vibration, close the full-screen UI, mark this occurrence done, and schedule the next matching day (or the next custom/event instant).
 - **Snooze:** halt output, close the UI, and `setAlarmClock` again after the snooze interval (default 10 minutes, user-settable). Does not skip the event.
+- Honor `AlarmClock.ACTION_SET_ALARM` / `ACTION_DISMISS_ALARM` so other apps can add or stop alarms here (Clock replacement). No Play Clock dependency.
 - Do **not** use `SYSTEM_ALERT_WINDOW` as the primary popup (that is why Sun Alarm often fails over the lockscreen).
 - Do **not** add Play. Do **not** log the schedule time together with coordinates.
 - History: write a `kind` + spoken row, no coordinates.
 - `setAlarmClock` **does** take over bedtime / next-alarm UI. That is intended: this product is a clock alarm, not a quiet TIME_TICK shout.
 
+## Days of the week
+
+Every row (custom or sun/moon) has seven day chips (Sun–Sat), same pattern as Quiet Hours.
+
+- **Once:** no chips on → fire at the next matching instant, then disable (or leave off until the user turns it on again).
+- **Weekly:** one or more chips on → skip days that are off (weekday-only sunset, weekend-only 7:00, …).
+- Sun/moon rows still compute the event time for that civil day, then apply the offset, then skip if that weekday is off.
+
+## Custom clock alarms
+
+Named rows at a user-picked clock time (hour:minute in the device 12/24 setting). No city required. Same Snooze/Stop, sound/vibrate, and `setAlarmClock` path as event alarms. Unlimited. This is the stock Clock list: “7:00 weekdays”, “8:30 Saturday”, one-shot “Thursday 6:15”.
+
 ## Solar events
 
-Independent alarms (default off), each with optional offset minutes before/after:
+Independent alarms (default off), each with optional offset minutes before/after and the same day chips:
 
 - Sunrise, sunset
 - Dawn, dusk (civil)
@@ -43,7 +56,7 @@ Independent alarms (default off), each with optional offset minutes before/after
 
 ## Lunar events
 
-Independent alarms (default off), each with optional offset:
+Independent alarms (default off), each with optional offset and the same day chips:
 
 - Moonrise, moonset, moon transit (highest)
 - New moon, full moon
@@ -83,6 +96,7 @@ Phones were **not** attached to this agent (`adb devices` empty). Comparison is 
 | Solar midnight | **Yes** — already in this spec |
 | Custom sun altitude (e.g. sun 5° above horizon) | **Later** — photographer P2 |
 | Multiple named alarms per event (coop −15m and photo −0) | **Yes — add** named rows, not one toggle per event only |
+| Days of week + custom clock times | **Yes — required** (Clock replacement) |
 | Next-event times listed on the menu | **Yes — add** |
 | Unrestricted battery / OEM autostart hint | **Yes** — reuse Sprint 35 OEM row + Welcome |
 | Widget of next sunrise/sunset | **Yes — rotating day/night disk** (below) |
@@ -106,15 +120,15 @@ Not the existing master on/off widget. New `astro` provider (Glance or `RemoteVi
   - day → night (sunset)
   - solar noon
   - solar midnight
-- **Red dot** beside any of those four that have an enabled alarm. **Also draw a labelled tick + digital time + red dot for every other enabled alarm** (golden hour, moonrise, offset rows, …).
+- **Red dot** beside any of those four that have an enabled alarm **today**. **Also draw a labelled tick + digital time + red dot for every other armed row** (golden hour, moonrise, offset, custom 7:00, …) whose weekday matches today.
 - Update at least on `TIME_TICK` / widget period (once a minute is enough; do not log coords).
 - Pure-logic helper: `diskAngle(now, eventInstant)` so “now” maps to 0° (up). Unit-test a known city/date.
 
 ## Smoke scenario
 
 1. Given no location stored, the user types a city and picks the row (or grants one-time coarse location).
-2. When they add “Sunset −15m” and “Full moon”.
-3. Then `setAlarmClock` shows those as next-alarm; at fire the lockscreen shows **Snooze** / **Stop** and OpenShouter shouts until one of those. The widget disk has now at the top, sunset labelled, and red dots on sunset and full moon.
+2. When they add “7:00 Mon–Fri”, “Sunset −15m Sat–Sun”, and a one-shot “Thursday 6:15”.
+3. Then `setAlarmClock` is the next of those; at fire the lockscreen shows **Snooze** / **Stop**. The widget shows now at the top and red dots on every row that is armed for today.
 
 ## Container map
 
@@ -130,7 +144,7 @@ Not the existing master on/off widget. New `astro` provider (Glance or `RemoteVi
 
 ## Tests
 
-- Automated: yes — instants for a known city/date; offset math; Snooze reschedules; Stop cancels this fire; disk angle keeps now at 0°; geocode uses locality.
+- Automated: yes — instants for a known city/date; offset math; weekday skip; custom 7:00 next Monday; Once then disable; Snooze reschedules; Stop cancels this fire; disk angle keeps now at 0°; geocode uses locality. Empty city still allows custom clock rows.
 - Device: `[ADB]` lockscreen Snooze/Stop + widget rotation on CPH2583 / CPH2655 vs Sun Alarm’s miss.
 
 ## Fallback validation
@@ -142,7 +156,7 @@ Not the existing master on/off widget. New `astro` provider (Glance or `RemoteVi
 
 | Issue | Resolution |
 |-------|------------|
-| Null/empty city | Alarms stay unset; empty Geocoder → “no city match”; test blank query |
+| Null/empty city | Sun/moon rows stay unset; **custom clock rows still schedule**. Empty Geocoder → “no city match” |
 | Network timeout | Geocode best-effort; times compute offline. No weather API on the schedule path |
 | Race | One `setAlarmClock` at a time (OS next-alarm); Snooze re-arms this event; Stop queues the next |
 | Unhandled exceptions | `runCatching` on Geocoder and `setAlarmClock`; skip that fire |

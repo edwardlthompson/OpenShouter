@@ -322,13 +322,13 @@ Draft PR: https://github.com/edwardlthompson/OpenShouter/pull/47
 
 Feature spec: `docs/features/sun-moon-alarm.md`
 
-One stored place (one-time `LocationManager` coarse fix **or** typed city with Geocoder autocomplete; **city** is the determining factor). On-device sun/moon math (no weather API on the schedule path). Named alarms with before/after offsets. **`setAlarmClock`** + full-screen lockscreen UI with **Snooze** and **Stop**. Home widget: fixed up-pointing hands, rotating white/black day-night disk, digital rise/set/noon/midnight, red dots on armed events. No Play Services. Never log coordinates or city strings. Comparison vs Sun Alarm (`com.vvse.sunalarm`) lives in the spec.
+Clock + Sun Alarm replacement. Custom clock-time rows and sun/moon event rows; each has Once or Sun–Sat chips. One stored city for solar/lunar math (one-time `LocationManager` or Geocoder-while-typing). On-device math (no weather API on the schedule path). Named event rows with before/after offsets. **`setAlarmClock`** + lockscreen **Snooze** / **Stop**. Honor `AlarmClock` set/dismiss intents. Widget: fixed up-pointing hands, rotating white/black disk, digital rise/set/noon/midnight, red dots on every row armed today. No Play Services. Never log coordinates or city strings.
 
 ### Critique
 
 | Issue | Resolution |
 |-------|------------|
-| Null/empty city | Alarms stay unset; blank Geocoder → “no city match”; test in spec |
+| Null/empty city | Sun/moon rows stay unset; custom clock rows still schedule |
 | Network timeout | Geocode best-effort; times compute offline. No weather API for timing |
 | Race | One OS `setAlarmClock` next-alarm; Snooze re-arms this fire; Stop queues the next |
 | Unhandled exceptions | `runCatching` on Geocoder and `setAlarmClock` |
@@ -348,11 +348,12 @@ One stored place (one-time `LocationManager` coarse fix **or** typed city with G
 
 - 🔲 [AGENT] Feature spec lock + solar/lunar instant calculator (fixtures, no live GPS)
 - 🔲 [AGENT] One-time coarse `LocationManager` fix **or** city Geocoder-while-typing (locality only)
-- 🔲 [AGENT] Sun/Moon menu + named rows with before/after offsets: sunrise/sunset, dawn/dusk, civil/nautical/astronomical twilight, solar noon/midnight, golden hour, blue hour, equinoxes, solstices
+- 🔲 [AGENT] Custom clock-time alarms + Once / Sun–Sat chips on every row (Clock replacement; `ACTION_SET_ALARM`)
+- 🔲 [AGENT] Sun/Moon menu + named rows with before/after offsets and the same day chips: sunrise/sunset, dawn/dusk, civil/nautical/astronomical twilight, solar noon/midnight, golden hour, blue hour, equinoxes, solstices
 - 🔲 [AGENT] Moon rows: moonrise/moonset/transit, new/full, waxing crescent, first quarter, waxing gibbous, waning gibbous, last quarter, waning crescent
-- 🔲 [AGENT] `setAlarmClock` + full-screen lockscreen activity (`USE_FULL_SCREEN_INTENT`); **Snooze** (re-arm after interval) and **Stop** (halt + close + schedule next)
-- 🔲 [AGENT] Sun/moon home widget: fixed hands pointing up (“now”), rotating day (white) / night (black) disk, digital sunrise/sunset/solar noon/midnight, red dot on every armed event
-- 🔲 [ADB] City pick + Sunset −15m: lockscreen Snooze/Stop and widget “now” stays at the top on CPH2583 / CPH2655
+- 🔲 [AGENT] `setAlarmClock` + full-screen lockscreen activity (`USE_FULL_SCREEN_INTENT`); **Snooze** (re-arm after interval) and **Stop** (halt + close + schedule next matching day)
+- 🔲 [AGENT] Sun/moon home widget: fixed hands pointing up (“now”), rotating day (white) / night (black) disk, digital sunrise/sunset/solar noon/midnight, red dot on every row armed today
+- 🔲 [ADB] “7:00 Mon–Fri” plus Sunset −15m Sat–Sun: lockscreen Snooze/Stop; widget “now” at the top on CPH2583 / CPH2655
 - 🔲 [HUMAN] Confirm one-time location vs typed city both produce the same city-level times
 
 ---
