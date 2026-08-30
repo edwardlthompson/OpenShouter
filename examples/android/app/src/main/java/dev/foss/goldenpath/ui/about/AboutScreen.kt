@@ -33,6 +33,8 @@ fun AboutScreen(
     donations: DonationsConfig,
     canApplyUpdate: Boolean,
     onApplyUpdate: () -> Unit,
+    onReportBug: () -> Unit,
+    onRequestFeature: () -> Unit,
     onBack: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -66,6 +68,12 @@ fun AboutScreen(
             Button(onClick = onApplyUpdate) {
                 Text(stringResource(R.string.about_update_apply))
             }
+        }
+        Button(onClick = onReportBug) {
+            Text(stringResource(R.string.feedback_bug_title))
+        }
+        Button(onClick = onRequestFeature) {
+            Text(stringResource(R.string.feedback_feature_title))
         }
         Text(
             text = stringResource(R.string.about_donate),
