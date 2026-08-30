@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="settings_privacy">Confidentialité</string>
+    <string name="settings_feedback_save_crashes">Enregistrer les détails de plantage pour les relire</string>
+    <string name="feedback_bug_title">Signaler un bug</string>
+    <string name="feedback_feature_title">Demander une fonction</string>
+    <string name="feedback_description">Description</string>
+    <string name="feedback_copy">Copier le rapport</string>
+    <string name="feedback_open">Ouvrir GitHub</string>
+    <string name="feedback_discard">Ignorer</string>
+    <string name="feedback_offline">Hors ligne. Copier fonctionne encore ; Ouvrir GitHub a besoin du réseau.</string>
+    <string name="feedback_clipboard_hint">Relisez l’aperçu assaini. Le presse-papiers peut garder une copie après Ignorer.</string>
+    <string name="feedback_crash_title">L’app a repris. Relire et envoyer un rapport ?</string>
+</resources>

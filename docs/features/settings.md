@@ -7,6 +7,7 @@
 - ✅ User can open a Settings panel/screen from the toolbar gear and the Dashboard Phone and backup list
 - ✅ Theme preference (light/dark/system) persists across restarts
 - ✅ Update-check toggle respects opt-in telemetry policy (`docs/PRIVACY.md`)
+- ✅ Optional **Save crash details for me to review** toggle (default off); see `docs/features/feedback.md` and `docs/features/crash-capture.md`
 - ✅ Offline: settings load last persisted values; no network required for display
 - ✅ i18n: all user-visible strings under `settings.*` keys
 

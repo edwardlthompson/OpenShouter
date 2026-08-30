@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">OpenShouter</string>
+    <string name="app_title">OpenShouter</string>
+    <string name="app_greeting">Ouça o que importa sem olhar para o ecrã</string>
+    <string name="about_title">Sobre</string>
+    <string name="theme_mode_high_contrast">Alto contraste</string>
+    <string name="about_open">Sobre</string>
+    <string name="settings_title">Definições</string>
+    <string name="settings_open">Definições</string>
+    <string name="service_running">O anunciador está ativo</string>
+    <string name="dashboard_master">Anúncios</string>
+    <string name="announcer_title">Anunciador</string>
+    <string name="tts_title">Voz</string>
+    <string name="nav_silence">Silêncio</string>
+    <string name="nav_history">Histórico</string>
+    <string name="nav_places">Locais</string>
+    <string name="nav_calendar">Calendário</string>
+    <string name="history_empty">Nenhum anúncio registado</string>
+    <string name="history_show_spoken">Mostrar texto falado</string>
+    <string name="history_clear">Limpar histórico</string>
+    <string name="history_dialog_close">Fechar</string>
+</resources>

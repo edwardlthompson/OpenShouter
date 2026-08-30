@@ -12,11 +12,18 @@ internal class RepeatClock {
     var lastRecordedKey: String? = null
     var lastRecordedAt: Long = 0L
     private val appNameAt = HashMap<String, Long>()
+    private val contactAt = HashMap<String, Long>()
 
     fun appNameAt(pkg: String): Long = appNameAt[pkg] ?: 0L
 
     fun markAppName(pkg: String, now: Long) {
         if (pkg.isNotBlank()) appNameAt[pkg] = now
+    }
+
+    fun contactAt(key: String): Long = contactAt[key] ?: 0L
+
+    fun markContact(key: String, now: Long) {
+        if (key.isNotBlank()) contactAt[key] = now
     }
 }
 
@@ -36,6 +43,8 @@ internal data class NotificationFacts(
     val channelName: String = "",
     val notificationKey: String = "",
     val callType: Int? = null,
+    val isBubble: Boolean = false,
+    val isWorkProfile: Boolean = false,
 ) {
     companion object {
         fun from(
@@ -48,6 +57,9 @@ internal data class NotificationFacts(
             val channelImp = channelId
                 .takeIf { it.isNotEmpty() }
                 ?.let { nm?.getNotificationChannel(it)?.importance } ?: 3
+            val isBubble = android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.Q &&
+                sbn.notification.bubbleMetadata != null
+            val isWork = sbn.user.hashCode() != 0
             return NotificationFacts(
                 app = sbn.packageName,
                 title = extras.getCharSequence(Notification.EXTRA_TITLE)?.toString().orEmpty(),
@@ -70,6 +82,8 @@ internal data class NotificationFacts(
                         null
                     }
                 }.getOrNull(),
+                isBubble = isBubble,
+                isWorkProfile = isWork,
             )
         }
 

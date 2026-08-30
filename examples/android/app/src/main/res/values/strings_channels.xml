@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="nav_contacts">Contacts nick and block</string>
+    <string name="nav_messages">Message shout</string>
+    <string name="nav_power">Battery situations</string>
+    <string name="nav_calendar">Calendar shout</string>
+    <string name="nav_bluetooth">Bluetooth shout</string>
+    <string name="overrides_importance">Importance</string>
+    <string name="overrides_cooldown">App cooldown</string>
+    <string name="overrides_speak_name">Speak app name</string>
+    <string name="overrides_speak_body">Speak body</string>
+    <string name="overrides_ignore_empty">Ignore empty</string>
+    <string name="overrides_stream">Stream</string>
+    <string name="overrides_inherit">Inherit</string>
+    <string name="overrides_yes">Yes</string>
+    <string name="overrides_no">No</string>
+    <string name="overrides_format">Format (%app %title %text)</string>
+    <string name="overrides_save">Save override</string>
+    <string name="overrides_item">%1$s · %2$s</string>
+    <string name="overrides_item_inherit">%1$s · inherit format</string>
+    <string name="contacts_help">Nicknames and a blacklist change what is spoken. Counts only — numbers stay off the list.</string>
+    <string name="contacts_number">Number</string>
+    <string name="contacts_nickname">Nickname</string>
+    <string name="contacts_add_nick">Add nickname</string>
+    <string name="contacts_block">Blacklist number</string>
+    <string name="contacts_add_block">Add to blacklist</string>
+    <string name="contacts_nicks">Nicknames: %1$d</string>
+    <string name="contacts_blocked">Blocked: %1$d</string>
+    <string name="contacts_unknown_call">Speak unknown callers</string>
+    <string name="contacts_unknown_message">Speak unknown messages</string>
+    <string name="contacts_call_format" formatted="false">Call format (%name %number %sim)</string>
+    <string name="calendar_enable">Announce upcoming events</string>
+    <string name="calendar_help">Uses calendars already synced on this phone. Grant Android Calendar access — you do not sign into Google Calendar here. Speaks each timed title once when it starts within the look-ahead window.</string>
+    <string name="calendar_lookahead">Look-ahead</string>
+    <string name="calendar_lookahead_min">%1$d min</string>
+    <string name="calendar_soon">Upcoming: %1$s</string>
+    <string name="bluetooth_connect">Announce headset connect</string>
+    <string name="bluetooth_battery">Announce headset battery</string>
+    <string name="bluetooth_help">Uses on-device Bluetooth connect and battery extras. Device names are never logged.</string>
+    <string name="bluetooth_connected">%1$s connected</string>
+    <string name="bluetooth_disconnected">%1$s disconnected</string>
+    <string name="bluetooth_battery_level">%1$s battery %2$d percent</string>
+    <string name="messages_enable">Enable message channel</string>
+    <string name="messages_unknown">Read unknown senders</string>
+    <string name="messages_body">Read message body</string>
+    <string name="messages_known">Known contacts only</string>
+    <string name="messages_format" formatted="false">Format (%name %text)</string>
+    <string name="power_low">Low battery</string>
+    <string name="power_low_phrase">Low phrase</string>
+    <string name="power_full">Battery full</string>
+    <string name="power_full_phrase">Full phrase</string>
+    <string name="power_connected">Power connected</string>
+    <string name="power_connected_phrase">Connected phrase</string>
+    <string name="power_disconnected">Power disconnected</string>
+    <string name="power_disconnected_phrase">Disconnected phrase</string>
+    <string name="filters_ignore_bubbles">Ignore conversation bubbles / summary-only rows</string>
+    <string name="filters_ignore_work_profile">Ignore work profile apps</string>
+    <string name="filters_contact_cooldown">Contact-name cooldown on message threads</string>
+    <string name="telephony_hangup_duration">Speak call duration after hangup</string>
+    <string name="telephony_call_waiting">Announce call waiting</string>
+    <string name="telephony_conference_hint">Announce conference hint</string>
+    <string name="storage_low">Device storage is critically low</string>
+    <string name="history_search">Search history</string>
+    <string name="history_speak_row">Speak</string>
+    <string name="history_retention">History retention</string>
+</resources>

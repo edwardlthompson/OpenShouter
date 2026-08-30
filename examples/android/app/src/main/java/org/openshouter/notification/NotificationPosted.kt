@@ -43,6 +43,13 @@ internal object NotificationPosted {
         if (!settings.notificationsEnabled) return
         if (MessageChannel.isMessaging(facts.app)) {
             val now = System.currentTimeMillis()
+            val contactKey = "${facts.app}:${facts.title.trim()}"
+            if (settings.notificationPolicy.contactCooldownSeconds > 0 &&
+                !AppNameCooldown.allow(clock.contactAt(contactKey), now, settings.notificationPolicy.contactCooldownSeconds)
+            ) {
+                NotificationHistory.recordIgnore(ep, settings, clock, facts, contactKey, now, IgnoreReason.CONTACT_COOLDOWN)
+                return
+            }
             val includeApp = AppNameCooldown.include(
                 settings, ShoutChannel.MESSAGE, clock.appNameAt(facts.app), now,
             )
@@ -54,6 +61,7 @@ internal object NotificationPosted {
                 includeApp,
             ) ?: return
             if (includeApp) clock.markAppName(facts.app, now)
+            clock.markContact(contactKey, now)
             NotificationHistory.speakOrIgnore(
                 ep, settings, ShoutChannel.MESSAGE, SpokenEvent.Kind.MESSAGE, spoken, facts,
             )
@@ -73,14 +81,22 @@ internal object NotificationPosted {
             NotificationHistory.recordIgnore(ep, settings, clock, facts, key, now, reason)
             return
         }
-        if (!NotificationRank.allows(settings.notificationPolicy.minImportance, facts.rank)) {
+        val ignoreKey = facts.notificationKey
+        if (settings.notificationPolicy.ignoreBubbles && facts.isBubble) {
+            NotificationHistory.recordIgnore(ep, settings, clock, facts, ignoreKey, now, IgnoreReason.BUBBLE); return
+        }
+        if (settings.notificationPolicy.ignoreWorkProfile && facts.isWorkProfile) {
+            NotificationHistory.recordIgnore(ep, settings, clock, facts, ignoreKey, now, IgnoreReason.WORK_PROFILE); return
+        }
+        val appOverride = settings.appOverrides[facts.app] ?: AppOverride(facts.app, settings.appFormats[facts.app])
+        val effectiveImportance = appOverride.minImportance ?: settings.notificationPolicy.minImportance
+        if (!NotificationRank.allows(effectiveImportance, facts.rank)) {
             NotificationHistory.recordIgnore(ep, settings, clock, facts, key, now, IgnoreReason.IMPORTANCE)
             return
         }
-        val format = AppOverride(facts.app, settings.appFormats[facts.app]).mergeFormat(settings.ttsFormat)
-        val includeApp = AppNameCooldown.include(
-            settings, ShoutChannel.NOTIFICATION, clock.appNameAt(facts.app), now,
-        )
+        val format = appOverride.mergeFormat(settings.ttsFormat)
+        val appCooldownSec = appOverride.appNameCooldownSeconds ?: AppNameCooldown.secondsFor(settings, ShoutChannel.NOTIFICATION)
+        val includeApp = AppNameCooldown.allow(clock.appNameAt(facts.app), now, appCooldownSec)
         val spoken = NotificationUtterance.build(
             rule, facts.app, settings.messageChannel.speakBody, format, label,
             facts.title, facts.text, facts.tokens, includeApp,
@@ -117,6 +133,8 @@ internal object NotificationPosted {
             return
         }
         if (action != CallAnnounceAction.ANNOUNCE) return
+        val dedupKey = facts.title.ifBlank { facts.people }.ifBlank { facts.app }
+        if (!org.openshouter.call.CallDedup.shouldAnnounce(dedupKey)) return
         val incoming = CallPosted.eventFor(settings, facts.title, facts.people, label, facts.app) ?: return
         CallLoopGate.onVoipAnnounce(facts.app)
         NotificationHistory.speakOrIgnore(
@@ -127,10 +145,6 @@ internal object NotificationPosted {
 
     private suspend fun regexRules(ep: OpenShouterEntryPoint): List<RegexRule> =
         ep.regex().snapshot().map {
-            RegexRule(
-                it.pattern,
-                runCatching { RegexAction.valueOf(it.action) }.getOrDefault(RegexAction.IGNORE),
-                it.replacement,
-            )
+            RegexRule(it.pattern, runCatching { RegexAction.valueOf(it.action) }.getOrDefault(RegexAction.IGNORE), it.replacement)
         }
 }

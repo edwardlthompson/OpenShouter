@@ -33,10 +33,12 @@ def list_scripts() -> list[str]:
 
 
 def resolve_script(name: str) -> Path | None:
+    ps1 = SCRIPTS / f"{name}.ps1"
+    if os.name == "nt" and ps1.is_file():
+        return ps1
     sh = SCRIPTS / f"{name}.sh"
     if sh.is_file():
         return sh
-    ps1 = SCRIPTS / f"{name}.ps1"
     if ps1.is_file():
         return ps1
     return None

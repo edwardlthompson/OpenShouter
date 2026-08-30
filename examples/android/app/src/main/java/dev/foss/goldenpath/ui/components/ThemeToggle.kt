@@ -22,11 +22,13 @@ fun ThemeToggle(
         ThemeMode.System -> Icons.Outlined.BrightnessAuto
         ThemeMode.Light -> Icons.Outlined.Brightness6
         ThemeMode.Dark -> Icons.Outlined.Brightness4
+        ThemeMode.HighContrast -> Icons.Outlined.Brightness4
     }
     val description = when (themeMode) {
         ThemeMode.System -> stringResource(R.string.theme_mode_system)
         ThemeMode.Light -> stringResource(R.string.theme_mode_light)
         ThemeMode.Dark -> stringResource(R.string.theme_mode_dark)
+        ThemeMode.HighContrast -> stringResource(R.string.theme_mode_high_contrast)
     }
 
     IconButton(onClick = onToggle, modifier = modifier) {

@@ -138,5 +138,8 @@ class SettingsRepository @Inject constructor(
         it[SettingsSprint17.COLLAPSE_REPEATS] = p.collapseRepeats
         it[SettingsSprint17.MIN_IMPORTANCE] = p.minImportance.name
         it[SettingsSprint17.DND_PRIORITY] = p.dndPriorityOnly
+        it[SettingsSprint17.IGNORE_BUBBLES] = p.ignoreBubbles
+        it[SettingsSprint17.IGNORE_WORK_PROFILE] = p.ignoreWorkProfile
+        it[SettingsSprint17.CONTACT_COOLDOWN] = p.contactCooldownSeconds
     }
 }

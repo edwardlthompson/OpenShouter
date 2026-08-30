@@ -58,6 +58,10 @@ Interactive filterable table: Cursor canvas `feature-parity-matrix.canvas.tsx` (
 
 **Wrap-up 2026-08-29 (`/ship` v1.2.0):** Signed APK on https://github.com/edwardlthompson/OpenShouter/releases/tag/v1.2.0 (`versionCode` 29). Sideloaded on CPH2583 and CPH2655. Notification row stays Yes.
 
+**Wrap-up 2026-08-30 (Sprint 27):** Hear quality updates: per-app format string override, per-app name cooldown, contact-name cooldown on message threads, ignore conversation bubbles / summary-only rows, work-profile package filter, and per-app importance floor. Notification rows stay Yes.
+
+**Wrap-up 2026-08-30 (Sprint 28):** Telephony extras: cellular/VoIP double shout dedup within 6s, Bluetooth HFP headset caller ID detection, call-waiting shout on incoming during active call, call hangup duration announce, and conference/merge participant hint. Call rows stay Yes.
+
 Status: **Yes** shipped · **Partial** logic or subset UI · **No** missing · **Skip** will not copy (FOSS / out of scope).
 
 ## Summary
@@ -168,3 +172,13 @@ Dashboard master + sectioned Hear / History / Phone cards · searchable app-spea
 `agent_count_target`: 4, 4, 3, 8, 8, 5. Wiring stays in `OpenShouterHome` (≤10 lines per feature). One feature row per agent.
 
 Sprints 12–14 added 2026-08-14/15 to reach 100% in-scope parity. Skip rows stay out of BUILD_PLAN.
+
+### Wrap-up 2026-08-30 (Sprints 29–35)
+
+- **Sprint 29 (Time, calendar, and extras):** Custom time-shout interval (1..720m), calendar allowlist, all-day event morning briefing, Bluetooth battery threshold alert, low-storage (`ACTION_DEVICE_STORAGE_LOW`) alert.
+- **Sprint 30 (Places and device states):** Pure FOSS map fence picker (OSMDroid/MapLibre math, zero Google Maps SDK), silent-place management without raw coord UI, Car Bluetooth detection, quiet-hours profiles (home/work/weekend), desk vs pocket flip-to-mute sensitivity.
+- **Sprint 31 (History and backup):** Accessible search in notification history, sanitized SAF history export (PII omitted), tap-to-speak from history, legacy pref mappings, configurable history retention (7/30/90 days).
+- **Sprint 32 (Accessibility and i18n):** German (`values-de`) and Portuguese (`values-pt`) translation overlays, spoken-text polite live region, large font scaling support, high-contrast theme.
+- **Sprint 33 (Distribution and updates):** In-app What's New dialog logic, Obtainium metadata recipe, reproducible-build verification documentation, UnifiedPush opt-in ping architecture.
+- **Sprint 34 (FOSS integrations):** Public shout intent API, Tasker/Locale plugin action bundles, Quick Settings tiles (quiet hours, headset-only), Wear OS FOSS companion intent hooks.
+- **Sprint 35 (UX polish):** Setup checklist helpers, settings menu search, per-channel format previews, quiet-hours transition calculations, OEM autostart detection and settings routing.

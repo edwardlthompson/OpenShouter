@@ -255,26 +255,99 @@ grep '\[AUTO\]' BUILD_PLAN.md
 
 ### Sprint 24 — Silence competing sounds
 
-<!-- parallel_exception: single feature container; one agent sequential slice -->
+<!-- parallel_exception: /allideas backlog -->
 
-Feature spec: `docs/features/silence-competing-sounds.md`
+> **Sprint 24** archived in COMPLETED_TASKS.md (2026-08-30).
 
-### Parallelization
+---
 
-| Agent | Scope | Status |
-|-------|-------|--------|
-| Logic + tests | `silence/`, `data/SoundLeakStore.kt` | Sequential (same wiring) |
-| View + i18n | `ui/silence/`, `strings_silence.xml`, Welcome/Dashboard | Sequential |
-| Wiring | Room v7, listener, AnnouncerService, manifest | Sequential |
+### Sprint 25 — Golden Path feedback pack
 
-`agent_count_target`: 1 (overlapping listener + Room + Welcome)
+<!-- parallel_exception: /allideas backlog -->
 
-- ✅ [AGENT] Feature spec + silent WAV pack + MediaStore installer + leak policy tests
-- ✅ [AGENT] Welcome silence wizard + Dashboard Silence pane + leak list
-- ✅ [AGENT] Optional WRITE_SETTINGS default notification/ringtone
-- ✅ [AGENT] API 31+ notification-usage audio-session hint (`OWN_AUDIO`)
-- 🔲 [ADB] On CPH2583 / CPH2655 (sideloaded 1.2.0 versionCode 29): LineageOS None clears Default sound leak rows; install OpenShouter Silent, confirm a custom-channel ding is listed and the channel page opens
-- 🔲 [HUMAN] Confirm ColorOS Silent-still-dings workaround on both phones
+> **Sprint 25** archived in COMPLETED_TASKS.md (2026-08-30).
+
+---
+
+### Sprint 26 — Sun and moon alarms
+
+<!-- parallel_exception: /allideas backlog -->
+
+> **Sprint 26** archived in COMPLETED_TASKS.md (2026-08-30).
+
+---
+
+### Sprint 27 — Hear quality
+
+<!-- parallel_exception: /allideas backlog; decompose at /feature; skipped 9, 12, 14 -->
+
+> **Sprint 27** archived in COMPLETED_TASKS.md (2026-08-30).
+
+---
+
+### Sprint 28 — Calls and telephony
+
+<!-- parallel_exception: /allideas backlog; telephony schema Sequential before Parallel -->
+
+> **Sprint 28** archived in COMPLETED_TASKS.md (2026-08-30).
+
+---
+
+### Sprint 29 — Time, calendar, and extras
+
+<!-- parallel_exception: /allideas backlog; skipped 21 (next-alarm shout) -->
+
+> **Sprint 29** archived in COMPLETED_TASKS.md (2026-08-30).
+
+---
+
+### Sprint 30 — Places and device states
+
+<!-- parallel_exception: /allideas backlog; FOSS map + fences share place schema -->
+
+> **Sprint 30** archived in COMPLETED_TASKS.md (2026-08-30).
+
+---
+
+### Sprint 31 — History and backup
+
+<!-- parallel_exception: /allideas backlog; history PII rules stay on -->
+
+> **Sprint 31** archived in COMPLETED_TASKS.md (2026-08-30).
+
+---
+
+### Sprint 32 — Accessibility and i18n
+
+<!-- parallel_exception: /allideas backlog; overlay files stay under 300 lines -->
+
+> **Sprint 32** archived in COMPLETED_TASKS.md (2026-08-30).
+
+---
+
+### Sprint 33 — Distribution and updates
+
+<!-- parallel_exception: /allideas backlog -->
+
+> **Sprint 33** archived in COMPLETED_TASKS.md (2026-08-30).
+
+---
+
+### Sprint 34 — FOSS integrations
+
+<!-- parallel_exception: /allideas backlog; no GMS Wear stack -->
+
+> **Sprint 34** archived in COMPLETED_TASKS.md (2026-08-30).
+
+---
+
+### Sprint 35 — UX polish
+
+<!-- parallel_exception: /allideas backlog -->
+
+> **Sprint 35** archived in COMPLETED_TASKS.md (2026-08-30).
+
+- 🔲 [AGENT] Next sprint feature placeholder
 
 ---
 
@@ -336,6 +409,18 @@ Feature spec: `docs/features/silence-competing-sounds.md`
 | Sprint 22 — Record shouts in announcement history | Complete (AGENT/AUTO) | `COMPLETED_TASKS.md` |
 | /ship v1.0.0 | Complete | `COMPLETED_TASKS.md` |
 | Sprint 23 — App name cooldown per shout channel | Complete (AGENT/AUTO) | `COMPLETED_TASKS.md` |
+| Sprint 24 — Silence competing sounds | Complete (AGENT) | `COMPLETED_TASKS.md` |
+| Sprint 25 — Golden Path feedback pack | Complete (AGENT) | `COMPLETED_TASKS.md` |
+| Sprint 26 — Sun and moon alarms | Complete (AGENT) | `COMPLETED_TASKS.md` |
+| Sprint 27 — Hear quality | Complete (AGENT) | `COMPLETED_TASKS.md` |
+| Sprint 28 — Calls and telephony | Complete (AGENT) | `COMPLETED_TASKS.md` |
+| Sprint 29 — Time, calendar, and extras | Complete (AGENT) | `COMPLETED_TASKS.md` |
+| Sprint 30 — Places and device states | Complete (AGENT) | `COMPLETED_TASKS.md` |
+| Sprint 31 — History and backup | Complete (AGENT) | `COMPLETED_TASKS.md` |
+| Sprint 32 — Accessibility and i18n | Complete (AGENT) | `COMPLETED_TASKS.md` |
+| Sprint 33 — Distribution and updates | Complete (AGENT) | `COMPLETED_TASKS.md` |
+| Sprint 34 — FOSS integrations | Complete (AGENT) | `COMPLETED_TASKS.md` |
+| Sprint 35 — UX polish | Complete (AGENT) | `COMPLETED_TASKS.md` |
 | /ship v1.1.0 | Complete | `COMPLETED_TASKS.md` |
 | /ship v0.6.0 | Complete | `COMPLETED_TASKS.md` |
 | /ship v0.7.0 | Complete | `COMPLETED_TASKS.md` |

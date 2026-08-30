@@ -1,0 +1,9 @@
+{
+  "id": "org.openshouter",
+  "name": "OpenShouter",
+  "url": "https://github.com/edwardlthompson/OpenShouter/releases",
+  "matchGroup": "app-release.apk",
+  "versionDetection": "releaseTag",
+  "filterByApkName": true,
+  "category": "Accessibility / Tools"
+}

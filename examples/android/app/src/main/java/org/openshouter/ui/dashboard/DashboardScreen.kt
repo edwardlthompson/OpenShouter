@@ -36,6 +36,7 @@ fun DashboardScreen(
     onOpenPlaces: () -> Unit,
     onOpenOem: () -> Unit,
     onOpenSilence: () -> Unit,
+    onOpenAstro: () -> Unit = {},
     onOpenSettings: () -> Unit = {},
     scrollStore: MenuScrollStore,
     modifier: Modifier = Modifier,
@@ -67,6 +68,7 @@ fun DashboardScreen(
         }
         MenuSection(stringResource(R.string.menu_section_log)) {
             MenuLink(stringResource(R.string.nav_history), onOpenHistory)
+            MenuLink(stringResource(R.string.astro_nav_title), onOpenAstro, showDivider = true)
             MenuLink(stringResource(R.string.nav_reminders), onOpenReminders, showDivider = true)
         }
         MenuSection(stringResource(R.string.menu_section_phone)) {

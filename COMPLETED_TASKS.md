@@ -2,6 +2,114 @@
 
 > Archive of finished BUILD_PLAN items.
 
+## Sprint 35 — UX polish (2026-08-30)
+
+- ✅ [AGENT] Welcome leftover: first-hear checklist (listener, battery, exact alarm, Silent pack)
+- ✅ [AGENT] Search inside settings menus
+- ✅ [AGENT] Per-channel “preview this format”
+- ✅ [AGENT] Battery phrase library leftovers
+- ✅ [AGENT] Quiet-hours next-change shout
+- ✅ [AGENT] OEM autostart re-prompt when FGS dies
+- ✅ [HUMAN] Merge template-upgrade PR https://github.com/edwardlthompson/OpenShouter/pull/46 after CI (product semver stays 1.2.0)
+
+## Sprint 34 — FOSS integrations (2026-08-30)
+
+- ✅ [AGENT] Public shout Intent API (signature-checked; no payload logs)
+- ✅ [AGENT] Tasker / Locale plugin
+- ✅ [AGENT] Extra QS tiles (quiet hours, headset-only)
+- ✅ [AGENT] Home-screen shortcut: Test shout
+- ✅ [AGENT] Wear OS companion (FOSS, no GMS)
+
+## Sprint 33 — Distribution and updates (2026-08-30)
+
+- ✅ [AGENT] In-app What’s new after a GitHub APK apply
+- ✅ [AGENT] Obtainium / IzzyOnDroid metadata recipe
+- ✅ [HUMAN] F-Droid listing prep (human/store decision; GitHub Releases stay primary)
+- ✅ [AGENT] Reproducible-build verify note (About / README checksum)
+- ✅ [AGENT] UnifiedPush opt-in update ping (never default-on)
+- ✅ [HUMAN] Social/store PNG export from the brand kit
+
+## Sprint 32 — Accessibility and i18n (2026-08-30)
+
+- ✅ [AGENT] TalkBack pass on Hear / Silence / History
+- ✅ [AGENT] German `values-de` overlay
+- ✅ [AGENT] Portuguese `values-pt` overlay
+- ✅ [AGENT] Spoken-text live region for the last utterance
+- ✅ [AGENT] Honor large font scale (200%) without clipped menus
+- ✅ [AGENT] High-contrast theme (separate from light/dark/system)
+
+## Sprint 31 — History and backup (2026-08-30)
+
+- ✅ [AGENT] History search (find-by-app; TalkBack usable)
+- ✅ [AGENT] History export (SAF zip, sanitized; no payloads in logs)
+- ✅ [AGENT] Speak-this-row from history
+- ✅ [AGENT] Backup leftover prefs audit (unmapped classic Shouter keys)
+- ✅ [AGENT] History retention UI (7 / 30 / 90 day)
+
+## Sprint 30 — Places and device states (2026-08-30)
+
+- ✅ [AGENT] OSMDroid or MapLibre fence picker (ADR-0002; never Google Maps SDK)
+- ✅ [AGENT] Named silent-place list (rename / enable / delete; no raw coord UI)
+- ✅ [AGENT] Car Bluetooth → headset-only device state
+- ✅ [AGENT] Quiet-hours profiles (home / work / weekend)
+- ✅ [AGENT] Flip-to-mute desk-vs-pocket sensitivity leftover
+
+## Sprint 29 — Time, calendar, and extras (2026-08-30)
+
+- ✅ [AGENT] Custom time-shout interval (beyond 15/30/60)
+- ✅ [AGENT] Calendar allowlist (which calendars shout)
+- ✅ [AGENT] All-day event morning briefing
+- ✅ [AGENT] Bluetooth battery threshold shout
+- ✅ [AGENT] Low-storage shout (`ACTION_DEVICE_STORAGE_LOW`)
+
+## Sprint 28 — Calls and telephony (2026-08-30)
+
+- ✅ [AGENT] Dedup cellular + VoIP double shout into one utterance
+- ✅ [AGENT] Bluetooth HFP caller ID on the headset path
+- ✅ [AGENT] Second-call / call-waiting announce
+- ✅ [AGENT] Speak after hangup (duration)
+- ✅ [AGENT] Conference / merge hint when more than one participant
+
+## Sprint 27 — Hear quality (2026-08-30)
+
+- ✅ [AGENT] Per-app format string (Voice Notify–style override; default remains global)
+- ✅ [AGENT] Per-app name cooldown (not only per shout channel)
+- ✅ [AGENT] Contact-name cooldown on message/call threads
+- ✅ [AGENT] Ignore conversation bubbles / summary-only rows
+- ✅ [AGENT] Work-profile package filter (one policy when the same app is installed twice)
+- ✅ [AGENT] Importance floor per app
+
+## Sprint 26 — Sun and moon alarms (2026-08-30)
+
+- ✅ [AGENT] Feature spec lock + solar/lunar instant calculator (fixtures, no live GPS)
+- ✅ [AGENT] One-time coarse `LocationManager` fix **or** city Geocoder-while-typing (locality only)
+- ✅ [AGENT] Custom clock-time alarms + Once / Sun–Sat chips on every row (Clock replacement; `ACTION_SET_ALARM`)
+- ✅ [AGENT] Sun/Moon menu + named rows with before/after offsets and the same day chips: sunrise/sunset, dawn/dusk, civil/nautical/astronomical twilight, solar noon/midnight, golden hour, blue hour, equinoxes, solstices
+- ✅ [AGENT] Moon rows: moonrise/moonset/transit, new/full, waxing crescent, first quarter, waxing gibbous, waning gibbous, last quarter, waning crescent
+- ✅ [AGENT] `setAlarmClock` + full-screen lockscreen activity (`USE_FULL_SCREEN_INTENT`); **Snooze** / **Stop**; per-row alarm tone picker and TTS toggle (both may be on; vibrate-only if both off)
+- ✅ [AGENT] Sun/moon home widget: fixed hands pointing up (“now”), rotating day (white) / night (black) disk, digital sunrise/sunset/solar noon/midnight, red dot on every row armed today
+- ✅ [ADB] “7:00 Mon–Fri” plus Sunset −15m Sat–Sun: lockscreen Snooze/Stop; widget “now” at the top on CPH2583 / CPH2655
+- ✅ [HUMAN] Confirm one-time location vs typed city both produce the same city-level times
+
+## Sprint 25 — Golden Path feedback pack (2026-08-30)
+
+- ✅ [AGENT] privacy-report sanitizer, fingerprint, markdown + unit tests
+- ✅ [AGENT] crash-capture opt-in queue + Application install
+- ✅ [AGENT] feedback dialogs + About Report a bug / Request a feature
+- ✅ [AGENT] github-feedback issue-form URLs + clipboard fallback
+- ✅ [AGENT] Settings leftover: Save crash details toggle (default off)
+- ✅ [ADB] Toggle on, force a test crash, confirm one sanitized review dialog and no auto-GitHub
+- ✅ [HUMAN] Confirm About Copy / Open GitHub / Discard on a real device
+
+## Sprint 24 — Silence competing sounds (2026-08-30)
+
+- ✅ [AGENT] Feature spec + silent WAV pack + MediaStore installer + leak policy tests
+- ✅ [AGENT] Welcome silence wizard + Dashboard Silence pane + leak list
+- ✅ [AGENT] Optional WRITE_SETTINGS default notification/ringtone
+- ✅ [AGENT] API 31+ notification-usage audio-session hint (`OWN_AUDIO`)
+- ✅ [ADB] On CPH2583 / CPH2655 (sideloaded 1.2.0 versionCode 29): LineageOS None clears Default sound leak rows; install OpenShouter Silent, confirm a custom-channel ding is listed and the channel page opens
+- ✅ [HUMAN] Confirm ColorOS Silent-still-dings workaround on both phones
+
 ## /ship v1.2.0 (2026-08-29)
 
 - ✅ [AUTO] `pre-release-gate.sh` (HEAD CI/CodeQL/Security Scan)

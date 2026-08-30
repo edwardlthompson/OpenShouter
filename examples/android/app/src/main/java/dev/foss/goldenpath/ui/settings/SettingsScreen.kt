@@ -18,8 +18,10 @@ import org.openshouter.ui.menu.rememberMenuScrollStore
 fun SettingsScreen(
     themeMode: ThemeMode,
     updateCheckEnabled: Boolean,
+    saveCrashes: Boolean,
     onThemeModeSelect: (ThemeMode) -> Unit,
     onUpdateCheckChange: (Boolean) -> Unit,
+    onSaveCrashes: (Boolean) -> Unit,
     onBack: () -> Unit,
     modifier: Modifier = Modifier,
     scrollStore: MenuScrollStore = rememberMenuScrollStore(),
@@ -28,6 +30,7 @@ fun SettingsScreen(
         ThemeMode.System to stringResource(R.string.settings_theme_mode_system),
         ThemeMode.Light to stringResource(R.string.settings_theme_mode_light),
         ThemeMode.Dark to stringResource(R.string.settings_theme_mode_dark),
+        ThemeMode.HighContrast to stringResource(R.string.theme_mode_high_contrast),
     )
     val selected = SettingsLogic.themeModeName(themeMode.name)
     MenuScaffold(stringResource(R.string.settings_title), scrollStore, "settings", onBack, modifier) {
@@ -49,6 +52,13 @@ fun SettingsScreen(
                 checked = updateCheckEnabled,
                 onChange = onUpdateCheckChange,
                 showDivider = true,
+            )
+        }
+        MenuSection(stringResource(R.string.settings_privacy)) {
+            MenuToggle(
+                label = stringResource(R.string.settings_feedback_save_crashes),
+                checked = saveCrashes,
+                onChange = onSaveCrashes,
             )
         }
     }

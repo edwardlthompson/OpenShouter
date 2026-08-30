@@ -24,8 +24,9 @@ object TimeShout {
     const val INTERVAL_HOUR = 60
     const val LATE_GRACE_MS = 120_000L
 
-    fun normalizeInterval(minutes: Int): Int = when (minutes) {
-        INTERVAL_QUARTER, INTERVAL_HALF, INTERVAL_HOUR -> minutes
+    fun normalizeInterval(minutes: Int): Int = when {
+        minutes <= 0 -> INTERVAL_HOUR
+        minutes in 1..720 -> minutes
         else -> INTERVAL_HOUR
     }
 
