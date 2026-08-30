@@ -69,8 +69,15 @@ class WorkflowRollupTests(unittest.TestCase):
         self.assertEqual(main(), 1)
 
     def test_required_status_job_names_script(self) -> None:
+        script = ROOT / "scripts" / "check-required-status-jobs.sh"
+        bash = "bash"
+        if os.name == "nt":
+            git_bash = Path(r"C:\Program Files\Git\bin\bash.exe")
+            if not git_bash.is_file():
+                self.skipTest("Git Bash not available")
+            bash = str(git_bash)
         proc = subprocess.run(
-            ["bash", "scripts/check-required-status-jobs.sh"],
+            [bash, str(script)],
             cwd=ROOT,
             check=False,
             capture_output=True,

@@ -47,3 +47,12 @@ Searchable installed-app list. Per app: shout the **app name**, read the **notif
 - Apps with both boxes off have no Room row.
 - Existing DataStore whitelist packages are imported once (both boxes on).
 - After each AGENT step: `python3 scripts/agent-run.py watch-agent-gates --once --autofix`
+
+## Tests
+
+- Automated: yes — Android unit tests under `examples/android/app/src/test/`
+
+## Fallback validation
+
+- Why tests are not feasible: N/A (automated tests exist)
+- Command: `python3 scripts/agent-run.py feature-gate --stack android`

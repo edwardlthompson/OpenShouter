@@ -7,7 +7,6 @@ on:
 
 permissions:
   contents: read
-  actions: write
 
 jobs:
   detect-stacks:
@@ -28,6 +27,10 @@ jobs:
   health:
     name: Weekly Workflow Health
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      actions: write
+      checks: read
     steps:
       - uses: actions/checkout@v7
 

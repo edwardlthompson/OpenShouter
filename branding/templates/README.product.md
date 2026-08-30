@@ -35,6 +35,14 @@
 
 {{quick_start}}
 
+```mermaid
+flowchart TD
+  Readme[README] --> Humans[CONTRIBUTING]
+  Readme --> Agents[START_HERE]
+  Agents --> Tour["/tour or TOUR.md"]
+  Tour --> Coach["/coach"]
+```
+
 ## Install
 
 {{install}}

@@ -10,6 +10,7 @@ FULL=false
 for arg in "$@"; do
   case "$arg" in
     --full) FULL=true ;;
+    --quick) FULL=false ;;
   esac
 done
 
@@ -39,3 +40,4 @@ if [ "$FULL" = true ]; then
 fi
 
 echo "Verification harness passed"
+echo "Reminder: before a release, run python3 scripts/agent-run.py update-deps (dry-run; do not auto-apply here)."

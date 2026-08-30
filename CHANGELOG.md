@@ -8,6 +8,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [Unreleased]
+
 ### Added
 
 * **android:** sun and moon alarm scheduler, lockscreen Snooze/Stop activity, and day/night rotating disk home widget (Sprint 26)
@@ -29,7 +31,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * **android:** trust LineageOS None on OnePlus hardware so default-sound leak rows clear
 
 ## [1.2.0](https://github.com/edwardlthompson/OpenShouter/compare/v1.1.1...v1.2.0) (2026-08-29)
-
 ### Added
 
 * **android:** silence competing notification sounds ([ae13f39](https://github.com/edwardlthompson/OpenShouter/commit/ae13f39af99f4aad5e3e2fb07170dcb132ca17b0))

@@ -11,7 +11,7 @@
 | Architecture | Clean Architecture + MVVM | ADR-0001 | Hilt DI, Room, DataStore, Coroutines/Flow |
 | License | MIT | - | Pure FOSS; no Play Services |
 | Distribution | GitHub Releases only | - | No Play Store, no F-Droid listing, no Play Core |
-| Template | agent-project-bootstrap | 0.17.0 scaffold; standards 0.21.0; product 1.2.0 | Product semver stays in `.template-version` |
+| Template | agent-project-bootstrap | 0.17.0 scaffold; standards 1.0.0; product 1.2.0 | Product semver stays in `.template-version` |
 ## Active Modules
 
 - ❌ Web / PWA (`modules/web/MODULE.md`)
@@ -112,10 +112,11 @@ OpenShouter is a FOSS recreation/enhancement of classic Shouter (`com.bhkapps.sh
 | 2026-08-29 | `/ship` v1.1.1 | Announcer App name cooldown; RP #44; signed `openshouter-1.1.1-foss.apk` (versionCode 23) | Sideloaded on CPH2583 and CPH2655; photo-burst + call-repeat ADB still open |
 | 2026-08-29 | Sprint 24 silence pack | Silent WAV + Welcome wizard + leak list + optional default write + OWN_AUDIO hint; gates green | ADB: install Silent on CPH2583/CPH2655 and confirm a Messages ding is listed |
 | 2026-08-29 | `/ship` v1.2.0 | Silence competing sounds; RP #45; signed `openshouter-1.2.0-foss.apk` (versionCode 29) | Sideloaded on CPH2583 and CPH2655; Sprint 24 ADB/HUMAN leftovers stay open |
+| 2026-08-30 | Template catch-up v1.0.0 | Canon commands/rules/scripts + Mixed CI/gates; product `.template-version` stays 1.2.0 | Golden Path crash-capture/feedback still list-only; do not overwrite `examples/android/` |
 ## Template Provenance
 
 - **Source template:** `edwardlthompson/agent-project-bootstrap`
-- **Bootstrap scaffold / standards:** `0.17.0` / `0.21.0` (not product semver)
-- **Product version:** `1.2.0` (see `.template-version`)
+- **Bootstrap scaffold / standards:** `0.17.0` / `1.0.0` (not product semver)
+- **Product version:** `1.2.0` (see `.template-version`; do not copy upstream `1.0.0`)
 - **Last update check:** See `.template-update.json`
 - **Stack selection:** `.cursor/stack-selection.json` (`android`, `foss`, pruned)

@@ -1,0 +1,18 @@
+{
+  "required_h2": [
+    "Acceptance criteria",
+    "Smoke scenario",
+    "Container map",
+    "Tests",
+    "Fallback validation"
+  ],
+  "skip_basenames": [
+    "_handoff.md",
+    "parity-matrix.md",
+    "announcer.md",
+    "notifications.md"
+  ],
+  "command_must_contain": [
+    "scripts/"
+  ]
+}
