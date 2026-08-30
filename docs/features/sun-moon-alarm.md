@@ -4,13 +4,13 @@
 
 ## Acceptance criteria
 
-- 🔲 User-visible behavior: one Alarms menu holds **custom clock-time** rows and **sun/moon event** rows. Each row has days-of-week (or Once), an **alarm tone** picker, and a **TTS** toggle. Tone and TTS are independent — either, both, or neither (vibrate-only). At fire time `setAlarmClock` shows a full-screen activity **over the lockscreen** until **Snooze** or **Stop**. This is meant to replace the stock Clock alarm list.
-- 🔲 Widget: home-screen analog disk (day white / night black) with **hands fixed pointing up** (“now”). The **background rotates** so the current instant is always at the top. Digital times for sunrise, sunset, solar noon, and solar midnight; a red dot on any of those, plus a tick + time + red dot for every other armed row (event, offset, or custom clock time) that is enabled today.
-- 🔲 Place: one-time `ACCESS_COARSE_LOCATION` via `LocationManager` (never `play-services-location`), **or** a city search field that resolves while typing. The **city** (locality) is the stored place, not a street address.
-- 🔲 Offline/error: after a place is stored, event times are computed on-device (no weather API). Failed geocode leaves the last good city. Missing permission with no city stored keeps alarms unset and shows why.
-- 🔲 Accessibility: **Snooze** and **Stop** are labelled buttons (not icon-only); TalkBack reads the event title. Widget `contentDescription` speaks next rise/set, not a picture-only face.
-- 🔲 i18n: `astro_*` keys in `strings_astro.xml` (en + es + fr overlays).
-- 🔲 PII: never log coordinates, city strings, or alarm copy.
+- ✅ User-visible behavior: one Alarms menu holds **custom clock-time** rows and **sun/moon event** rows. Each row has days-of-week (or Once), an **alarm tone** picker, and a **TTS** toggle. Tone and TTS are independent — either, both, or neither (vibrate-only). At fire time `setAlarmClock` shows a full-screen activity **over the lockscreen** until **Snooze** or **Stop**. This is meant to replace the stock Clock alarm list.
+- ✅ Widget: home-screen analog disk (day white / night black) with **hands fixed pointing up** (“now”). The **background rotates** so the current instant is always at the top. Digital times for sunrise, sunset, solar noon, and solar midnight; a red dot on any of those, plus a tick + time + red dot for every other armed row (event, offset, or custom clock time) that is enabled today.
+- ✅ Place: one-time `ACCESS_COARSE_LOCATION` via `LocationManager` (never `play-services-location`), **or** a city search field that resolves while typing. The **city** (locality) is the stored place, not a street address.
+- ✅ Offline/error: after a place is stored, event times are computed on-device (no weather API). Failed geocode leaves the last good city. Missing permission with no city stored keeps alarms unset and shows why.
+- ✅ Accessibility: **Snooze** and **Stop** are labelled buttons (not icon-only); TalkBack reads the event title. Widget `contentDescription` speaks next rise/set, not a picture-only face.
+- ✅ i18n: `astro_*` keys in `strings_astro.xml` (en + es + fr overlays).
+- ✅ PII: never log coordinates, city strings, or alarm copy.
 
 ## Place
 

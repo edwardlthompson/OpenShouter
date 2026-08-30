@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="astro_screen_title">Alarmas y Astronomía</string>
+    <string name="astro_nav_title">Alarmas (Sol/Luna/Reloj)</string>
+    <string name="astro_place_card_title">Ubicación para Sol y Luna</string>
+    <string name="astro_no_place_set">Sin ciudad configurada. Las alarmas de reloj funcionan, pero los eventos solares requieren ciudad.</string>
+    <string name="astro_search_city_hint">Buscar ciudad…</string>
+    <string name="astro_btn_locate">Ubicar</string>
+    <string name="astro_section_clock">Alarmas de Reloj</string>
+    <string name="astro_section_solar">Alarmas Solares</string>
+    <string name="astro_section_lunar">Alarmas Lunares</string>
+    <string name="astro_empty_clock">No hay alarmas de reloj configuradas.</string>
+    <string name="astro_empty_solar">No hay alarmas solares configuradas.</string>
+    <string name="astro_empty_lunar">No hay alarmas lunares configuradas.</string>
+    <string name="astro_action_add">Añadir</string>
+    <string name="astro_action_edit">Editar</string>
+    <string name="astro_action_delete">Eliminar</string>
+    <string name="astro_action_save">Guardar</string>
+    <string name="astro_action_cancel">Cancelar</string>
+    <string name="astro_dialog_add_title">Nueva Alarma</string>
+    <string name="astro_dialog_edit_title">Editar Alarma</string>
+    <string name="astro_field_label">Nombre de alarma</string>
+    <string name="astro_field_repeat">Repetir días</string>
+    <string name="astro_repeat_once">Una vez</string>
+    <string name="astro_toggle_tone">Sonar tono de alarma</string>
+    <string name="astro_toggle_tts">Hablar nombre del evento (TTS)</string>
+    <string name="astro_toggle_vibrate">Vibrar</string>
+    <string name="astro_badge_tone_on">Tono</string>
+    <string name="astro_badge_tone_off">Sin Tono</string>
+    <string name="astro_badge_tts_on">TTS</string>
+    <string name="astro_badge_tts_off">Sin TTS</string>
+    <string name="astro_badge_vibrate">Vibrar</string>
+    <string name="astro_time_label">%02d:%02d</string>
+    <string name="astro_event_name">Evento: %s</string>
+    <string name="astro_offset_label">Desplazamiento: %d min</string>
+    <string name="astro_next_fire_prefix">Siguiente: %s</string>
+    <string name="astro_custom_alarm_title">Alarma</string>
+    <string name="astro_alarm_ringing">Alarma sonando</string>
+    <string name="astro_alarm_tap_to_open">Toca para abrir alarma</string>
+    <string name="astro_channel_name">Alarmas OpenShouter</string>
+    <string name="astro_channel_desc">Alarmas de pantalla completa para eventos y reloj</string>
+    <string name="astro_action_snooze">Posponer (%d min)</string>
+    <string name="astro_action_stop">Detener</string>
+    <string name="astro_widget_desc">Reloj astronómico rotativo día/noche</string>
+</resources>

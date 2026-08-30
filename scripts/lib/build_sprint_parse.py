@@ -5,6 +5,7 @@ from build_sprint_model import (
     HUMAN_GROUP_HEADER,
     PARALLEL_HEADER,
     ROW_BULLET,
+    ROW_NUMBERED,
     SEQUENTIAL_HEADER,
     SPRINT_HEADER,
     PlanRow,
