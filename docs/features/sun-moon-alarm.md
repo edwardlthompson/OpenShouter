@@ -1,13 +1,14 @@
 # Feature: sun-moon-alarm
 
-> Replace **Sun Alarm** (`com.vvse.sunalarm`, Volker Voecking) with a FOSS lockscreen alarm that actually appears over the lockscreen. One stored place (one-time fix or typed city). On-device sun/moon math. `AlarmManager.setAlarmClock` + **Stop** / **Dismiss**. No Play Services.
+> Replace **Sun Alarm** (`com.vvse.sunalarm`, Volker Voecking) with a FOSS lockscreen alarm that actually appears over the lockscreen. One stored place (one-time fix or typed city). On-device sun/moon math. `AlarmManager.setAlarmClock` + **Snooze** / **Stop**. Home widget: fixed “now” hands, rotating day/night disk. No Play Services.
 
 ## Acceptance criteria
 
-- 🔲 User-visible behavior: a Sun/Moon alarm menu lists events with optional before/after offsets. At fire time the system alarm clock path shows a full-screen activity **over the lockscreen** and shouts the event until **Stop** or **Dismiss**.
+- 🔲 User-visible behavior: a Sun/Moon alarm menu lists events with optional before/after offsets. At fire time the system alarm clock path shows a full-screen activity **over the lockscreen** and shouts the event until **Snooze** or **Stop**.
+- 🔲 Widget: home-screen analog disk (day white / night black) with **hands fixed pointing up** (“now”). The **background rotates** so the current instant is always at the top. Digital times for sunrise, sunset, solar noon, and solar midnight; a red dot on any of those (and any other events) that have an alarm.
 - 🔲 Place: one-time `ACCESS_COARSE_LOCATION` via `LocationManager` (never `play-services-location`), **or** a city search field that resolves while typing. The **city** (locality) is the stored place, not a street address.
 - 🔲 Offline/error: after a place is stored, event times are computed on-device (no weather API). Failed geocode leaves the last good city. Missing permission with no city stored keeps alarms unset and shows why.
-- 🔲 Accessibility: **Stop** and **Dismiss** are labelled buttons (not icon-only); TalkBack reads the event title; no Toast-only errors.
+- 🔲 Accessibility: **Snooze** and **Stop** are labelled buttons (not icon-only); TalkBack reads the event title. Widget `contentDescription` speaks next rise/set, not a picture-only face.
 - 🔲 i18n: `astro_*` keys in `strings_astro.xml` (en + es + fr overlays).
 - 🔲 PII: never log coordinates, city strings, or alarm copy.
 
@@ -20,8 +21,8 @@
 ## Alarm UX (must beat Sun Alarm on lockscreen)
 
 - Schedule with **`AlarmManager.setAlarmClock`** so the OS treats this as a clock alarm (status-bar alarm indicator, Doze exemption, lockscreen). Also `USE_FULL_SCREEN_INTENT` + `showWhenLocked` / `turnScreenOn` + `SCHEDULE_EXACT_ALARM` rationale.
-- **Stop:** halt TTS, sound, and vibration immediately.
-- **Dismiss:** Stop plus close the full-screen UI and mark this occurrence done (next event still reschedules).
+- **Stop:** halt TTS, sound, and vibration, close the full-screen UI, mark this occurrence done, and schedule the next event.
+- **Snooze:** halt output, close the UI, and `setAlarmClock` again after the snooze interval (default 10 minutes, user-settable). Does not skip the event.
 - Do **not** use `SYSTEM_ALERT_WINDOW` as the primary popup (that is why Sun Alarm often fails over the lockscreen).
 - Do **not** add Play. Do **not** log the schedule time together with coordinates.
 - History: write a `kind` + spoken row, no coordinates.
@@ -77,14 +78,14 @@ Phones were **not** attached to this agent (`adb devices` empty). Comparison is 
 | Feature | Integrate? |
 |---------|------------|
 | Reliable lockscreen + `setAlarmClock` | **Yes — required** |
-| Stop / Dismiss that actually silences | **Yes — required** |
+| Snooze / Stop that actually silences | **Yes — required** |
 | Moonrise, moonset, moon transit, phases | **Yes** — already in this spec |
 | Solar midnight | **Yes** — already in this spec |
 | Custom sun altitude (e.g. sun 5° above horizon) | **Later** — photographer P2 |
 | Multiple named alarms per event (coop −15m and photo −0) | **Yes — add** named rows, not one toggle per event only |
 | Next-event times listed on the menu | **Yes — add** |
 | Unrestricted battery / OEM autostart hint | **Yes** — reuse Sprint 35 OEM row + Welcome |
-| Widget of next sunrise/sunset | **Later** — we already have a master widget |
+| Widget of next sunrise/sunset | **Yes — rotating day/night disk** (below) |
 
 ### Skip
 
@@ -93,11 +94,27 @@ Phones were **not** attached to this agent (`adb devices` empty). Comparison is 
 - Weather/radar for scheduling
 - `READ_SMS`, GMS maps (FOSS map picker is Sprint 30)
 
+## Rotating day/night widget
+
+Not the existing master on/off widget. New `astro` provider (Glance or `RemoteViews` + a painted bitmap — App Widgets cannot spin a Compose tree).
+
+- **Hands stay still** and point **up** = now. Unlike a normal analog clock, **the disk rotates** under those hands as time passes so “now” is always at the top (12 o’clock).
+- **Day = white sector, night = black sector.** Sector sizes follow today’s sunrise→sunset and sunset→sunrise (not a fixed 50/50 except near equinox). Polar day/night: one sector can fill the disk.
+- **Sun and moon** glyphs sit on the disk at rise/set (and current altitude if we have it) so they ride with the rotating background.
+- **Digital labels** (clock time in the user’s 12/24 setting) at:
+  - night → day (sunrise)
+  - day → night (sunset)
+  - solar noon
+  - solar midnight
+- **Red dot** beside any of those four that have an enabled alarm. **Also draw a labelled tick + digital time + red dot for every other enabled alarm** (golden hour, moonrise, offset rows, …).
+- Update at least on `TIME_TICK` / widget period (once a minute is enough; do not log coords).
+- Pure-logic helper: `diskAngle(now, eventInstant)` so “now” maps to 0° (up). Unit-test a known city/date.
+
 ## Smoke scenario
 
 1. Given no location stored, the user types a city and picks the row (or grants one-time coarse location).
 2. When they add “Sunset −15m” and “Full moon”.
-3. Then `setAlarmClock` shows those as next-alarm; at fire the lockscreen shows Stop/Dismiss and OpenShouter shouts until Stop or Dismiss.
+3. Then `setAlarmClock` shows those as next-alarm; at fire the lockscreen shows **Snooze** / **Stop** and OpenShouter shouts until one of those. The widget disk has now at the top, sunset labelled, and red dots on sunset and full moon.
 
 ## Container map
 
@@ -106,14 +123,15 @@ Phones were **not** attached to this agent (`adb devices` empty). Comparison is 
 | Logic | `org/openshouter/astro/` (sun file, moon file, schedule file; 150-line cap each) |
 | Place | `org/openshouter/astro/AstroPlace.kt` (`LocationManager` + `Geocoder`) |
 | View | `org/openshouter/ui/astro/` |
+| Widget | `org/openshouter/astro/AstroWidgetProvider` + `res/xml/astro_widget_info.xml` |
 | Alarm | `org/openshouter/astro/AstroAlarmActivity` + `setAlarmClock` receiver |
 | Tests | `org/openshouter/astro/` unit tests with fixed lat/lon fixtures (no live GPS) |
 | Wiring | `AnnouncerService` + Dashboard row ≤10 lines |
 
 ## Tests
 
-- Automated: yes — instants for a known city/date; offset math; Stop vs Dismiss; toggle off cancels `AlarmClockInfo`; geocode uses locality.
-- Device: `[ADB]` lockscreen Stop/Dismiss on CPH2583 / CPH2655 vs Sun Alarm’s miss.
+- Automated: yes — instants for a known city/date; offset math; Snooze reschedules; Stop cancels this fire; disk angle keeps now at 0°; geocode uses locality.
+- Device: `[ADB]` lockscreen Snooze/Stop + widget rotation on CPH2583 / CPH2655 vs Sun Alarm’s miss.
 
 ## Fallback validation
 
@@ -126,7 +144,7 @@ Phones were **not** attached to this agent (`adb devices` empty). Comparison is 
 |-------|------------|
 | Null/empty city | Alarms stay unset; empty Geocoder → “no city match”; test blank query |
 | Network timeout | Geocode best-effort; times compute offline. No weather API on the schedule path |
-| Race | One `setAlarmClock` at a time (OS next-alarm); queue the following event after Dismiss |
+| Race | One `setAlarmClock` at a time (OS next-alarm); Snooze re-arms this event; Stop queues the next |
 | Unhandled exceptions | `runCatching` on Geocoder and `setAlarmClock`; skip that fire |
 | PII | Persist locally; never log lat/lon or city |
 | Bedtime | Accepted: `setAlarmClock` owns next-alarm / bedtime, same as Clock |
@@ -135,4 +153,4 @@ Phones were **not** attached to this agent (`adb devices` empty). Comparison is 
 
 ## Out of scope (v1)
 
-- Weather/forecast API, live crash-proxy, Play location, street-level address, always-on GPS, custom sun-altitude editor, new home-screen sun widget
+- Weather/forecast API, live crash-proxy, Play location, street-level address, always-on GPS, custom sun-altitude editor, spinning Compose hands (disk is a bitmap under fixed hands)
