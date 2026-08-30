@@ -11,6 +11,13 @@ cd "$ROOT"
 
 WEB_SRC="$ROOT/examples/web/src"
 WEB_E2E="$ROOT/examples/web/e2e"
+
+if [ ! -d "$WEB_SRC/about" ] \
+  && ! git -C "$ROOT" ls-files --error-unmatch examples/web/src/about >/dev/null 2>&1; then
+  echo "SKIP: About feature gate (examples/web pruned)"
+  exit 0
+fi
+
 BACKUP="$(mktemp -d)"
 
 CLI_TRACKED=(

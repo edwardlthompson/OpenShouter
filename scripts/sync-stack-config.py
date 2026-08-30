@@ -6,6 +6,7 @@ import json
 import shutil
 import sys
 from pathlib import Path
+from urllib.parse import urlparse
 
 WEB_PUBLIC = (
     "examples/web/public/app-update.json",
@@ -20,6 +21,16 @@ ANDROID_ASSETS = (
 def write_json(path: Path, data: dict) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(data, indent=2) + "\n", encoding="utf-8")
+
+
+def donation_label(url: str) -> str:
+    try:
+        host = (urlparse(url.strip()).hostname or "").lower()
+    except ValueError:
+        return "Donate"
+    if host == "venmo.com" or host.endswith(".venmo.com"):
+        return "Donate via Venmo"
+    return "Donate"
 
 
 def sync_app_update(root: Path, repo: str) -> None:
@@ -57,7 +68,7 @@ def sync_app_update(root: Path, repo: str) -> None:
 def sync_donations(root: Path, url: str) -> None:
     if not url.strip():
         return
-    label = "Donate via Venmo" if "venmo.com" in url.lower() else "Donate"
+    label = donation_label(url)
     links = [{"label": label, "url": url.strip()}]
     payload = {
         "enabled": True,
