@@ -1,9 +1,14 @@
 """Adapter write + drift checks."""
 from __future__ import annotations
 
+import sys
 import tempfile
 import unittest
 from pathlib import Path
+
+LIB = Path(__file__).resolve().parent.parent / "scripts" / "lib"
+if str(LIB) not in sys.path:
+    sys.path.insert(0, str(LIB))
 
 from adapter_templates import ADAPTERS, GENERATED, POINTER_KEYS, POINTER_MAX_LINES
 from agent_adapters import check_adapters, expected_text, write_adapters

@@ -24,13 +24,14 @@ python3 <<'PY'
 import json
 import os
 import re
+import sys
 from pathlib import Path
 
 version = os.environ["SYNC_TEMPLATE_VERSION"]
 idx = Path("TEMPLATE_INDEX.json")
 data = json.loads(idx.read_text(encoding="utf-8"))
 data["template_version"] = version
-idx.write_text(json.dumps(data, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+idx.write_text(json.dumps(data, indent=2, ensure_ascii=False) + "\n", encoding="utf-8", newline="\n")
 
 readme = Path("README.md")
 text = readme.read_text(encoding="utf-8")
@@ -60,16 +61,22 @@ mt = re.sub(
 )
 mem.write_text(mt, encoding="utf-8")
 
+plugin = Path(".cursor-plugin/plugin.json")
+if plugin.is_file():
+    pdata = json.loads(plugin.read_text(encoding="utf-8"))
+    pdata["version"] = version
+    plugin.write_text(
+        json.dumps(pdata, indent=2, ensure_ascii=False) + "\n",
+        encoding="utf-8",
+        newline="\n",
+    )
+
 citation = Path("CITATION.cff")
 if citation.is_file():
-    cff = citation.read_text(encoding="utf-8")
-    cff = re.sub(
-        r"(?m)^version:\s*\S+.*$",
-        f"version: {version} # x-release-please-version",
-        cff,
-        count=1,
-    )
-    citation.write_text(cff, encoding="utf-8")
+    sys.path.insert(0, str(Path("scripts/lib").resolve()))
+    from citation_sync import write_citation
+    write_citation(citation, version)
 PY
 
-echo "Synced template version to ${VERSION} (.template-version, TEMPLATE_INDEX.json, README.md, AGENT_MEMORY.md, CITATION.cff)"
+echo "Synced template version to ${VERSION} (.template-version, TEMPLATE_INDEX.json, README.md, AGENT_MEMORY.md, CITATION.cff, .cursor-plugin/plugin.json)"
+python3 "$ROOT/scripts/lib/changelog_unreleased.py" --move-first "$ROOT/CHANGELOG.md"

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">OpenShouter</string>
+    <string name="app_title">OpenShouter</string>
+    <string name="app_greeting">Hören, was wichtig ist – ohne hinzusehen</string>
+    <string name="about_title">Über</string>
+    <string name="theme_mode_high_contrast">Hoher Kontrast</string>
+    <string name="about_open">Über</string>
+    <string name="settings_title">Einstellungen</string>
+    <string name="settings_open">Einstellungen</string>
+    <string name="service_running">Ansagedienst läuft</string>
+    <string name="dashboard_master">Ansagen</string>
+    <string name="announcer_title">Ansager</string>
+    <string name="tts_title">Stimme</string>
+    <string name="nav_silence">Stille</string>
+    <string name="nav_history">Verlauf</string>
+    <string name="nav_places">Orte</string>
+    <string name="nav_calendar">Kalender</string>
+    <string name="history_empty">Noch keine Ansagen gespeichert</string>
+    <string name="history_show_spoken">Gesprochenen Text anzeigen</string>
+    <string name="history_clear">Verlauf löschen</string>
+    <string name="history_dialog_close">Schließen</string>
+</resources>

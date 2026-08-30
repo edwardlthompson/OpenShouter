@@ -7,6 +7,7 @@
 - ✅ User can open a Settings panel/screen from the toolbar gear and the Dashboard Phone and backup list
 - ✅ Theme preference (light/dark/system) persists across restarts
 - ✅ Update-check toggle respects opt-in telemetry policy (`docs/PRIVACY.md`)
+- ✅ Optional **Save crash details for me to review** toggle (default off); see `docs/features/feedback.md` and `docs/features/crash-capture.md`
 - ✅ Offline: settings load last persisted values; no network required for display
 - ✅ i18n: all user-visible strings under `settings.*` keys
 
@@ -35,3 +36,12 @@
 - Reuse `ThemePreferences` patterns from `examples/android/.../ui/theme/` where applicable
 - Gate after each AGENT BUILD_PLAN step: `bash scripts/watch-agent-gates.sh --once --autofix --step <scaffold|tests|wire>`
 - Theme + opt-in update check live on the Golden Path Settings pane (`MenuScaffold` + `MenuToggle`). Dashboard **Phone and backup** also opens that pane so Settings is not gear-only.
+
+## Tests
+
+- Automated: yes — Android unit tests under `examples/android/app/src/test/`
+
+## Fallback validation
+
+- Why tests are not feasible: N/A (automated tests exist)
+- Command: `python3 scripts/agent-run.py feature-gate --stack android`

@@ -37,11 +37,14 @@ import org.openshouter.reminder.reminderDefaults
 import org.openshouter.time.TimeShoutScreen
 import org.openshouter.data.SoundLeakEntity
 import org.openshouter.notification.NotificationChannelSettings
+import org.openshouter.astro.alarm.AstroAlarmStore
+import org.openshouter.astro.place.AstroPlaceStore
 import org.openshouter.oem.OemScreen
+import org.openshouter.ui.astro.AstroScreen
 import org.openshouter.ui.menu.MenuScrollStore
 import org.openshouter.ui.silence.SilenceScreen
 
-enum class Pane { Setup, Home, Rules, Announcer, Quiet, History, Filters, Tts, Time, Reminders, Backup, Overrides, Places, Oem, Contacts, Messages, Power, Calendar, Bluetooth, Silence }
+enum class Pane { Setup, Home, Rules, Announcer, Quiet, History, Filters, Tts, Time, Reminders, Backup, Overrides, Places, Oem, Contacts, Messages, Power, Calendar, Bluetooth, Silence, Astro }
 
 @Composable
 fun OpenShouterPanes(
@@ -94,6 +97,7 @@ fun OpenShouterPanes(
             onOpenPlaces = { onPane(Pane.Places) },
             onOpenOem = { onPane(Pane.Oem) },
             onOpenSilence = { onPane(Pane.Silence) },
+            onOpenAstro = { onPane(Pane.Astro) },
             onOpenSettings = onOpenSettings,
             scrollStore = scrollStore,
             modifier = modifier,
@@ -262,6 +266,11 @@ fun OpenShouterPanes(
             onDelete = { id -> scope.launch { ep.places().delete(id) } },
             onBack = { onPane(Pane.Home) },
             scrollStore = scrollStore,
+            modifier = modifier,
+        )
+        pane == Pane.Astro -> AstroScreen(
+            placeStore = androidx.compose.runtime.remember(context) { AstroPlaceStore(context) },
+            alarmStore = androidx.compose.runtime.remember(context) { AstroAlarmStore(context) },
             modifier = modifier,
         )
     }

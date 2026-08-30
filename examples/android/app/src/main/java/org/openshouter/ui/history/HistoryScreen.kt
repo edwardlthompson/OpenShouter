@@ -1,5 +1,7 @@
 package org.openshouter.ui.history
 
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -41,22 +43,41 @@ fun HistoryScreen(
     onBack: () -> Unit,
     scrollStore: MenuScrollStore,
     modifier: Modifier = Modifier,
+    onSpeakRow: ((String) -> Unit)? = null,
 ) {
     val timeFormat = remember {
         DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT)
     }
     val context = LocalContext.current
+    var query by remember { mutableStateOf("") }
     var selected by remember { mutableStateOf<HistoryEntity?>(null) }
+    val filteredRows = remember(rows, query) {
+        if (query.isBlank()) rows
+        else rows.filter {
+            it.packageName.contains(query, ignoreCase = true) ||
+                it.title.contains(query, ignoreCase = true) ||
+                it.spoken.contains(query, ignoreCase = true)
+        }
+    }
     MenuScaffold(stringResource(R.string.nav_history), scrollStore, "history", onBack, modifier) {
         MenuSection(stringResource(R.string.menu_section_actions)) {
+            MenuBody {
+                OutlinedTextField(
+                    value = query,
+                    onValueChange = { query = it },
+                    label = { Text(stringResource(R.string.history_search)) },
+                    modifier = Modifier.fillMaxWidth(),
+                    singleLine = true,
+                )
+            }
             MenuToggle(stringResource(R.string.history_show_spoken), showSpoken, onShowSpoken)
             MenuLink(stringResource(R.string.history_clear), onClear, showDivider = true)
         }
         MenuSection(stringResource(R.string.menu_section_list)) {
-            if (rows.isEmpty()) {
+            if (filteredRows.isEmpty()) {
                 MenuBody { Text(stringResource(R.string.history_empty)) }
             } else {
-                rows.forEachIndexed { index, row ->
+                filteredRows.forEachIndexed { index, row ->
                     val formattedTime = timeFormat.format(Date(row.postedAt))
                     val reasonRes = ignoreReasonLabel(row.ignoreReason)
                     val reason = reasonRes?.let {
@@ -114,6 +135,8 @@ fun HistoryScreen(
             },
             onCallRepeatChange = { mode -> onCallRepeatChange(row.packageName, mode) },
             cellularRepeats = cellular,
+            spokenText = row.spoken,
+            onSpeakRow = onSpeakRow,
         )
     }
 }

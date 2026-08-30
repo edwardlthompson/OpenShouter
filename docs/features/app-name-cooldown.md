@@ -47,3 +47,12 @@ A dropdown on each shout channel sets how long OpenShouter waits before saying t
 
 - Call / time / battery rows show the same dropdown; only notification and message speak paths apply it.
 - After each AGENT step: `python3 scripts/agent-run.py watch-agent-gates --once --autofix`
+
+## Tests
+
+- Automated: yes — Android unit tests under `examples/android/app/src/test/`
+
+## Fallback validation
+
+- Why tests are not feasible: N/A (automated tests exist)
+- Command: `python3 scripts/agent-run.py feature-gate --stack android`

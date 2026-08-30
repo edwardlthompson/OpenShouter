@@ -32,6 +32,8 @@ fun HistoryMuteDialog(
     callRepeat: CallRepeatMode? = null,
     onCallRepeatChange: (CallRepeatMode) -> Unit = {},
     cellularRepeats: Boolean = false,
+    spokenText: String? = null,
+    onSpeakRow: ((String) -> Unit)? = null,
 ) {
     var channelOn by remember { mutableStateOf(true) }
     AlertDialog(
@@ -39,6 +41,11 @@ fun HistoryMuteDialog(
         title = { Text(stringResource(R.string.history_manage_title, appLabel)) },
         text = {
             Column {
+                if (!spokenText.isNullOrBlank() && onSpeakRow != null) {
+                    TextButton(onClick = { onSpeakRow(spokenText) }) {
+                        Text(stringResource(R.string.history_speak_row))
+                    }
+                }
                 if (showShoutToggle) {
                     MenuToggle(
                         stringResource(R.string.history_toggle_openshouter),

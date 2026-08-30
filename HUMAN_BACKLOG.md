@@ -6,5 +6,5 @@
 |----------|--------|-------|------|--------|
 | 2026-08-29 | Sprint 21 leftover | ADB | WhatsApp Once then silence after answer; Phone still loops until answer | v1.1.1 on both phones; WhatsApp Incoming calls shows Once; foss release cannot inject RING — needs a live WhatsApp call and a cellular ring |
 | 2026-08-29 | Sprint 23 leftover | ADB | Drop several photos into Messages; first shout may say Messages, later ones do not repeat it within 30s | Cooldown is on Announcer (default 30s); Google Messages is selected. Drop photos on-device |
-| 2026-08-29 | Sprint 24 leftover | ADB | LineageOS None clears Default sound leak rows; install OpenShouter Silent and confirm a custom-channel ding is listed | v1.2.0 sideload; CPH2583 notification_sound is already None |
-| 2026-08-29 | Sprint 24 leftover | HUMAN | Confirm ColorOS Silent-still-dings workaround | Both phones now run LineageOS; ColorOS Silent may not apply |
+| 2026-08-30 | Sprint 21 leftover ADB | ADB | WhatsApp Once then silence after answer; Phone still loops until answer (CPH2583 / CPH2655, v1.1.1 sideloaded; Incoming calls = Once in Apps to shout; release APK has no debug RING — needs a live WhatsApp + cellular ring) | requires live incoming VoIP and cellular call |
+| 2026-08-30 | Sprint 23 leftover ADB | ADB | Drop several photos into Messages; first shout may say Messages, later ones do not repeat it within 30s (v1.1.1 sideloaded; cooldown is on Announcer; Google Messages app-name + notification selected on both phones) | requires incoming photo drops in Messages |

@@ -44,6 +44,7 @@ class CallMonitor @Inject constructor(
     @Volatile private var lastNumber = ""
     @Volatile private var lastSim = ""
     @Volatile private var historyLogged = false
+    @Volatile private var offhookStartMs = 0L
     private val phoneReceiver = object : BroadcastReceiver() {
         override fun onReceive(ctx: Context?, intent: Intent?) {
             if (intent?.action != TelephonyManager.ACTION_PHONE_STATE_CHANGED) return
@@ -102,18 +103,30 @@ class CallMonitor @Inject constructor(
             TelephonyManager.CALL_STATE_OFFHOOK -> CallPhase.OFFHOOK
             else -> CallPhase.IDLE
         }
+        if (phase == CallPhase.OFFHOOK) {
+            if (lastPhase != CallPhase.OFFHOOK) offhookStartMs = System.currentTimeMillis()
+            lastPhase = CallPhase.OFFHOOK
+            tts.interrupt()
+            return
+        }
         if (phase != CallPhase.RINGING) {
+            val wasOffhook = lastPhase == CallPhase.OFFHOOK
             val wasRinging = lastPhase == CallPhase.RINGING
             val ringingNumber = lastNumber
+            val durSec = if (wasOffhook && offhookStartMs > 0) (System.currentTimeMillis() - offhookStartMs) / 1000L else 0L
             lastPhase = phase
             lastNumber = ""
+            offhookStartMs = 0L
             historyLogged = false
             tts.interrupt()
             if (wasRinging && phase == CallPhase.IDLE && ringingNumber.isNotBlank()) {
-                scope.launch { announceMissed(ringingNumber) }
+                scope.launch { CallMonitorState.handleMissed(settings.snapshot(), gate, tts, history, contacts, ringingNumber) }
+            } else if (wasOffhook && durSec > 0) {
+                scope.launch { CallMonitorState.handleHangup(settings.snapshot(), gate, tts, history, durSec) }
             }
             return
         }
+        val isCallWaiting = lastPhase == CallPhase.OFFHOOK
         scope.launch {
             var resolved = lookup.resolve(number)
             if (resolved.isBlank()) {
@@ -123,28 +136,13 @@ class CallMonitor @Inject constructor(
             if (lastPhase == CallPhase.RINGING && lastNumber.isNotBlank()) {
                 if (resolved.isBlank() || resolved == lastNumber) return@launch
             }
-            lastPhase = CallPhase.RINGING
+            if (!isCallWaiting) lastPhase = CallPhase.RINGING
             lastNumber = resolved
             lastSim = sim.ifBlank { lastSim }
-            val snap = settings.snapshot()
-            if (!snap.callsEnabled) return@launch
-            if (!gate.allow(snap, org.openshouter.domain.ShoutChannel.CALL)) return@launch
-            val event = IncomingCallEvent(resolved, contacts.nameFor(resolved), phase)
-            val spoken = CallChannel.incoming(snap, resolved, event.displayName, lastSim)
-                ?: return@launch
-            tts.speak(spoken)
-            if (!historyLogged) {
-                historyLogged = true
-                launch(Dispatchers.IO) { CallHistory.insertOnce(history, spoken.utterance) }
-            }
+            val displayName = contacts.nameFor(resolved).orEmpty()
+            CallMonitorState.handleRinging(
+                settings, gate, tts, history, resolved, displayName, lastSim, isCallWaiting,
+            ) { historyLogged = true }
         }
-    }
-
-    private suspend fun announceMissed(number: String) {
-        val snap = settings.snapshot()
-        val spoken = CallChannel.missed(snap, number, contacts.nameFor(number)) ?: return
-        if (!gate.allow(snap, org.openshouter.domain.ShoutChannel.CALL)) return
-        tts.speak(spoken)
-        CallHistory.insertOnce(history, spoken.utterance)
     }
 }

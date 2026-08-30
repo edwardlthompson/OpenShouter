@@ -6,6 +6,7 @@ import json
 import shutil
 import sys
 from pathlib import Path
+from urllib.parse import urlparse
 
 WEB_PUBLIC = (
     "examples/web/public/app-update.json",
@@ -22,6 +23,16 @@ def write_json(path: Path, data: dict) -> None:
     path.write_text(json.dumps(data, indent=2) + "\n", encoding="utf-8")
 
 
+def donation_label(url: str) -> str:
+    try:
+        host = (urlparse(url.strip()).hostname or "").lower()
+    except ValueError:
+        return "Donate"
+    if host == "venmo.com" or host.endswith(".venmo.com"):
+        return "Donate via Venmo"
+    return "Donate"
+
+
 def sync_app_update(root: Path, repo: str) -> None:
     if not repo.strip():
         return
@@ -33,9 +44,11 @@ def sync_app_update(root: Path, repo: str) -> None:
             "release_repo": repo.strip(),
             "check_interval": "weekly",
             "installed_artifact_format": "pwa",
+            "product_asset_prefix": "Golden-Path",
             "restart_guard_key": "gp-update-restart-pending",
         }
     data["release_repo"] = repo.strip()
+    data.setdefault("product_asset_prefix", "Golden-Path")
 
     web_path = root / WEB_PUBLIC[0]
     if web_path.parent.is_dir():
@@ -47,6 +60,7 @@ def sync_app_update(root: Path, repo: str) -> None:
         android_data = {
             "release_repo": repo.strip(),
             "installed_artifact_format": "apk",
+            "product_asset_prefix": data.get("product_asset_prefix", "Golden-Path"),
         }
         write_json(android_path, android_data)
 
@@ -54,7 +68,8 @@ def sync_app_update(root: Path, repo: str) -> None:
 def sync_donations(root: Path, url: str) -> None:
     if not url.strip():
         return
-    links = [{"label": "Donate", "url": url.strip()}]
+    label = donation_label(url)
+    links = [{"label": label, "url": url.strip()}]
     payload = {
         "enabled": True,
         "message": "If this project helps you, consider supporting development.",

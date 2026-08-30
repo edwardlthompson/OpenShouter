@@ -14,6 +14,10 @@ concurrency:
 permissions:
   contents: read
 
+# Do not add jobs.<id>.environment here. GitHub Environments block Release Please
+# bot PRs (statusCheckRollup ACTION_REQUIRED) and stall auto-merge. Pages may use
+# the github-pages environment; CI / Security Scan / CodeQL must not.
+
 jobs:
   stack-presence:
     name: Detect active stacks
@@ -138,6 +142,7 @@ jobs:
         with:
           distribution: temurin
           java-version: "21"
+          cache: gradle
       - name: Install web dependencies
         if: hashFiles('examples/web/package-lock.json') != ''
         working-directory: examples/web
@@ -155,6 +160,18 @@ jobs:
         run: chmod +x examples/android/gradlew
       - name: Run feature gate (strict multi-stack)
         run: bash scripts/feature-gate.sh --stack multi --strict --json
+
+
+  plugin-pack:
+    name: Cursor plugin pack
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - name: Pack and validate plugin layout
+        run: |
+          bash scripts/pack-cursor-plugin.sh
+          test -f dist/cursor-plugin/.cursor-plugin/plugin.json
+          test -f dist/cursor-plugin/hooks.json
 
   validate-index:
     name: Validate Template Index
@@ -179,6 +196,24 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
+      - name: Install actionlint, zizmor, shellcheck, PSScriptAnalyzer
+        run: |
+          set -euo pipefail
+          ACTIONLINT_VERSION="1.7.7"
+          curl -fsSL "https://raw.githubusercontent.com/rhysd/actionlint/v${ACTIONLINT_VERSION}/scripts/download-actionlint.bash" | bash -s -- "${ACTIONLINT_VERSION}"
+          sudo mv ./actionlint /usr/local/bin/actionlint
+          python3 -m pip install --user "zizmor==1.29.0"
+          echo "${HOME}/.local/bin" >> "${GITHUB_PATH}"
+          sudo apt-get update
+          sudo apt-get install -y shellcheck
+          pwsh -NoProfile -Command "Install-Module -Name PSScriptAnalyzer -Force -SkipPublisherCheck -Scope CurrentUser"
+          curl -fsSL -o /tmp/hadolint \
+            "https://github.com/hadolint/hadolint/releases/download/v2.12.0/hadolint-Linux-x86_64"
+          sudo mv /tmp/hadolint /usr/local/bin/hadolint
+          sudo chmod +x /usr/local/bin/hadolint
+          npm install -g markdownlint-cli
+          python3 -m pip install --user yamllint
+          python3 -m pip install --user reuse
       - name: Check Sprint 0 artifacts exist
         env:
           GH_TOKEN: ${{ github.token }}
@@ -206,7 +241,18 @@ jobs:
       - name: Bundle size budget
         working-directory: ${{ github.workspace }}
         run: bash scripts/check-bundle-size.sh
-      - run: npx playwright install --with-deps chromium
+      - name: Playwright browser cache
+        id: playwright-cache
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ runner.os }}-${{ hashFiles('examples/web/package-lock.json') }}
+      - name: Install Playwright browsers
+        if: steps.playwright-cache.outputs.cache-hit != 'true'
+        run: npx playwright install --with-deps chromium
+      - name: Restore Playwright browsers
+        if: steps.playwright-cache.outputs.cache-hit == 'true'
+        run: npx playwright install chromium
       - run: npx playwright test
       - run: npm run lighthouse
       - name: Upload web coverage
@@ -424,6 +470,26 @@ jobs:
       - name: Simulate child-repo upgrade path
         run: bash scripts/simulate-template-upgrade.sh
 
+
+  upgrade-simulation-windows:
+    name: Template Upgrade Simulation (Windows)
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0
+        with:
+          python-version: "3.12"
+      - name: Simulate child-repo upgrade path
+        shell: bash
+        env:
+          PYTHON_BASIC_REPL: "1"
+          PYTHONUNBUFFERED: "1"
+          PYTHONIOENCODING: utf-8
+          PYTHONUTF8: "1"
+          GH_TOKEN: ${{ github.token }}
+          GITHUB_TOKEN: ${{ github.token }}
+        run: bash scripts/simulate-template-upgrade.sh
+
   template-update-check:
     name: Template Update Check
     runs-on: ubuntu-latest
@@ -553,6 +619,7 @@ jobs:
       - file-limits
       - repo-hygiene
       - feature-gate
+      - plugin-pack
       - validate-index
       - workflow-actions
       - validate-bootstrap
@@ -564,6 +631,7 @@ jobs:
       - android-instrumented
       - coverage-comment
       - upgrade-simulation
+      - upgrade-simulation-windows
       - template-update-check
       - pr-title
       - android-release

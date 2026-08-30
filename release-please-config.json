@@ -7,7 +7,16 @@
       "extra-files": [
         ".template-version",
         "TEMPLATE_INDEX.json",
-        "CITATION.cff",
+        {
+          "type": "yaml",
+          "path": "CITATION.cff",
+          "jsonpath": "$.version"
+        },
+        {
+          "type": "json",
+          "path": ".cursor-plugin/plugin.json",
+          "jsonpath": "$.version"
+        },
         "examples/android/app/build.gradle.kts"
       ],
       "include-component-in-tag": false,

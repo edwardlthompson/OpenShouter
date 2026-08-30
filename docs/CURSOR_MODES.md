@@ -11,7 +11,7 @@ If you are not in Cursor, treat those four names as **roles**: explore / design 
 | **Ask** | Read-only exploration, architecture questions, index lookup | [`TEMPLATE_INDEX.json`](../TEMPLATE_INDEX.json), [`KNOWLEDGE_BASE.md`](../KNOWLEDGE_BASE.md) | Editing files |
 | **Plan** | Non-trivial work: features, ADRs, parallel scope, schema changes | BUILD_PLAN row + resolved `### Critique` (Issue→Resolution) + `### Parallelization` | Mechanical lint fixes |
 | **Agent** | Approved plan execution, `[AGENT]` BUILD_PLAN rows, gate autofix | [`watch-agent-gates.sh`](../scripts/watch-agent-gates.sh) | Unapproved architecture |
-| **Debug** | Unknown root cause: CI red, flaky tests, 3-strike failures | Runtime logs + KB + [`FOR_AGENTS.md`](FOR_AGENTS.md) Failure Playbook | Pre-release checklists |
+| **Debug** | Unknown root cause: CI red, flaky tests, 3-strike failures | `.cursor/last-feature-gate.json` + `strikes` + KB + [`FOR_AGENTS.md`](FOR_AGENTS.md) Failure Playbook | Pre-release checklists |
 Full BUILD_PLAN owner labels (`AGENT`/`HUMAN`/`ADB`/`AUTO`) are orthogonal — see [`BUILD_PLAN.md`](../BUILD_PLAN.md).
 
 ## Resolved Critique
@@ -115,5 +115,5 @@ On **This Computer**, prefer machine parallelism over Cloud Agents:
 | Parallel `/scope` Task subagents | After Sequential lock when `agent_count >= 2` |
 | `/worktree` + `/best-of-n` | Isolated local checkouts; multi-model races on hard fixes |
 | Side chats | Research in parallel with the main Agent |
-| Local gates | `validate-bootstrap` runs independent checks on all CPU cores (`BOOTSTRAP_CHECK_JOBS`) |
+| Local gates | RAM-capped parallel bootstrap checks + multi-stack `feature-gate` (`BOOTSTRAP_CHECK_JOBS`, `FEATURE_GATE_JOBS`) |
 Rule: [`.cursor/rules/local-compute.mdc`](../.cursor/rules/local-compute.mdc). Details: [`PARALLEL_AGENT_SCOPES.md`](PARALLEL_AGENT_SCOPES.md), [`CURSOR_INTEGRATIONS.md`](CURSOR_INTEGRATIONS.md).

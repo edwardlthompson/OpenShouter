@@ -18,6 +18,7 @@ class ThemePreferences(private val context: Context) {
         when (prefs[THEME_MODE_KEY]) {
             ThemeMode.Light.name -> ThemeMode.Light
             ThemeMode.Dark.name -> ThemeMode.Dark
+            ThemeMode.HighContrast.name -> ThemeMode.HighContrast
             else -> ThemeMode.System
         }
     }

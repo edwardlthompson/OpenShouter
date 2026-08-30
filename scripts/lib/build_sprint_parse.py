@@ -5,6 +5,7 @@ from build_sprint_model import (
     HUMAN_GROUP_HEADER,
     PARALLEL_HEADER,
     ROW_BULLET,
+    ROW_NUMBERED,
     SEQUENTIAL_HEADER,
     SPRINT_HEADER,
     PlanRow,
@@ -30,7 +31,11 @@ def split_sprint_phases(
             phase = "human"
             human.append(line)
             continue
-        if phase == "parallel" and SEQUENTIAL_HEADER.match(line):
+        if phase == "parallel" and (
+            SEQUENTIAL_HEADER.match(line)
+            or ROW_BULLET.match(line)
+            or ROW_NUMBERED.match(line)
+        ):
             phase = "post"
         if phase == "pre":
             pre.append(line)
@@ -105,3 +110,41 @@ def parse_maintenance_rows(text: str) -> tuple[list[PlanRow], list[PlanRow]]:
         else:
             auto_rows.append(row)
     return auto_rows, human_rows
+
+
+def parse_maintainer_active_board(text: str) -> tuple[list[PlanRow], list[PlanRow]]:
+    aa: list[PlanRow] = []
+    ha: list[PlanRow] = []
+    in_board = False
+    sprint = "Template Maintainer"
+    for line in text.splitlines():
+        if line.startswith("## Template Maintainer"):
+            in_board = True
+            continue
+        if in_board and line.startswith("## ") and not line.startswith("## Template Maintainer"):
+            break
+        if not in_board:
+            continue
+        if line.startswith("### "):
+            sprint = line.strip().lstrip("#").strip()
+            continue
+        match = ROW_NUMBERED.match(line)
+        if not match:
+            continue
+        row = PlanRow(
+            owner=match.group("owner"),
+            task=match.group("task").strip(),
+            sprint=sprint,
+            phase="maintainer_board",
+        )
+        if row.owner in ("HUMAN", "ADB"):
+            ha.append(row)
+        elif row.owner in ("AGENT", "AUTO"):
+            aa.append(row)
+    return aa, ha
+
+
+def parse_maintainer_queue(text: str) -> tuple[list[PlanRow], list[PlanRow]]:
+    board_aa, board_ha = parse_maintainer_active_board(text)
+    maint_auto, maint_human = parse_maintenance_rows(text)
+    return board_aa + maint_auto, board_ha + maint_human

@@ -12,8 +12,51 @@ function Invoke-Step([scriptblock]$Block) {
   }
 }
 
-Invoke-Step { bash scripts/check-tracked-artifacts.sh }
-Invoke-Step { bash scripts/check-large-tracked-files.sh }
+Invoke-Step {
+  $forbiddenRegex = @(
+    'node_modules/',
+    '(^|/)dist/',
+    'examples/android/.*/build/|^build/',
+    '(^|/)target/',
+    '(^|/)coverage/',
+    '\.gradle/',
+    '__pycache__/',
+    '\.apk$',
+    '\.aab$',
+    '^\.env$|/\.env$',
+    'examples/web/public/app-update\.json$|examples/web/public/donations\.json$|examples/android/app/src/main/assets/app-update\.json$|examples/android/app/src/main/assets/donations\.json$',
+    '\.DS_Store$|Thumbs\.db$'
+  )
+  $tracked = git ls-files
+  $found = 0
+  foreach ($pattern in $forbiddenRegex) {
+    $matches = $tracked | Where-Object { $_ -match $pattern }
+    if ($matches) {
+      Write-Host "TRACKED FORBIDDEN: $($matches -join ', ')"
+      $found++
+    }
+  }
+  if ($found -gt 0) {
+    $script:errors++
+  } else {
+    Write-Host "Tracked artifact check passed"
+  }
+}
+Invoke-Step {
+  $maxBytes = 500 * 1024
+  $largeFiles = git ls-files | ForEach-Object {
+    if (Test-Path $_) {
+      $len = (Get-Item $_).Length
+      if ($len -gt $maxBytes) { $_ }
+    }
+  }
+  if ($largeFiles) {
+    Write-Host "Large tracked files found: $($largeFiles -join ', ')"
+    $script:errors++
+  } else {
+    Write-Host "Large tracked file check passed"
+  }
+}
 
 $required = @("node_modules/", "dist/", ".env", "__pycache__/", "coverage/")
 if (Test-Path ".gitignore") {

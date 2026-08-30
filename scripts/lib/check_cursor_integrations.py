@@ -6,6 +6,7 @@ import sys
 from pathlib import Path
 
 from check_cursor_integrations_tier import validate_tier
+from cursor_rule_audit import audit_rules
 
 SKILLS = (
     "validate-bootstrap",
@@ -15,6 +16,9 @@ SKILLS = (
     "sprint0-signoff",
     "feature-vertical-slice",
     "canvas-bootstrap-status",
+    "update-deps",
+    "best-of-n",
+    "local-models",
 )
 AGENTS = ("verifier", "gate-fixer", "explorer")
 COMMAND_SKILL = {
@@ -23,6 +27,8 @@ COMMAND_SKILL = {
     "fix.md": ("watch-gates-autofix",),
     "audit.md": ("check-repo-hygiene",),
     "feature.md": ("feature-vertical-slice",),
+    "update-deps.md": ("update-deps",),
+    "best-of-n.md": ("best-of-n",),
 }
 
 FOSS_EXAMPLES = (
@@ -30,6 +36,7 @@ FOSS_EXAMPLES = (
     ".cursor/hooks.json",
     ".cursor/worktrees.json",
     ".cursor/permissions.json",
+    ".cursor/mcp-allowlist.json",
 )
 
 
@@ -96,6 +103,7 @@ def main() -> int:
 
     errors = validate_artifacts(root)
     errors.extend(validate_tier(root, args.tier))
+    errors.extend(audit_rules(root))
 
     if errors:
         for err in errors:

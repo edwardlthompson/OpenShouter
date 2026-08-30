@@ -22,6 +22,7 @@ import org.openshouter.domain.SpokenEvent
 import org.openshouter.service.SpeakGate
 import org.openshouter.tts.TtsController
 
+@Suppress("DEPRECATION")
 @Singleton
 class PowerMonitor @Inject constructor(
     @ApplicationContext private val context: Context,
@@ -44,6 +45,7 @@ class PowerMonitor @Inject constructor(
             addAction(Intent.ACTION_BATTERY_LOW)
             addAction(Intent.ACTION_POWER_CONNECTED)
             addAction(Intent.ACTION_POWER_DISCONNECTED)
+            addAction(Intent.ACTION_DEVICE_STORAGE_LOW)
             addAction(Intent.ACTION_SCREEN_ON)
             addAction(Intent.ACTION_SCREEN_OFF)
         }
@@ -60,8 +62,23 @@ class PowerMonitor @Inject constructor(
                 Intent.ACTION_POWER_DISCONNECTED -> speak(snap, PowerEvent(PowerKind.DISCONNECTED, null))
                 Intent.ACTION_BATTERY_LOW -> speak(snap, PowerEvent(PowerKind.LOW, percent(intent)))
                 Intent.ACTION_BATTERY_CHANGED -> onChanged(snap, intent)
+                Intent.ACTION_DEVICE_STORAGE_LOW -> speakStorageLow(snap)
             }
         }
+    }
+
+    private suspend fun speakStorageLow(snap: org.openshouter.domain.AppSettings) {
+        if (!gate.allow(snap, org.openshouter.domain.ShoutChannel.BATTERY)) return
+        val phrase = context.getString(dev.foss.goldenpath.R.string.storage_low)
+        ShoutHistoryStore.insertOnce(history, SpokenEvent.Kind.POWER, phrase)
+        tts.speak(
+            org.openshouter.domain.ChannelStates.spoken(
+                snap,
+                org.openshouter.domain.ShoutChannel.BATTERY,
+                SpokenEvent.Kind.POWER,
+                phrase,
+            ),
+        )
     }
 
     private suspend fun onChanged(snap: org.openshouter.domain.AppSettings, intent: Intent) {

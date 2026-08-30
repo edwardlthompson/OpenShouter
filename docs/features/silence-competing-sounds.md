@@ -56,3 +56,12 @@ Ship a valid silent notification/ringtone file, teach first-run setup how to use
 
 - OpenShouter cannot change another app’s channel sound; the leak list only deep-links.
 - After each AGENT step: `python3 scripts/agent-run.py watch-agent-gates --once --autofix`
+
+## Tests
+
+- Automated: yes — Android unit tests under `examples/android/app/src/test/`
+
+## Fallback validation
+
+- Why tests are not feasible: N/A (automated tests exist)
+- Command: `python3 scripts/agent-run.py feature-gate --stack android`

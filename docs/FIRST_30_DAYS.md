@@ -4,9 +4,9 @@
 > Walk this with `/coach` or `/tour` (`docs/help/TOUR.md` in other IDEs). Industry **why** lives in [`BEST_PRACTICES.md`](BEST_PRACTICES.md).
 
 <!-- bootstrap-project-card -->
-**Product:** agent-project-bootstrap
-**Purpose:** GitHub Template for FOSS coding-agent projects
-**Stack:** multi
+**Product:** OpenShouter
+**Purpose:** FOSS Android TTS announcer (notifications + Shouter-style telephony/hardware)
+**Stack:** android
 <!-- /bootstrap-project-card -->
 
 ## Week 1 — Make it yours
@@ -37,9 +37,10 @@
 
 - 🔲 Update `AGENT_MEMORY.md` at this milestone only
 - 🔲 Append one `DECISION_LOG.md` entry for the first architecture choice
-- 🔲 `/maintain` or `/triage` once (Dependabot + Scorecard awareness)
+- 🔲 `/maintain` or `/triage` + `/update-deps` once (local bumps; GitHub Dependabot leftover + Scorecard awareness)
+- 🔲 Optional: `just local-compute`; Ollama (`docs/LOCAL_MODELS.md`); `/emulator` if you have an Android SDK
 - 🔲 Bookmark `docs/help/BATCH_COMMANDS.md` (`/verify` before every PR)
 
 ## Next recommended action
 
-If you are unsure, type **`/coach`** (or ask any agent to read this file and `docs/BEST_PRACTICES.md`). It reads BUILD_PLAN + AGENT_MEMORY and explains the industry reason for the next row. First session: `/tour` or `docs/help/TOUR.md`. For a ranked backlog of possible next features: `/ideas` or `docs/help/IDEAS.md`.
+If you are unsure, type **`/coach`** (or ask any agent to read this file and `docs/BEST_PRACTICES.md`). It reads BUILD_PLAN + AGENT_MEMORY and explains the industry reason for the next row. First session: `/tour` or `docs/help/TOUR.md`. For a ranked backlog of possible next features: `/ideas` or `docs/help/IDEAS.md`. For a complete dump to fill BUILD_PLAN: `/allideas` or `docs/help/ALLIDEAS.md`.

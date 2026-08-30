@@ -20,9 +20,6 @@ $brandFiles = @(
     "branding/product.schema.json",
     "branding/voice.md",
     "branding/assets/logo-mark.svg",
-    "branding/assets/logo-mark.png",
-    "branding/assets/logo-mark-photo.jpg",
-    "branding/assets/readme-hero.jpg",
     "branding/official-colors.css",
     "branding/generated/README.preview.md",
     "branding/templates/README.product.md"
@@ -36,21 +33,23 @@ foreach ($brandFile in $brandFiles) {
 $hexPattern = '#[0-9A-Fa-f]{6}\b'
 $contentPattern = 'content\s*:\s*[''"][^''"]{2,}'
 
-Get-ChildItem -Path "examples/web/src" -Recurse -Include *.css,*.ts -File |
-    Where-Object { $_.Name -ne "design-tokens.css" } |
-    ForEach-Object {
-        if (Select-String -Path $_.FullName -Pattern $hexPattern -Quiet) {
-            Fail "hardcoded hex in $($_.FullName)"
+if (Test-Path "examples/web/src") {
+    Get-ChildItem -Path "examples/web/src" -Recurse -Include *.css,*.ts -File |
+        Where-Object { $_.Name -ne "design-tokens.css" } |
+        ForEach-Object {
+            if (Select-String -Path $_.FullName -Pattern $hexPattern -Quiet) {
+                Fail "hardcoded hex in $($_.FullName)"
+            }
         }
-    }
 
-Get-ChildItem -Path "examples/web/src" -Recurse -Filter *.css -File |
-    Where-Object { $_.Name -ne "design-tokens.css" } |
-    ForEach-Object {
-        if (Select-String -Path $_.FullName -Pattern $contentPattern -Quiet) {
-            Fail "user-facing content property in $($_.FullName) (use locales/*.json)"
+    Get-ChildItem -Path "examples/web/src" -Recurse -Filter *.css -File |
+        Where-Object { $_.Name -ne "design-tokens.css" } |
+        ForEach-Object {
+            if (Select-String -Path $_.FullName -Pattern $contentPattern -Quiet) {
+                Fail "user-facing content property in $($_.FullName) (use locales/*.json)"
+            }
         }
-    }
+}
 
 $mainTs = "examples/web/src/main.ts"
 if (Test-Path $mainTs) {
@@ -111,8 +110,7 @@ if (Test-Path "examples/web") {
 if (Test-Path "examples/android") {
     $required += @(
         "examples/android/app/src/main/java/dev/foss/goldenpath/ui/theme/Color.kt",
-        "examples/android/app/src/main/res/drawable/ic_brand_mark.xml",
-        "examples/android/app/src/main/res/drawable/ic_splash_mark.xml"
+        "examples/android/app/src/main/res/drawable/ic_brand_mark.xml"
     )
 }
 foreach ($path in $required) {

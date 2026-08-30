@@ -48,6 +48,14 @@ It is a FOSS Android announcer inspired by Voice Notify and classic Shouter: spo
 3. Put ringtones and notification sounds on silent. In OpenShouter, whitelist only the apps you still want spoken.
 4. Keep the phone away. Shake or flip to stop a shout. Use quiet hours when you want none.
 
+```mermaid
+flowchart TD
+  Readme[README] --> Humans[CONTRIBUTING]
+  Readme --> Agents[START_HERE]
+  Agents --> Tour["/tour or TOUR.md"]
+  Tour --> Coach["/coach"]
+```
+
 ## Install
 
 Users: install the APK from GitHub Releases. Developers: JDK 17 and Android SDK (compile/target 35, min 26). Clone the repo, open `examples/android/`, and run `./gradlew assembleDebug` (or `gradlew.bat` on Windows). No Play Services.

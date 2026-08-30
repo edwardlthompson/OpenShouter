@@ -5,6 +5,7 @@ import androidx.room.Entity
 import androidx.room.Insert
 import androidx.room.PrimaryKey
 import androidx.room.Query
+import androidx.room.Update
 import kotlinx.coroutines.flow.Flow
 import org.openshouter.domain.IgnoreReason
 
@@ -95,6 +96,15 @@ interface PlaceDao {
 
     @Insert
     suspend fun insert(row: PlaceEntity)
+
+    @Update
+    suspend fun update(row: PlaceEntity)
+
+    @Query("UPDATE geo_places SET label = :label WHERE id = :id")
+    suspend fun rename(id: Long, label: String)
+
+    @Query("UPDATE geo_places SET silentInside = :silent WHERE id = :id")
+    suspend fun setSilent(id: Long, silent: Boolean)
 
     @Query("DELETE FROM geo_places WHERE id = :id")
     suspend fun delete(id: Long)
