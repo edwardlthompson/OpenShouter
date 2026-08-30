@@ -4,7 +4,7 @@
 
 ## Acceptance criteria
 
-- 🔲 User-visible behavior: one Alarms menu holds **custom clock-time** rows and **sun/moon event** rows. Each row has days-of-week (or Once). At fire time `setAlarmClock` shows a full-screen activity **over the lockscreen** and shouts until **Snooze** or **Stop**. This is meant to replace the stock Clock alarm list.
+- 🔲 User-visible behavior: one Alarms menu holds **custom clock-time** rows and **sun/moon event** rows. Each row has days-of-week (or Once), an **alarm tone** picker, and a **TTS** toggle. Tone and TTS are independent — either, both, or neither (vibrate-only). At fire time `setAlarmClock` shows a full-screen activity **over the lockscreen** until **Snooze** or **Stop**. This is meant to replace the stock Clock alarm list.
 - 🔲 Widget: home-screen analog disk (day white / night black) with **hands fixed pointing up** (“now”). The **background rotates** so the current instant is always at the top. Digital times for sunrise, sunset, solar noon, and solar midnight; a red dot on any of those, plus a tick + time + red dot for every other armed row (event, offset, or custom clock time) that is enabled today.
 - 🔲 Place: one-time `ACCESS_COARSE_LOCATION` via `LocationManager` (never `play-services-location`), **or** a city search field that resolves while typing. The **city** (locality) is the stored place, not a street address.
 - 🔲 Offline/error: after a place is stored, event times are computed on-device (no weather API). Failed geocode leaves the last good city. Missing permission with no city stored keeps alarms unset and shows why.
@@ -21,13 +21,22 @@
 ## Alarm UX (must beat Sun Alarm on lockscreen)
 
 - Schedule with **`AlarmManager.setAlarmClock`** so the OS treats this as a clock alarm (status-bar alarm indicator, Doze exemption, lockscreen). Also `USE_FULL_SCREEN_INTENT` + `showWhenLocked` / `turnScreenOn` + `SCHEDULE_EXACT_ALARM` rationale.
-- **Stop:** halt TTS, sound, and vibration, close the full-screen UI, mark this occurrence done, and schedule the next matching day (or the next custom/event instant).
+- **Stop:** halt TTS, tone, and vibration, close the full-screen UI, mark this occurrence done, and schedule the next matching day (or the next custom/event instant).
 - **Snooze:** halt output, close the UI, and `setAlarmClock` again after the snooze interval (default 10 minutes, user-settable). Does not skip the event.
 - Honor `AlarmClock.ACTION_SET_ALARM` / `ACTION_DISMISS_ALARM` so other apps can add or stop alarms here (Clock replacement). No Play Clock dependency.
 - Do **not** use `SYSTEM_ALERT_WINDOW` as the primary popup (that is why Sun Alarm often fails over the lockscreen).
 - Do **not** add Play. Do **not** log the schedule time together with coordinates.
 - History: write a `kind` + spoken row, no coordinates.
 - `setAlarmClock` **does** take over bedtime / next-alarm UI. That is intended: this product is a clock alarm, not a quiet TIME_TICK shout.
+
+## Tone and TTS (independent)
+
+Per row, two switches — **both may be on at once**:
+
+- **Alarm tone:** on/off + ringtone picker (`RingtoneManager` / system sound picker, including OpenShouter Silent). Loops on the alarm stream until Snooze or Stop. Default on, default URI = system alarm ringtone.
+- **Speak (TTS):** on/off. When on, loop the event or custom label (and time) on the same alarm path as other shouts. Default on so the product still works without looking. Turn off for a classic Clock-only ring.
+
+Vibrate remains its own switch (already planned). Allowed combinations: tone only, TTS only, tone + TTS together, or vibrate-only (tone off and TTS off). Do not require Play. Do not log the ringtone URI’s path if it could include a user name.
 
 ## Days of the week
 
@@ -39,7 +48,7 @@ Every row (custom or sun/moon) has seven day chips (Sun–Sat), same pattern as 
 
 ## Custom clock alarms
 
-Named rows at a user-picked clock time (hour:minute in the device 12/24 setting). No city required. Same Snooze/Stop, sound/vibrate, and `setAlarmClock` path as event alarms. Unlimited. This is the stock Clock list: “7:00 weekdays”, “8:30 Saturday”, one-shot “Thursday 6:15”.
+Named rows at a user-picked clock time (hour:minute in the device 12/24 setting). No city required. Same Snooze/Stop, tone picker, TTS toggle, vibrate, and `setAlarmClock` path as event alarms. Unlimited. This is the stock Clock list: “7:00 weekdays”, “8:30 Saturday”, one-shot “Thursday 6:15”.
 
 ## Solar events
 
@@ -82,7 +91,7 @@ Phones were **not** attached to this agent (`adb devices` empty). Comparison is 
 | Golden hour, blue hour | **Yes** |
 | Offset: at event, or N minutes/hours before/after | **Yes — add** (their main UX) |
 | GPS or manual location | **Yes** — one-time coarse or typed city |
-| Per-alarm sound / vibrate | **Yes — add** (reviews: vibrate-only often broken there) |
+| Per-alarm sound / vibrate | **Yes** — tone picker; TTS is a separate switch (both allowed) |
 | Free cap of 2 alarms + Pro IAP + ads | **No** — unlimited, no Play Billing |
 | Overlay / notification-only popup | **No** — that is the bug we replace |
 
@@ -144,7 +153,7 @@ Not the existing master on/off widget. New `astro` provider (Glance or `RemoteVi
 
 ## Tests
 
-- Automated: yes — instants for a known city/date; offset math; weekday skip; custom 7:00 next Monday; Once then disable; Snooze reschedules; Stop cancels this fire; disk angle keeps now at 0°; geocode uses locality. Empty city still allows custom clock rows.
+- Automated: yes — instants for a known city/date; offset math; weekday skip; custom 7:00 next Monday; Once then disable; tone+TTS both on, TTS off with tone on; Snooze reschedules; Stop cancels this fire; disk angle keeps now at 0°; geocode uses locality. Empty city still allows custom clock rows.
 - Device: `[ADB]` lockscreen Snooze/Stop + widget rotation on CPH2583 / CPH2655 vs Sun Alarm’s miss.
 
 ## Fallback validation
@@ -164,6 +173,8 @@ Not the existing master on/off widget. New `astro` provider (Glance or `RemoteVi
 | Bedtime | Accepted: `setAlarmClock` owns next-alarm / bedtime, same as Clock |
 | Play Services | Forbidden — `LocationManager` + framework `Geocoder` only |
 | Overlay leftover | Do not request `SYSTEM_ALERT_WINDOW` for the alarm UI |
+| Tone + TTS both off | Still fire lockscreen; vibrate if that switch is on |
+| Picker cancel / empty URI | Keep last URI, else system alarm ringtone |
 
 ## Out of scope (v1)
 

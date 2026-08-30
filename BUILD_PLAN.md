@@ -322,7 +322,7 @@ Draft PR: https://github.com/edwardlthompson/OpenShouter/pull/47
 
 Feature spec: `docs/features/sun-moon-alarm.md`
 
-Clock + Sun Alarm replacement. Custom clock-time rows and sun/moon event rows; each has Once or Sun–Sat chips. One stored city for solar/lunar math (one-time `LocationManager` or Geocoder-while-typing). On-device math (no weather API on the schedule path). Named event rows with before/after offsets. **`setAlarmClock`** + lockscreen **Snooze** / **Stop**. Honor `AlarmClock` set/dismiss intents. Widget: fixed up-pointing hands, rotating white/black disk, digital rise/set/noon/midnight, red dots on every row armed today. No Play Services. Never log coordinates or city strings.
+Clock + Sun Alarm replacement. Custom clock-time rows and sun/moon event rows; each has Once or Sun–Sat chips, a **tone picker**, and a **TTS** switch (either, both, or neither). One stored city for solar/lunar math (one-time `LocationManager` or Geocoder-while-typing). On-device math (no weather API on the schedule path). Named event rows with before/after offsets. **`setAlarmClock`** + lockscreen **Snooze** / **Stop**. Honor `AlarmClock` set/dismiss intents. Widget: fixed up-pointing hands, rotating white/black disk, digital rise/set/noon/midnight, red dots on every row armed today. No Play Services. Never log coordinates or city strings.
 
 ### Critique
 
@@ -334,6 +334,7 @@ Clock + Sun Alarm replacement. Custom clock-time rows and sun/moon event rows; e
 | Unhandled exceptions | `runCatching` on Geocoder and `setAlarmClock` |
 | PII | Persist locally; never log lat/lon or city |
 | Bedtime | Accepted: `setAlarmClock` owns next-alarm / bedtime, same as Clock |
+| Tone + TTS both off | Lockscreen still fires; vibrate-only if that switch is on |
 
 ### Parallelization
 
@@ -351,7 +352,7 @@ Clock + Sun Alarm replacement. Custom clock-time rows and sun/moon event rows; e
 - 🔲 [AGENT] Custom clock-time alarms + Once / Sun–Sat chips on every row (Clock replacement; `ACTION_SET_ALARM`)
 - 🔲 [AGENT] Sun/Moon menu + named rows with before/after offsets and the same day chips: sunrise/sunset, dawn/dusk, civil/nautical/astronomical twilight, solar noon/midnight, golden hour, blue hour, equinoxes, solstices
 - 🔲 [AGENT] Moon rows: moonrise/moonset/transit, new/full, waxing crescent, first quarter, waxing gibbous, waning gibbous, last quarter, waning crescent
-- 🔲 [AGENT] `setAlarmClock` + full-screen lockscreen activity (`USE_FULL_SCREEN_INTENT`); **Snooze** (re-arm after interval) and **Stop** (halt + close + schedule next matching day)
+- 🔲 [AGENT] `setAlarmClock` + full-screen lockscreen activity (`USE_FULL_SCREEN_INTENT`); **Snooze** / **Stop**; per-row alarm tone picker and TTS toggle (both may be on; vibrate-only if both off)
 - 🔲 [AGENT] Sun/moon home widget: fixed hands pointing up (“now”), rotating day (white) / night (black) disk, digital sunrise/sunset/solar noon/midnight, red dot on every row armed today
 - 🔲 [ADB] “7:00 Mon–Fri” plus Sunset −15m Sat–Sun: lockscreen Snooze/Stop; widget “now” at the top on CPH2583 / CPH2655
 - 🔲 [HUMAN] Confirm one-time location vs typed city both produce the same city-level times
