@@ -69,9 +69,8 @@ class WorkflowRollupTests(unittest.TestCase):
         self.assertEqual(main(), 1)
 
     def test_required_status_job_names_script(self) -> None:
-        script = ROOT / "scripts" / "check-required-status-jobs.sh"
         proc = subprocess.run(
-            ["bash", str(script)],
+            ["bash", "scripts/check-required-status-jobs.sh"],
             cwd=ROOT,
             check=False,
             capture_output=True,

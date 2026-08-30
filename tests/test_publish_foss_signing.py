@@ -6,7 +6,9 @@ import tempfile
 import unittest
 from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).resolve().parent))
+LIB = Path(__file__).resolve().parent.parent / "scripts" / "lib"
+if str(LIB) not in sys.path:
+    sys.path.insert(0, str(LIB))
 from publish_foss_signing import DEBUG_MARKERS, release_signing_ready
 
 

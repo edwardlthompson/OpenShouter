@@ -30,7 +30,11 @@ def split_sprint_phases(
             phase = "human"
             human.append(line)
             continue
-        if phase == "parallel" and SEQUENTIAL_HEADER.match(line):
+        if phase == "parallel" and (
+            SEQUENTIAL_HEADER.match(line)
+            or ROW_BULLET.match(line)
+            or ROW_NUMBERED.match(line)
+        ):
             phase = "post"
         if phase == "pre":
             pre.append(line)

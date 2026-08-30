@@ -32,10 +32,12 @@ def resolve_sprint(
     parallel_done = title in (progress.get("parallel_sprint_done") or [])
     open_aa_pre = [r for r in pre_open if r.owner in ("AGENT", "AUTO")]
     open_aa_post = [r for r in post_open if r.owner in ("AGENT", "AUTO")]
-    open_ha = [r for r in human_open if r.owner in ("HUMAN", "ADB")]
+    open_ha = [
+        r for r in (pre_open + post_open + human_open) if r.owner in ("HUMAN", "ADB")
+    ]
     next_row = None
     action = None
-    pre_next = next_actionable_row(pre_open, backlog_keys)
+    pre_next = next_actionable_row(open_aa_pre, backlog_keys)
     if pre_next and pre_next.owner in ("AGENT", "AUTO"):
         action = "execute"
         next_row = _row_dict(pre_next, title, action)
@@ -54,12 +56,12 @@ def resolve_sprint(
             "action": "parallel_dispatch",
         }
     else:
-        post_next = next_actionable_row(post_open, backlog_keys)
+        post_next = next_actionable_row(open_aa_post, backlog_keys)
         if post_next and post_next.owner in ("AGENT", "AUTO"):
             action = "execute"
             next_row = _row_dict(post_next, title, action)
         else:
-            human_next = next_actionable_row(human_open, backlog_keys)
+            human_next = next_actionable_row(open_ha, backlog_keys)
             if human_next:
                 action = row_action(human_next.owner)
                 next_row = _row_dict(human_next, title, action)
