@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="settings_privacy">Privacy</string>
+    <string name="settings_feedback_save_crashes">Save crash details for me to review</string>
+    <string name="feedback_bug_title">Report a bug</string>
+    <string name="feedback_feature_title">Request a feature</string>
+    <string name="feedback_description">Description</string>
+    <string name="feedback_copy">Copy report</string>
+    <string name="feedback_open">Open GitHub</string>
+    <string name="feedback_discard">Discard</string>
+    <string name="feedback_offline">You are offline. Copy still works; Open GitHub needs a network.</string>
+    <string name="feedback_clipboard_hint">Review the sanitized preview. The OS clipboard may keep a copy after Discard.</string>
+    <string name="feedback_crash_title">The app recovered. Review and send a report?</string>
+</resources>

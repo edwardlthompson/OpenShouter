@@ -278,6 +278,43 @@ Feature spec: `docs/features/silence-competing-sounds.md`
 
 ---
 
+### Sprint 25 — Golden Path feedback pack (1–5)
+
+<!-- parallel_exception: coupled sanitizer + crash queue + dialogs; one sequential slice -->
+
+Feature specs: `docs/features/crash-capture.md`, `docs/features/feedback.md`, `docs/features/github-feedback.md`, `docs/features/privacy-report.md`, `docs/features/settings.md`
+
+### Critique
+
+| Issue | Resolution |
+|-------|------------|
+| Null/empty at boundary | `SanitizeReport.text(null)` → `""`; Open GitHub disabled when preview blank (`FeedbackPreview.canSubmit`) |
+| Network timeout | N/A — sanitizer/crash queue are local; GitHub open is an https Intent only |
+| Race | Single pending-crash file; `CrashCapture.install` is one-shot; toggle-off deletes the file |
+| Unhandled exceptions | `runCatching` on persist/handler/Intent; write failure drops the record |
+| PII in logs | Never log crash text, stacks, or report bodies |
+| Package | Logic lives in `org.openshouter.*`, not a Golden Path stub overwrite |
+
+### Parallelization
+
+| Agent | Scope | Status |
+|-------|-------|--------|
+| Privacy + crash + URL logic | `privacyreport/`, `crashcapture/`, `githubfeedback/` | Sequential (shared sanitize) |
+| Feedback UI + settings toggle | `feedback/`, `ui/feedback/`, Settings/About | Sequential |
+| Wiring | `OpenShouterApp`, `GoldenPathApp` / `GoldenPathScreen` | Sequential |
+
+`agent_count_target`: 1
+
+- ✅ [AGENT] privacy-report sanitizer, fingerprint, markdown + unit tests
+- ✅ [AGENT] crash-capture opt-in queue + Application install
+- ✅ [AGENT] feedback dialogs + About Report a bug / Request a feature
+- ✅ [AGENT] github-feedback issue-form URLs + clipboard fallback
+- ✅ [AGENT] Settings leftover: Save crash details toggle (default off)
+- 🔲 [ADB] Toggle on, force a test crash, confirm one sanitized review dialog and no auto-GitHub
+- 🔲 [HUMAN] Confirm About Copy / Open GitHub / Discard on a real device
+
+---
+
 ## Ongoing Maintenance (recurring)
 
 ### Weekly
