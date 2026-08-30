@@ -15,15 +15,12 @@ from pathlib import Path
 HEADER = "GENERATED — do not edit; run scripts/sync-design-tokens.py"
 
 REQUIRED_BRAND_ASSETS = (
-    "logo-mark.png",
     "logo-mark.svg",
     "logo-mark-mono.svg",
-    "logo-mark-photo.jpg",
     "logo-wordmark.svg",
     "logo-lockup.svg",
     "favicon.svg",
     "app-icon-512.svg",
-    "readme-hero.jpg",
     "readme-hero.svg",
     "social-preview.svg",
 )
@@ -328,22 +325,7 @@ def _svg_fill_to_android_vector(mark_svg: str) -> str:
         primary = path.group(2)
     if rect:
         surface = rect.group(1)
-    rx_m = re.search(r'<rect[^>]*rx="(\d+)"', mark_svg)
-    rx = int(rx_m.group(1)) if rx_m else 12
-    inset = rx
-    bg = (
-        f"M{inset},0 L{64 - inset},0 A{rx},{rx} 0 0 1 64,{inset} "
-        f"L64,{64 - inset} A{rx},{rx} 0 0 1 {64 - inset},64 "
-        f"L{inset},64 A{rx},{rx} 0 0 1 0,{64 - inset} "
-        f"L0,{inset} A{rx},{rx} 0 0 1 {inset},0 Z"
-    )
-    even_odd = 'fill-rule="evenodd"' in mark_svg
-    glyph = [
-        f'    <path android:fillColor="{primary}"',
-    ]
-    if even_odd:
-        glyph.append('        android:fillType="evenOdd"')
-    glyph.append(f'        android:pathData="{d}"/>')
+    # Scale 64→24 viewport for Android convention
     return "\n".join(
         [
             f"<!-- {HEADER} -->",
@@ -353,8 +335,9 @@ def _svg_fill_to_android_vector(mark_svg: str) -> str:
             '    android:viewportWidth="64"',
             '    android:viewportHeight="64">',
             f'    <path android:fillColor="{surface}"',
-            f'        android:pathData="{bg}"/>',
-            *glyph,
+            '        android:pathData="M12,0 L52,0 A12,12 0 0 1 64,12 L64,52 A12,12 0 0 1 52,64 L12,64 A12,12 0 0 1 0,52 L0,12 A12,12 0 0 1 12,0 Z"/>',
+            f'    <path android:fillColor="{primary}"',
+            f'        android:pathData="{d}"/>',
             "</vector>",
             "",
         ]
@@ -366,18 +349,8 @@ def distribute_web_branding(web_root: Path, assets: Path, tokens: dict) -> None:
     public.mkdir(parents=True, exist_ok=True)
     shutil.copyfile(assets / "logo-mark.svg", public / "icon.svg")
     shutil.copyfile(assets / "logo-mark.svg", public / "logo.svg")
-    raster = assets / "logo-mark.png"
-    if raster.is_file():
-        shutil.copyfile(raster, public / "logo-mark.png")
-        shutil.copyfile(raster, public / "icon.png")
     shutil.copyfile(assets / "favicon.svg", public / "favicon.svg")
     shutil.copyfile(assets / "readme-hero.svg", public / "readme-hero.svg")
-    hero_jpg = assets / "readme-hero.jpg"
-    if hero_jpg.is_file():
-        shutil.copyfile(hero_jpg, public / "readme-hero.jpg")
-    photo = assets / "logo-mark-photo.jpg"
-    if photo.is_file():
-        shutil.copyfile(photo, public / "logo-mark-photo.jpg")
     shutil.copyfile(assets / "social-preview.svg", public / "social-preview.svg")
 
     meta = tokens["meta"]
@@ -442,21 +415,6 @@ def distribute_web_branding(web_root: Path, assets: Path, tokens: dict) -> None:
         index_path.write_text(html, encoding="utf-8", newline="\n")
 
 
-def _write_bitmap_wrapper(drawable: Path, name: str, src: str) -> None:
-    (drawable / name).write_text(
-        "\n".join(
-            [
-                f"<!-- {HEADER} -->",
-                '<bitmap xmlns:android="http://schemas.android.com/apk/res/android"',
-                f'    android:src="@drawable/{src}" />',
-                "",
-            ]
-        ),
-        encoding="utf-8",
-        newline="\n",
-    )
-
-
 def distribute_android_branding(android_root: Path, assets: Path) -> None:
     drawable = (
         android_root
@@ -467,28 +425,10 @@ def distribute_android_branding(android_root: Path, assets: Path) -> None:
         / "drawable"
     )
     drawable.mkdir(parents=True, exist_ok=True)
-    nodpi = (
-        android_root
-        / "app"
-        / "src"
-        / "main"
-        / "res"
-        / "drawable-nodpi"
+    mark = (assets / "logo-mark.svg").read_text(encoding="utf-8")
+    (drawable / "ic_brand_mark.xml").write_text(
+        _svg_fill_to_android_vector(mark), encoding="utf-8", newline="\n"
     )
-    nodpi.mkdir(parents=True, exist_ok=True)
-    raster = assets / "logo-mark.png"
-    if raster.is_file():
-        shutil.copyfile(raster, nodpi / "openshouter_mark.png")
-        _write_bitmap_wrapper(drawable, "ic_brand_mark.xml", "openshouter_mark")
-    else:
-        mark = (assets / "logo-mark.svg").read_text(encoding="utf-8")
-        (drawable / "ic_brand_mark.xml").write_text(
-            _svg_fill_to_android_vector(mark), encoding="utf-8", newline="\n"
-        )
-    photo = assets / "logo-mark-photo.jpg"
-    if photo.is_file():
-        shutil.copyfile(photo, nodpi / "openshouter_splash.jpg")
-        _write_bitmap_wrapper(drawable, "ic_splash_mark.xml", "openshouter_splash")
 
 
 def write_outputs(root: Path) -> None:

@@ -52,3 +52,12 @@ Free Shouter uses `bhkapps.shouter` / `com.bhkapps.shouter` when present. Import
 | Network timeout | N/A — ContentResolver, `su`, or user-picked file |
 | Race | Single coroutine upsert; reminder insert then `ReminderAlarms.sync` |
 | Unhandled exceptions | Provider/SQLite/`su`/zip failures are `runCatching` → empty dump or 0 |
+
+## Tests
+
+- Automated: yes — Android unit tests under `examples/android/app/src/test/`
+
+## Fallback validation
+
+- Why tests are not feasible: N/A (automated tests exist)
+- Command: `python3 scripts/agent-run.py feature-gate --stack android`

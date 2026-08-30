@@ -95,3 +95,9 @@ CODE_REVIEW.md
 RELEASE_NOTES.md
 scratchpad.md
 .cursor/handoff-*.md
+CURSOR_RADAR_SUGGESTIONS.md
+.cursor/gates-status.md
+.cursor/upd-status.md
+.cursor/encoding-strict
+openvex.json
+.direnv/

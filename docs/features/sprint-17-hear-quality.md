@@ -36,3 +36,12 @@ Close silent-failure gaps after v0.4.0: history shows why a shout was dropped, s
 | Network timeout | N/A — no network I/O |
 | Race | `RepeatClock` is listener-local; first REPEAT is stored, later burst rows collapse |
 | Unhandled exceptions | Gate/datastore failures skip the event; history insert is `runCatching`-free Room (existing) |
+
+## Tests
+
+- Automated: yes — Android unit tests under `examples/android/app/src/test/`
+
+## Fallback validation
+
+- Why tests are not feasible: N/A (automated tests exist)
+- Command: `python3 scripts/agent-run.py feature-gate --stack android`

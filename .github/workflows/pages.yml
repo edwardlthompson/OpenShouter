@@ -8,10 +8,7 @@ on:
       - ".github/workflows/pages.yml"
   workflow_dispatch:
 
-permissions:
-  contents: read
-  pages: write
-  id-token: write
+permissions: read-all
 
 concurrency:
   group: pages-${{ github.ref }}

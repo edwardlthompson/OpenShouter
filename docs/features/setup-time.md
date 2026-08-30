@@ -27,3 +27,21 @@ First-run welcome lists one **Activate** button per runtime/special permission, 
 | Quiet hours vs clock | Same `SpeakGate` as other shouts |
 | Bedtime exits | Never `setAlarmClock`; TIME uses the selected notification stream |
 | Tick vs alarm race | `TimeShoutAnnouncer.lastSlot` drops the duplicate |
+
+## Container map
+
+| Layer | Path |
+|-------|------|
+| Logic | `examples/android/app/src/main/java/org/openshouter/` |
+| View | matching Compose screen under `org/openshouter/` |
+| Tests | `examples/android/app/src/test/java/org/openshouter/` |
+| Wiring | composition root ≤10 lines |
+
+## Tests
+
+- Automated: yes — Android unit tests under `examples/android/app/src/test/`
+
+## Fallback validation
+
+- Why tests are not feasible: N/A (automated tests exist)
+- Command: `python3 scripts/agent-run.py feature-gate --stack android`

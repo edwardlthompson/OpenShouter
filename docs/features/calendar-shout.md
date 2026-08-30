@@ -39,3 +39,9 @@ Unit tests cover skip/blank/once plus pickNext past/all-day/hidden. Device grant
 | Unhandled exceptions | `runCatching` on query; skip event |
 | First Instances row is all-day or in-progress | `pickNext` walks rows; SQL `BEGIN>=now`; skip all-day/hidden/declined |
 | Permission granted after service start | `start()` no longer requires `READ_CALENDAR`; scan checks each tick |
+
+## Tests
+
+- Automated: yes — Android unit tests under `examples/android/app/src/test/`
+
+- Command: `python3 scripts/agent-run.py feature-gate --stack android`

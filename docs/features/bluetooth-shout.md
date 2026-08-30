@@ -33,3 +33,12 @@ ACL connect/disconnect and optional battery-level extra. FOSS `BluetoothAdapter`
 | Network timeout | N/A |
 | Race | Single TTS queue |
 | Unhandled exceptions | `runCatching` on `device.name`; skip |
+
+## Tests
+
+- Automated: yes — Android unit tests under `examples/android/app/src/test/`
+
+## Fallback validation
+
+- Why tests are not feasible: N/A (automated tests exist)
+- Command: `python3 scripts/agent-run.py feature-gate --stack android`
