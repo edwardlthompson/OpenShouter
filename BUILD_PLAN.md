@@ -347,6 +347,8 @@ grep '\[AUTO\]' BUILD_PLAN.md
 
 > **Sprint 35** archived in COMPLETED_TASKS.md (2026-08-30).
 
+- 🔲 [AGENT] Next sprint feature placeholder
+
 ---
 
 ## Ongoing Maintenance (recurring)
