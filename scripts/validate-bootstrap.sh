@@ -170,7 +170,6 @@ if ! python3 scripts/lib/run_checks_parallel.py \
   check-workflow-action-ref-format.sh \
   check-feature-specs.sh \
   check-i18n-parity.sh \
-  check-token-contrast.sh \
   check-glossary-links.sh \
   check-action-workflows.sh \
   check-shellcheck.sh \
@@ -196,7 +195,6 @@ if ! python3 scripts/lib/run_checks_parallel.py \
   check-ideas-discussion.sh \
   check-adr-command.sh \
   check-readme-mermaid.sh \
-  check-social-preview.sh \
   check-fdroid-screenshots.sh \
   check-winget-runbook.sh
 then

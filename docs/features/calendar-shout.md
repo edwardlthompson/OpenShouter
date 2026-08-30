@@ -29,6 +29,8 @@ Speak the next calendar title in a user-picked look-ahead window (5 / 15 / 30 mi
 
 Unit tests cover skip/blank/once plus pickNext past/all-day/hidden. Device grant is `[ADB]` on CPH2655.
 
+- Command: `python3 scripts/agent-run.py feature-gate --stack android`
+
 ## Critique
 
 | Issue | Resolution |

@@ -36,6 +36,8 @@ Reuse Continuum Calendar’s quiet Venmo donate path and installer-filename GitH
 
 Unit tests cover interval, filename parse, newer-than, dismiss, and donate-nudge. Live GitHub/Venmo taps are `[HUMAN]`.
 
+- Command: `python3 scripts/agent-run.py feature-gate --stack android`
+
 ## Critique
 
 | Issue | Resolution |

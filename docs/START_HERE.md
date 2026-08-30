@@ -6,14 +6,14 @@
 
 **OpenShouter** is a FOSS Android TTS announcer (notifications + Shouter-style telephony/hardware). This child repo follows the `agent-project-bootstrap` agent contract.
 
-Shared contract: [`AGENTS.md`](../AGENTS.md). Tool map: [`AGENT_PORTABILITY.md`](AGENT_PORTABILITY.md). Word list: [`help/GLOSSARY.md`](help/GLOSSARY.md). Product spec: [`spec.md`](spec.md).
+Shared contract: [`AGENTS.md`](../AGENTS.md). Tool map: [`AGENT_PORTABILITY.md`](AGENT_PORTABILITY.md). Word list: [`help/GLOSSARY.md`](help/GLOSSARY.md) — [**Sacred**](help/GLOSSARY.md), [**Canon**](help/GLOSSARY.md), [**AGENT**](help/GLOSSARY.md) / [**HUMAN**](help/GLOSSARY.md) / [**ADB**](help/GLOSSARY.md) / [**AUTO**](help/GLOSSARY.md). Product spec: [`spec.md`](spec.md).
 
 The upstream template (`agent-project-bootstrap`) is a **GitHub Template Repository** for bootstrapping FOSS projects with coding agents (Cursor, Windsurf, Antigravity, Claude Code, Copilot, and others). OpenShouter is already initialized — do not re-run `init-project` unless a human asked.
 
 ## Which repo mode are you in?
 
-- **Bootstrap:** New project from **Use this template** → read `docs/CURSOR_MODES.md`, then `docs/INITIALIZATION_PROMPT.md`
-- **Reference / this product:** Existing OpenShouter work → read `docs/CURSOR_MODES.md`, then `docs/FOR_AGENTS.md` and `BUILD_PLAN.md`
+- [**Bootstrap**](help/GLOSSARY.md): New project from **Use this template** → read `docs/CURSOR_MODES.md`, then `docs/INITIALIZATION_PROMPT.md`
+- [**Reference**](help/GLOSSARY.md) / this product: Existing OpenShouter work → read `docs/CURSOR_MODES.md`, then `docs/FOR_AGENTS.md` and `BUILD_PLAN.md`
 
 ## Cursor modes (Plan / Agent / Debug / Ask)
 
@@ -86,6 +86,6 @@ Enable Dependabot alerts on GitHub (Settings → Code security and analysis). We
 
 ## Agent Prompts
 
-**Bootstrap:** Read @docs/START_HERE.md, @docs/CURSOR_MODES.md, and @docs/INITIALIZATION_PROMPT.md. Pick Cursor mode per CURSOR_MODES. Follow Section 8. Use BUILD_PLAN Sequential lane.
+[**Bootstrap**](help/GLOSSARY.md): Read @docs/START_HERE.md, @docs/CURSOR_MODES.md, and @docs/INITIALIZATION_PROMPT.md. Pick Cursor mode per CURSOR_MODES. Follow Section 8. Use BUILD_PLAN Sequential lane.
 
-**Reference:** Read @docs/CURSOR_MODES.md, @docs/FOR_AGENTS.md, and @TEMPLATE_INDEX.json. Pick Cursor mode per CURSOR_MODES. Apply matching rules. Do not copy examples/ wholesale.
+[**Reference**](help/GLOSSARY.md): Read @docs/CURSOR_MODES.md, @docs/FOR_AGENTS.md, and @TEMPLATE_INDEX.json. Pick Cursor mode per CURSOR_MODES. Apply matching rules. Do not copy examples/ wholesale.
