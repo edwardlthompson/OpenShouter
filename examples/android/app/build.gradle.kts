@@ -32,8 +32,8 @@ android {
         applicationId = "org.openshouter"
         minSdk = 26
         targetSdk = 35
-        versionCode = 29
-        versionName = "1.2.0" // x-release-please-version
+        versionCode = 30
+        versionName = "1.3.0" // x-release-please-version
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 

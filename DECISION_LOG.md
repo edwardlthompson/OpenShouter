@@ -17,6 +17,12 @@
 
 ## Entries
 
+### 2026-08-30 — /ship v1.3.0
+- **Status:** Accepted
+- **Context:** Completion of Sprints 26 through 35 covering sun/moon alarm scheduler, rotating disk widget, telephony additions, extended shout channels, FOSS places/geofencing, history export & search, accessibility live regions & high-contrast theme, Obtainium/IzzyOnDroid metadata & UnifiedPush opt-in, public shout Intent API & Tasker plugin, settings search, format preview, OEM autostart detection, and quiet-hours next-change shouts.
+- **Decision:** Minor version bump to `1.3.0`, `versionCode` 30. All AGENT tasks completed and verified with automated test suites.
+- **Consequences:** Release v1.3.0 shipped with release-signed FOSS APK artifact.
+
 ### 2026-08-30 — Sprint 25 Golden Path feedback pack (1–5)
 - **Status:** Accepted
 - **Context:** User asked to implement remaining Golden Path slices 1–5 on the product app without overwriting `examples/android/` from upstream stubs.
