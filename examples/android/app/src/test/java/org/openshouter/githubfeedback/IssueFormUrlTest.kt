@@ -7,6 +7,13 @@ import org.junit.Test
 
 class IssueFormUrlTest {
     @Test
+    fun templateMatchesRepoIssueForms() {
+        assertEquals("bug_report.yml", IssueFormUrl.templateForKind("bug"))
+        assertEquals("bug_report.yml", IssueFormUrl.templateForKind("crash"))
+        assertEquals("feature_request.yml", IssueFormUrl.templateForKind("feature"))
+    }
+
+    @Test
     fun placeholderRepoIsEmpty() {
         assertEquals(
             "",
@@ -17,6 +24,18 @@ class IssueFormUrlTest {
     @Test
     fun crashTitleFormats() {
         assertEquals("[crash] a1b2c3d4e5f6 TypeError", IssueFormUrl.crashTitle("A1B2C3D4E5F6ffff", "TypeError: x"))
+    }
+
+    @Test
+    fun largeReproductionPrefersClipboardBodyOverStackLabel() {
+        val body = "x".repeat(IssueFormUrl.MAX_QUERY_CHARS + 500)
+        val built = IssueFormUrl.build(
+            "acme/app",
+            "bug_report.yml",
+            mapOf("stack" to "Android", "reproduction" to body, "title" to "[bug]: "),
+        )
+        assertTrue(built.bodyTooLarge)
+        assertEquals(body, built.clipboardMarkdown)
     }
 
     @Test

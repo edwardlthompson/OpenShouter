@@ -17,6 +17,9 @@ object IssueFormUrl {
         return trimmed.isEmpty() || trimmed.equals("OWNER/REPO", ignoreCase = true)
     }
 
+    fun templateForKind(kind: String): String =
+        if (kind == "feature") "feature_request.yml" else "bug_report.yml"
+
     fun crashTitle(fingerprint: String, exceptionType: String): String {
         val fp = fingerprint.filter { it.isLetterOrDigit() }.take(12).lowercase()
         val kind = exceptionType.split(Regex("[^A-Za-z0-9_.$]")).firstOrNull().orEmpty().ifEmpty { "Error" }
@@ -37,8 +40,8 @@ object IssueFormUrl {
         if (full.length <= MAX_QUERY_CHARS) return Built(full)
         val short = linkedMapOf("template" to template)
         fields["title"]?.let { short["title"] = it }
-        val markdown = fields["stack"] ?: fields["description"] ?: fields["reproduction"]
-            ?: fields["problem"] ?: ""
+        val markdown = fields["reproduction"] ?: fields["solution"] ?: fields["description"]
+            ?: fields["problem"] ?: fields["stack"] ?: ""
         return Built(base + "?" + encode(short), markdown, true)
     }
 

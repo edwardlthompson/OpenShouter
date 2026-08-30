@@ -19,6 +19,7 @@ import androidx.compose.ui.text.AnnotatedString
 import dev.foss.goldenpath.R
 import org.openshouter.feedback.FeedbackPreview
 import org.openshouter.githubfeedback.IssueFormUrl
+import org.openshouter.privacyreport.FingerprintCrash
 import org.openshouter.ui.menu.MenuBody
 import org.openshouter.ui.menu.MenuScaffold
 import org.openshouter.ui.menu.MenuScrollStore
@@ -60,7 +61,7 @@ fun FeedbackScreen(
                 Button(
                     enabled = canSubmit,
                     onClick = {
-                        openGithub(context, clipboard, kind, description, preview, releaseRepo)
+                        openGithub(context, clipboard, kind, description, preview, releaseRepo, stack)
                     },
                 ) {
                     Text(stringResource(R.string.feedback_open))
@@ -85,12 +86,26 @@ private fun openGithub(
     description: String,
     preview: String,
     releaseRepo: String,
+    stack: String?,
 ) {
-    val template = if (kind == "feature") "product_idea.yml" else "bug_report.yml"
+    val template = IssueFormUrl.templateForKind(kind)
     val fields = if (kind == "feature") {
         mapOf("problem" to description, "solution" to preview, "title" to "[feat]: ")
     } else {
-        mapOf("description" to description, "reproduction" to preview, "title" to "[bug]: ")
+        val title = if (!stack.isNullOrBlank()) {
+            IssueFormUrl.crashTitle(
+                FingerprintCrash.of(stack),
+                stack.lineSequence().firstOrNull().orEmpty(),
+            )
+        } else {
+            "[bug]: "
+        }
+        mapOf(
+            "description" to description,
+            "reproduction" to preview,
+            "title" to title,
+            "stack" to "Android",
+        )
     }
     val built = IssueFormUrl.build(releaseRepo, template, fields)
     if (built.bodyTooLarge) {
