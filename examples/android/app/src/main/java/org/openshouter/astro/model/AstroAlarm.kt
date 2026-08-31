@@ -6,8 +6,6 @@ import java.time.Instant
 enum class SolarEventType {
     Sunrise,
     Sunset,
-    Dawn,
-    Dusk,
     CivilDawn,
     CivilDusk,
     NauticalDawn,
@@ -57,6 +55,7 @@ data class AstroAlarm(
     val ttsEnabled: Boolean = true,
     val vibrateEnabled: Boolean = true,
     val snoozeMinutes: Int = 10,
+    val mathUnlockEnabled: Boolean = false,
     val lastFiredEpochMs: Long = 0L
 ) {
     val isOnce: Boolean get() = daysOfWeek.isEmpty()

@@ -25,8 +25,8 @@ object SolarCalculator {
         return when (event) {
             SolarEventType.Sunrise -> eventInstant(date, latitude, longitude, zoneId, ZENITH_OFFICIAL, isMorning = true)
             SolarEventType.Sunset -> eventInstant(date, latitude, longitude, zoneId, ZENITH_OFFICIAL, isMorning = false)
-            SolarEventType.Dawn, SolarEventType.CivilDawn -> eventInstant(date, latitude, longitude, zoneId, ZENITH_CIVIL, isMorning = true)
-            SolarEventType.Dusk, SolarEventType.CivilDusk -> eventInstant(date, latitude, longitude, zoneId, ZENITH_CIVIL, isMorning = false)
+            SolarEventType.CivilDawn -> eventInstant(date, latitude, longitude, zoneId, ZENITH_CIVIL, isMorning = true)
+            SolarEventType.CivilDusk -> eventInstant(date, latitude, longitude, zoneId, ZENITH_CIVIL, isMorning = false)
             SolarEventType.NauticalDawn -> eventInstant(date, latitude, longitude, zoneId, ZENITH_NAUTICAL, isMorning = true)
             SolarEventType.NauticalDusk -> eventInstant(date, latitude, longitude, zoneId, ZENITH_NAUTICAL, isMorning = false)
             SolarEventType.AstronomicalDawn -> eventInstant(date, latitude, longitude, zoneId, ZENITH_ASTRONOMICAL, isMorning = true)

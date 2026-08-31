@@ -28,7 +28,7 @@ fun AstroAlarmRow(
 ) {
     Card(
         modifier = modifier.fillMaxWidth(),
-        shape = RoundedCornerShape(12.dp),
+        shape = RoundedCornerShape(16.dp),
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant)
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
@@ -37,44 +37,74 @@ fun AstroAlarmRow(
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Column(modifier = Modifier.weight(1f)) {
-                    Text(
-                        text = alarm.label,
-                        fontSize = 18.sp,
-                        fontWeight = FontWeight.Bold,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
-                    )
-                    if (nextFireFormatted != null && alarm.enabled) {
+                Row(
+                    modifier = Modifier.weight(1f),
+                    horizontalArrangement = Arrangement.spacedBy(10.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    val icon = when (alarm.target) {
+                        is AlarmTarget.Solar -> "☀️"
+                        is AlarmTarget.Lunar -> "🌙"
+                        is AlarmTarget.CustomClock -> "⏰"
+                    }
+                    Text(text = icon, fontSize = 24.sp)
+                    Column {
                         Text(
-                            text = stringResource(R.string.astro_next_fire_prefix, nextFireFormatted),
-                            fontSize = 13.sp,
-                            color = MaterialTheme.colorScheme.primary
+                            text = alarm.label,
+                            fontSize = 17.sp,
+                            fontWeight = FontWeight.Bold,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
+                        if (nextFireFormatted != null && alarm.enabled) {
+                            Text(
+                                text = stringResource(R.string.astro_next_fire_prefix, nextFireFormatted),
+                                fontSize = 13.sp,
+                                fontWeight = FontWeight.SemiBold,
+                                color = MaterialTheme.colorScheme.primary
+                            )
+                        } else if (!alarm.enabled) {
+                            Text(
+                                text = stringResource(R.string.astro_status_disabled),
+                                fontSize = 12.sp,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.6f)
+                            )
+                        }
                     }
                 }
                 Switch(checked = alarm.enabled, onCheckedChange = onToggle)
             }
 
-            Spacer(modifier = Modifier.height(8.dp))
+            Spacer(modifier = Modifier.height(10.dp))
             DaysChipRow(selectedDays = alarm.daysOfWeek)
 
-            Spacer(modifier = Modifier.height(8.dp))
+            Spacer(modifier = Modifier.height(10.dp))
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+                Row(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
                     BadgeText(stringResource(if (alarm.toneEnabled) R.string.astro_badge_tone_on else R.string.astro_badge_tone_off))
                     BadgeText(stringResource(if (alarm.ttsEnabled) R.string.astro_badge_tts_on else R.string.astro_badge_tts_off))
                     if (alarm.vibrateEnabled) BadgeText(stringResource(R.string.astro_badge_vibrate))
+                    if (alarm.mathUnlockEnabled) BadgeText(stringResource(R.string.astro_badge_math))
                 }
-                Row {
-                    TextButton(onClick = onEdit) {
-                        Text(stringResource(R.string.astro_action_edit))
+                Row(horizontalArrangement = Arrangement.spacedBy(4.dp)) {
+                    FilledTonalButton(
+                        onClick = onEdit,
+                        contentPadding = PaddingValues(horizontal = 12.dp, vertical = 4.dp)
+                    ) {
+                        Text(stringResource(R.string.astro_action_edit), fontSize = 12.sp)
                     }
-                    TextButton(onClick = onDelete) {
-                        Text(stringResource(R.string.astro_action_delete), color = MaterialTheme.colorScheme.error)
+                    TextButton(
+                        onClick = onDelete,
+                        contentPadding = PaddingValues(horizontal = 8.dp, vertical = 4.dp)
+                    ) {
+                        Text(
+                            stringResource(R.string.astro_action_delete),
+                            color = MaterialTheme.colorScheme.error,
+                            fontSize = 12.sp
+                        )
                     }
                 }
             }
@@ -117,8 +147,9 @@ fun BadgeText(text: String) {
         Text(
             text = text,
             modifier = Modifier.padding(horizontal = 6.dp, vertical = 2.dp),
-            fontSize = 12.sp,
-            color = MaterialTheme.colorScheme.onSurface
+            fontSize = 11.sp,
+            fontWeight = FontWeight.Medium,
+            color = MaterialTheme.colorScheme.onSurfaceVariant
         )
     }
 }

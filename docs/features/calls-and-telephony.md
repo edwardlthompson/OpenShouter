@@ -24,3 +24,21 @@ Call enhancements for cellular and VoIP telephony in OpenShouter:
 | Missing permissions for Bluetooth SCO/HFP | Graceful fallback to standard TTS audio routing |
 | Zero duration on missed / instant hangup | Only announce duration if call was in OFFHOOK / active state |
 | Rapid repeated call-waiting state events | Rate-limited call-waiting announcements |
+## Container map
+
+- `examples/android/app/src/main/java/org/openshouter/call/`
+- `examples/android/app/src/main/java/org/openshouter/domain/TelephonyExtras.kt`
+- `examples/android/app/src/test/java/org/openshouter/call/TelephonySprint28Test.kt`
+
+## Smoke scenario
+
+1. Incoming cellular call rings -> caller ID announced once without double-shout.
+2. Active call hangs up -> duration announced when enabled in settings.
+
+## Tests
+
+- Automated: yes — `TelephonySprint28Test.kt`: Unit tests for dedup window, duration formatting, call waiting, conference hint.
+
+## Fallback validation
+
+- `python3 scripts/agent-run.py feature-gate --stack android`

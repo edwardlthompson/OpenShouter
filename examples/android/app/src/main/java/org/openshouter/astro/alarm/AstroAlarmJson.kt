@@ -20,6 +20,7 @@ object AstroAlarmJson {
         obj.put("ttsEnabled", alarm.ttsEnabled)
         obj.put("vibrateEnabled", alarm.vibrateEnabled)
         obj.put("snoozeMinutes", alarm.snoozeMinutes)
+        obj.put("mathUnlockEnabled", alarm.mathUnlockEnabled)
         obj.put("lastFiredEpochMs", alarm.lastFiredEpochMs)
 
         val daysArr = JSONArray()
@@ -57,6 +58,7 @@ object AstroAlarmJson {
         val ttsEnabled = obj.optBoolean("ttsEnabled", true)
         val vibrateEnabled = obj.optBoolean("vibrateEnabled", true)
         val snoozeMinutes = obj.optInt("snoozeMinutes", 10)
+        val mathUnlock = obj.optBoolean("mathUnlockEnabled", false)
         val lastFired = obj.optLong("lastFiredEpochMs", 0L)
 
         val days = mutableSetOf<DayOfWeek>()
@@ -73,7 +75,12 @@ object AstroAlarmJson {
             "clock" -> AlarmTarget.CustomClock(targetObj.optInt("hour", 7), targetObj.optInt("minute", 0))
             "solar" -> {
                 val evName = targetObj.optString("event")
-                val ev = runCatching { SolarEventType.valueOf(evName) }.getOrDefault(SolarEventType.Sunrise)
+                val normalizedName = when (evName) {
+                    "Dawn" -> "CivilDawn"
+                    "Dusk" -> "CivilDusk"
+                    else -> evName
+                }
+                val ev = runCatching { SolarEventType.valueOf(normalizedName) }.getOrDefault(SolarEventType.Sunrise)
                 AlarmTarget.Solar(ev, targetObj.optInt("offset", 0))
             }
             "lunar" -> {
@@ -95,6 +102,7 @@ object AstroAlarmJson {
             ttsEnabled = ttsEnabled,
             vibrateEnabled = vibrateEnabled,
             snoozeMinutes = snoozeMinutes,
+            mathUnlockEnabled = mathUnlock,
             lastFiredEpochMs = lastFired
         )
     }

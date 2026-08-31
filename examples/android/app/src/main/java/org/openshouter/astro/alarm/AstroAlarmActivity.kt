@@ -34,14 +34,12 @@ class AstroAlarmActivity : ComponentActivity(), TextToSpeech.OnInitListener {
 
         val alarmId = intent.getStringExtra(AstroAlarmScheduler.EXTRA_ALARM_ID) ?: ""
         val store = AstroAlarmStore(this)
-        activeAlarm = store.getById(alarmId) ?: AstroAlarm(
-            id = "unknown",
-            label = getString(R.string.astro_custom_alarm_title),
-            target = AlarmTarget.CustomClock(LocalTime.now().hour, LocalTime.now().minute)
-        )
+        activeAlarm = store.getById(alarmId)
+            ?: store.getAll().firstOrNull { it.enabled }
+            ?: store.getAll().lastOrNull()
+            ?: AstroAlarm("unknown", getString(R.string.astro_custom_alarm_title), target = AlarmTarget.CustomClock(LocalTime.now().hour, LocalTime.now().minute))
 
         startAlarmOutput(activeAlarm!!)
-
         setContent {
             AstroAlarmLockscreenView(
                 alarm = activeAlarm!!,
@@ -55,15 +53,10 @@ class AstroAlarmActivity : ComponentActivity(), TextToSpeech.OnInitListener {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1) {
             setShowWhenLocked(true)
             setTurnScreenOn(true)
-            val km = getSystemService(Context.KEYGUARD_SERVICE) as? KeyguardManager
-            km?.requestDismissKeyguard(this, null)
+            (getSystemService(Context.KEYGUARD_SERVICE) as? KeyguardManager)?.requestDismissKeyguard(this, null)
         } else {
             @Suppress("DEPRECATION")
-            window.addFlags(
-                WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED or
-                        WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD or
-                        WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON
-            )
+            window.addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED or WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD or WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON)
         }
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
     }
@@ -74,10 +67,7 @@ class AstroAlarmActivity : ComponentActivity(), TextToSpeech.OnInitListener {
                 ?: RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM)
                 ?: RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
             ringtone = RingtoneManager.getRingtone(applicationContext, uri)?.apply {
-                audioAttributes = AudioAttributes.Builder()
-                    .setUsage(AudioAttributes.USAGE_ALARM)
-                    .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
-                    .build()
+                audioAttributes = AudioAttributes.Builder().setUsage(AudioAttributes.USAGE_ALARM).setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION).build()
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) isLooping = true
                 play()
             }
@@ -127,14 +117,9 @@ class AstroAlarmActivity : ComponentActivity(), TextToSpeech.OnInitListener {
 
     private fun onStopClicked() {
         stopAlarmOutput()
-        val alarm = activeAlarm
-        if (alarm != null) {
+        activeAlarm?.let { alarm ->
             val store = AstroAlarmStore(this)
-            val updated = if (alarm.isOnce) {
-                alarm.copy(enabled = false, lastFiredEpochMs = System.currentTimeMillis())
-            } else {
-                alarm.copy(lastFiredEpochMs = System.currentTimeMillis())
-            }
+            val updated = if (alarm.isOnce) alarm.copy(enabled = false, lastFiredEpochMs = System.currentTimeMillis()) else alarm.copy(lastFiredEpochMs = System.currentTimeMillis())
             store.save(updated)
             AstroAlarmScheduler.rescheduleAll(this)
         }
