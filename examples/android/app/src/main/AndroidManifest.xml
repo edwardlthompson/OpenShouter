@@ -27,7 +27,6 @@
     <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" />
     <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
     <uses-permission android:name="android.permission.USE_EXACT_ALARM" />
-    <uses-permission android:name="android.permission.USE_FULL_SCREEN_INTENT" />
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission
         android:name="android.permission.QUERY_ALL_PACKAGES"
@@ -135,42 +134,6 @@
             <intent-filter>
                 <action android:name="org.openshouter.action.REMINDER_FIRE" />
             </intent-filter>
-        </receiver>
-        <activity
-            android:name="org.openshouter.astro.alarm.AstroAlarmActivity"
-            android:exported="false"
-            android:showOnLockScreen="true"
-            android:showWhenLocked="true"
-            android:turnScreenOn="true"
-            android:showForAllUsers="true"
-            android:taskAffinity="org.openshouter.astro.alarm"
-            android:excludeFromRecents="true"
-            android:launchMode="singleTop"
-            android:theme="@style/Theme.GoldenPath" />
-        <receiver
-            android:name="org.openshouter.astro.alarm.AstroAlarmReceiver"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="org.openshouter.astro.ACTION_ALARM_FIRE" />
-                <action android:name="android.intent.action.BOOT_COMPLETED" />
-                <action android:name="android.intent.action.TIMEZONE_CHANGED" />
-                <action android:name="android.intent.action.TIME_SET" />
-                <action android:name="android.intent.action.SET_ALARM" />
-                <action android:name="android.intent.action.DISMISS_ALARM" />
-            </intent-filter>
-        </receiver>
-        <receiver
-            android:name="org.openshouter.astro.widget.AstroWidgetProvider"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
-                <action android:name="android.intent.action.TIME_TICK" />
-                <action android:name="android.intent.action.TIMEZONE_CHANGED" />
-                <action android:name="android.intent.action.TIME_SET" />
-            </intent-filter>
-            <meta-data
-                android:name="android.appwidget.provider"
-                android:resource="@xml/astro_widget_info" />
         </receiver>
     </application>
 </manifest>

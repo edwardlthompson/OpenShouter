@@ -14,6 +14,8 @@
     <string name="tts_title">Voz</string>
     <string name="nav_silence">Silêncio</string>
     <string name="nav_history">Histórico</string>
+    <string name="astroalarm_promo_title">Experimentar AstroAlarm</string>
+    <string name="astroalarm_promo_subtitle">Gosta que o OpenShouter anuncie as apps? O AstroAlarm anuncia alarmes solares, lunares e de relógio da mesma forma.</string>
     <string name="nav_places">Locais</string>
     <string name="nav_calendar">Calendário</string>
     <string name="history_empty">Nenhum anúncio registado</string>

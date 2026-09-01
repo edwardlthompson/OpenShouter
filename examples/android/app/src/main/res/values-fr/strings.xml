@@ -17,6 +17,8 @@
     <string name="about_format">Format installé : %1$s</string>
     <string name="about_donations_message">Si ce projet vous aide, vous pouvez soutenir le développement.</string>
     <string name="about_donate">Faire un don via Venmo</string>
+    <string name="astroalarm_promo_title">Essayer AstroAlarm</string>
+    <string name="astroalarm_promo_subtitle">Vous aimez qu’OpenShouter annonce vos applis ? AstroAlarm annonce soleil, lune et réveils de la même façon.</string>
     <string name="about_not_now">Pas maintenant</string>
     <string name="about_install">Installer</string>
     <string name="about_later">Plus tard</string>

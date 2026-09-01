@@ -17,6 +17,8 @@
     <string name="about_format">Installed format: %1$s</string>
     <string name="about_donations_message">If this project helps you, consider supporting development.</string>
     <string name="about_donate">Donate via Venmo</string>
+    <string name="astroalarm_promo_title">Try AstroAlarm</string>
+    <string name="astroalarm_promo_subtitle">Like OpenShouter shouting your apps? AstroAlarm shouts sun, moon, and clock alarms the same way.</string>
     <string name="about_not_now">Not now</string>
     <string name="about_install">Install</string>
     <string name="about_later">Later</string>

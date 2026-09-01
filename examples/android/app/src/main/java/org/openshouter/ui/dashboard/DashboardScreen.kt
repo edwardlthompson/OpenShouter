@@ -9,6 +9,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.stringResource
 import dev.foss.goldenpath.R
+import org.openshouter.updates.AstroAlarmLinks
 import org.openshouter.updates.DonateLinks
 import dev.foss.goldenpath.ui.insets.bottomInsetPadding
 import dev.foss.goldenpath.ui.theme.SpacingLg
@@ -36,7 +37,6 @@ fun DashboardScreen(
     onOpenPlaces: () -> Unit,
     onOpenOem: () -> Unit,
     onOpenSilence: () -> Unit,
-    onOpenAstro: () -> Unit = {},
     onOpenSettings: () -> Unit = {},
     scrollStore: MenuScrollStore,
     modifier: Modifier = Modifier,
@@ -68,7 +68,6 @@ fun DashboardScreen(
         }
         MenuSection(stringResource(R.string.menu_section_log)) {
             MenuLink(stringResource(R.string.nav_history), onOpenHistory)
-            MenuLink(stringResource(R.string.astro_nav_title), onOpenAstro, showDivider = true)
             MenuLink(stringResource(R.string.nav_reminders), onOpenReminders, showDivider = true)
         }
         MenuSection(stringResource(R.string.menu_section_phone)) {
@@ -80,6 +79,12 @@ fun DashboardScreen(
                 stringResource(R.string.settings_title),
                 onOpenSettings,
                 stringResource(R.string.settings_appearance),
+                true,
+            )
+            MenuLink(
+                stringResource(R.string.astroalarm_promo_title),
+                { uriHandler.openUri(AstroAlarmLinks.GITHUB_URL) },
+                stringResource(R.string.astroalarm_promo_subtitle),
                 true,
             )
             MenuLink(

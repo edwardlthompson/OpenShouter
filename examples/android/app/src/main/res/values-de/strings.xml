@@ -14,6 +14,8 @@
     <string name="tts_title">Stimme</string>
     <string name="nav_silence">Stille</string>
     <string name="nav_history">Verlauf</string>
+    <string name="astroalarm_promo_title">AstroAlarm ausprobieren</string>
+    <string name="astroalarm_promo_subtitle">Magst du, dass OpenShouter Apps vorliest? AstroAlarm ruft Sonnen-, Mond- und Weckeralarme genauso aus.</string>
     <string name="nav_places">Orte</string>
     <string name="nav_calendar">Kalender</string>
     <string name="history_empty">Noch keine Ansagen gespeichert</string>
