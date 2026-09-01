@@ -6,6 +6,19 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.4.0](https://github.com/edwardlthompson/OpenShouter/compare/v1.3.0...v1.4.0) (2026-09-01)
+
+
+### Added
+
+* **android:** sun and moon alarm redesign with number wheels, math unlock challenge, and sound picker ([1cf9108](https://github.com/edwardlthompson/OpenShouter/commit/1cf91088d5b542262df1d6334a2bbe4f6e6b9f16))
+
+
+### Fixed
+
+* **ci:** fix shellcheck SC2015 in release workflow ([8c0e127](https://github.com/edwardlthompson/OpenShouter/commit/8c0e127462e4f107aee2a676054c5117b834f1c5))
+* **ci:** setup Android SDK and Java 17 for Feature Gate job ([69ca963](https://github.com/edwardlthompson/OpenShouter/commit/69ca963d93f897484afdc43742911a2dea621b93))
+
 ## [Unreleased]
 
 ## [1.3.0](https://github.com/edwardlthompson/OpenShouter/compare/v1.2.0...v1.3.0) (2026-08-30)
