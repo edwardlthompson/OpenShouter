@@ -2,6 +2,12 @@
 
 > Archive of finished BUILD_PLAN items.
 
+## Spoken clock + call cancel (2026-10-05)
+
+- ✅ [AGENT] Spoken clock styles (Natural / Natural+AMPM / Digit / Military) for time shout
+- ✅ [AGENT] Cellular OFFHOOK cancel race: abort stale RINGING jobs + TTS speak generation
+
+
 ## Sprint 35 — UX polish (2026-08-30)
 
 - ✅ [AGENT] Welcome leftover: first-hear checklist (listener, battery, exact alarm, Silent pack)

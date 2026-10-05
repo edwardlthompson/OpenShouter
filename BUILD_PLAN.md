@@ -349,6 +349,8 @@ grep '\[AUTO\]' BUILD_PLAN.md
 
 ---
 
+> **Spoken clock + call cancel** archived in COMPLETED_TASKS.md.
+
 ## Ongoing Maintenance (recurring)
 
 ### Weekly

@@ -43,6 +43,14 @@ flowchart TD
   Tour --> Coach["/coach"]
 ```
 
+## For humans
+
+Start with [`{{url_contributing}}`]({{url_contributing}}) and [`{{url_first_30_days}}`]({{url_first_30_days}}). Product decisions and device QA use BUILD_PLAN labels `HUMAN` and `ADB`.
+
+## For agents
+
+Read [`{{url_start_here}}`]({{url_start_here}}) then [`{{url_agents}}`]({{url_agents}}). First-run walk: [`{{url_tour}}`]({{url_tour}}). Prefer [`{{url_best_practices}}`]({{url_best_practices}}) for why conventions exist.
+
 ## Install
 
 {{install}}
