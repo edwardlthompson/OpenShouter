@@ -1,0 +1,1 @@
+Incoming calls respect silent/vibrate (Speak in silent/vibrate opt-in). CALL no longer hard-bypasses ringer silent.

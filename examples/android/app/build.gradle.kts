@@ -32,7 +32,7 @@ android {
         applicationId = "org.openshouter"
         minSdk = 26
         targetSdk = 35
-        versionCode = 31
+        versionCode = 32
         versionName = "1.5.0" // x-release-please-version
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
