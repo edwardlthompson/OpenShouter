@@ -35,7 +35,8 @@ class SpeakGate @Inject constructor(
         val day = cal.get(Calendar.DAY_OF_WEEK)
         val pm = context.getSystemService(Context.POWER_SERVICE) as PowerManager
         val callExempt = channel == ShoutChannel.CALL
-        val silent = audio.isSilent() && !silentExempt && !callExempt
+        // CALL still bypasses screen-off-only; silent/vibrate follows allowSilentVibrate like other channels.
+        val silent = audio.isSilent() && !silentExempt
         val inCall = runCatching {
             val tm = context.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
             @Suppress("DEPRECATION")

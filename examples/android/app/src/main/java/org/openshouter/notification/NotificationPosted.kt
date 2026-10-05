@@ -139,7 +139,7 @@ internal object NotificationPosted {
         CallLoopGate.onVoipAnnounce(facts.app)
         NotificationHistory.speakOrIgnore(
             ep, settings, ShoutChannel.CALL, SpokenEvent.Kind.CALL, incoming.utterance, facts,
-            silentExempt = true, looping = incoming.looping, repeatCount = incoming.repeatCount,
+            looping = incoming.looping, repeatCount = incoming.repeatCount,
         )
     }
 

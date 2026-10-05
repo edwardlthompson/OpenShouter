@@ -46,7 +46,7 @@ object ChannelStates {
                 .device.allowSilentVibrate
 
     fun allowPlaybackWhenSilent(settings: AppSettings, kind: SpokenEvent.Kind): Boolean =
-        kind == SpokenEvent.Kind.CALL || allowSilentVibrate(settings, kind)
+        allowSilentVibrate(settings, kind)
 
     fun spoken(
         settings: AppSettings,
