@@ -17,6 +17,13 @@
 
 ## Entries
 
+### 2026-10-05 — /ship v1.5.0
+- **Status:** Accepted
+- **Context:** Spoken clock style options for hourly time shout; cellular Phone loop kept speaking when answered during the first announcement. User invoked `/ship`.
+- **Decision:** Minor `1.5.0`, `versionCode` 31. Default spoken style Natural. Abort stale RINGING jobs + TTS speak generation on OFFHOOK. Reject upd’s CodeQL `vcodeql-bundle-*` pin. Merge Release Please #60; publish `openshouter-1.5.0-foss.apk`.
+- **Alternatives considered:** Quarter-past fuzzy speech (deferred). Patch-only release (rejected: user-facing feature).
+- **Consequences:** https://github.com/edwardlthompson/OpenShouter/releases/tag/v1.5.0
+
 ### 2026-08-30 — /ship v1.3.0
 - **Status:** Accepted
 - **Context:** Completion of Sprints 26 through 35 covering sun/moon alarm scheduler, rotating disk widget, telephony additions, extended shout channels, FOSS places/geofencing, history export & search, accessibility live regions & high-contrast theme, Obtainium/IzzyOnDroid metadata & UnifiedPush opt-in, public shout Intent API & Tasker plugin, settings search, format preview, OEM autostart detection, and quiet-hours next-change shouts.
