@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
 ## [1.5.0](https://github.com/edwardlthompson/OpenShouter/compare/v1.4.0...v1.5.0) (2026-10-05)
 
 
@@ -18,8 +20,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 * **android:** add F-Droid changelog for versionCode 31 ([253e938](https://github.com/edwardlthompson/OpenShouter/commit/253e938a66187002153496d02c7f634c46872f6b))
 * **android:** stop call announce loop after mid-ring answer ([0f956ac](https://github.com/edwardlthompson/OpenShouter/commit/0f956ac99878a3d5ff4e0c18673d3936c96ff032))
-
-## [Unreleased]
 
 ## [1.4.0](https://github.com/edwardlthompson/OpenShouter/compare/v1.3.0...v1.4.0) (2026-09-01)
 
