@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.5.1](https://github.com/edwardlthompson/OpenShouter/compare/v1.5.0...v1.5.1) (2026-10-05)
+
+
+### Fixed
+
+* **android:** respect silent mode for incoming call shouts ([9aabe31](https://github.com/edwardlthompson/OpenShouter/commit/9aabe31378a8c15e78a8bdaa628e640457ac097d))
+
 ## [Unreleased]
 
 ## [1.5.0](https://github.com/edwardlthompson/OpenShouter/compare/v1.4.0...v1.5.0) (2026-10-05)
