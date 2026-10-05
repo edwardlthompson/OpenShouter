@@ -125,6 +125,7 @@ fun OpenShouterPanes(
             },
             onFormat = { value -> scope.launch { ep.sprint13().setTimeFormat(value) } },
             onHourStyle = { style -> scope.launch { ep.sprint13().setTimeHourStyle(style) } },
+            onSpokenStyle = { style -> scope.launch { ep.sprint13().setSpokenClockStyle(style) } },
             onBack = { onPane(Pane.Announcer) },
             scrollStore = scrollStore,
             modifier = modifier,

@@ -187,6 +187,11 @@
     <string name="time_hour_12">12 horas</string>
     <string name="time_hour_24">24 horas</string>
     <string name="time_hour_system">Predeterminado del dispositivo</string>
+    <string name="time_spoken_style">Cómo decir la hora</string>
+    <string name="time_spoken_natural">Natural (las tres en punto)</string>
+    <string name="time_spoken_natural_ampm">Natural con AM/PM</string>
+    <string name="time_spoken_digit">Reloj digital (3:00 PM)</string>
+    <string name="time_spoken_military">Militar (fifteen hundred)</string>
     <string name="time_phrase">Frase de hora (%time)</string>
     <string name="announcer_time_customize">Definir intervalo de hora</string>
     <string name="announcer_missed">Anunciar llamadas perdidas</string>

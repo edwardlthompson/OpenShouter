@@ -42,6 +42,7 @@ class TimeShoutAnnouncer @Inject constructor(
             zoned,
             snap.timeHourStyle,
             DateFormat.is24HourFormat(context),
+            spokenStyle = snap.spokenClockStyle,
         )
         val phrase = TtsFormat.time(snap.timeFormat, clock)
         if (phrase.isNotBlank()) {

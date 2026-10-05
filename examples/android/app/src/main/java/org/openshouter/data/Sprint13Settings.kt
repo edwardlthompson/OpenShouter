@@ -14,6 +14,7 @@ import org.openshouter.domain.ChannelDeviceState
 import org.openshouter.domain.ChannelStates
 import org.openshouter.domain.ContactRule
 import org.openshouter.domain.ShoutChannel
+import org.openshouter.domain.SpokenClockStyle
 import org.openshouter.domain.TimeHourStyle
 import org.openshouter.domain.TtsFormat
 
@@ -52,6 +53,10 @@ class Sprint13Settings @Inject constructor(
 
     suspend fun setTimeHourStyle(style: TimeHourStyle) = context.osDataStore.edit {
         it[SettingsSprint13.TIME_HOUR] = style.name
+    }
+
+    suspend fun setSpokenClockStyle(style: SpokenClockStyle) = context.osDataStore.edit {
+        it[SettingsSprint13.TIME_SPOKEN] = style.name
     }
 
     suspend fun setOverride(row: AppOverride) = context.osDataStore.edit { prefs ->

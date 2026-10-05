@@ -8,6 +8,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import dev.foss.goldenpath.R
 import org.openshouter.domain.AppSettings
+import org.openshouter.domain.SpokenClockStyle
 import org.openshouter.domain.TimeHourStyle
 import org.openshouter.domain.TimeShout
 import org.openshouter.ui.menu.MenuBody
@@ -23,6 +24,7 @@ fun TimeShoutScreen(
     onChange: (Boolean, Int, Boolean) -> Unit,
     onFormat: (String) -> Unit = {},
     onHourStyle: (TimeHourStyle) -> Unit = {},
+    onSpokenStyle: (SpokenClockStyle) -> Unit = {},
     onBack: () -> Unit,
     scrollStore: MenuScrollStore,
     modifier: Modifier = Modifier,
@@ -36,6 +38,12 @@ fun TimeShoutScreen(
         TimeHourStyle.HOUR_12 to stringResource(R.string.time_hour_12),
         TimeHourStyle.HOUR_24 to stringResource(R.string.time_hour_24),
         TimeHourStyle.SYSTEM to stringResource(R.string.time_hour_system),
+    )
+    val spoken = listOf(
+        SpokenClockStyle.NATURAL to stringResource(R.string.time_spoken_natural),
+        SpokenClockStyle.NATURAL_AMPM to stringResource(R.string.time_spoken_natural_ampm),
+        SpokenClockStyle.DIGIT to stringResource(R.string.time_spoken_digit),
+        SpokenClockStyle.MILITARY to stringResource(R.string.time_spoken_military),
     )
     MenuScaffold(stringResource(R.string.time_title), scrollStore, "time", onBack, modifier) {
         MenuSection(stringResource(R.string.menu_section_shout)) {
@@ -54,6 +62,15 @@ fun TimeShoutScreen(
                     onSelect = { raw ->
                         val minutes = raw.toIntOrNull() ?: TimeShout.INTERVAL_HOUR
                         onChange(settings.timeShoutEnabled, minutes, settings.timeShoutExact)
+                    },
+                )
+                MenuDropdown(
+                    label = stringResource(R.string.time_spoken_style),
+                    text = spoken.firstOrNull { it.first == settings.spokenClockStyle }?.second
+                        ?: spoken.first().second,
+                    options = spoken.map { it.first.name to it.second },
+                    onSelect = { name ->
+                        onSpokenStyle(SpokenClockStyle.parse(name))
                     },
                 )
                 MenuDropdown(

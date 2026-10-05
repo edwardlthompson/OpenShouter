@@ -41,6 +41,7 @@ data class AppSettings(
     val messageFormat: String = TtsFormat.MESSAGE_DEFAULT,
     val timeFormat: String = TtsFormat.TIME_DEFAULT,
     val timeHourStyle: TimeHourStyle = TimeHourStyle.SYSTEM,
+    val spokenClockStyle: SpokenClockStyle = SpokenClockStyle.NATURAL,
     val appOverrides: Map<String, AppOverride> = emptyMap(),
     val calendarShoutEnabled: Boolean = false,
     val calendarLookaheadMinutes: Int = 15,

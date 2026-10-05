@@ -2,6 +2,8 @@
 
 First-run welcome lists one **Activate** button per runtime/special permission, including unrestricted battery and exact alarms. Hourly time shout is a regular announcement: `TIME_TICK` while the announcer service is running, plus `AlarmManager.setExactAndAllowWhileIdle` when “Announce on the exact minute” is on. It does not use `setAlarmClock`, so bedtime/sleep mode stays on.
 
+Spoken clock style (How to say the time): Natural (`three o'clock`), Natural with AM/PM, Digit clock (`3:00 PM` / `15:00` via 12/24/system), or Military (`fifteen hundred`). Default is Natural. The `%time` phrase wrapper stays editable.
+
 ## Acceptance criteria
 
 - Welcome shows until Continue; dashboard can reopen it
@@ -27,7 +29,6 @@ First-run welcome lists one **Activate** button per runtime/special permission, 
 | Quiet hours vs clock | Same `SpeakGate` as other shouts |
 | Bedtime exits | Never `setAlarmClock`; TIME uses the selected notification stream |
 | Tick vs alarm race | `TimeShoutAnnouncer.lastSlot` drops the duplicate |
-
 ## Container map
 
 | Layer | Path |
@@ -36,7 +37,6 @@ First-run welcome lists one **Activate** button per runtime/special permission, 
 | View | matching Compose screen under `org/openshouter/` |
 | Tests | `examples/android/app/src/test/java/org/openshouter/` |
 | Wiring | composition root ≤10 lines |
-
 ## Tests
 
 - Automated: yes — Android unit tests under `examples/android/app/src/test/`

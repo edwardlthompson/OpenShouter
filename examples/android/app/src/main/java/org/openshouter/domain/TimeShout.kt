@@ -100,9 +100,11 @@ object TimeShout {
         style: TimeHourStyle,
         system24Hour: Boolean,
         locale: Locale = Locale.getDefault(),
-    ): String = if (use24Hour(style, system24Hour)) {
-        MilitaryTime.speakAt(now)
-    } else {
-        formatClock(now, style, system24Hour, locale)
+        spokenStyle: SpokenClockStyle = SpokenClockStyle.NATURAL,
+    ): String = when (spokenStyle) {
+        SpokenClockStyle.NATURAL -> SpokenClock.natural(now, amPm = false)
+        SpokenClockStyle.NATURAL_AMPM -> SpokenClock.natural(now, amPm = true)
+        SpokenClockStyle.DIGIT -> formatClock(now, style, system24Hour, locale)
+        SpokenClockStyle.MILITARY -> MilitaryTime.speakAt(now)
     }
 }

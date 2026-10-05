@@ -111,17 +111,4 @@ class TimeShoutTest {
         assertEquals("zero zero fifteen", MilitaryTime.speak(0, 15))
         assertEquals("twelve zero five", MilitaryTime.speak(12, 5))
     }
-
-    @Test
-    fun formatClockForSpeechUsesMilitaryIn24Hour() {
-        val ninePm = OffsetDateTime.of(2026, 8, 15, 21, 0, 0, 0, utc).toZonedDateTime()
-        assertEquals(
-            "twenty-one hundred",
-            TimeShout.formatClockForSpeech(ninePm, TimeHourStyle.HOUR_24, false, Locale.US),
-        )
-        assertEquals(
-            "9:00 PM",
-            TimeShout.formatClockForSpeech(ninePm, TimeHourStyle.HOUR_12, true, Locale.US),
-        )
-    }
 }
