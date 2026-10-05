@@ -17,6 +17,13 @@
 
 ## Entries
 
+### 2026-10-05 — /ship v1.5.1
+- **Status:** Accepted
+- **Context:** Incoming call TTS shouted while the phone was on silent. CALL had been hard-exempt from silent/vibrate since KB-023.
+- **Decision:** Patch `1.5.1`, `versionCode` 32. CALL follows Speak in silent/vibrate (default off) in SpeakGate, TTS playback, and VoIP posts. Keep screen-off-only exemption for CALL. Merge RP #61; publish `openshouter-1.5.1-foss.apk`.
+- **Alternatives considered:** Keep call-through-silent (rejected: user report). Separate call-only silent toggle (unnecessary: existing opt-in covers it).
+- **Consequences:** https://github.com/edwardlthompson/OpenShouter/releases/tag/v1.5.1
+
 ### 2026-10-05 — /ship v1.5.0
 - **Status:** Accepted
 - **Context:** Spoken clock style options for hourly time shout; cellular Phone loop kept speaking when answered during the first announcement. User invoked `/ship`.
