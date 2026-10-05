@@ -5,7 +5,6 @@ import android.media.AudioFocusRequest
 import android.media.AudioManager
 import android.os.PowerManager
 import android.speech.tts.TextToSpeech
-import android.speech.tts.UtteranceProgressListener
 import dagger.hilt.android.qualifiers.ApplicationContext
 import java.util.Locale
 import javax.inject.Inject
@@ -18,7 +17,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.openshouter.audio.AudioRouteMonitor
-import org.openshouter.call.CallLoopGate
 import org.openshouter.data.SettingsRepository
 import org.openshouter.domain.ChannelStates
 import org.openshouter.domain.SpokenEvent
@@ -39,15 +37,13 @@ class TtsController @Inject constructor(
     @Volatile private var ready = false
     @Volatile private var pending: SpokenEvent? = null
     @Volatile private var focusRequest: AudioFocusRequest? = null
+    @Volatile private var speakGen = 0L
     private val _engineGen = MutableStateFlow(0)
     val engineGen = _engineGen
     private val playback = TtsPlayback(
-        appContext,
-        audio,
+        appContext, audio,
         appContext.getSystemService(Context.POWER_SERVICE) as PowerManager,
-        settings,
-        scope,
-        appContext.cacheDir,
+        settings, scope, appContext.cacheDir,
         abandonFocus = { abandonFocus() },
         requestFocus = { policy, stream, car ->
             if (policy.audioFocus) {
@@ -57,6 +53,11 @@ class TtsController @Inject constructor(
         isSilent = { route.isSilent() },
         carMode = { route.carModeActive() },
     )
+    private val progressListener = TtsUtteranceCallbacks.listener(
+        scope, audio, playback, { engine }, { ready }, ::interrupt,
+    )
+
+    private fun isSpeakCurrent(started: Long): Boolean = SpeakGeneration.isCurrent(speakGen, started)
 
     fun languageTags(enginePackage: String = boundEngine.orEmpty()): List<String> {
         warmup(enginePackage)
@@ -97,6 +98,7 @@ class TtsController @Inject constructor(
     }
 
     fun speak(event: SpokenEvent, immediate: Boolean = false) {
+        val started = speakGen
         scope.launch {
             val snap = settings.snapshot()
             val policy = snap.ttsPlayback.clamp()
@@ -104,16 +106,25 @@ class TtsController @Inject constructor(
             if (!immediate && !(event.looping && playback.looping != null) && policy.delaySeconds > 0) {
                 delay(policy.delaySeconds * 1000L)
             }
+            if (!isSpeakCurrent(started)) return@launch
             withContext(Dispatchers.Main) {
+                if (!isSpeakCurrent(started)) return@withContext
                 warmup(policy.voice.engine)
-                if (playback.speakNow(engine, ready, event, policy, allowSilent, immediate) { pending = it }) {
-                    playback.scheduleScreenOff(event, policy, { engine }, { ready }) { pending = it }
+                if (playback.speakNow(
+                        engine, ready, event, policy, allowSilent, immediate, started, ::isSpeakCurrent,
+                    ) { pending = it }
+                ) {
+                    playback.scheduleScreenOff(
+                        event, policy, { engine }, { ready }, started, ::isSpeakCurrent,
+                    ) { pending = it }
                 }
             }
         }
     }
 
     fun interrupt() {
+        speakGen = SpeakGeneration.bump(speakGen)
+        pending = null
         playback.stop()
         engine?.stop()
         abandonFocus()
@@ -126,21 +137,6 @@ class TtsController @Inject constructor(
         engine = null
         boundEngine = null
         ready = false
-    }
-
-    private val progressListener = object : UtteranceProgressListener() {
-        override fun onStart(utteranceId: String?) = Unit
-        override fun onError(utteranceId: String?) {
-            scope.launch(Dispatchers.Main.immediate) { playback.onSynthFailed(utteranceId) }
-        }
-        override fun onDone(utteranceId: String?) {
-            scope.launch(Dispatchers.Main.immediate) {
-                if (CallLoopGate.cutVoip(audio.mode == AudioManager.MODE_IN_COMMUNICATION) { interrupt() }) {
-                    return@launch
-                }
-                playback.playSynthesized(engine, ready, utteranceId)
-            }
-        }
     }
 
     private fun abandonFocus() {

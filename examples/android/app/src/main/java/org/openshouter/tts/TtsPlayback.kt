@@ -7,14 +7,8 @@ import android.speech.tts.TextToSpeech
 import java.io.File
 import java.util.UUID
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.isActive
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import org.openshouter.data.SettingsRepository
-import org.openshouter.domain.ChannelStates
 import org.openshouter.domain.SpokenEvent
 import org.openshouter.domain.TtsPlaybackPolicy
 import org.openshouter.domain.TtsStream
@@ -38,6 +32,8 @@ internal class TtsPlayback(
     @Volatile private var lastAllowSilent = false
     @Volatile private var currentUtterance: String? = null
     @Volatile private var currentFile: File? = null
+    @Volatile private var playGeneration = 0L
+    @Volatile private var generationCurrent: (Long) -> Boolean = { true }
     private var screenOffJob: Job? = null
 
     fun speakNow(
@@ -47,8 +43,11 @@ internal class TtsPlayback(
         policy: TtsPlaybackPolicy,
         allowSilent: Boolean,
         userRequested: Boolean,
+        generation: Long,
+        isCurrent: (Long) -> Boolean,
         setPending: (SpokenEvent) -> Unit,
     ): Boolean {
+        if (!isCurrent(generation)) return false
         val car = carMode()
         if (!car && isSilent() && !allowSilent && !userRequested) return false
         val text = policy.prepareUtterance(event.utterance)
@@ -59,6 +58,8 @@ internal class TtsPlayback(
         }
         lastPolicy = policy
         lastAllowSilent = allowSilent
+        playGeneration = generation
+        generationCurrent = isCurrent
         looping = event.takeIf { it.looping }
         lastStream = TtsEngine.resolveStream(audio, event.stream ?: policy.stream, allowSilent, car)
         TtsEngine.applyVoice(engine, policy.voice)
@@ -85,6 +86,7 @@ internal class TtsPlayback(
     fun playSynthesized(engine: TextToSpeech?, ready: Boolean, utteranceId: String?) {
         if (utteranceId != null && utteranceId != currentUtterance) return
         val file = currentFile ?: return
+        val gen = playGeneration
         val times = 1 + TtsRepeat.extraCount(
             looping ?: SpokenEvent(SpokenEvent.Kind.NOTIFICATION, ""),
             lastPolicy,
@@ -93,8 +95,10 @@ internal class TtsPlayback(
             runCatching { file.delete() }
             if (currentFile == file) currentFile = null
             val again = looping
-            if (again == null) abandonFocus() else {
-                speakNow(engine, ready, again, lastPolicy, lastAllowSilent, false) {}
+            if (again == null || !generationCurrent(gen)) {
+                if (again == null) abandonFocus()
+            } else {
+                speakNow(engine, ready, again, lastPolicy, lastAllowSilent, false, gen, generationCurrent) {}
             }
         }
     }
@@ -104,28 +108,19 @@ internal class TtsPlayback(
         policy: TtsPlaybackPolicy,
         engine: () -> TextToSpeech?,
         ready: () -> Boolean,
+        generation: Long,
+        isCurrent: (Long) -> Boolean,
         setPending: (SpokenEvent) -> Unit,
     ) {
-        cancelScreenOff()
-        if (policy.repeatMinutes <= 0) return
-        screenOffJob = scope.launch {
-            while (isActive) {
-                delay(TtsRepeat.delayMs(policy.repeatMinutes))
-                if (!TtsRepeat.screenIsOff(power.isInteractive)) break
-                withContext(Dispatchers.Main) {
-                    val snap = settings.snapshot()
-                    speakNow(
-                        engine(),
-                        ready(),
-                        event,
-                        snap.ttsPlayback.clamp(),
-                        ChannelStates.allowPlaybackWhenSilent(snap, event.kind),
-                        false,
-                        setPending,
-                    )
-                }
-            }
-        }
+        TtsScreenOffLoop.start(
+            scope, power, settings, event, policy, engine, ready, generation, isCurrent,
+            speakNow = { e, r, ev, p, a, u, g, cur, pending ->
+                speakNow(e, r, ev, p, a, u, g, cur, pending)
+            },
+            setPending = setPending,
+            cancelPrevious = { cancelScreenOff() },
+            assignJob = { screenOffJob = it },
+        )
     }
 
     fun stop() {

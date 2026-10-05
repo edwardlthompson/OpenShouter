@@ -10,6 +10,7 @@ Call enhancements for cellular and VoIP telephony in OpenShouter:
 ## Acceptance criteria
 
 - ✅ **Dedup**: If a cellular incoming call is already active/announced on `CallMonitor` or VoIP arrives with the same number/contact within 5 seconds, duplicate utterances are suppressed.
+- ✅ **Answer cancel**: OFFHOOK bumps a ring generation and interrupts TTS so a delayed twin RINGING job cannot re-arm looping during the call.
 - ✅ **Bluetooth HFP**: Detect Bluetooth SCO / HFP audio routing and format caller ID for the headset path without echoing over the main speaker.
 - ✅ **Second call / call waiting**: When a second incoming call rings while offhook / in a call, announce call waiting ("Call waiting from %name").
 - ✅ **Speak after hangup**: When configured, announce call end / duration ("Call ended, duration %duration").

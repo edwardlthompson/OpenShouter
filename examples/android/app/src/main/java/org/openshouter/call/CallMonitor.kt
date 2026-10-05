@@ -16,13 +16,11 @@ import javax.inject.Singleton
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.openshouter.contacts.ContactsLookup
 import org.openshouter.data.HistoryDao
 import org.openshouter.data.SettingsRepository
 import org.openshouter.domain.CallPhase
-import org.openshouter.domain.IncomingCallEvent
 import org.openshouter.service.SpeakGate
 import org.openshouter.telephony.SimLine
 import org.openshouter.tts.TtsController
@@ -45,6 +43,7 @@ class CallMonitor @Inject constructor(
     @Volatile private var lastSim = ""
     @Volatile private var historyLogged = false
     @Volatile private var offhookStartMs = 0L
+    @Volatile private var ringGeneration = 0L
     private val phoneReceiver = object : BroadcastReceiver() {
         override fun onReceive(ctx: Context?, intent: Intent?) {
             if (intent?.action != TelephonyManager.ACTION_PHONE_STATE_CHANGED) return
@@ -69,9 +68,7 @@ class CallMonitor @Inject constructor(
         }
         runCatching {
             ContextCompat.registerReceiver(
-                context,
-                phoneReceiver,
-                IntentFilter(TelephonyManager.ACTION_PHONE_STATE_CHANGED),
+                context, phoneReceiver, IntentFilter(TelephonyManager.ACTION_PHONE_STATE_CHANGED),
                 ContextCompat.RECEIVER_EXPORTED,
             )
         }
@@ -106,43 +103,45 @@ class CallMonitor @Inject constructor(
         if (phase == CallPhase.OFFHOOK) {
             if (lastPhase != CallPhase.OFFHOOK) offhookStartMs = System.currentTimeMillis()
             lastPhase = CallPhase.OFFHOOK
+            ringGeneration = CallRingGate.nextGeneration(ringGeneration)
             tts.interrupt()
             return
         }
         if (phase != CallPhase.RINGING) {
-            val wasOffhook = lastPhase == CallPhase.OFFHOOK
-            val wasRinging = lastPhase == CallPhase.RINGING
-            val ringingNumber = lastNumber
-            val durSec = if (wasOffhook && offhookStartMs > 0) (System.currentTimeMillis() - offhookStartMs) / 1000L else 0L
-            lastPhase = phase
-            lastNumber = ""
-            offhookStartMs = 0L
-            historyLogged = false
-            tts.interrupt()
-            if (wasRinging && phase == CallPhase.IDLE && ringingNumber.isNotBlank()) {
-                scope.launch { CallMonitorState.handleMissed(settings.snapshot(), gate, tts, history, contacts, ringingNumber) }
-            } else if (wasOffhook && durSec > 0) {
-                scope.launch { CallMonitorState.handleHangup(settings.snapshot(), gate, tts, history, durSec) }
-            }
+            endCall(phase)
             return
         }
         val isCallWaiting = lastPhase == CallPhase.OFFHOOK
-        scope.launch {
-            var resolved = lookup.resolve(number)
-            if (resolved.isBlank()) {
-                delay(400)
-                resolved = lookup.resolve(number)
-            }
-            if (lastPhase == CallPhase.RINGING && lastNumber.isNotBlank()) {
-                if (resolved.isBlank() || resolved == lastNumber) return@launch
-            }
-            if (!isCallWaiting) lastPhase = CallPhase.RINGING
-            lastNumber = resolved
-            lastSim = sim.ifBlank { lastSim }
-            val displayName = contacts.nameFor(resolved).orEmpty()
-            CallMonitorState.handleRinging(
-                settings, gate, tts, history, resolved, displayName, lastSim, isCallWaiting,
-            ) { historyLogged = true }
+        val startedGen = ringGeneration
+        if (!isCallWaiting) lastPhase = CallPhase.RINGING
+        CallMonitorRing.launch(
+            scope, lookup, contacts, settings, gate, tts, history, number, sim, isCallWaiting, startedGen,
+            phase = { lastPhase }, generation = { ringGeneration }, lastNumber = { lastNumber },
+            setNumber = { lastNumber = it }, setSim = { lastSim = it.ifBlank { lastSim } },
+            currentSim = { lastSim },
+            onHistoryLogged = { historyLogged = true },
+        )
+    }
+
+    private fun endCall(phase: CallPhase) {
+        val wasOffhook = lastPhase == CallPhase.OFFHOOK
+        val wasRinging = lastPhase == CallPhase.RINGING
+        val ringingNumber = lastNumber
+        val durSec = if (wasOffhook && offhookStartMs > 0) {
+            (System.currentTimeMillis() - offhookStartMs) / 1000L
+        } else {
+            0L
+        }
+        lastPhase = phase
+        lastNumber = ""
+        offhookStartMs = 0L
+        historyLogged = false
+        ringGeneration = CallRingGate.nextGeneration(ringGeneration)
+        tts.interrupt()
+        if (wasRinging && phase == CallPhase.IDLE && ringingNumber.isNotBlank()) {
+            scope.launch { CallMonitorState.handleMissed(settings.snapshot(), gate, tts, history, contacts, ringingNumber) }
+        } else if (wasOffhook && durSec > 0) {
+            scope.launch { CallMonitorState.handleHangup(settings.snapshot(), gate, tts, history, durSec) }
         }
     }
 }
