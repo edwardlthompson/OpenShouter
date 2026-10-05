@@ -1,0 +1,1 @@
+Spoken clock styles for hourly time shout (natural, AM/PM, digit, military). Cellular call announcement stops when you answer mid-utterance.
