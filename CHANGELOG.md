@@ -6,6 +6,16 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.6.1](https://github.com/edwardlthompson/OpenShouter/compare/v1.6.0...v1.6.1) (2026-11-04)
+
+
+### Fixed
+
+* **android:** add F-Droid changelog for versionCode 33 ([0395251](https://github.com/edwardlthompson/OpenShouter/commit/0395251d399a196e767700fe869d7ceec584db7c))
+* **android:** restore es/fr string parity for 1.6.0 UI copy ([3a75980](https://github.com/edwardlthompson/OpenShouter/commit/3a75980823bb576a11f891c65cca6c87010dee4e))
+* **ci:** unblock pruned-android Feature Gate and product tag releases ([43344b9](https://github.com/edwardlthompson/OpenShouter/commit/43344b93a5b0c63096e7ff61f8510ea1ed03b3d8))
+* **init:** add Android SDK helpers missing from init_extras ([f5d6d31](https://github.com/edwardlthompson/OpenShouter/commit/f5d6d31133b26c361ee3544c00f4f4b59a2a0ef5))
+
 ## [Unreleased]
 
 ## [1.6.0](https://github.com/edwardlthompson/OpenShouter/compare/v1.5.1...v1.6.0) (2026-11-04)
