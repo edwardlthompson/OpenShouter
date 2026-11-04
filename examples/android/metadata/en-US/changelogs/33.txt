@@ -1,0 +1,1 @@
+Main-looper TTS MediaSession fix (#63). Bind retry with visible error. Per-app mute + quiet hours link. First-run spoken-alerts explanation. README demo GIF.
