@@ -4,16 +4,20 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.stringResource
 import dev.foss.goldenpath.R
+import org.openshouter.tts.TtsBindPhase
 import org.openshouter.updates.AstroAlarmLinks
 import org.openshouter.updates.DonateLinks
 import dev.foss.goldenpath.ui.insets.bottomInsetPadding
 import dev.foss.goldenpath.ui.theme.SpacingLg
 import dev.foss.goldenpath.ui.theme.SpacingMd
+import org.openshouter.ui.menu.MenuBody
 import org.openshouter.ui.menu.MenuLink
 import org.openshouter.ui.menu.MenuScrollStore
 import org.openshouter.ui.menu.MenuSection
@@ -25,6 +29,7 @@ import org.openshouter.ui.menu.rememberMenuScroll
 fun DashboardScreen(
     announcerEnabled: Boolean,
     onAnnouncerChange: (Boolean) -> Unit,
+    ttsBindPhase: TtsBindPhase = TtsBindPhase.Ready,
     onOpenSetup: () -> Unit,
     onOpenRules: () -> Unit,
     onOpenAnnouncerSettings: () -> Unit,
@@ -52,6 +57,21 @@ fun DashboardScreen(
     ) {
         MenuSection(stringResource(R.string.menu_section_master)) {
             MenuToggle(stringResource(R.string.dashboard_master), announcerEnabled, onAnnouncerChange)
+            if (ttsBindPhase != TtsBindPhase.Ready) {
+                MenuBody {
+                    Text(
+                        stringResource(
+                            if (ttsBindPhase == TtsBindPhase.RetryOnce) {
+                                R.string.tts_engine_retrying
+                            } else {
+                                R.string.tts_engine_failed
+                            },
+                        ),
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.error,
+                    )
+                }
+            }
         }
         MenuSection(stringResource(R.string.menu_section_hear)) {
             MenuLink(stringResource(R.string.nav_rules), onOpenRules)

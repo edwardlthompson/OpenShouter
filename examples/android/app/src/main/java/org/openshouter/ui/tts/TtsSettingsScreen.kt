@@ -33,6 +33,7 @@ import org.openshouter.domain.TtsEngineChoice
 import org.openshouter.domain.TtsSourceOffer
 import org.openshouter.domain.TtsStream
 import org.openshouter.domain.TtsVoiceCandidate
+import org.openshouter.tts.TtsBindPhase
 import org.openshouter.ui.channel.ChannelStateScreen
 import org.openshouter.ui.menu.MenuBody
 import org.openshouter.ui.menu.MenuLink
@@ -55,6 +56,7 @@ fun TtsSettingsScreen(
     languages: List<String> = emptyList(),
     voices: List<TtsVoiceCandidate> = emptyList(),
     engineGen: StateFlow<Int>? = null,
+    bindPhase: StateFlow<TtsBindPhase>? = null,
     loadLanguages: (() -> List<String>)? = null,
     loadVoices: (() -> List<TtsVoiceCandidate>)? = null,
     engines: List<TtsEngineChoice> = emptyList(),
@@ -62,6 +64,7 @@ fun TtsSettingsScreen(
     onOpenUrl: (String) -> Unit = {},
     onOpenApp: (String) -> Unit = {},
     onChannelStates: (Map<ShoutChannel, ChannelDeviceState>) -> Unit = {},
+    onRetryBind: () -> Unit = {},
     onBack: () -> Unit,
     scrollStore: MenuScrollStore,
     modifier: Modifier = Modifier,
@@ -82,10 +85,34 @@ fun TtsSettingsScreen(
     val playback = settings.ttsPlayback
     val device = settings.deviceState
     val fallbackGen = remember { MutableStateFlow(0) }
+    val fallbackPhase = remember { MutableStateFlow(TtsBindPhase.Ready) }
     val catalogTick by (engineGen ?: fallbackGen).collectAsStateWithLifecycle(0)
+    val phase by (bindPhase ?: fallbackPhase).collectAsStateWithLifecycle(TtsBindPhase.Ready)
     val resolvedLangs = remember(catalogTick, languages) { loadLanguages?.invoke() ?: languages }
     val resolvedVoices = remember(catalogTick, voices) { loadVoices?.invoke() ?: voices }
     MenuScaffold(stringResource(R.string.tts_title), scrollStore, "tts", onBack, modifier) {
+        if (phase != TtsBindPhase.Ready) {
+            MenuSection(stringResource(R.string.menu_section_voice)) {
+                MenuBody {
+                    Text(
+                        stringResource(
+                            if (phase == TtsBindPhase.RetryOnce) {
+                                R.string.tts_engine_retrying
+                            } else {
+                                R.string.tts_engine_failed
+                            },
+                        ),
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.error,
+                    )
+                    if (phase == TtsBindPhase.FailedVisible) {
+                        Button(onClick = onRetryBind) {
+                            Text(stringResource(R.string.tts_test))
+                        }
+                    }
+                }
+            }
+        }
         MenuSection(stringResource(R.string.menu_section_shout)) {
             MenuBody {
                 OutlinedTextField(

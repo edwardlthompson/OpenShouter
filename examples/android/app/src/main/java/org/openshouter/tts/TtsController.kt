@@ -4,16 +4,13 @@ import android.content.Context
 import android.media.AudioFocusRequest
 import android.media.AudioManager
 import android.os.PowerManager
-import android.speech.tts.TextToSpeech
 import dagger.hilt.android.qualifiers.ApplicationContext
-import java.util.Locale
 import javax.inject.Inject
 import javax.inject.Singleton
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.openshouter.audio.AudioRouteMonitor
@@ -32,14 +29,9 @@ class TtsController @Inject constructor(
     private val appContext = context.applicationContext
     private val audio = appContext.getSystemService(Context.AUDIO_SERVICE) as AudioManager
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.Default)
-    @Volatile private var engine: TextToSpeech? = null
-    @Volatile private var boundEngine: String? = null
-    @Volatile private var ready = false
     @Volatile private var pending: SpokenEvent? = null
     @Volatile private var focusRequest: AudioFocusRequest? = null
     @Volatile private var speakGen = 0L
-    private val _engineGen = MutableStateFlow(0)
-    val engineGen = _engineGen
     private val playback = TtsPlayback(
         appContext, audio,
         appContext.getSystemService(Context.POWER_SERVICE) as PowerManager,
@@ -53,49 +45,42 @@ class TtsController @Inject constructor(
         isSilent = { route.isSilent() },
         carMode = { route.carModeActive() },
     )
-    private val progressListener = TtsUtteranceCallbacks.listener(
-        scope, audio, playback, { engine }, { ready }, ::interrupt,
-    )
+    private lateinit var binder: TtsEngineBinder
+    val engineGen get() = binder.engineGen
+    val bindPhase get() = binder.bindPhase
+
+    init {
+        binder = TtsEngineBinder(
+            appContext,
+            TtsUtteranceCallbacks.listener(
+                scope, audio, playback, { binder.engine }, { binder.ready }, ::interrupt,
+            ),
+            onReady = {
+                pending?.let { queued ->
+                    pending = null
+                    speak(queued)
+                }
+            },
+        )
+    }
 
     private fun isSpeakCurrent(started: Long): Boolean = SpeakGeneration.isCurrent(speakGen, started)
 
-    fun languageTags(enginePackage: String = boundEngine.orEmpty()): List<String> {
+    fun languageTags(enginePackage: String = binder.boundEngine.orEmpty()): List<String> {
         warmup(enginePackage)
-        return TtsEngine.languageTags(engine)
+        return TtsEngine.languageTags(binder.engine)
     }
 
-    fun voices(enginePackage: String = boundEngine.orEmpty()): List<TtsVoiceCandidate> {
+    fun voices(enginePackage: String = binder.boundEngine.orEmpty()): List<TtsVoiceCandidate> {
         warmup(enginePackage)
-        return TtsEngines.voices(engine)
+        return TtsEngines.voices(binder.engine)
     }
 
     fun installedEngines() = TtsEngines.installed(appContext)
 
     fun downloadOffers() = TtsSourceCatalog.missing(installedEngines().map { it.packageName }.toSet())
 
-    fun warmup(enginePackage: String = boundEngine.orEmpty()) {
-        val want = enginePackage.trim()
-        if (engine != null && boundEngine == want) return
-        val old = engine
-        ready = false
-        engine = null
-        boundEngine = want
-        engine = TtsEngine.create(appContext, want) { status ->
-            if (status != TextToSpeech.SUCCESS && want.isNotEmpty()) {
-                warmup("")
-                return@create
-            }
-            ready = status == TextToSpeech.SUCCESS
-            engine?.language = Locale.getDefault()
-            engine?.setOnUtteranceProgressListener(progressListener)
-            _engineGen.value += 1
-            pending?.let { queued ->
-                pending = null
-                speak(queued)
-            }
-        }
-        old?.shutdown()
-    }
+    fun warmup(enginePackage: String = binder.boundEngine.orEmpty()) = binder.warmup(enginePackage)
 
     fun speak(event: SpokenEvent, immediate: Boolean = false) {
         val started = speakGen
@@ -111,11 +96,12 @@ class TtsController @Inject constructor(
                 if (!isSpeakCurrent(started)) return@withContext
                 warmup(policy.voice.engine)
                 if (playback.speakNow(
-                        engine, ready, event, policy, allowSilent, immediate, started, ::isSpeakCurrent,
+                        binder.engine, binder.ready, event, policy, allowSilent, immediate, started,
+                        ::isSpeakCurrent,
                     ) { pending = it }
                 ) {
                     playback.scheduleScreenOff(
-                        event, policy, { engine }, { ready }, started, ::isSpeakCurrent,
+                        event, policy, { binder.engine }, { binder.ready }, started, ::isSpeakCurrent,
                     ) { pending = it }
                 }
             }
@@ -126,17 +112,14 @@ class TtsController @Inject constructor(
         speakGen = SpeakGeneration.bump(speakGen)
         pending = null
         playback.stop()
-        engine?.stop()
+        binder.engine?.stop()
         abandonFocus()
     }
 
     fun shutdown() {
         playback.release()
         abandonFocus()
-        engine?.shutdown()
-        engine = null
-        boundEngine = null
-        ready = false
+        binder.shutdown()
     }
 
     private fun abandonFocus() {

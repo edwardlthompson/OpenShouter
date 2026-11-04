@@ -50,6 +50,8 @@
     <string name="dashboard_master">Announcements</string>
     <string name="announcer_title">Announcer</string>
     <string name="tts_title">Voice</string>
+    <string name="tts_engine_retrying">Text-to-speech failed to start — retrying once…</string>
+    <string name="tts_engine_failed">No working text-to-speech engine. Open Voice settings or install a TTS engine, then try again.</string>
     <string name="menu_section_master">Master</string>
     <string name="menu_section_hear">Hear</string>
     <string name="menu_section_log">History and reminders</string>
