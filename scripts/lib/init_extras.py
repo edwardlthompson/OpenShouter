@@ -1,10 +1,44 @@
-"""Optional init writers: FUNDING.yml and GitHub About topics."""
+"""Optional init writers: FUNDING.yml, GitHub About topics, Android SDK props."""
 from __future__ import annotations
 
+import os
 import re
 from pathlib import Path
 
 PLACEHOLDER_RE = re.compile(r"\[INSERT[^\]]*\]", re.I)
+
+
+def detect_android_sdk() -> Path | None:
+    """Return the first existing Android SDK root from env or common paths."""
+    for key in ("ANDROID_HOME", "ANDROID_SDK_ROOT"):
+        raw = (os.environ.get(key) or "").strip()
+        if raw:
+            path = Path(raw).expanduser()
+            if path.is_dir():
+                return path
+    home = Path.home()
+    for candidate in (
+        home / "Android" / "Sdk",
+        home / "Library" / "Android" / "sdk",
+        home / "AppData" / "Local" / "Android" / "Sdk",
+    ):
+        if candidate.is_dir():
+            return candidate
+    return None
+
+
+def write_android_local_properties(root: Path, sdk: Path | None) -> Path | None:
+    """Write gitignored examples/android/local.properties when SDK is known."""
+    if sdk is None:
+        return None
+    android_dir = root / "examples" / "android"
+    if not android_dir.is_dir():
+        return None
+    dest = android_dir / "local.properties"
+    # Gradle on Windows accepts forward slashes in sdk.dir.
+    sdk_dir = str(sdk.resolve()).replace("\\", "/")
+    dest.write_text(f"sdk.dir={sdk_dir}\n", encoding="utf-8", newline="\n")
+    return dest
 
 
 def donation_url_usable(url: str) -> bool:
