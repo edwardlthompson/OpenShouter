@@ -12,31 +12,12 @@ on:
     - cron: "0 8 * * 1"
   workflow_dispatch:
 
-permissions:
-  contents: read
-
 # Do not add jobs.<id>.environment — Environments block Release Please bot PRs
 # (ACTION_REQUIRED) and stall auto-merge. github-pages is Pages-only.
 
 jobs:
-  stack-presence:
-    name: Detect active stacks
-    runs-on: ubuntu-latest
-    outputs:
-      matrix: ${{ steps.stacks.outputs.matrix }}
-    steps:
-      - uses: actions/checkout@v7
-      - id: stacks
-        run: |
-          include='[{"language":"python"},{"language":"java-kotlin","paths":"examples/android"}]'
-          if [ -f examples/web/package-lock.json ] || [ -f examples/node/package-lock.json ]; then
-            include='[{"language":"javascript-typescript"},{"language":"python"},{"language":"java-kotlin","paths":"examples/android"}]'
-          fi
-          echo "matrix=$(jq -cn --argjson include "$include" '{include:$include}')" >> "$GITHUB_OUTPUT"
-
   analyze:
-    name: Analyze
-    needs: stack-presence
+    name: CodeQL
     runs-on: ubuntu-latest
     permissions:
       actions: read
@@ -44,18 +25,25 @@ jobs:
       security-events: write
     strategy:
       fail-fast: false
-      matrix: ${{ fromJSON(needs.stack-presence.outputs.matrix) }}
+      matrix:
+        include:
+          - language: javascript-typescript
+          - language: python
+          - language: java-kotlin
+            paths: examples/android
     steps:
       - uses: actions/checkout@v7
       - name: Setup Java (Android)
         if: matrix.language == 'java-kotlin'
-        uses: actions/setup-java@v5
+        uses: actions/setup-java@v6
         with:
           distribution: temurin
           java-version: "17"
       - name: Setup Android SDK
         if: matrix.language == 'java-kotlin'
         uses: android-actions/setup-android@v4
+        with:
+          packages: platform-tools
       - name: Accept Android SDK licenses
         if: matrix.language == 'java-kotlin'
         run: yes | sdkmanager --licenses
@@ -64,6 +52,9 @@ jobs:
         uses: github/codeql-action/init@v4
         with:
           languages: ${{ matrix.language }}
+      # Default java-kotlin queries cover Android; Compose Navigation deep-link /
+      # NavController misuse stays mostly manual until a dedicated query pack —
+      # see docs/SECURITY_TRIAGE.md § CodeQL Compose navigation.
       - name: Initialize CodeQL (Android)
         if: matrix.language == 'java-kotlin'
         uses: github/codeql-action/init@v4
@@ -75,15 +66,3 @@ jobs:
         working-directory: examples/android
         run: chmod +x gradlew && ./gradlew assembleDebug --no-daemon
       - uses: github/codeql-action/analyze@v4
-
-  codeql:
-    name: CodeQL
-    if: always()
-    needs: [stack-presence, analyze]
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v7
-      - name: Require CodeQL jobs
-        env:
-          ROLLUP_RESULTS: ${{ toJSON(needs) }}
-        run: bash scripts/assert-workflow-rollup.sh

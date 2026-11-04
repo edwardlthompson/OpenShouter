@@ -14,6 +14,10 @@ Commands: `docs/help/BATCH_COMMANDS.md` (Cursor: type `/tour` or `/bootstrap`).
 Edit `AGENTS.md` only; then `bash scripts/bootstrap-lifecycle.sh --sync-adapters`.
 Do not put project rules in this file."""
 
+CLINE_POINTER = """Read root `AGENTS.md` first, then `docs/START_HERE.md`.
+Tour: `docs/help/TOUR.md`. VS Code `/` twins: `docs/help/VSCODE_COMMANDS.md`.
+Edit root `AGENTS.md` only; then `bash scripts/bootstrap-lifecycle.sh --sync-adapters`."""
+
 CURSOR_RULE = f"""---
 description: Canonical agent spec pointer (synced from AGENTS.md)
 alwaysApply: true
@@ -43,8 +47,10 @@ Run `bash scripts/verify.sh` before marking a BUILD_PLAN row complete.
 
 `python3 scripts/agent-run.py validate-bootstrap --quick`
 `python3 scripts/agent-run.py watch-agent-gates --once --autofix --scope auto`
+`python3 scripts/agent-run.py smoke-sprint --require`
 `python3 scripts/agent-run.py update-deps`
 `python3 scripts/agent-run.py check-local-compute`
+`python3 scripts/agent-run.py recommend-model`
 """
 
 CLAUDE = f"""{GENERATED}
@@ -61,6 +67,7 @@ Do not complete a feature task without corresponding tests, or an explicit justi
 
 - Follow BUILD_PLAN Sequential then Parallel
 - Run `python3 scripts/agent-run.py watch-agent-gates --once --autofix --scope auto` after AGENT steps
+- After a sprint is all ✅, run `python3 scripts/agent-run.py smoke-sprint --require` before the next sprint
 - Keep edits inside the active feature container
 
 ## Do not
@@ -107,7 +114,12 @@ CLINE = f"""{GENERATED}
 
 # Cline / Roo pointer
 
-{POINTER}
+{CLINE_POINTER}
+
+## Local Ollama / Qwen
+- ALWAYS Anthropic XML tool calls; NEVER raw JSON `{{"name","arguments"}}`.
+- Max 2 identical reads without write/new plan; 3-strike identical tool/error -> stop.
+- Plan before Act for multi-file. Details: `docs/help/LOCAL_AGENT.md`.
 """
 
 AIDER = f"""{GENERATED}
@@ -115,6 +127,8 @@ AIDER = f"""{GENERATED}
 # Aider conventions pointer
 
 {POINTER}
+## Language attribution
+Children mark scaffolding vendored via `.gitattributes` (`templates/linguist/child.gitattributes`). Template exempt; gate enforces.
 """
 
 CONTINUE = f"""{GENERATED}
@@ -130,7 +144,7 @@ ADAPTERS: tuple[tuple[str, Path, str], ...] = (
     ("copilot", Path(".github/copilot-instructions.md"), COPILOT),
     ("gemini", Path("GEMINI.md"), GEMINI),
     ("windsurf", Path(".windsurf/rules/agents-pointer.md"), WINDSURF),
-    ("cline", Path(".clinerules"), CLINE),
+    ("cline", Path(".clinerules/AGENTS.md"), CLINE),
     ("aider", Path("CONVENTIONS.md"), AIDER),
     ("continue", Path(".continue/rules/agents.md"), CONTINUE),
 )

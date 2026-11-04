@@ -27,16 +27,18 @@ def check_repo(root: Path) -> list[str]:
         return [f"MISSING: {TOKENS.as_posix()}"]
     tokens = json.loads(token_path.read_text(encoding="utf-8"))
     asset = root / ASSET
-    public = root / PUBLIC
     if not asset.is_file():
-        errors.append(f"MISSING: {ASSET.as_posix()}")
-        return errors
+        return [f"MISSING: {ASSET.as_posix()}"]
     text = asset.read_text(encoding="utf-8")
     if 'viewBox="0 0 1280 640"' not in text:
         errors.append("social-preview.svg must be 1280x640")
     for hex_color in _hexes(tokens):
         if hex_color.lower() not in text.lower():
             errors.append(f"{ASSET.as_posix()} missing token color {hex_color}")
+    web = root / "examples" / "web"
+    if not web.is_dir():
+        return errors
+    public = root / PUBLIC
     if not public.is_file():
         errors.append(f"MISSING: {PUBLIC.as_posix()}")
     elif public.read_bytes() != asset.read_bytes():

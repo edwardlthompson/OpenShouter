@@ -8,6 +8,7 @@ ALLOWLIST = Path("schemas") / "golden-path" / "crash-payload-allowlist.json"
 SCHEMA = Path("schemas") / "golden-path" / "crash-report.schema.json"
 STACK_TESTS = (
     Path("examples/web/src/crash-capture/pendingCrash.test.ts"),
+    Path("examples/android/app/src/test/java/org/openshouter/crashcapture/PendingCrashTest.kt"),
     Path("examples/android/app/src/test/java/dev/foss/goldenpath/crashcapture/PendingCrashTest.kt"),
     Path("examples/python/tests/test_crash.py"),
     Path("examples/node/src/crash.test.ts"),
@@ -35,6 +36,11 @@ def check_repo(root: Path) -> list[str]:
             continue
         path = root / rel
         if not path.is_file():
+            # Child package rename: accept openshouter android crash test alone.
+            if "goldenpath" in rel.as_posix() and (
+                root / "examples/android/app/src/test/java/org/openshouter/crashcapture/PendingCrashTest.kt"
+            ).is_file():
+                continue
             errors.append(f"MISSING: {rel.as_posix()}")
             continue
         text = path.read_text(encoding="utf-8")

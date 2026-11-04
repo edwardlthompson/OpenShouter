@@ -1,5 +1,5 @@
 // GENERATED — do not edit; run scripts/sync-design-tokens.py
-// source-hash: 24fcb348c081
+// source-hash: 1ddc014815ed
 package dev.foss.goldenpath.ui.theme
 
 import androidx.compose.material3.darkColorScheme
@@ -8,7 +8,7 @@ import androidx.compose.ui.graphics.Color
 
 // Raw palette
 private val GpLightPrimary = Color(0xFFB3263E)
-private val GpDarkPrimary = Color(0xFFE94560)
+private val GpDarkPrimary = Color(0xFFC6284A)
 private val GpLightOnPrimary = Color(0xFFFFFFFF)
 private val GpDarkOnPrimary = Color(0xFFFFFFFF)
 private val GpLightPrimaryContainer = Color(0xFFFFDAD6)
@@ -91,13 +91,23 @@ val DarkGoldenPathColors = darkColorScheme(
 )
 
 val HighContrastGoldenPathColors = darkColorScheme(
-    primary = Color(0xFFFFFF00),
-    onPrimary = Color(0xFF000000),
+    primary = GpLightPrimary,
+    onPrimary = GpLightOnPrimary,
+    primaryContainer = GpDarkPrimaryContainer,
+    onPrimaryContainer = GpDarkOnPrimaryContainer,
+    secondary = GpLightSecondary,
+    onSecondary = GpLightOnSecondary,
+    secondaryContainer = GpDarkSecondaryContainer,
+    onSecondaryContainer = GpDarkOnSecondaryContainer,
+    tertiary = GpLightTertiary,
+    onTertiary = GpLightOnTertiary,
+    error = GpLightError,
+    onError = GpLightOnError,
     background = Color(0xFF000000),
     onBackground = Color(0xFFFFFFFF),
     surface = Color(0xFF000000),
     onSurface = Color(0xFFFFFFFF),
-    surfaceVariant = Color(0xFF1C1C1C),
+    surfaceVariant = Color(0xFF111111),
     onSurfaceVariant = Color(0xFFFFFFFF),
     outline = Color(0xFFFFFFFF),
 )

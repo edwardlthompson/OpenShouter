@@ -75,8 +75,33 @@ def write_suggestions(root: Path, scored: list[tuple[str, int]]) -> None:
         path.write_text("\n".join(lines), encoding="utf-8", newline="\n")
         return
     for url, score in ranked[:8]:
-        lines.append(f"1. 🔲 [AGENT] Review Cursor doc ({score}): {url}")
+        lines.append(
+            f"1. 🔲 [AGENT][CLOUD] Review Cursor doc ({score}): {url} — scope: docs/"
+        )
     lines.append("")
+    path.write_text("\n".join(lines), encoding="utf-8", newline="\n")
+
+
+def write_build_plan_draft(root: Path, scored: list[tuple[str, int]]) -> None:
+    """Gitignored BUILD_PLAN-shaped stub. Never writes BUILD_PLAN.md."""
+    path = root / "CURSOR_RADAR_BUILD_PLAN_DRAFT.md"
+    lines = [
+        "### Radar draft (gitignored — paste after `/ideas` review)",
+        "",
+        "Do not merge this file. Do not auto-edit BUILD_PLAN.md.",
+        "",
+    ]
+    ranked = [item for item in sorted(scored, key=lambda x: -x[1]) if item[1] >= 9]
+    if not ranked:
+        lines.append("_No URLs scored >= 9. Nothing to paste._")
+        lines.append("")
+    else:
+        for index, (url, score) in enumerate(ranked[:6], start=1):
+            slug = url.rstrip("/").split("/")[-1].replace("-", " ")
+            lines.append(
+                f"{index}. 🔲 [AGENT][CLOUD] Radar: {slug} ({score}) `{url}` — scope: docs/"
+            )
+        lines.append("")
     path.write_text("\n".join(lines), encoding="utf-8", newline="\n")
 
 

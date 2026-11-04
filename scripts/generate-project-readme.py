@@ -77,12 +77,11 @@ def render_list(items: list[str], *, ordered: bool = False) -> str:
 
 def stack_badges(product: dict) -> str:
     stacks = product.get("stacks") or []
+    stack_colors = {"web": "646cff", "python": "3776AB", "android": "3DDC84"}
     primary = product["badge"]["primary"]
-    secondary = product["badge"]["secondary"]
-    colors = [primary, secondary, "3DDC84", "3776AB", "646cff"]
     lines = []
     for i, stack in enumerate(stacks):
-        color = colors[i % len(colors)]
+        color = stack_colors.get(str(stack).lower(), primary)
         lines.append(
             f'  <img src="https://img.shields.io/badge/{stack}-stack-{color}'
             f'?style=flat-square" alt="{stack}" />'
@@ -131,6 +130,7 @@ def render_readme(root: Path, product: dict, *, for_preview: bool = False) -> st
         "{{badge_license}}": badge["license"],
         "{{badge_foss}}": badge["foss"],
         "{{badge_primary}}": badge["primary"],
+        "{{template_version}}": (root / ".template-version").read_text(encoding="utf-8").strip(),
         "{{stack_badges}}": stack_badges(product),
         "{{url_contributing}}": _rel_url(urls["contributing"], from_preview=for_preview),
         "{{url_security}}": _rel_url(urls["security"], from_preview=for_preview),

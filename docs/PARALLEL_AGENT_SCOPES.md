@@ -10,13 +10,14 @@
 4. Shared types/schemas: **Sequential agent only**
 5. Never edit `BUILD_PLAN.md` from parallel agents (sequential owner)
 6. **Forbidden paths:** `BUILD_PLAN.md`, `COMPLETED_TASKS.md`, `appBootstrap.ts`, `GoldenPathApp.kt`, `main.ts`
+7. Optional handoff: copy [`docs/features/_handoff.md`](features/_handoff.md) → gitignored `.cursor/handoff-<scope>.md` (from/to, scope prefix, acceptance). Do not replace the scope lock or invent a second task board.
 
 ## Automatic dispatch
 
 1. Orchestrator completes Sequential schema-lock steps
 2. `bash scripts/plan-parallel-dispatch.sh --json` → **agent_count**
 3. `/scope` launches Task subagents when count ≥ 2 (see `.cursor/commands/scope.md`)
-4. Optional hard isolation: `bash scripts/setup-agent-worktrees.sh` (creates `.cursor/worktrees/`)
+4. Optional hard isolation: `bash scripts/setup-agent-worktrees.sh` (creates `.cursor/worktrees/`). GC stale copies with `python3 scripts/agent-run.py gc-worktrees` (dry-run; `--apply` after 24h).
 
 ## Native Cursor worktrees
 
@@ -43,7 +44,17 @@ When working on **This Computer**, treat parallel agents + worktrees as the defa
 4. Prefer `/best-of-n` over serial model retries for flaky gates
 5. Prefer local Agent + CLI over Cloud Agents unless the machine is unavailable or commercial Autofix/Automations are intentional
 
-Override gate worker count with `BOOTSTRAP_CHECK_JOBS` (see `scripts/lib/run_checks_parallel.py`).
+## Local vs Cloud venues (BUILD_PLAN)
+
+Who stays `AGENT` / `HUMAN` / `ADB` / `AUTO`. Venue tags on AGENT rows only:
+
+| Tag | Branch | Who claims |
+|-----|--------|------------|
+| `[LOCAL]` | `feature/local-<slug>` | This Computer `/build` `/feature` `/scope` |
+| `[CLOUD]` | Cursor `cursor/*` | Cursor Cloud Agents only |
+Every open AGENT row needs `— scope: <path-prefix>`. Open LOCAL vs open CLOUD scopes must not prefix-overlap (`check-agent-venue`). Standing queues: **Local agent** and **Cloud agent** sections on BUILD_PLAN. See [`adr/0008-agent-venue.md`](adr/0008-agent-venue.md). After Cloud, `/resume` before claiming a LOCAL row that overlaps Cloud PR files.
+
+Override gate worker count with `BOOTSTRAP_CHECK_JOBS` (see `scripts/lib/run_checks_parallel.py`). On Linux, also apply [`LINUX_DEV.md`](LINUX_DEV.md) (direnv, caches, inotify, worktrees).
 
 ## Sprint 1 (child repo) defaults
 
@@ -142,6 +153,24 @@ Override gate worker count with `BOOTSTRAP_CHECK_JOBS` (see `scripts/lib/run_che
 | Cursor rules | `.cursor/rules/testing.mdc`, `.cursor/rules/ci-gates.mdc` |
 | Scorecard | `.github/workflows/scorecard.yml` |
 | Parallel checker | `scripts/check-parallel-scope.sh`, `docs/PARALLEL_AGENT_SCOPES.md` |
+## Sprint M59 (template maintainer) — next mega-sprint `/scope` example
+
+> Use after Sequential lock on the next maintainer mega-sprint. Non-overlapping scopes only. Orchestrator owns `BUILD_PLAN.md` + merge.
+
+| Agent | Scope | Avoid |
+|-------|-------|-------|
+| A — Docs / CI prose | `docs/**`, `docs/help/**`, `.cursor/commands/**`, `.cursor/skills/**` | `examples/web/**`, `examples/android/**` |
+| B — Optional stacks | `modules/rust/**`, `modules/go/**`, `examples/rust/**`, `examples/go/**`, `.github/dependabot.yml` | `scripts/init-project.sh` (Sequential if shared) |
+| C — Gates / scripts | `scripts/lib/**`, `scripts/check-*.sh`, `tests/test_*.py` (matching lib) | `BUILD_PLAN.md`, composition roots |
+| D — Security packs | `.semgrep/**`, `.semgrep.yml`, `docs/SECURITY_TRIAGE.md`, `docs/DEPENDABOT_AUTOMERGE.md`, `.github/workflows/scorecard.yml` | Android `androidTest` heavy trees |
+**Sequential-only (no Parallel):** `BUILD_PLAN.md`, `COMPLETED_TASKS.md`, `examples/web/src/appBootstrap.ts`, `examples/web/src/main.ts`, `GoldenPathApp.kt`, `MainActivity.kt`
+
+Dispatch: `bash scripts/plan-parallel-dispatch.sh --json` → `/scope` when `agent_count >= 2`. Lock file: `.cursor/parallel-scope-lock.json`.
+
 ## Collision Response
 
 If `check-parallel-scope.sh` fails, split the task or move one item back to Sequential lane.
+
+## Sprint cap: archive before the next mega-batch
+
+Before opening **M62** (or any new 40-idea batch), archive the prior milestone to `COMPLETED_TASKS.md` after `smoke-sprint --require`. Prefer archiving **M58** (and peers) before starting M62 so the live board stays scannable (`BUILD_PLAN` parallel_exception / #199). Do not stack two full allideas dumps as open 🔲 rows.

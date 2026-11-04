@@ -1,91 +1,38 @@
 # Start Here
 
-> **Read this file first** — whether you are a human or any coding agent.
+> First file for humans and agents. Word list: [`help/GLOSSARY.md`](help/GLOSSARY.md) — [**Sacred**](help/GLOSSARY.md), [**Canon**](help/GLOSSARY.md), [**AGENT**](help/GLOSSARY.md) / [**HUMAN**](help/GLOSSARY.md) / [**ADB**](help/GLOSSARY.md) / [**AUTO**](help/GLOSSARY.md).
 
-## What is this?
+## Mode
 
-**OpenShouter** is a FOSS Android TTS announcer (notifications + Shouter-style telephony/hardware). This child repo follows the `agent-project-bootstrap` agent contract.
+- [**Bootstrap**](help/GLOSSARY.md) — new project from this template → write `AGENT.md`, then `docs/INITIALIZATION_PROMPT.md`
+- [**Reference**](help/GLOSSARY.md) — rules only → `docs/FOR_AGENTS.md`
 
-Shared contract: [`AGENTS.md`](../AGENTS.md). Tool map: [`AGENT_PORTABILITY.md`](AGENT_PORTABILITY.md). Word list: [`help/GLOSSARY.md`](help/GLOSSARY.md) — [**Sacred**](help/GLOSSARY.md), [**Canon**](help/GLOSSARY.md), [**AGENT**](help/GLOSSARY.md) / [**HUMAN**](help/GLOSSARY.md) / [**ADB**](help/GLOSSARY.md) / [**AUTO**](help/GLOSSARY.md). Product spec: [`spec.md`](spec.md).
+Cursor modes: Ask / Plan / Agent / Debug — [`CURSOR_MODES.md`](CURSOR_MODES.md).
 
-The upstream template (`agent-project-bootstrap`) is a **GitHub Template Repository** for bootstrapping FOSS projects with coding agents (Cursor, Windsurf, Antigravity, Claude Code, Copilot, and others). OpenShouter is already initialized — do not re-run `init-project` unless a human asked.
+## Three commands
 
-## Which repo mode are you in?
+| Need | Cursor | Elsewhere |
+|------|--------|-----------|
+| First run | `/tour` | Read [`help/TOUR.md`](help/TOUR.md) |
+| New project | `/bootstrap` | Init + tour |
+| What next | `/coach` | [`help/COACH.md`](help/COACH.md) |
+Cheat sheet: [`help/BATCH_COMMANDS.md`](help/BATCH_COMMANDS.md). UI law: [`ux-ui-guidelines.md`](ux-ui-guidelines.md). Cline (free): [`help/CLINE.md`](help/CLINE.md). Optional Grok bots: [`GROK_BOTS.md`](GROK_BOTS.md). Agent mode: `/lean` · `/balanced` · `/speed` · `/mode` · `/status` ([ADR-0010](adr/0010-agent-mode-speed-balanced-lean.md)).
 
-- [**Bootstrap**](help/GLOSSARY.md): New project from **Use this template** → read `docs/CURSOR_MODES.md`, then `docs/INITIALIZATION_PROMPT.md`
-- [**Reference**](help/GLOSSARY.md) / this product: Existing OpenShouter work → read `docs/CURSOR_MODES.md`, then `docs/FOR_AGENTS.md` and `BUILD_PLAN.md`
+On session start: name next 🔲 `[AGENT]` row; say if CHANGELOG `[Unreleased]` has notes (first ~20 lines only).
 
-## Cursor modes (Plan / Agent / Debug / Ask)
+## Read order (when needed)
 
-See [`docs/CURSOR_MODES.md`](CURSOR_MODES.md) — pick the Cursor mode before editing code.
+1. `README.md` → this file → `CURSOR_MODES.md`
+2. `AGENTS.md` → `BUILD_PLAN.md` Sequential
+3. Active `modules/{stack}/` + `examples/{stack}/` only
+4. UI → `DESIGN_GUIDE.md` + `ux-ui-guidelines.md`
 
-## Agent shortcuts (Bootstrap)
+Session protocol (short): [`AGENTS.md`](../AGENTS.md) · cost diet [ADR-0009](adr/0009-cost-diet-brevity.md) · session checklist [`help/SESSION_START.md`](help/SESSION_START.md).
 
-In Cursor, type **`/`** in Agent chat. Start with **[docs/help/BATCH_COMMANDS.md](help/BATCH_COMMANDS.md)** — try `/tour` (10 minutes) or `/bootstrap` on a new project, `/verify` before merge.
+**First-time path: Cline (free).** Open this project in Cursor or VS Code. Install recommended extensions if prompted, or search Extensions for Cline (`saoudrizwan.claude-dev`). Click the Cline icon, Sign In with GitHub (Google/email ok). Do not paste API keys, install Codex, or set `OPENAI_API_KEY`. Set API Provider = Cline and pick a FREE model. Type `/tour` (enable workflows under Rules & Workflows if needed) or paste: `Read docs/help/TOUR.md and walk me through it. Follow AGENTS.md.` Review every diff; run `python3 scripts/agent-run.py verify` before trusting changes. Full steps: [`help/CLINE.md`](help/CLINE.md) · VS Code `/` map: [`help/VSCODE_COMMANDS.md`](help/VSCODE_COMMANDS.md).
+
+Optional local Ollama path: [`LOCAL_MODELS.md`](LOCAL_MODELS.md) · [`help/LOCAL_AGENT.md`](help/LOCAL_AGENT.md) · `python3 scripts/agent-run.py recommend-model` / `setup-local`.
 
 In Windsurf, Antigravity, or any other agent: ask it to read [`docs/help/TOUR.md`](help/TOUR.md) (first run) or [`docs/help/COACH.md`](help/COACH.md) (what next).
 
-## Bootstrap Read Order
-
-1. `README.md`
-2. `docs/START_HERE.md`
-3. `docs/CURSOR_MODES.md`
-4. `docs/BEST_PRACTICES.md` (why each convention exists) + `docs/FIRST_30_DAYS.md`
-5. `docs/INITIALIZATION_PROMPT.md`
-6. `AGENTS.md` (thin adapters via `--sync-adapters`; see `docs/AGENT_PORTABILITY.md`)
-7. `docs/spec.md` + `docs/plan.md` (product spec and milestone stub)
-8. `BUILD_PLAN.md` Sequential lane
-9. Active `modules/{stack}/MODULE.md` only
-10. Active `examples/{stack}/` only
-11. `docs/WEB_PROJECT_LAYOUT.md` when stack includes web (folder roles, GitHub Pages)
-12. `docs/DESIGN_GUIDE.md` when stack includes web or Android UI (tokens, themes, i18n)
-13. `branding/BRANDING.md` for logos, official colors, and pitch README generation
-14. `docs/FEATURE_MODULES.md` when implementing Sprint 2+ incremental features (vertical slices)
-
-```mermaid
-flowchart TD
-  Readme[README] --> Start[START_HERE]
-  Start --> Modes[CURSOR_MODES]
-  Modes --> Why[BEST_PRACTICES]
-  Why --> Init[INITIALIZATION_PROMPT]
-  Init --> Agents[AGENTS.md]
-  Agents --> Board[BUILD_PLAN]
-
-```
-
-## Reference Read Order
-
-1. `docs/START_HERE.md`
-2. `docs/CURSOR_MODES.md`
-3. `docs/FOR_AGENTS.md`
-4. `TEMPLATE_INDEX.json`
-5. `AGENTS.md`
-6. Matching `modules/{stack}/MODULE.md` only
-
-## CRITICAL NOTES (phase transitions)
-
-- After **Sprint 0** sign-off: stop treating `docs/INITIALIZATION_PROMPT.md` as the daily read. Follow BUILD_PLAN Sequential, then `/feature` for Sprint 2+ (`docs/features/{name}.md` from `_template.md`, locked API, then Parallel slices).
-- Working notes go in gitignored `scratchpad.md` (copy `scratchpad.md.example`). **Reset** on sprint/phase change. Persistent memory stays in `AGENT_MEMORY.md`.
-- Child playbook: [`BUILD_PLAN.md`](../BUILD_PLAN.md) — same phase notes under Child Repo Playbook.
-
-## Do Not Read Yet
-
-- Inactive `examples/` folders
-- `KNOWLEDGE_BASE.md` — reference when debugging (KB-001–KB-017)
-- `docs/MAINTAINING_THE_TEMPLATE.md` (maintainers only)
-
-## BUILD_PLAN Labels
-
-`AGENT` | `HUMAN` | `ADB` | `AUTO` — filter with `grep '\[AGENT\]' BUILD_PLAN.md`. Definitions: [`help/GLOSSARY.md`](help/GLOSSARY.md).
-
-**Status markers:** 🔲 open · ✅ done · ❌ blocked — emoji only (not `- [ ]` checkboxes). Applies to all repo checklists; see legend in `BUILD_PLAN.md`.
-
-## Security
-
-Enable Dependabot alerts on GitHub (Settings → Code security and analysis). Weekly CVE triage: `docs/SECURITY_TRIAGE.md`. Vulnerability reporting: `SECURITY.md`.
-
-## Agent Prompts
-
-[**Bootstrap**](help/GLOSSARY.md): Read @docs/START_HERE.md, @docs/CURSOR_MODES.md, and @docs/INITIALIZATION_PROMPT.md. Pick Cursor mode per CURSOR_MODES. Follow Section 8. Use BUILD_PLAN Sequential lane.
-
-[**Reference**](help/GLOSSARY.md): Read @docs/CURSOR_MODES.md, @docs/FOR_AGENTS.md, and @TEMPLATE_INDEX.json. Pick Cursor mode per CURSOR_MODES. Apply matching rules. Do not copy examples/ wholesale.
+Optional commercial Grok Bots (not required to build or ship): [`GROK_BOTS.md`](GROK_BOTS.md). OpenSSF Best Practices (project 14564): [`OPENSSF_BEST_PRACTICES.md`](OPENSSF_BEST_PRACTICES.md).

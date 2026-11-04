@@ -17,6 +17,7 @@ GROUPS = (
     ("hardware", "Local hardware"),
     ("maintain", "Maintenance"),
     ("session", "Long sessions"),
+    ("advanced", "Advanced / optional"),
 )
 HEAD = """<!DOCTYPE html>
 <html lang="en">

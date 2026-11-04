@@ -11,7 +11,6 @@ from build_sprint_model import (
     PlanRow,
 )
 
-
 def split_sprint_phases(
     lines: list[str],
 ) -> tuple[list[str], list[str], list[str], list[str]]:
@@ -31,11 +30,7 @@ def split_sprint_phases(
             phase = "human"
             human.append(line)
             continue
-        if phase == "parallel" and (
-            SEQUENTIAL_HEADER.match(line)
-            or ROW_BULLET.match(line)
-            or ROW_NUMBERED.match(line)
-        ):
+        if phase == "parallel" and SEQUENTIAL_HEADER.match(line):
             phase = "post"
         if phase == "pre":
             pre.append(line)
@@ -46,7 +41,6 @@ def split_sprint_phases(
         else:
             human.append(line)
     return pre, parallel, post, human
-
 
 def parse_sprint_blocks(text: str) -> list[tuple[str, list[str]]]:
     blocks: list[tuple[str, list[str]]] = []
@@ -79,7 +73,6 @@ def parse_sprint_blocks(text: str) -> list[tuple[str, list[str]]]:
         i += 1
     return blocks
 
-
 def parse_maintenance_rows(text: str) -> tuple[list[PlanRow], list[PlanRow]]:
     auto_rows: list[PlanRow] = []
     human_rows: list[PlanRow] = []
@@ -104,6 +97,7 @@ def parse_maintenance_rows(text: str) -> tuple[list[PlanRow], list[PlanRow]]:
             task=match.group("task").strip(),
             sprint="Ongoing Maintenance",
             phase="human_group" if in_human else "maintenance",
+            venue=match.group("venue"),
         )
         if in_human:
             human_rows.append(row)
@@ -111,40 +105,43 @@ def parse_maintenance_rows(text: str) -> tuple[list[PlanRow], list[PlanRow]]:
             auto_rows.append(row)
     return auto_rows, human_rows
 
-
-def parse_maintainer_active_board(text: str) -> tuple[list[PlanRow], list[PlanRow]]:
+def parse_numbered_board(
+    text: str, *, require_maintainer_header: bool = False
+) -> tuple[list[PlanRow], list[PlanRow]]:
     aa: list[PlanRow] = []
     ha: list[PlanRow] = []
-    in_board = False
-    sprint = "Template Maintainer"
+    has_header = any(line.startswith("## Template Maintainer") for line in text.splitlines())
+    if require_maintainer_header and not has_header:
+        return [], []
+    started = not has_header
+    sprint = "Board"
     for line in text.splitlines():
         if line.startswith("## Template Maintainer"):
-            in_board = True
+            started = True
             continue
-        if in_board and line.startswith("## ") and not line.startswith("## Template Maintainer"):
+        if not started:
+            continue
+        if line.startswith("## Ongoing Maintenance") or line.startswith("## Archive"):
             break
-        if not in_board:
-            continue
         if line.startswith("### "):
             sprint = line.strip().lstrip("#").strip()
             continue
-        match = ROW_NUMBERED.match(line)
+        match = ROW_NUMBERED.match(line) or ROW_BULLET.match(line)
         if not match:
             continue
         row = PlanRow(
             owner=match.group("owner"),
             task=match.group("task").strip(),
             sprint=sprint,
-            phase="maintainer_board",
+            phase="board",
+            venue=match.group("venue"),
         )
         if row.owner in ("HUMAN", "ADB"):
             ha.append(row)
         elif row.owner in ("AGENT", "AUTO"):
             aa.append(row)
     return aa, ha
-
-
-def parse_maintainer_queue(text: str) -> tuple[list[PlanRow], list[PlanRow]]:
-    board_aa, board_ha = parse_maintainer_active_board(text)
+def parse_board_queue(text: str, *, maintainer: bool) -> tuple[list[PlanRow], list[PlanRow]]:
+    board_aa, board_ha = parse_numbered_board(text, require_maintainer_header=maintainer)
     maint_auto, maint_human = parse_maintenance_rows(text)
     return board_aa + maint_auto, board_ha + maint_human

@@ -6,7 +6,7 @@
 4. **Bootstrap mode:** `docs/INITIALIZATION_PROMPT.md`
 5. **Reference mode:** `docs/FOR_AGENTS.md` + `TEMPLATE_INDEX.json`
 6. **Task board:** `BUILD_PLAN.md` (Sequential before Parallel) — status: 🔲 open · ✅ done · ❌ blocked
-7. **Parallel dispatch:** parallel-first BUILD_PLAN; `/build` automates HUMAN/ADB first, backlogs failures to `HUMAN_BACKLOG.md`, never halts on human labels — `scripts/build-sprint-status.sh --lane child`
+7. **Parallel / venue:** `/scope` · Local vs Cloud [ADR-0008](docs/adr/0008-agent-venue.md) · cost diet [ADR-0009](docs/adr/0009-cost-diet-brevity.md) · Agent Mode `/lean`/`/balanced`/`/speed`/`/mode`/`/status` [ADR-0010](docs/adr/0010-agent-mode-speed-balanced-lean.md) · `/build` automates HUMAN/ADB first, backlogs to `HUMAN_BACKLOG.md` — `scripts/build-sprint-status.sh --lane child`
 8. **Living memory:** update `AGENT_MEMORY.md` only at milestone boundaries
 
 > Legacy `.cursorrules` is deprecated. Use `.cursor/rules/*.mdc` and this file instead.
@@ -91,6 +91,9 @@ Do not mark a BUILD_PLAN feature row ✅ without tests or that justification. Co
 
 ## Session Protocol
 
+- Agent Mode: `/lean` `/balanced` `/speed` `/mode` `/status` ([ADR-0010](docs/adr/0010-agent-mode-speed-balanced-lean.md), `.cursor/agent-mode.json`)
+- Venue labels: `[LOCAL]`/`[CLOUD]` ([ADR-0008](docs/adr/0008-agent-venue.md)); cost diet [ADR-0009](docs/adr/0009-cost-diet-brevity.md)
+- Replies: 1–3 sentences default (`.cursor/rules/brief-replies.mdc`)
 - On session start: read `START_HERE.md`, pick mode via `docs/CURSOR_MODES.md` (roles if your IDE uses other names), then `BUILD_PLAN.md` Sequential lane
 - If your tool has no slash commands, use `docs/help/*.md` (start with `docs/help/TOUR.md`)
 - When creating or significantly changing a file, state one sentence of why (see `docs/BEST_PRACTICES.md` and `/coach`)
@@ -117,7 +120,7 @@ bash scripts/bootstrap-lifecycle.sh --sync-adapters
 | GitHub Copilot | `.github/copilot-instructions.md` |
 | Gemini / Antigravity | `GEMINI.md` (pointer only — never real rules) |
 | Windsurf | `.windsurf/rules/agents-pointer.md` |
-| Cline / Roo | `.clinerules` |
+| Cline / Roo | `.clinerules/AGENTS.md` (+ static `.clinerules/workflows/`) |
 | Aider | `CONVENTIONS.md` |
 | Continue | `.continue/rules/agents.md` |
 Do not hand-edit generated adapters. See `docs/AGENT_PORTABILITY.md`.
@@ -160,6 +163,16 @@ Router reads `distribution_tier` from `.cursor/stack-selection.json` (set by `in
 - **Python:** Strict typing (mypy), ruff lint/format, locked dependencies
 - **Lightroom:** Adobe SDK Lua API only (`Lr*` namespaces)
 
+## Session rules
+
+- One repo per session — do not hop projects mid-chat
+- Never create a repo or root file unasked
+- Always run `bash scripts/verify.sh` (or `--quick`) first on session start
+- Changelogs are hand-written — agents draft Unreleased notes; humans own the wording before release
+- Run device smoke for scan / TTS / platform changes (`/emulator` or connected instrumented tests)
+- Prefer deleting to adding
+- Report ambiguity instead of guessing
+
 ## OpenShouter (this repository)
 
 - **Product:** FOSS Android TTS announcer (notifications + Shouter-style telephony/hardware)
@@ -168,4 +181,4 @@ Router reads `distribution_tier` from `.cursor/stack-selection.json` (set by `in
 - **Todos:** `BUILD_PLAN.md` (index: `docs/todos/README.md`)
 - **Must not add:** Google Play Services, Firebase, Play Core, closed crash reporters
 - **PII:** never log notification payloads, numbers, names, or coordinates
-- **Bootstrap provenance:** scaffolded from agent-project-bootstrap 0.17.0; standards synced to 0.21.0. Product semver stays in `.template-version` (do not overwrite with the template version).
+- **Bootstrap provenance:** scaffolded from agent-project-bootstrap 0.17.0; standards catch-up toward agent-project-bootstrap 1.12.0 via Sprint 36. Product release semver is independent of `.template-version` (template provenance only).

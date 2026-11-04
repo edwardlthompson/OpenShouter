@@ -91,6 +91,78 @@
 | **Cause** | Agent runs `bash scripts/*.sh`; Cursor reveals script paths. `beforeShellExecution` hooks used to run `.sh` wrappers on every shell command |
 | **Fix** | Use `python3 scripts/agent-run.py <name> [args]` in agent commands; hooks migrated to `.cursor/hooks/*.py`; workspace `.vscode/settings.json` sets `workbench.editor.autoReveal: false` |
 | **Prevention** | Agents follow `.cursor/commands/` and `scripts/agent-run.py`; pin active editor tab; optional `<!-- cursor-hooks: off -->` in `BUILD_PLAN.md` disables hooks entirely |
+### KB-012 — Cursor hooks fail-open (not a hard guarantee)
+
+| Field | Detail |
+|-------|--------|
+| **Symptom** | Agent runs `git push` or another denylisted command even though `destructive-ops.mdc` says it is blocked |
+| **Cause** | `before_shell_guard.py` and `after_edit_encoding.py` fail-open: parse errors, empty command, missing denylist, or `<!-- cursor-hooks: off -->` in `BUILD_PLAN.md` return allow. `/push` approval of `git push` does **not** allow `git push --force` |
+| **Fix** | Treat hooks as **instructed-with-best-effort**. Require `[HUMAN]` or `/push` / `/ship` for destructive-ops. Do not label fail-open hooks as hard denies |
+| **Prevention** | Honesty table in `.cursor/rules/destructive-ops.mdc` and `docs/CURSOR_INTEGRATIONS.md`; keep `shell-denylist.txt` in sync with the rule |
+### KB-013 — `npm ci` fails after `@puppeteer/browsers` override
+
+| Field | Detail |
+|-------|--------|
+| **Symptom** | CI `npm ci` in `examples/web`: Missing `proxy-agent@8` from lock file after overriding `@puppeteer/browsers` >=3.2.0 |
+| **Cause** | Browsers 3.2.0 optional peer `proxy-agent` >=8.0.1. Local `npm install` on Node 26 can omit that tree; Actions Node 22 `npm ci` requires it |
+| **Fix** | Add `"proxy-agent": ">=8.0.2"` to web overrides; run `npm ci` locally before push |
+| **Prevention** | After puppeteer/LHCI overrides, verify with `npm ci` (not only `npm install`) |
+### KB-014 — Windows PowerShell init hangs on Python 3.14 pyrepl
+
+| Field | Detail |
+|-------|--------|
+| **Symptom** | `scripts/simulate-template-upgrade.sh` PowerShell smoke (`pwsh … init-project.ps1`) hangs; Python reports `WinError 123` from `getheightwidth` / pyrepl |
+| **Cause** | CPython 3.14 enables the interactive `pyrepl` frontend. On Windows it queries console size even when stdin is not a TTY, then blocks |
+| **Fix** | Set `PYTHON_BASIC_REPL=1` (and `PYTHONUNBUFFERED=1`) in `scripts/init-project.ps1`, `scripts/init-project.sh`, and the upgrade-sim `pwsh` invocation |
+| **Prevention** | Keep those env vars on every Windows Python spawn used by init / `/ship` regress. Do not use the interactive REPL in non-interactive scripts |
+### KB-015 — Windows upgrade-sim: `jq` CRLF and post-prune doc links
+
+| Field | Detail |
+|-------|--------|
+| **Symptom** | Required **Template Upgrade Simulation (Windows)** fails. Ubuntu may pass. Logs show `281 path(s) missing` including the running `validate-template-index.sh`, or `check-doc-links` breaks on `modules/android/COMMERCIAL.md` after `--prune` |
+| **Cause** | `jq.exe` under Git Bash emits CRLF, so `test -e "$ROOT/$path"` looks for `path\r`. After web prune, commercial docs still link into removed stack trees |
+| **Fix** | Strip CR in `scripts/validate-template-index.sh` `check_path`. `check-doc-links` skips missing `modules/<stack>` / `examples/<stack>` targets when that stack directory is gone. Portable-purpose tests must not require `coding-agent` after child init stamps a new purpose |
+| **Prevention** | Do not mark `/ship` done until both upgrade-sim jobs are green. Prefer Python path checks on Windows; keep Unreleased empty before Release Please |
+### KB-016 — Git Bash PATH and inherited PYTHONPATH
+
+| Field | Detail |
+|-------|--------|
+| **Symptom** | `command -v gh` fails in Git Bash even when GitHub CLI is installed. `validate-bootstrap` fails with `ModuleNotFoundError` for `env_schema` / `agent_adapters` |
+| **Cause** | Git Bash does not inherit `C:\Program Files\GitHub CLI`. A parent shell `PYTHONPATH=scripts/lib` shadows repo-root imports |
+| **Fix** | `scripts/lib/resolve-tools.sh` prepends Windows tool dirs and unsets `PYTHONPATH`. `agent-run` passes `child_env()` that drops `PYTHONPATH` |
+| **Prevention** | Never export `PYTHONPATH=scripts/lib` in the agent shell. Source `resolve-tools.sh` before `command -v gh` |
+### KB-017 — Fold empties local Unreleased only
+
+| Field | Detail |
+|-------|--------|
+| **Symptom** | After `/ship` merges Release Please, `CHANGELOG.md` still has leftover `[Unreleased]` bullets under or after the new version heading |
+| **Cause** | `changelog_unreleased.py --fold` writes the working tree and comments the PR; it does not commit. Release Please copies Unreleased from the last pushed commit |
+| **Fix** | Empty `[Unreleased]` (and keep it first) in a `docs(release)` archive commit after merge, or empty it in the prepare commit before push |
+| **Prevention** | Do not mark `/ship` done until Unreleased is first and empty on `origin/main` |
+### KB-018 — `decorView.display` is null in Activity.onCreate
+
+| Field | Detail |
+|-------|--------|
+| **Symptom** | Instrumented smoke expects `preferredDisplayModeId` to match the fastest same-size mode; CI emulator reports expected `1` but actual `0` |
+| **Cause** | `window.decorView.display` is often null before the window is attached |
+| **Fix** | Apply `WindowRefresh.applyTo(activity)` from `onStart()` using `Activity.display` (API 30+) or `windowManager.defaultDisplay` |
+| **Prevention** | Do not read `decorView.display` in `onCreate` for display-mode votes |
+### KB-020 — About-without forbids later-feature imports of `about/`
+
+| Field | Detail |
+|-------|--------|
+| **Symptom** | `verify-about-feature-gate` fails `web-lint` after About removal: `Cannot find module '../about/...'` |
+| **Cause** | Feedback/github-feedback imported `APP_VERSION` / `isPlaceholderRepo` from the About slice. Running the gate via WSL1 `System32\\bash.exe` can also skip the backup and `git checkout HEAD` tracked About files |
+| **Fix** | Keep `isPlaceholderRepo` in `github-feedback`; use `__APP_VERSION__` in FeedbackPanel. Invoke the gate with `python3 scripts/agent-run.py verify-about-feature-gate` (Git Bash) |
+| **Prevention** | Later slices must not import `examples/web/src/about/`. Never call `bash scripts/*.sh` on Windows if `bash` is WSL1 |
+### KB-019 — Playwright `addInitScript` re-seeds on reload
+
+| Field | Detail |
+|-------|--------|
+| **Symptom** | e2e donate-nudge: after Not now, reload still shows `donate-nudge` |
+| **Cause** | `page.addInitScript` runs on every navigation and overwrote `gp.update.lastSeenVersion` with `0.0.1` |
+| **Fix** | Seed lastSeen only when the key is unset so `markVersionSeen` survives reload |
+| **Prevention** | Do not unconditionally `localStorage.setItem` in Playwright init scripts that must persist across `reload()` |
 ### KB-011 — Vitest jsdom `localStorage` broken on Node 25+
 
 | Field | Detail |
@@ -99,128 +171,79 @@
 | **Cause** | Node 25+ enables a global Web Storage stub without `--localstorage-file`; jsdom skips installing real Storage and the stub shadows it |
 | **Fix** | Vitest `setupFiles: ["src/test/setup-localStorage.ts"]` installs in-memory Storage when `getItem` is missing |
 | **Prevention** | Keep the setup file; do not rely on Node’s experimental `localStorage` in browser-unit tests |
-### KB-012 — Gitleaks first-push parent SHA
+### KB-021 — Broad R8 keep rules hide minify “on”
 
 | Field | Detail |
 |-------|--------|
-| **Symptom** | Security Scan fails on the first `main` push: `ambiguous argument '<root>^..<head>'` |
-| **Cause** | Gitleaks diffs `before^..after`. The bootstrap commit is a root commit, so `before^` does not exist |
-| **Fix** | Re-run Security Scan via `workflow_dispatch` (full-repo scan). Later pushes use a real parent |
-| **Prevention** | Do not treat the first-push Gitleaks failure as a leak; confirm “no leaks found in partial scan” |
-### KB-013 — Pruned-stack CI jobs still run
+| **Symptom** | Release has `isMinifyEnabled = true` but cold start / DEX count / ANRs stay bad; analyzer optimization score is low |
+| **Cause** | A library or `proguard-rules.pro` ships `-keep public class * { public protected *; }` (or `-dontoptimize` / `enableR8.fullMode=false`) |
+| **Fix** | Run `./gradlew :app:analyzeReleaseR8Config`; narrow or remove the subsuming keep; keep `proguard-android-optimize.txt` |
+| **Prevention** | Structure tests forbid broad keeps and `largeHeap`; see ADR-0003 and `docs/features/android-runtime-budget.md` |
+### KB-022 — Android 16 Compose UI: `InputManager.getInstance` / Espresso
 
 | Field | Detail |
 |-------|--------|
-| **Symptom** | Child Android-only repo: `Web - Lint, Test, Build` and `Node - Lint, Test` fail; CodeQL `javascript-typescript` exits 32 |
-| **Cause** | Those CI/CodeQL jobs are not gated on `examples/web` / `examples/node` presence |
-| **Fix** | Gate Web/Node CI jobs on `needs.stack-presence.outputs.*`. For CodeQL, emit a dynamic `matrix.include` from stack presence — do not use a job-level `if:` on `matrix.language` (Actions treats that as a workflow-file error and the run fails in 0s). |
-| **Prevention** | Child-repo `/prune` should leave CI job `if:` guards in place; CodeQL languages must be built as JSON matrix output |
-### KB-014 — Emulator `CallMonitor` needs READ_PHONE_STATE
+| **Symptom** | `connectedDebugAndroidTest` fails on API 36 with `NoSuchMethodError` / missing `InputManager.getInstance` inside Compose or Espresso |
+| **Cause** | Older Espresso (pre-3.7) still calls removed reflective APIs on Android 16 |
+| **Fix** | Pin `androidx.test.espresso:espresso-core:3.7.0` (and keep the AndroidX Test line aligned). Gate: `scripts/check-espresso-android16.sh` |
+| **Prevention** | Do not bump Espresso down for “BOM convenience”; there is no official `androidx.test:test-bom` substitute that replaces this pin. Prefer a physical API 36 device when `/dev/kvm` is missing |
+### KB-023 — Android unit tests fail when checkout path has spaces
 
 | Field | Detail |
 |-------|--------|
-| **Symptom** | `connectedDebugAndroidTest` crashes: `SecurityException: listen` in `CallMonitor.start` |
-| **Cause** | `AnnouncerService.onCreate` registers a telephony callback before the emulator grants `READ_PHONE_STATE` |
-| **Fix** | Grant the permission in the instrumented test (or skip `CallMonitor.start` when the permission is missing) |
-| **Prevention** | Never register `TelephonyCallback` without a permission check |
-### KB-015 — Android 16 mutes engine-process TTS
+| **Symptom** | `:app:testDebugUnitTest` fails with `NoSuchFileException` / `EOFException` on `…/test-results/…/in-progress-results-*.bin` |
+| **Cause** | AGP/Gradle binary test-result writer breaks when the absolute project path contains spaces |
+| **Fix** | `examples/android/settings.gradle.kts` remaps `layout.buildDirectory` to `~/.cache/goldenpath-android-build/` (or `GOLDENPATH_ANDROID_BUILD_DIR`) when the root path has spaces. Or clone into a path without spaces / use a symlink |
+| **Prevention** | Prefer space-free clone paths on Linux; keep the settings remapping on the template |
+### KB-024 — Windows upgrade-sim flake quarantine
+
+| Field | Value |
+|-------|-------|
+| **Symptom** | Required check `Template Upgrade Simulation (Windows)` fails once then passes on re-run; often hook/`EINVAL`/temp-dir races |
+| **Cause** | Ephemeral runner FS + commit-msg / UTF-8 / clone path length on Windows |
+| **Fix** | Quarantine: re-run the failing job once via `gh run rerun <id> --failed`. If it fails twice, treat as real — capture `simulate-template-upgrade` log and open a BUILD_PLAN row. Do not remove the check from `required-checks.json`. |
+| **Prevention** | Keep upgrade-sim sacred files UTF-8; avoid writing under locked paths; see `docs/CI_REQUIRED_CHECKS.md` |
+### KB-026 — `setup-android@v4` default `tools` package is gone
 
 | Field | Detail |
 |-------|--------|
-| **Symptom** | Voice test and shouts are silent when the phone is in silent/vibrate; `STREAM_NOTIFICATION` volume is 0 |
-| **Cause** | Default TTS stream was NOTIFICATION. Android 16 AudioHardening also mutes `com.google.android.tts` background playback even on MEDIA |
-| **Fix** | Synthesize to `cache/os-tts.wav` and play with `TtsFilePlayer` (MediaPlayer in our process). Default stream MEDIA. If the preferred stream is muted, fall back to MEDIA unless ringer is silent/vibrate and `allowSilentVibrate` is false |
-| **Prevention** | Voice test uses `immediate = true` and MEDIA. `TtsController.speakNow` must not bypass `AnnouncementGate` / per-channel silent |
-### KB-016 — Release Please PR checks stay `action_required`
+| **Symptom** | CodeQL java-kotlin and Android assemble jobs fail: `sdkmanager` `Failed to find package 'tools'` (cmdline-tools 20.0) |
+| **Cause** | `android-actions/setup-android@v4` defaults to installing `tools platform-tools`. The legacy `tools` SDK package is not published for cmdline-tools 20 |
+| **Fix** | Pass `packages: platform-tools` on every `setup-android@v4` step (CI assemble + CodeQL). Do not install `tools` |
+| **Prevention** | New Android workflow jobs must set `packages` explicitly; do not rely on the action default |
+
+### KB-027 — Windows Git Bash hang in large tracked-file check
 
 | Field | Detail |
 |-------|--------|
-| **Symptom** | `chore(main): release X.Y.Z` PR is MERGEABLE but BLOCKED; CI/CodeQL/Security Scan show `action_required` with zero jobs |
-| **Cause** | `pull_request` workflows on `release-please--branches--main` never start jobs (approval / first-run gate) |
-| **Fix** | `merge-release-please-pr.sh` admin fallback: `gh pr merge --admin` after `--auto` fails |
-| **Prevention** | Job-level rollups named `CI`, `Security Scan`, and `CodeQL` report the required check contexts. Do not wait for empty-job PR checks. Push-SHA CI/CodeQL/Security Scan on `main` are the real gate |
-| **Seen again** | v0.5.0 Release Please #17 — `--auto` failed; admin merge after push-SHA CI/CodeQL/Security Scan green |
-| **Seen again** | v0.6.0 Release Please #19 — `--auto` failed; admin merge after push-SHA CI/CodeQL/Security Scan green |
-| **Seen again** | v0.7.0 Release Please #20 — `--auto` failed; admin merge after push-SHA CI/CodeQL/Security Scan green |
-| **Seen again** | v0.8.0 Release Please #22 — `--auto` failed; admin merge after push-SHA CI/CodeQL/Security Scan green |
-| **Seen again** | v0.9.1 Release Please #27 — `--auto` failed; admin merge. Merge-commit CI/Release Please `startup_failure`/`queued`; GitHub Release created from merge SHA |
-### KB-021 — OP13 release APK silent under AudioHardening
+| **Symptom** | Pre-commit Repo hygiene checks hangs forever on Windows; nested ash scripts/check-large-tracked-files.sh with no git child |
+| **Cause** | Per-file git cat-file / process substitution under Git Bash starves or never completes on large trees |
+| **Fix** | Write git ls-tree -r -l HEAD to a temp file and parse sizes in-process (no process substitution, no per-file cat-file) |
+| **Prevention** | Prefer one plumbing call over N git spawns in hygiene hooks; keep scripts LF; time the gate locally before /ship |
+
+### KB-025 — Blender icon tests must skip before importing `cli`
 
 | Field | Detail |
 |-------|--------|
-| **Symptom** | Notification-stream shouts work on OP12 debug APK (`CPH2583`) but are silent on OP13 release APK (`CPH2655`). Listener, FGS, ringer, and notification volume are fine |
-| **Cause** | Android 16 AudioHardening treats `specialUse` FGS playback as background. It ignores transient focus and mutes `org.openshouter` on the non-debuggable release UID. Debug APKs are exempt |
-| **Fix** | Declare `FOREGROUND_SERVICE_MEDIA_PLAYBACK` and `specialUse\|mediaPlayback`. Hold a `MediaSession` while the in-process WAV plays. Prefer highest-quality on-device TTS voices |
-| **Prevention** | After a release sideload, confirm `dumpsys audio` no longer logs `background playback would be muted for org.openshouter` |
-### KB-017 — Next shout silent after a muted stream
+| **Symptom** | Template Upgrade Simulation (Linux and Windows) fails in child-prune: `ModuleNotFoundError: No module named 'cli'` from `tests/test_blender_icon_factory.py` |
+| **Cause** | Optional `examples/blender` is pruned; unittest still discovers the test module and imports `cli` at load time |
+| **Fix** | Raise `unittest.SkipTest("blender example pruned")` before `from cli import` when `examples/blender/cli.py` is missing |
+| **Prevention** | Optional-stack tests that import example code must skip at import time (same pattern as Lightroom file reads, but imports cannot wait until `setUp`) |
+
+### KB-028 — upd rewrites CodeQL `@v4` to invalid `vcodeql-bundle-*`
 
 | Field | Detail |
 |-------|--------|
-| **Symptom** | First silent/vibrate shout is quiet (correct). The next shout stays silent even when MEDIA should play |
-| **Cause** | A shared `os-tts.wav` plus ignored synth errors left playback stuck. v0.2.3 also fell back to ALARM, which punches through silent/DND |
-| **Fix** | Synthesize each utterance to `os-tts-<id>.wav`. Do not auto-escalate to ALARM. Silent/DND is opt-in (`ds_speak_silent`) |
-| **Prevention** | `TtsStreamPlayableTest` stays on the muted stream when MEDIA is muted. `RingerSilent` treats DND as silent |
-### KB-018 — Product semver is not the bootstrap template version
+| **Symptom** | CodeQL job fails at setup: unable to resolve `github/codeql-action@vcodeql-bundle-v2.27.2` |
+| **Cause** | `upd` maps CodeQL floating `@v4` to a bundle tag that is not a valid action ref |
+| **Fix** | Restore `github/codeql-action/{init,analyze,upload-sarif}@v4` (or a real `v4.x.y` tag). Do not accept `vcodeql-bundle-*` from dry-run/apply |
+| **Prevention** | Skip CodeQL pin “patches” from upd; keep `@v4` in workflows; see DECISION_LOG v1.8.0 / v1.10.0 |
+
+### KB-029 — About keyword gate + axe label-content-name-mismatch
 
 | Field | Detail |
 |-------|--------|
-| **Symptom** | Copying upstream `.template-version` `0.21.0` into OpenShouter fails `check-template-version-sync` or would retag the product |
-| **Cause** | Child `.template-version` / Release Please / `CITATION.cff` track **product** semver (0.3.x), not agent-project-bootstrap |
-| **Fix** | Keep `.template-version` on the last shipped product. Record template provenance in `AGENT_MEMORY.md` and `AGENTS.md` |
-| **Prevention** | Never run `sync-template-version.sh` to adopt an upstream template number. `pre-release-gate` CI wait needs a **pushed** SHA
-### KB-023 — `chore` and `docs` must not mint a Release Please patch
-
-| Field | Detail |
-|-------|--------|
-| **Symptom** | After `chore(android): sync versionName` or `docs: record vX.Y.Z ship`, Release Please opens `X.Y.Z+1` with only that commit |
-| **Cause** | `changelog-sections` listed `chore` and `docs`, so those commits are releasable |
-| **Fix** | Drop `chore` and `docs` from `changelog-sections`. Put `versionName` in extra-files with `// x-release-please-version` |
-| **Prevention** | `tests/test_release_please_config.py`. Do not merge a release PR whose only change is a versionName sync or ship-notes `docs` commit |
-### KB-019 — `feat` is a minor bump; keep CITATION.cff on the tag
-
-| Field | Detail |
-|-------|--------|
-| **Symptom** | `/ship` commit said v0.2.6; Release Please tagged **v0.3.0**. Merge CI failed `CITATION.cff version (0.2.5) != .template-version (0.3.0)` |
-| **Cause** | `feat` maps to Added / minor. Release Please extra-files did not include `CITATION.cff` |
-| **Fix** | Accept 0.3.0. Add `CITATION.cff` to extra-files with `# x-release-please-version`. `sync-template-version.sh` rewrites the CFF version line |
-| **Prevention** | Do not put a guessed patch version in a `feat` subject. After each RP merge, confirm CITATION matches `.template-version` |
-### KB-022 — Settings theme dropdown consumes the first Back
-
-| Field | Detail |
-|-------|--------|
-| **Symptom** | `GoldenPathUiTest.opensSettingsPanelWithThemeAndUpdateControls` fails after chips become a dropdown: Dark theme is missing, or Theme remains after one Back |
-| **Cause** | `MenuDropdown` hides options until expanded. `ExposedDropdownMenu` consumes the first Back to dismiss the menu |
-| **Fix** | Open the current value (`System theme`), pick `Dark theme`, then Back until `Check for updates` is gone |
-| **Prevention** | Settings smoke tests must expand exclusive-choice dropdowns; do not assert a chip label that is only inside the menu |
-### KB-020 — HUMAN leftover sprint blocks need `parallel_exception`
-
-| Field | Detail |
-|-------|--------|
-| **Symptom** | CI `Validate Bootstrap Artifacts` and `Template Upgrade Simulation` fail: `Sprint 16 leftover (device smoke): missing ### Parallel table` |
-| **Cause** | `check-build-plan-parallel.sh` treats leftover headings as sprint blocks; a single `[HUMAN]` row is not a Parallel table |
-| **Fix** | Add `<!-- parallel_exception: HUMAN-only leftover; AGENT/AUTO archived -->` under the leftover heading |
-| **Prevention** | After `/cleanup`, leftover HUMAN/ADB sections keep a `parallel_exception` comment or a Parallel table |
-### KB-023 — Incoming calls silenced by GATE_CALL and ongoing NLS drop
-
-| Field | Detail |
-|-------|--------|
-| **Symptom** | Cellular and WhatsApp calls on OP13 (CPH2655) never shout, not even the app name. Listener, FGS, READ_PHONE_STATE, and READ_CALL_LOG are fine |
-| **Cause** | SpeakGate treated RINGING as in-call (GATE_CALL). The listener dropped all ongoing posts, so WhatsApp/CallStyle never reached TTS. WhatsApp was also hijacked onto the message channel (off by default). PHONE_STATE was registered without an export flag, aborting TelephonyCallback on API 34+ if that register threw |
-| **Fix** | In-call suppression is OFFHOOK only. CALL channel ignores screen-off-only only (not silent/vibrate — silent follows `allowSilentVibrate`). Ongoing VoIP/CATEGORY_CALL posts go through CallChannel with the app label. Register PHONE_STATE with ContextCompat.RECEIVER_EXPORTED; register TelephonyCallback even if the receiver fails |
-| **Prevention** | CallSuppressionTest and CallNotificationTest cover RINGING vs OFFHOOK and WhatsApp vs dialer routing. Do not skip sbn.isOngoing for incoming-call posts. Same-key ongoing WhatsApp posts after answer must not restart looping or a second ONCE shout — `CallAnnounceSession` ignores the key until ENDED/removed; VoIP default is ONCE. Do not hard-exempt CALL from ringer silent |
-### KB-024 — Android Auto / DHU ignores notification and media TTS
-
-| Field | Detail |
-|-------|--------|
-| **Symptom** | Voice plays on the phone speaker (or not at all) while Desktop Head Unit / car Android Auto is connected. 0.8.2 remapped notification to media; still silent on the head unit |
-| **Cause** | DHU projection does not set UI_MODE_TYPE_CAR or expose BUS/USB_ACCESSORY devices (mCarModeEnabled=false). AA AudioHardening also blocks USAGE_MEDIA unless the app is the selected media source. USAGE_NOTIFICATION never enters the car TTS channel |
-| **Fix** | Detect projection via content://androidx.car.app.connection (CarConnectionState 1/2). On that path play WAV with USAGE_ASSISTANCE_NAVIGATION_GUIDANCE plus transient ducking focus. Skip MediaSession on the car path so AA uses the TTS stream, not media |
-| **Prevention** | With DHU up, content query shows CarConnectionState=2 and dumpsys audio shows OpenShouter USAGE_ASSISTANCE_NAVIGATION_GUIDANCE. Gearhead logs CAR.AUDIO.TTS / enabling stream: TTS. Do not treat A2DP-only as sufficient AA detection |
-### KB-025 — Windows `simulate-template-upgrade` drops path slashes
-
-| Field | Detail |
-|-------|--------|
-| **Symptom** | Local `/ship` regress fails `check-bootstrap-engine.sh` with `/bin/bash: C:Users...scriptscheck-required-status-jobs.sh: No such file` |
-| **Cause** | Git Bash on Windows concatenates a Windows path without separators when the upgrade sim invokes a `.sh` from Python |
-| **Fix** | Treat as local-only. Linux CI job **Template Upgrade Simulation** is the gate |
-| **Prevention** | Do not block `/ship` on this Windows flake when `pre-release-gate` and the main CI upgrade job are green |
+| **Symptom** | Upgrade-sim fails `check-agent-brief` (missing camera/messages/…); web Playwright axe fails on settings About nav |
+| **Cause** | Brief keywords enforced while `branding/product.json` stays `mode: template`; button `aria-label` shorter than visible label+hint (axe 4.14) |
+| **Fix** | Enforce About keyword echo only when product mode is `product`. Prefer content-derived accessible names (drop redundant `aria-label` on multi-line nav buttons) |
+| **Prevention** | Keep Golden Path stubs free of product-brief About checks; after axe bumps, re-run settings-panel a11y e2e |

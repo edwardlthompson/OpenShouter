@@ -1,5 +1,8 @@
 # Build Plan
 
+<!-- remaining-tally -->
+**Remaining:** AGENT 0 · LOCAL 0 · CLOUD 0 · AUTO 0 · HUMAN 3 · ADB 2 · **5 open**
+<!-- /remaining-tally -->
 > OpenShouter task board with owner labels. **Completed sprints:** `COMPLETED_TASKS.md`.
 > Scaffolded from [agent-project-bootstrap](https://github.com/edwardlthompson/agent-project-bootstrap) v0.17.0.
 
@@ -11,6 +14,16 @@
 | `HUMAN` | Human developer | Approvals, credentials, GitHub settings, product decisions |
 | `ADB`   | Human (Android) | Android SDK, emulator/device testing                       |
 | `AUTO`  | CI/scripts/bots | GitHub Actions, Dependabot, pre-commit, update checker     |
+
+**Venue (AGENT only):** `[LOCAL]` This Computer · `[CLOUD]` Cursor Cloud — see [`docs/adr/0008-agent-venue.md`](docs/adr/0008-agent-venue.md). Format: `🔲 [AGENT][LOCAL] …`.
+
+## Product (do not drift)
+
+<!-- product-brief-sync:begin -->
+FOSS Android TTS announcer for notifications and Shouter-style telephony/hardware.
+Keywords: notification, announcer, FOSS, Shouter, TTS, geofence, caller
+<!-- product-brief-sync:end -->
+
 ## Status markers
 
 Use **emoji markers** (not `- [ ]` GitHub checkboxes) so task state reads clearly in Markdown source and Preview. **Applies repo-wide** — `BUILD_PLAN.md`, module checklists, PR template, feature specs, and security triage.
@@ -48,6 +61,14 @@ grep '\[AUTO\]' BUILD_PLAN.md
 ---
 
 ## Child Repo Playbook
+
+<!-- local-agent-lane:begin -->
+- ✅ [AGENT][LOCAL] (#14) Mixed: Stamp `.template-version` to `1.12.0` after gates pass — scope: `.template-version`
+<!-- local-agent-lane:end -->
+
+<!-- cloud-agent-lane:begin -->
+_No cloud agent items._
+<!-- cloud-agent-lane:end -->
 
 ### Sprint Audit leftover (2026-08-23)
 
@@ -351,23 +372,65 @@ grep '\[AUTO\]' BUILD_PLAN.md
 
 > **Spoken clock + call cancel** archived in COMPLETED_TASKS.md.
 
+---
+
+### Sprint 36 — Template upgrade catch-up (1.5.1 → 1.12.0)
+
+<!-- parallel_exception: sequential canon/mixed copy; sacred human-only -->
+
+Named gaps from `/upgrade` Plan (compare base `v1.5.0...v1.12.0`).
+
+<!-- ux-inventory:begin -->
+<!-- ux-inventory:end -->
+
+### Sequential work
+
+- ✅ [AGENT][LOCAL] (#1) Canon: Agent Mode pack — lean/balanced/speed/mode/status commands, `agent-mode.mdc`, `set-agent-mode.sh`, `agent_mode.py`
+- ✅ [AGENT][LOCAL] (#2) Canon: Cursor commands (1.6–1.11) — ux/brand/shape/resume/a11y/ui/upgrade/tour/etc.
+- ✅ [AGENT][LOCAL] (#3) Canon: Cursor rules updates (`ux-ui`, `design-system`, `brief-replies`, batch/core/local-compute, …)
+- ✅ [AGENT][LOCAL] (#4) Canon: Scripts bulk — `scripts/` + `scripts/lib/` from upstream 1.12.0
+- ✅ [AGENT][LOCAL] (#5) Canon: Help + mode docs — `docs/help/**`, `docs/BATCH_COMMANDS.md`, `docs/CURSOR_MODES.md`
+- ✅ [AGENT][LOCAL] (#6) Canon: Adapter re-sync after AGENTS merge — `bootstrap-lifecycle.sh --sync-adapters`
+- ✅ [AGENT][LOCAL] (#7) Mixed: CI workflows merge — keep OpenShouter Android job shape; HUMAN review before push
+- 🔲 [HUMAN] (#7) Review merged `.github/workflows/` Android CI shape before push
+- ✅ [AGENT][LOCAL] (#8) Mixed: Linguist attribution — merge `templates/linguist/child.gitattributes` into `.gitattributes`; wire check into feature-gate
+- ✅ [AGENT][LOCAL] (#9) Mixed: Config merge — `bootstrap.config.json`, `TEMPLATE_INDEX.json`, `.gitignore`, `.pre-commit-config.yaml` (keep child values)
+- ✅ [AGENT][LOCAL] (#10) Mixed: Copy ADRs `docs/adr/0007`–`0010` if missing
+- ✅ [AGENT][LOCAL] (#11) Mixed: Agent playbook docs merge (`PREFERENCES`, `START_HERE`, `BEST_PRACTICES`, `FEATURE_MODULES`, `UPGRADING`, shape/skills/MCP)
+- ✅ [AGENT][LOCAL] (#12) Mixed: Skills / hooks / `agent-mode.json`
+- ✅ [AGENT][LOCAL] (#13) Mixed: Branding pack `branding/**` (product brand stays OpenShouter)
+- ✅ [AGENT][LOCAL] (#14) Mixed: Stamp `.template-version` to `1.12.0` after gates pass — scope: `.template-version`
+- ✅ [HUMAN] (#15) Sacred: Merge session rules + Agent Mode pointers into `AGENTS.md` (no blind overwrite) — agent applied careful merge; HUMAN confirm before push
+- ✅ [AGENT][LOCAL] (#16) Sacred: Confirm root `AGENT_MEMORY.md` retained (no `.agent/` migration)
+- 🔲 [HUMAN] (#17) Sacred: Optional review of `docs/spec.md` / `docs/plan.md` / `docs/INITIALIZATION_PROMPT.md` / `.env` (no agent overwrite)
+- ✅ [AGENT][LOCAL] (#18) Sacred: Skip `examples/` upstream deltas (OpenShouter app sacred)
+- ✅ [AGENT][LOCAL] (#19–23) Mixed: Extend `feature-catalog.json` android detect globs for `org/openshouter/**` (already shipped; no `/feature` implement)
+
+### Human & device (after automation)
+
+- 🔲 [HUMAN] Approve CI workflow merge (#7) and AGENTS.md merge (#15) before `/push`
+
+---
+
 ## Ongoing Maintenance (recurring)
+
+Not a checklist. Monday cron / `/maintain` owns standing chores; do not park open AGENT/AUTO task rows here.
 
 ### Weekly
 
-- 🔲 [AUTO] `check-security-triage.sh --wait-ci 300` (Dependabot + CI + Scorecard)
-- 🔲 [AGENT] Apply Dependabot bumps; triage Scorecard SARIF findings
-- 🔲 [AUTO] CI matrix + Repo Hygiene + Feature Gate green on `main`
+- Standing AUTO chore (not a board row): `check-security-triage.sh --wait-ci 300` (Dependabot + CI + Scorecard)
+- Standing AGENT chore (not a board row): Apply Dependabot bumps; triage Scorecard SARIF findings
+- Standing AUTO chore (not a board row): CI matrix + Repo Hygiene + Feature Gate green on `main`
 
 ### Monthly
 
-- 🔲 [AUTO] `simulate-template-upgrade.sh`
-- 🔲 [AUTO] `check-license-compliance.sh` + SBOM on latest release
+- Standing AUTO chore (not a board row): `simulate-template-upgrade.sh`
+- Standing AUTO chore (not a board row): `check-license-compliance.sh` + SBOM on latest release
 
 ### Pre-release (every version)
 
-- 🔲 [AUTO] `pre-release-gate.sh`
-- 🔲 [HUMAN] Approve release tag when product-ready
+- Standing AUTO chore (not a board row): `pre-release-gate.sh`
+- Standing HUMAN chore (not a board row): Approve release tag when product-ready
 
 ---
 

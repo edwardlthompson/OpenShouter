@@ -101,3 +101,15 @@ CURSOR_RADAR_SUGGESTIONS.md
 .cursor/encoding-strict
 openvex.json
 .direnv/
+examples/blender/out/
+.agent/session-state.md
+.cursor/sprint-smoke.json
+.cursor/automations.yaml
+CURSOR_RADAR_BUILD_PLAN_DRAFT.md
+.envrc
+!.envrc.example
+*.jks
+*.keystore
+*.p12
+# Optional Nix (flake.nix wraps scripts/ only)
+result

@@ -26,7 +26,9 @@
     "security": "SECURITY.md",
     "license": "LICENSE",
     "design": "docs/DESIGN_GUIDE.md",
-    "branding": "branding/BRANDING.md"
+    "branding": "branding/BRANDING.md",
+    "github_repo": "edwardlthompson/OpenShouter",
+    "pages_demo": "https://edwardlthompson.github.io/OpenShouter/"
   },
   "badge": {
     "primary": "e94560",

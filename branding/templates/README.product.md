@@ -12,7 +12,17 @@
   <img src="https://img.shields.io/badge/license-MIT-{{badge_license}}?style=flat-square" alt="MIT" />
   <img src="https://img.shields.io/badge/FOSS-no_tracking-{{badge_foss}}?style=flat-square" alt="FOSS" />
   <img src="https://img.shields.io/badge/status-active-{{badge_primary}}?style=flat-square" alt="status" />
+  <img src="https://img.shields.io/badge/template-{{template_version}}-0969da?style=flat-square" alt="template" />
+  <a href="https://github.com/edwardlthompson/OpenShouter/actions/workflows/ci.yml"><img src="https://img.shields.io/github/actions/workflow/status/edwardlthompson/OpenShouter/ci.yml?style=flat-square" alt="CI" /></a>
+  <img src="https://img.shields.io/badge/AGENT-2ea043?style=flat-square" alt="AGENT" />
+  <img src="https://img.shields.io/badge/HUMAN-0969da?style=flat-square" alt="HUMAN" />
+  <img src="https://img.shields.io/badge/ADB-bf8700?style=flat-square" alt="ADB" />
+  <img src="https://img.shields.io/badge/AUTO-656d76?style=flat-square" alt="AUTO" />
 {{stack_badges}}
+</p>
+
+<p align="center">
+  <a href="https://edwardlthompson.github.io/OpenShouter/"><img src="https://img.shields.io/badge/GitHub%20Pages-demo-0969da?style=flat-square" alt="GitHub Pages demo" /></a>
 </p>
 
 ## Pitch

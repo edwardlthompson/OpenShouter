@@ -27,6 +27,8 @@ This is an on-device app, not a server. Use:
 4. `[ADB]` Sideload or F-Droid metadata update
 5. Update checks use `.app-update.json` `release_repo` (format-locked `apk`)
 
+Signed release / upload keystore: [`docs/ANDROID_SIGNING.md`](ANDROID_SIGNING.md).
+
 ## Rollback
 
 1. Install previous GitHub Release APK (same `apk` format)

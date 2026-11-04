@@ -24,7 +24,7 @@ Every plan (Cursor Plan Mode, `/plan`, CreatePlan, BUILD_PLAN sprint drafts) mus
 | Plan body | Resolutions appear in todos/steps, not critique-only footnotes |
 | Decisions | Pick a single best approach; no open questions or unresolved option dumps |
 | Deferral | Bare “defer” / “monitor” forbidden unless a tracked follow-up and safety rationale are named |
-| Checklist minimum | Null/empty, timeouts, races, unhandled exceptions — each **Resolved** or **N/A** with why |
+| Checklist minimum | Null/empty, timeouts, races, unhandled exceptions — each **Resolved** or **N/A** with why. **UI slices** also: empty/error/loading, keyboard/focus, contrast/tokens, one primary action, copy in i18n ([`ux-ui-guidelines.md`](ux-ui-guidelines.md)) |
 | When to ask | Only `[HUMAN]` destructive-ops or facts undiscoverable from the codebase |
 See [`.cursor/commands/plan.md`](../.cursor/commands/plan.md) and [`.cursor/rules/read-before-write.mdc`](../.cursor/rules/read-before-write.mdc).
 
@@ -94,14 +94,16 @@ Use `/side`, `/btw`, or the Agents Window plus button for a durable side convers
 
 ## Design Mode
 
-Product **Design Mode** (Agents Window browser: click/draw/voice on live UI) applies when the active stack includes **web/PWA**. Do not use it for Android/Python-only work. See [Design Mode docs](https://cursor.com/docs/agent/design-mode).
+Product **Design Mode** (Agents Window browser: click/draw/voice on live UI) applies when the active stack includes **web/PWA**. Do not use it for Android/Python-only work. Walkthrough: [`CURSOR_CANVAS.md`](CURSOR_CANVAS.md). Official: [Design Mode docs](https://cursor.com/docs/agent/design-mode).
 
 ## Naming disambiguation
 
 | Term | Means | Not the same as |
 |------|--------|-----------------|
 | **Cloud Agents** | Paid remote VMs (formerly “Background Agents”) | Local Agent Mode |
-| **Automations Memories** | Cloud Automations persistence (`MEMORIES.md`-style) | [`AGENT_MEMORY.md`](../AGENT_MEMORY.md) or `.cursor-session-state` |
+| **LOCAL / CLOUD venue** | BUILD_PLAN `[AGENT][LOCAL]` vs `[AGENT][CLOUD]` — where work runs ([`adr/0008-agent-venue.md`](adr/0008-agent-venue.md)) | Who labels AGENT/HUMAN/ADB/AUTO |
+| **Grok Bots** | Optional xAI/Cursor always-on teammates ([`GROK_BOTS.md`](GROK_BOTS.md)) | Cloud Agents, Automations, Cline first-run |
+| **Automations Memories** | Cloud Automations persistence (`MEMORIES.md`-style) | [`AGENT_MEMORY.md`](../.agent/AGENT_MEMORY.md) or `.cursor-session-state` |
 | Built-in **`/plan`** | Product Plan Mode toggle / CLI plan | Batch [`.cursor/commands/plan.md`](../.cursor/commands/plan.md) orchestrator |
 | **`/plan` batch command** | Repo BUILD_PLAN planning recipe | Cursor Plan Mode UI |
 CLI mode parity: [`CURSOR_CLI.md`](CURSOR_CLI.md).
@@ -116,4 +118,4 @@ On **This Computer**, prefer machine parallelism over Cloud Agents:
 | `/worktree` + `/best-of-n` | Isolated local checkouts; multi-model races on hard fixes |
 | Side chats | Research in parallel with the main Agent |
 | Local gates | RAM-capped parallel bootstrap checks + multi-stack `feature-gate` (`BOOTSTRAP_CHECK_JOBS`, `FEATURE_GATE_JOBS`) |
-Rule: [`.cursor/rules/local-compute.mdc`](../.cursor/rules/local-compute.mdc). Details: [`PARALLEL_AGENT_SCOPES.md`](PARALLEL_AGENT_SCOPES.md), [`CURSOR_INTEGRATIONS.md`](CURSOR_INTEGRATIONS.md).
+Rule: [`.cursor/rules/local-compute.mdc`](../.cursor/rules/local-compute.mdc). Details: [`PARALLEL_AGENT_SCOPES.md`](PARALLEL_AGENT_SCOPES.md), [`CURSOR_INTEGRATIONS.md`](CURSOR_INTEGRATIONS.md), Linux: [`LINUX_DEV.md`](LINUX_DEV.md). Venue isolation: [`adr/0008-agent-venue.md`](adr/0008-agent-venue.md) — This Computer claims `[LOCAL]` only; Cloud claims `[CLOUD]` only.
