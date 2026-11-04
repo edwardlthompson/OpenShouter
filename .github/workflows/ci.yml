@@ -161,10 +161,6 @@ jobs:
       - uses: actions/setup-node@v7
         with:
           node-version: "22"
-          cache: npm
-          cache-dependency-path: |
-            examples/web/package-lock.json
-            examples/node/package-lock.json
       - uses: astral-sh/setup-uv@v7
         with:
           enable-cache: true
@@ -252,6 +248,8 @@ jobs:
 
   web:
     name: Web - Lint, Test, Build
+    needs: stack-presence
+    if: needs.stack-presence.outputs.web == 'true'
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -327,6 +325,8 @@ jobs:
 
   node:
     name: Node - Lint, Test
+    needs: stack-presence
+    if: needs.stack-presence.outputs.node == 'true'
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -381,7 +381,7 @@ jobs:
           grep -q "isMinifyEnabled = true" examples/android/app/build.gradle.kts
           grep -q "isShrinkResources = true" examples/android/app/build.gradle.kts
           grep -q "proguard-android-optimize.txt" examples/android/app/build.gradle.kts
-          grep -q 'android:name=".GoldenPathApplication"' examples/android/app/src/main/AndroidManifest.xml
+          grep -qE 'android:name="(\.GoldenPathApplication|org\.openshouter\.OpenShouterApp)"' examples/android/app/src/main/AndroidManifest.xml
           if grep -q largeHeap examples/android/app/src/main/AndroidManifest.xml; then
             echo "ERROR: android:largeHeap is forbidden under Android 17 memory limits"
             exit 1

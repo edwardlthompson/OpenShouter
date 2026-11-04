@@ -227,13 +227,19 @@ fi
 # Update check config
 python3 - "$INTERVAL" "$ROOT/.template-update.json" << 'PY'
 import json, sys
-interval, path = sys.argv[1], sys.argv[2]
-with open(path, encoding="utf-8") as f:
-    d = json.load(f)
+from pathlib import Path
+interval, path = sys.argv[1], Path(sys.argv[2])
+if path.is_file():
+    d = json.loads(path.read_text(encoding="utf-8-sig"))
+else:
+    d = {
+        "upstream": "edwardlthompson/agent-project-bootstrap",
+        "check_interval": "weekly",
+        "last_checked": None,
+        "notify_method": "stdout",
+    }
 d["check_interval"] = interval
-with open(path, "w", encoding="utf-8") as f:
-    json.dump(d, f, indent=2)
-    f.write("\n")
+path.write_text(json.dumps(d, indent=2) + "\n", encoding="utf-8", newline="\n")
 PY
 
 

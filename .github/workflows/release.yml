@@ -31,12 +31,18 @@ jobs:
           GITHUB_REF_NAME: ${{ github.ref_name }}
         run: bash scripts/check-ci-refs.sh --release
 
-      - name: Verify tag matches .template-version
+      - name: Verify tag matches product or template version
         run: |
           TAG="${GITHUB_REF#refs/tags/v}"
-          VERSION=$(tr -d '[:space:]' < .template-version)
-          if [ "$TAG" != "$VERSION" ]; then
-            echo "Tag v$TAG does not match .template-version ($VERSION)"
+          TEMPLATE=$(tr -d '[:space:]' < .template-version)
+          PRODUCT=""
+          if [ -f examples/android/app/build.gradle.kts ]; then
+            PRODUCT=$(grep -oE 'versionName[[:space:]]*=[[:space:]]*"[0-9]+\.[0-9]+\.[0-9]+"' examples/android/app/build.gradle.kts | head -1 | grep -oE '[0-9]+\.[0-9]+\.[0-9]+' || true)
+          fi
+          if [ "$TAG" = "$TEMPLATE" ] || { [ -n "$PRODUCT" ] && [ "$TAG" = "$PRODUCT" ]; }; then
+            echo "Tag v$TAG ok (template=$TEMPLATE product=${PRODUCT:-none})"
+          else
+            echo "Tag v$TAG matches neither .template-version ($TEMPLATE) nor android versionName (${PRODUCT:-none})"
             exit 1
           fi
 
@@ -85,7 +91,7 @@ jobs:
         id: tag_ver
         run: echo "tag=v$(tr -d '[:space:]' < .template-version)" >> "$GITHUB_OUTPUT"
 
-      - name: Verify tag matches .template-version
+      - name: Verify tag matches product or template version
         env:
           INPUT_TAG: ${{ inputs.tag }}
           STEP_TAG: ${{ steps.tag.outputs.tag }}
@@ -97,12 +103,18 @@ jobs:
             EFFECTIVE="${STEP_TAG:-$STEP_TAG_VER}"
           fi
           TAG="${EFFECTIVE#v}"
-          VERSION=$(tr -d '[:space:]' < .template-version)
-          if [ "$TAG" != "$VERSION" ]; then
-            echo "Tag v$TAG does not match .template-version ($VERSION)"
+          TEMPLATE=$(tr -d '[:space:]' < .template-version)
+          PRODUCT=""
+          if [ -f examples/android/app/build.gradle.kts ]; then
+            PRODUCT=$(grep -oE 'versionName[[:space:]]*=[[:space:]]*"[0-9]+\.[0-9]+\.[0-9]+"' examples/android/app/build.gradle.kts | head -1 | grep -oE '[0-9]+\.[0-9]+\.[0-9]+' || true)
+          fi
+          if [ "$TAG" = "$TEMPLATE" ] || { [ -n "$PRODUCT" ] && [ "$TAG" = "$PRODUCT" ]; }; then
+            echo "EFFECTIVE_TAG=v${TAG}" >> "$GITHUB_ENV"
+            echo "Tag v$TAG ok (template=$TEMPLATE product=${PRODUCT:-none})"
+          else
+            echo "Tag v$TAG matches neither .template-version ($TEMPLATE) nor android versionName (${PRODUCT:-none})"
             exit 1
           fi
-          echo "EFFECTIVE_TAG=v${VERSION}" >> "$GITHUB_ENV"
 
       - name: Poll post-merge CI before SBOM upload
         if: github.event_name == 'release'
