@@ -18,6 +18,7 @@ enum class IgnoreReason {
     BUBBLE,
     WORK_PROFILE,
     CONTACT_COOLDOWN,
+    APP_MUTED,
 }
 
 data class NotificationPolicy(

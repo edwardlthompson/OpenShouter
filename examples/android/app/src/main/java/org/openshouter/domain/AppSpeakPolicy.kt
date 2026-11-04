@@ -10,7 +10,11 @@ data class AppSpeakRule(
 
 object AppSpeakPolicy {
     fun ruleFor(packageName: String, rules: Map<String, AppSpeakRule>): AppSpeakRule? =
-        rules[packageName]?.takeIf(AppSpeakRule::active)
+        rules[packageName]
+
+    fun isMuted(rule: AppSpeakRule?): Boolean = rule != null && !rule.active
+
+    fun allowsSpeak(rule: AppSpeakRule?): Boolean = rule?.active == true
 
     fun utterance(
         rule: AppSpeakRule,

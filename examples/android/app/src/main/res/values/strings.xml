@@ -94,6 +94,8 @@
     <string name="dashboard_grant_background">Allow background location for geofences</string>
     <string name="dashboard_background_rationale">Background location is used only to silence announcements inside saved Home or Work fences. It is requested separately after fine location.</string>
     <string name="nav_rules">Apps to shout</string>
+    <string name="apps_mute_help">Turn both switches off to mute an app. Muted apps stay listed so you can unmute later. Quiet hours mute everything globally.</string>
+    <string name="nav_quiet">Quiet hours</string>
     <string name="nav_announcer">Mute, quiet hours, audio</string>
     <string name="nav_places">Geofence places</string>
     <string name="nav_history">Announcement history</string>
@@ -241,6 +243,7 @@
     <string name="history_reason_filter">text filter</string>
     <string name="history_reason_gate">device or quiet gate</string>
     <string name="history_reason_importance">below importance</string>
+    <string name="history_reason_muted">app muted</string>
     <string name="filters_ignore_empty">Ignore empty notifications</string>
     <string name="filters_ignore_group">Ignore stacked group summaries</string>
     <string name="filters_ignore_repeats">Ignore identical repeats</string>

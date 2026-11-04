@@ -88,6 +88,7 @@ fun OpenShouterPanes(
             onOpenSetup = { onPane(Pane.Setup) },
             onOpenRules = { onPane(Pane.Rules) },
             onOpenAnnouncerSettings = { onPane(Pane.Announcer) },
+            onOpenQuietHours = { onPane(Pane.Quiet) },
             onOpenHistory = { onPane(Pane.History) },
             onOpenFilters = { onPane(Pane.Filters) },
             onOpenTts = { onPane(Pane.Tts) },

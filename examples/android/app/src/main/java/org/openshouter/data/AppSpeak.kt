@@ -51,10 +51,7 @@ class AppSpeakStore @Inject constructor(
     suspend fun set(packageName: String, speakAppName: Boolean, speakNotification: Boolean) {
         val pkg = packageName.trim()
         if (pkg.isEmpty()) return
-        if (!speakAppName && !speakNotification) {
-            dao.delete(pkg)
-            return
-        }
+        // Persist muted rows (both false) so history mute and Apps list stay explicit.
         dao.upsert(AppSpeakEntity(pkg, speakAppName, speakNotification))
     }
 

@@ -25,5 +25,6 @@ internal fun ignoreReasonLabel(raw: String): Int? {
         IgnoreReason.WORK_PROFILE,
         IgnoreReason.CONTACT_COOLDOWN,
         -> R.string.history_reason_filter
+        IgnoreReason.APP_MUTED -> R.string.history_reason_muted
     }
 }

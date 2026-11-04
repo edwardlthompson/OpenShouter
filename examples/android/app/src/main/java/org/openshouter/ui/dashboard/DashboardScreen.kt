@@ -33,6 +33,7 @@ fun DashboardScreen(
     onOpenSetup: () -> Unit,
     onOpenRules: () -> Unit,
     onOpenAnnouncerSettings: () -> Unit,
+    onOpenQuietHours: () -> Unit = {},
     onOpenHistory: () -> Unit,
     onOpenFilters: () -> Unit,
     onOpenTts: () -> Unit,
@@ -75,6 +76,7 @@ fun DashboardScreen(
         }
         MenuSection(stringResource(R.string.menu_section_hear)) {
             MenuLink(stringResource(R.string.nav_rules), onOpenRules)
+            MenuLink(stringResource(R.string.nav_quiet), onOpenQuietHours, showDivider = true)
             MenuLink(stringResource(R.string.announcer_title), onOpenAnnouncerSettings, stringResource(R.string.nav_announcer), true)
             MenuLink(
                 stringResource(R.string.nav_silence),
