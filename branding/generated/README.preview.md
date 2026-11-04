@@ -4,6 +4,10 @@
   <img src="../assets/readme-hero.svg" alt="OpenShouter" width="960" />
 </p>
 
+<p align="center">
+  <img src="../../docs/images/demo.gif" alt="OpenShouter demo walkthrough" width="280" />
+</p>
+
 <h1 align="center">OpenShouter</h1>
 
 <p align="center"><strong>Hear what matters without looking.</strong></p>
@@ -43,10 +47,12 @@ It is a FOSS Android announcer inspired by Voice Notify and classic Shouter: spo
 ## Demo
 
 <p align="center">
-  <img src="../assets/logo-lockup.svg" alt="OpenShouter lockup" width="320" />
+  <img src="../../docs/images/demo.gif" alt="OpenShouter demo walkthrough" width="360" />
 </p>
 
-> Add screenshots or a short demo GIF under `docs/images/` and link them here when available.
+<p align="center">
+  <img src="../assets/logo-lockup.svg" alt="OpenShouter lockup" width="320" />
+</p>
 
 ## Features
 

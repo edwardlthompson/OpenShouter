@@ -111,5 +111,8 @@ CURSOR_RADAR_BUILD_PLAN_DRAFT.md
 *.jks
 *.keystore
 *.p12
+# Local screen recordings (GIF under docs/images/ is tracked)
+docs/images/*.mp4
+docs/images/*.webm
 # Optional Nix (flake.nix wraps scripts/ only)
 result

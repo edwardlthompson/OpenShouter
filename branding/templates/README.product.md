@@ -4,6 +4,10 @@
   <img src="{{hero_path}}" alt="{{name}}" width="960" />
 </p>
 
+<p align="center">
+  <img src="{{demo_gif_path}}" alt="{{name}} demo walkthrough" width="280" />
+</p>
+
 <h1 align="center">{{name}}</h1>
 
 <p align="center"><strong>{{tagline}}</strong></p>
@@ -36,10 +40,12 @@
 ## Demo
 
 <p align="center">
-  <img src="{{lockup_path}}" alt="{{name}} lockup" width="320" />
+  <img src="{{demo_gif_path}}" alt="{{name}} demo walkthrough" width="360" />
 </p>
 
-> Add screenshots or a short demo GIF under `docs/images/` and link them here when available.
+<p align="center">
+  <img src="{{lockup_path}}" alt="{{name}} lockup" width="320" />
+</p>
 
 ## Features
 

@@ -113,9 +113,11 @@ def render_readme(root: Path, product: dict, *, for_preview: bool = False) -> st
     if for_preview:
         hero_path = "../assets/readme-hero.svg"
         lockup_path = "../assets/logo-lockup.svg"
+        demo_gif_path = "../../docs/images/demo.gif"
     else:
         hero_path = "branding/assets/readme-hero.svg"
         lockup_path = "branding/assets/logo-lockup.svg"
+        demo_gif_path = "docs/images/demo.gif"
 
     replacements = {
         "{{name}}": product["name"],
@@ -128,6 +130,7 @@ def render_readme(root: Path, product: dict, *, for_preview: bool = False) -> st
         "{{usage}}": product["usage"],
         "{{hero_path}}": hero_path,
         "{{lockup_path}}": lockup_path,
+        "{{demo_gif_path}}": demo_gif_path,
         "{{badge_license}}": badge["license"],
         "{{badge_foss}}": badge["foss"],
         "{{badge_primary}}": badge["primary"],
