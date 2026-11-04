@@ -71,6 +71,8 @@
     <string name="dashboard_open_setup">Permissions and battery</string>
     <string name="setup_title">Welcome — turn on what OpenShouter needs</string>
     <string name="setup_body">Each button opens a system screen. Unrestricted battery and exact alarms keep hourly shouts on time after the phone sleeps.</string>
+    <string name="setup_chooser_title">Which alerts get spoken</string>
+    <string name="setup_chooser_body">OpenShouter only speaks apps you pick. Nothing is read aloud until you choose at least one app. That chooser is the product: allow Messages or your bank, leave games silent. Calls, power, and calendar have their own toggles under Announcer after setup.</string>
     <string name="setup_continue">Continue</string>
     <string name="setup_activate">Activate</string>
     <string name="setup_activated">Activated</string>
