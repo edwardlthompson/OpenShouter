@@ -7,12 +7,12 @@ authors:
 repository-code: https://github.com/edwardlthompson/OpenShouter
 url: https://github.com/edwardlthompson/OpenShouter
 abstract: >-
-  FOSS Android TTS announcer for chosen notifications and Shouter-style
-  telephony and hardware events. No Google Play Services or tracking.
+  Speaks the Android alerts you choose so you can look away — notifications,
+  caller ID, quiet hours. No Google Play Services or tracking.
 keywords:
-  - foss
   - android
-  - tts
+  - kotlin
+  - text-to-speech
   - accessibility
   - notifications
 license: MIT
