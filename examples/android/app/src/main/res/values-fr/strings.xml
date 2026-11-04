@@ -50,6 +50,8 @@
     <string name="dashboard_master">Annonces</string>
     <string name="announcer_title">Annonceur</string>
     <string name="tts_title">Voix</string>
+    <string name="tts_engine_retrying">Échec du démarrage de la synthèse vocale — nouvel essai…</string>
+    <string name="tts_engine_failed">Aucun moteur de synthèse vocale disponible. Ouvrez les réglages Voix ou installez un moteur TTS, puis réessayez.</string>
     <string name="menu_section_master">Général</string>
     <string name="menu_section_hear">Écouter</string>
     <string name="menu_section_log">Historique et rappels</string>
@@ -69,6 +71,8 @@
     <string name="dashboard_open_setup">Permissions et batterie</string>
     <string name="setup_title">Bienvenue — activez ce dont OpenShouter a besoin</string>
     <string name="setup_body">Chaque bouton ouvre un écran système. La batterie sans restriction et les alarmes exactes gardent les annonces horaires à l’heure après veille.</string>
+    <string name="setup_chooser_title">Quelles alertes sont lues</string>
+    <string name="setup_chooser_body">OpenShouter ne lit que les applis que vous choisissez. Rien n’est lu à voix haute tant que vous n’avez pas choisi au moins une appli. Ce sélecteur est le produit : autorisez Messages ou votre banque, laissez les jeux silencieux. Appels, énergie et agenda ont leurs propres interrupteurs sous Annonceur après la configuration.</string>
     <string name="setup_continue">Continuer</string>
     <string name="setup_activate">Activer</string>
     <string name="setup_activated">Activé</string>
@@ -92,6 +96,8 @@
     <string name="dashboard_grant_background">Autoriser la position en arrière-plan pour les géorepères</string>
     <string name="dashboard_background_rationale">La position en arrière-plan sert uniquement à faire taire les annonces dans les zones Maison ou Travail. Elle est demandée après la position précise.</string>
     <string name="nav_rules">Applis à annoncer</string>
+    <string name="apps_mute_help">Désactivez les deux interrupteurs pour mettre une appli en sourdine. Les applis en sourdine restent listées pour pouvoir les réactiver. Les heures silencieuses coupent tout globalement.</string>
+    <string name="nav_quiet">Heures silencieuses</string>
     <string name="nav_announcer">Muet, heures silencieuses, audio</string>
     <string name="nav_places">Lieux géorepère</string>
     <string name="nav_history">Historique des annonces</string>
@@ -239,6 +245,7 @@
     <string name="history_reason_filter">filtre de texte</string>
     <string name="history_reason_gate">blocage appareil ou silence</string>
     <string name="history_reason_importance">sous le seuil d’importance</string>
+    <string name="history_reason_muted">appli en sourdine</string>
     <string name="filters_ignore_empty">Ignorer les notifications vides</string>
     <string name="filters_ignore_group">Ignorer les résumés de groupe</string>
     <string name="filters_ignore_repeats">Ignorer les répétitions identiques</string>

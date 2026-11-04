@@ -50,6 +50,8 @@
     <string name="dashboard_master">Anuncios</string>
     <string name="announcer_title">Anunciador</string>
     <string name="tts_title">Voz</string>
+    <string name="tts_engine_retrying">No se pudo iniciar la síntesis de voz — reintentando una vez…</string>
+    <string name="tts_engine_failed">No hay un motor de síntesis de voz disponible. Abre Ajustes de voz o instala un motor TTS e inténtalo de nuevo.</string>
     <string name="menu_section_master">Principal</string>
     <string name="menu_section_hear">Escuchar</string>
     <string name="menu_section_log">Historial y recordatorios</string>
@@ -69,6 +71,8 @@
     <string name="dashboard_open_setup">Permisos y batería</string>
     <string name="setup_title">Bienvenido — activa lo que OpenShouter necesita</string>
     <string name="setup_body">Cada botón abre una pantalla del sistema. La batería sin restricciones y las alarmas exactas mantienen los anuncios a la hora después de que el teléfono duerma.</string>
+    <string name="setup_chooser_title">Qué alertas se pronuncian</string>
+    <string name="setup_chooser_body">OpenShouter solo habla las apps que eliges. Nada se lee en voz alta hasta que elijas al menos una app. Ese selector es el producto: permite Mensajes o tu banco, deja los juegos en silencio. Llamadas, energía y calendario tienen sus propios interruptores en Anunciador tras la configuración.</string>
     <string name="setup_continue">Continuar</string>
     <string name="setup_activate">Activar</string>
     <string name="setup_activated">Activado</string>
@@ -92,6 +96,8 @@
     <string name="dashboard_grant_background">Permitir ubicación en segundo plano para geocercas</string>
     <string name="dashboard_background_rationale">La ubicación en segundo plano solo silencia anuncios dentro de las cercas Casa o Trabajo. Se pide aparte después de la ubicación precisa.</string>
     <string name="nav_rules">Apps para anunciar</string>
+    <string name="apps_mute_help">Apaga ambos interruptores para silenciar una app. Las apps silenciadas siguen en la lista para poder reactivarlas. Las horas silenciosas silencian todo de forma global.</string>
+    <string name="nav_quiet">Horas silenciosas</string>
     <string name="nav_announcer">Silencio, horas quietas, audio</string>
     <string name="nav_places">Lugares con geocerca</string>
     <string name="nav_history">Historial de anuncios</string>
@@ -239,6 +245,7 @@
     <string name="history_reason_filter">filtro de texto</string>
     <string name="history_reason_gate">bloqueo por dispositivo o silencio</string>
     <string name="history_reason_importance">por debajo de la importancia</string>
+    <string name="history_reason_muted">app silenciada</string>
     <string name="filters_ignore_empty">Ignorar notificaciones vacías</string>
     <string name="filters_ignore_group">Ignorar resúmenes de grupo</string>
     <string name="filters_ignore_repeats">Ignorar repeticiones idénticas</string>
