@@ -121,6 +121,7 @@ def render_readme(root: Path, product: dict, *, for_preview: bool = False) -> st
         "{{name}}": product["name"],
         "{{tagline}}": product["tagline"],
         "{{pitch}}": product["pitch"],
+        "{{what_this_is_not}}": render_list(product.get("what_this_is_not") or []),
         "{{features}}": render_list(product["features"]),
         "{{quick_start}}": render_list(product["quick_start"], ordered=True),
         "{{install}}": product["install"],

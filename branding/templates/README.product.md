@@ -29,6 +29,10 @@
 
 {{pitch}}
 
+## What this is not
+
+{{what_this_is_not}}
+
 ## Demo
 
 <p align="center">

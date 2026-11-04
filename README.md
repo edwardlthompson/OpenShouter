@@ -34,6 +34,12 @@ Silence ringtones and notification sounds. In OpenShouter, allow only the apps y
 
 It is a FOSS Android announcer inspired by Voice Notify and classic Shouter: spoken notifications, looping caller ID, battery and power events, mute gestures, and on-device geofences. No Google Play Services, Firebase, or tracking. MIT licensed. GitHub Releases only.
 
+## What this is not
+
+- It speaks the alerts you choose — it does not read the screen or OCR other apps.
+- It is not a TalkBack or screen-reader replacement; accessibility services still handle full UI navigation.
+- It does not replace your notification shade, answer calls for you, or silence other apps by force.
+
 ## Demo
 
 <p align="center">

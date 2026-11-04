@@ -12,7 +12,7 @@
   <img src="https://img.shields.io/badge/license-MIT-2ea043?style=flat-square" alt="MIT" />
   <img src="https://img.shields.io/badge/FOSS-no_tracking-656d76?style=flat-square" alt="FOSS" />
   <img src="https://img.shields.io/badge/status-active-e94560?style=flat-square" alt="status" />
-  <img src="https://img.shields.io/badge/template-1.5.1-0969da?style=flat-square" alt="template" />
+  <img src="https://img.shields.io/badge/template-1.12.0-0969da?style=flat-square" alt="template" />
   <a href="https://github.com/edwardlthompson/OpenShouter/actions/workflows/ci.yml"><img src="https://img.shields.io/github/actions/workflow/status/edwardlthompson/OpenShouter/ci.yml?style=flat-square" alt="CI" /></a>
   <img src="https://img.shields.io/badge/AGENT-2ea043?style=flat-square" alt="AGENT" />
   <img src="https://img.shields.io/badge/HUMAN-0969da?style=flat-square" alt="HUMAN" />
@@ -33,6 +33,12 @@ OpenShouter reads the alerts you choose — out loud — so you do not have to l
 Silence ringtones and notification sounds. In OpenShouter, allow only the apps you still need to hear. The rest stays quiet. You keep the important calls and messages, drop the noise, and glance at the screen far less.
 
 It is a FOSS Android announcer inspired by Voice Notify and classic Shouter: spoken notifications, looping caller ID, battery and power events, mute gestures, and on-device geofences. No Google Play Services, Firebase, or tracking. MIT licensed. GitHub Releases only.
+
+## What this is not
+
+- It speaks the alerts you choose — it does not read the screen or OCR other apps.
+- It is not a TalkBack or screen-reader replacement; accessibility services still handle full UI navigation.
+- It does not replace your notification shade, answer calls for you, or silence other apps by force.
 
 ## Demo
 

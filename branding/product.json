@@ -4,6 +4,11 @@
   "short_name": "OpenShouter",
   "tagline": "Hear what matters without looking.",
   "pitch": "OpenShouter reads the alerts you choose — out loud — so you do not have to look at the phone. That helps people who cannot see a screen, or cannot read what is on it. It also helps anyone who wants the device to stay in a pocket.\n\nSilence ringtones and notification sounds. In OpenShouter, allow only the apps you still need to hear. The rest stays quiet. You keep the important calls and messages, drop the noise, and glance at the screen far less.\n\nIt is a FOSS Android announcer inspired by Voice Notify and classic Shouter: spoken notifications, looping caller ID, battery and power events, mute gestures, and on-device geofences. No Google Play Services, Firebase, or tracking. MIT licensed. GitHub Releases only.",
+  "what_this_is_not": [
+    "It speaks the alerts you choose — it does not read the screen or OCR other apps.",
+    "It is not a TalkBack or screen-reader replacement; accessibility services still handle full UI navigation.",
+    "It does not replace your notification shade, answer calls for you, or silence other apps by force."
+  ],
   "features": [
     "Eyes-free by design: hear callers and chosen notifications when you cannot see or read the screen",
     "Quieter days: mute system sounds, whitelist the apps that matter, and stop checking the phone all day",
