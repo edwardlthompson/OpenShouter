@@ -118,6 +118,11 @@ fun AppSpeakScreen(
                 singleLine = true,
             )
         }
+        Text(
+            stringResource(R.string.apps_mute_help),
+            style = MaterialTheme.typography.bodySmall,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+        )
         val selectedLabel = stringResource(R.string.apps_filter_selected)
         FlowRow(
             horizontalArrangement = Arrangement.spacedBy(SpacingMd),

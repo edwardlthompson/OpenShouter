@@ -54,12 +54,16 @@ child_quick
 bash scripts/validate-template-index.sh
 
 echo "==> Non-interactive init smoke (web stack, no prune)"
+cp -f AGENT.md.example AGENT.md
+SACRED_AGENT="upgrade-sim-sacred-agent-md"
+printf '\n<!-- %s -->\n' "$SACRED_AGENT" >> AGENT.md
 bash scripts/init-project.sh \
   --non-interactive \
   --stack web \
   --project-name "Upgrade Sim" \
   --purpose "Cherry-pick validation" \
   --no-prune \
+  --profile full \
   --license MIT
 
 for path in \
@@ -102,7 +106,7 @@ SACRED_MARK="upgrade-sim-sacred-agents-md"
 printf '\n<!-- %s -->\n' "$SACRED_MARK" >> AGENTS.md
 for path in "${AREAS[@]}"; do
   case "$path" in
-    AGENTS.md|docs/spec.md|docs/plan.md|docs/INITIALIZATION_PROMPT.md)
+    AGENTS.md|AGENT.md|docs/spec.md|docs/plan.md|docs/INITIALIZATION_PROMPT.md)
       echo "FAIL: Sacred path $path must not be in upgrade AREAS"
       exit 1
       ;;
@@ -116,6 +120,10 @@ if ! grep -q "$SACRED_MARK" AGENTS.md; then
   echo "FAIL: Sacred AGENTS.md was overwritten during upgrade cherry-pick"
   exit 1
 fi
+if ! grep -q "$SACRED_AGENT" AGENT.md; then
+  echo "FAIL: Sacred AGENT.md was overwritten during init or cherry-pick"
+  exit 1
+fi
 if ! grep -q 'Upgrade Sim' AGENTS.md; then
   echo "FAIL: stamped project name lost from AGENTS.md"
   exit 1
@@ -126,16 +134,17 @@ child_quick
 echo "==> Non-interactive init smoke with --prune --prune-optional"
 git clone --quiet "file://$ROOT" "$WORKDIR/child-prune"
 cd "$WORKDIR/child-prune"
-
+cp -f AGENT.md.example AGENT.md
 bash scripts/init-project.sh \
   --non-interactive \
   --stack web \
   --project-name "Upgrade Sim Prune" \
   --purpose "Prune optional validation" \
   --prune \
-  --prune-optional
+  --prune-optional \
+  --profile full
 
-for path in examples/rust examples/go examples/lightroom modules/rust modules/go modules/lightroom; do
+for path in examples/rust examples/go examples/lightroom examples/blender modules/rust modules/go modules/lightroom modules/blender; do
   if [ -e "$path" ]; then
     echo "FAIL: $path still present after --prune-optional"
     exit 1
@@ -150,12 +159,18 @@ done
 child_quick
 echo "Prune-optional smoke passed"
 
+# After prune-optional, child must still be able to re-validate bootstrap (upgrade path).
+echo "==> Re-run child_quick on pruned optional stacks (upgrade-sim continuity)"
+child_quick
+echo "Pruned optional-stack upgrade continuity passed"
+
 echo "==> Non-interactive init smoke (PowerShell)"
 if ! command -v pwsh >/dev/null 2>&1; then
   echo "SKIP PowerShell init smoke (pwsh not on PATH)"
 else
   git clone --quiet "file://$ROOT" "$WORKDIR/child-ps"
   cd "$WORKDIR/child-ps"
+  cp -f AGENT.md.example AGENT.md
 
   PYTHON_BASIC_REPL=1 PYTHONUNBUFFERED=1 PYTHONIOENCODING=utf-8 \
     pwsh -NoProfile -File scripts/init-project.ps1 \
@@ -164,10 +179,19 @@ else
     -ProjectName "Upgrade Sim PS" \
     -ProjectPurpose "PS init smoke" \
     -Prune \
-    -PruneOptional
+    -PruneOptional \
+    -Profile full
 
   child_quick
   echo "PowerShell init smoke passed"
+fi
+
+echo "==> Assert Espresso pin survives upgrade-sim tree"
+if [ -f examples/android/app/build.gradle.kts ]; then
+  if ! grep -Eq 'espresso-core:3\.(7|[89]|[1-9][0-9])\.' examples/android/app/build.gradle.kts; then
+    echo "FAIL: espresso-core must be >= 3.7.0 after upgrade-sim"
+    exit 1
+  fi
 fi
 
 echo "Upgrade simulation passed"

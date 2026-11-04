@@ -41,6 +41,7 @@ fun OpenShouterHome(
     val regexRules by ep.regex().all().collectAsStateWithLifecycle(emptyList())
     val reminders by ep.reminders().all().collectAsStateWithLifecycle(emptyList())
     val leaks by ep.soundLeaks().recent().collectAsStateWithLifecycle(emptyList())
+    val ttsBindPhase by ep.tts().bindPhase.collectAsStateWithLifecycle()
     val installedApps = remember(context) { InstalledAppCatalog.list(context) }
     var pane by remember { mutableStateOf(Pane.Home) }
     val scrollStore = rememberMenuScrollStore()
@@ -72,6 +73,7 @@ fun OpenShouterHome(
         installedApps = installedApps,
         showSpoken = settings.showSpokenText,
         showSetup = pane == Pane.Setup || (pane == Pane.Home && !settings.setupComplete),
+        ttsBindPhase = ttsBindPhase,
         ep = ep,
         scope = scope,
         onPane = { pane = it },

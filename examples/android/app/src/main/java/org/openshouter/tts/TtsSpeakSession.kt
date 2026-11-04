@@ -4,13 +4,17 @@ import android.content.Context
 import android.media.MediaMetadata
 import android.media.session.MediaSession
 import android.media.session.PlaybackState
+import android.os.Handler
+import android.os.Looper
 import org.openshouter.domain.TtsStream
 
 /** Active MediaSession so the head unit switches to Media and AudioHardening allows playback. */
 internal class TtsSpeakSession(context: Context) {
     private val title = context.packageManager.getApplicationLabel(context.applicationInfo).toString()
     private val session = MediaSession(context, "openshouter-tts").apply {
-        setCallback(object : MediaSession.Callback() {})
+        // #63: setCallback() without a Handler uses Looper.myLooper(); Hilt may construct
+        // TtsController on Dispatchers.Default where that is null → NPE in Handler.
+        setCallback(object : MediaSession.Callback() {}, Handler(Looper.getMainLooper()))
         setPlaybackToLocal(TtsEngine.attributes(TtsStream.MEDIA))
         setMetadata(
             MediaMetadata.Builder()

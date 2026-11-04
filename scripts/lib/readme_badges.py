@@ -1,6 +1,7 @@
 """Fail when README hero/stack/owner badges drift from repo truth."""
 from __future__ import annotations
 
+import json
 from pathlib import Path
 
 OWNER_COLORS = {
@@ -32,9 +33,18 @@ def check_repo(root: Path) -> list[str]:
         needle = f"badge/{label}-"
         if needle not in readme or color not in readme:
             errors.append(f"owner badge {label} / {color} missing")
-        elif f"{label}-" not in readme or color.lower() not in readme.lower():
-            errors.append(f"owner badge {label} color {color} missing")
-    for stack, color in STACK_COLORS.items():
+    # only stacks: require declared product stacks (child android-only OK)
+    stacks = list(STACK_COLORS)
+    product = root / "branding" / "product.json"
+    if product.is_file():
+        data = json.loads(product.read_text(encoding="utf-8"))
+        declared = [str(s).lower() for s in (data.get("stacks") or [])]
+        if declared:
+            stacks = declared
+    for stack in stacks:
+        color = STACK_COLORS.get(stack)
+        if not color:
+            continue
         if f"badge/{stack}-stack-{color}" not in readme:
             errors.append(f"stack badge {stack} must use {color}")
     return errors

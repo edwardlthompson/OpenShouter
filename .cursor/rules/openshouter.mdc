@@ -10,6 +10,6 @@ alwaysApply: true
 - No Google Play Services, Firebase, Play Core, or closed telemetry (ADR-0002)
 - Geofences: `LocationManager` + in-process radius checks, never `play-services-location`
 - Do not log notification text, phone numbers, contact names, or coordinates
-- Task board: `BUILD_PLAN.md`; ADRs: `docs/adr/`; memory: `AGENT_MEMORY.md`
+- Task board: `BUILD_PLAN.md`; ADRs: `docs/adr/`; memory: `.agent/AGENT_MEMORY.md`
 - Sequential schema lock before Parallel agents; composition roots stay small
 - After every `/build` wrap-up or `/push`, refresh `docs/features/parity-matrix.md` and the IDE canvas `feature-parity-matrix.canvas.tsx` from shipped `examples/android/` code (Yes / Partial / No / Skip). Never leave the canvas stale vs BUILD_PLAN ✅ rows.

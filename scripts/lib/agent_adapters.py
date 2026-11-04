@@ -8,21 +8,32 @@ from pathlib import Path
 from adapter_templates import ADAPTERS, ADAPTER_MAX_BYTES, GENERATED, POINTER_KEYS, POINTER_MAX_LINES
 
 
+def _ensure_clinerules_dir(root: Path) -> None:
+    """Migrate legacy file `.clinerules` to a directory; never wipe workflows/."""
+    legacy = root / ".clinerules"
+    if legacy.is_file():
+        legacy.unlink()
+    # parent mkdir for `.clinerules/AGENTS.md` creates the directory safely
+
+
 def write_adapters(root: Path, enabled: dict[str, bool] | None = None) -> list[Path]:
     flags = enabled or {}
     written: list[Path] = []
     for key, rel, body in ADAPTERS:
         if flags.get(key, True) is False:
             continue
+        if key == "cline":
+            _ensure_clinerules_dir(root)
         path = root / rel
         path.parent.mkdir(parents=True, exist_ok=True)
-        path.write_text(body.lstrip() + "\n", encoding="utf-8")
+        path.write_text(expected_text(body), encoding="utf-8")
         written.append(path)
     return written
 
 
 def expected_text(body: str) -> str:
-    return body.lstrip() + "\n"
+    # Exactly one trailing newline so end-of-file-fixer and drift check agree.
+    return body.lstrip().rstrip("\n") + "\n"
 
 
 def line_count(text: str) -> int:

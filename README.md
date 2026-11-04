@@ -4,6 +4,10 @@
   <img src="branding/assets/readme-hero.svg" alt="OpenShouter" width="960" />
 </p>
 
+<p align="center">
+  <img src="docs/images/demo.gif" alt="OpenShouter demo walkthrough" width="280" />
+</p>
+
 <h1 align="center">OpenShouter</h1>
 
 <p align="center"><strong>Hear what matters without looking.</strong></p>
@@ -12,8 +16,18 @@
   <img src="https://img.shields.io/badge/license-MIT-2ea043?style=flat-square" alt="MIT" />
   <img src="https://img.shields.io/badge/FOSS-no_tracking-656d76?style=flat-square" alt="FOSS" />
   <img src="https://img.shields.io/badge/status-active-e94560?style=flat-square" alt="status" />
+  <img src="https://img.shields.io/badge/template-1.12.0-0969da?style=flat-square" alt="template" />
+  <a href="https://github.com/edwardlthompson/OpenShouter/actions/workflows/ci.yml"><img src="https://img.shields.io/github/actions/workflow/status/edwardlthompson/OpenShouter/ci.yml?style=flat-square" alt="CI" /></a>
+  <img src="https://img.shields.io/badge/AGENT-2ea043?style=flat-square" alt="AGENT" />
+  <img src="https://img.shields.io/badge/HUMAN-0969da?style=flat-square" alt="HUMAN" />
+  <img src="https://img.shields.io/badge/ADB-bf8700?style=flat-square" alt="ADB" />
+  <img src="https://img.shields.io/badge/AUTO-656d76?style=flat-square" alt="AUTO" />
 
-  <img src="https://img.shields.io/badge/android-stack-e94560?style=flat-square" alt="android" />
+  <img src="https://img.shields.io/badge/android-stack-3DDC84?style=flat-square" alt="android" />
+</p>
+
+<p align="center">
+  <a href="https://edwardlthompson.github.io/OpenShouter/"><img src="https://img.shields.io/badge/GitHub%20Pages-demo-0969da?style=flat-square" alt="GitHub Pages demo" /></a>
 </p>
 
 ## Pitch
@@ -24,13 +38,21 @@ Silence ringtones and notification sounds. In OpenShouter, allow only the apps y
 
 It is a FOSS Android announcer inspired by Voice Notify and classic Shouter: spoken notifications, looping caller ID, battery and power events, mute gestures, and on-device geofences. No Google Play Services, Firebase, or tracking. MIT licensed. GitHub Releases only.
 
+## What this is not
+
+- It speaks the alerts you choose — it does not read the screen or OCR other apps.
+- It is not a TalkBack or screen-reader replacement; accessibility services still handle full UI navigation.
+- It does not replace your notification shade, answer calls for you, or silence other apps by force.
+
 ## Demo
+
+<p align="center">
+  <img src="docs/images/demo.gif" alt="OpenShouter demo walkthrough" width="360" />
+</p>
 
 <p align="center">
   <img src="branding/assets/logo-lockup.svg" alt="OpenShouter lockup" width="320" />
 </p>
-
-> Add screenshots or a short demo GIF under `docs/images/` and link them here when available.
 
 ## Features
 

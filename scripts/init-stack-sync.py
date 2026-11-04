@@ -14,6 +14,7 @@ MODULE_LINES = {
     "python": "Python",
     "node": "Node API",
     "lightroom": "Lightroom Classic",
+    "blender": "Blender icon factory",
     "rust": "Rust",
     "go": "Go",
 }
@@ -24,6 +25,7 @@ MODULE_EXAMPLE_DIRS = {
     "python": "examples/python",
     "node": "examples/node",
     "lightroom": "examples/lightroom",
+    "blender": "examples/blender",
     "rust": "examples/rust",
     "go": "examples/go",
 }
@@ -50,7 +52,9 @@ def active_modules(stack: str, root: Path) -> list[str]:
 
 
 def sync_agent_memory(root: Path, stack: str) -> None:
-    path = root / "AGENT_MEMORY.md"
+    path = root / ".agent" / "AGENT_MEMORY.md"
+    if not path.is_file():
+        path = root / "AGENT_MEMORY.md"
     text = path.read_text(encoding="utf-8")
     active = set(active_modules(stack, root))
     for key, label in MODULE_LINES.items():

@@ -20,9 +20,12 @@ val keystoreProperties = Properties().apply {
     }
 }
 
-fun signingProp(envKey: String, propKey: String): String? =
-    System.getenv(envKey)?.takeIf { it.isNotBlank() }
-        ?: keystoreProperties.getProperty(propKey)?.takeIf { it.isNotBlank() }
+fun signingProp(envKeys: List<String>, propKey: String): String? {
+    for (envKey in envKeys) {
+        System.getenv(envKey)?.takeIf { it.isNotBlank() }?.let { return it }
+    }
+    return keystoreProperties.getProperty(propKey)?.takeIf { it.isNotBlank() }
+}
 
 android {
     namespace = "dev.foss.goldenpath"
@@ -32,24 +35,41 @@ android {
         applicationId = "org.openshouter"
         minSdk = 26
         targetSdk = 35
-        versionCode = 32
-        versionName = "1.5.1" // x-release-please-version
+        versionCode = 33
+        versionName = "1.6.0" // x-release-please-version
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
     signingConfigs {
         create("release") {
-            val storePath = signingProp("RELEASE_STORE_FILE", "storeFile") ?: return@create
+            val storePath = signingProp(
+                listOf("GOLDENPATH_UPLOAD_STORE_FILE", "RELEASE_STORE_FILE"),
+                "storeFile",
+            ) ?: return@create
             storeFile = rootProject.file(storePath)
-            storePassword = signingProp("RELEASE_STORE_PASSWORD", "storePassword")
-            keyAlias = signingProp("RELEASE_KEY_ALIAS", "keyAlias")
-            keyPassword = signingProp("RELEASE_KEY_PASSWORD", "keyPassword")
+            storePassword = signingProp(
+                listOf("GOLDENPATH_UPLOAD_STORE_PASSWORD", "RELEASE_STORE_PASSWORD"),
+                "storePassword",
+            )
+            keyAlias = signingProp(
+                listOf("GOLDENPATH_UPLOAD_KEY_ALIAS", "RELEASE_KEY_ALIAS"),
+                "keyAlias",
+            )
+            keyPassword = signingProp(
+                listOf("GOLDENPATH_UPLOAD_KEY_PASSWORD", "RELEASE_KEY_PASSWORD"),
+                "keyPassword",
+            )
         }
     }
 
     buildTypes {
         release {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
+            isShrinkResources = true
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro",
+            )
             val releaseSigning = signingConfigs.getByName("release")
             if (releaseSigning.storeFile?.isFile == true) {
                 signingConfig = releaseSigning
@@ -105,6 +125,7 @@ dependencies {
     androidTestImplementation("androidx.test.ext:junit:1.3.0")
     androidTestImplementation("androidx.test:runner:1.7.0")
     androidTestImplementation("androidx.test:rules:1.7.0")
+    androidTestImplementation("androidx.test.espresso:espresso-core:3.7.0")
     androidTestImplementation(libs.compose.ui.test.junit4)
 
     debugImplementation(libs.compose.ui.tooling)

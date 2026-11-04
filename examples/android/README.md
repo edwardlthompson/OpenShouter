@@ -37,6 +37,8 @@ cd examples/android
 
 ```
 
+Signed release builds (upload keystore env vars): [`docs/ANDROID_SIGNING.md`](../../docs/ANDROID_SIGNING.md).
+
 ## Emulator checklist
 
 Before running instrumented tests or manual QA:

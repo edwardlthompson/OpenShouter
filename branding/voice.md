@@ -1,33 +1,41 @@
 # Brand voice
 
-OpenShouter speaks for people who cannot look at a screen — and for people who choose not to.
+Placeholder voice for Golden Path / child products. Replace when you have a real brand. Run `/brand` to align voice with the new mark and `product.json`.
 
 ## Tone
 
-- **Clear and direct** — say what will be spoken, and when it stays quiet
-- **FOSS-first** — on-device, no tracking, GitHub Releases only
-- **Calm, not shouty** — the product name is ironic; UI copy is plain. The launcher mark is a flat generated raster (`branding/assets/logo-mark.png`). Splash and README use the photorealistic twin (`logo-mark-photo.jpg`, `readme-hero.jpg`).
-- **Accessible** — every control has a content description; never rely on color alone
-- **Respectful** — accessibility and digital quiet are equal reasons to use the app; do not talk down to either audience
+- **Clear and direct** — say what the app does in one breath
+- **FOSS-first** — emphasize user control, privacy, and open distribution
+- **Confident, not hype** — no “revolutionary” / “ultimate” filler
+- **Agent-friendly** — short paragraphs, scannable bullets, concrete next steps
 
-## Who it is for
+## Pitch formulas
 
-1. **Eyes-free and print-disabled use** — people who cannot see a screen, or cannot read what is on it, still hear the caller and the notifications they allow.
-2. **Intentional phone use** — people cutting down on checking the device. Silence ringtones and notification sounds, whitelist only the apps that matter, and let the rest stay quiet.
+Use these shapes when filling `product.json` or README hero copy:
+
+1. **Outcome → proof → CTA**
+   *Outcome:* what the user gets. *Proof:* FOSS / privacy / stack fact. *CTA:* init, install, or open Settings.
+   Example: “Ship offline-ready FOSS alarms without a Google account. MIT, no tracking. Clone and `/tour`.”
+
+2. **Who → job → without**
+   “For [who] who need to [job] without [pain].”
+
+3. **Tagline test** — if you delete the product name, the tagline still makes sense and stays under ~12 words.
+
+Keep the elevator pitch to **1–2 sentences**. Features are benefits (“offline-ready PWA”), not internals (“uses Vite”).
 
 ## Pitch rules
 
-1. Lead with the user outcome (hear what matters without looking).
-2. Name Voice Notify and Shouter as inspiration, not as affiliation.
-3. Features are behaviors (“shake to silence”), not SDK names.
-4. Never promise Google Play Services, cloud sync, or “AI” summarization.
-5. Never claim to treat addiction or a medical condition. Say fewer glances, less noise, a calmer day.
+1. Lead with the user outcome, then the stack.
+2. Keep the elevator pitch to 1–2 sentences.
+3. Features are benefits (“offline-ready PWA”), not internals (“uses Vite”).
+4. README hero + badges must still read if images fail to load (alt text / headings).
 
 ## Do / don’t
 
 | Do | Don’t |
 |----|-------|
-| Permission rationales in one sentence | Hide background location in a generic “allow all” |
-| Master mute that is obvious | Surprise TTS in quiet hours |
-| MIT + GitHub Releases language | Play Store exclusivity or proprietary trackers |
-| “Allow only the apps you care about” | “We read everything on your phone” |
+| Specific verbs: ship, verify, prune, release | Vague adjectives without proof |
+| Link to SECURITY / CONTRIBUTING | Promise proprietary store SDKs |
+| Match `product.json` name to UI `app.title` | Invent a second product name in docs |
+| Write splash-adjacent copy that matches first-frame chrome | Treat donate/update prompts as brand splash |

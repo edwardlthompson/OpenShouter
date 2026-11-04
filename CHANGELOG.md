@@ -8,6 +8,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.6.0](https://github.com/edwardlthompson/OpenShouter/compare/v1.5.1...v1.6.0) (2026-11-04)
+
+### Added
+
+* **android:** first-run explanation of which alerts get spoken (app chooser is the product)
+* **android:** persist per-app mute with history reason; quiet hours link on home
+* **docs:** README demo GIF walkthrough under the hero; “What this is not” (alerts ≠ TalkBack)
+* **repo:** portfolio About description/topics; living memory under `.agent/`
+
+### Fixed
+
+* **tts:** MediaSession callback uses main looper so Hilt off-main construction no longer NPEs (#63)
+* **tts:** failed engine bind retries once and shows a visible error instead of silent no-op
+
 ## [1.5.1](https://github.com/edwardlthompson/OpenShouter/compare/v1.5.0...v1.5.1) (2026-10-05)
 
 

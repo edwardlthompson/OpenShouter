@@ -83,6 +83,12 @@ fun SetupScreen(
     }
     MenuScaffold(stringResource(R.string.setup_title), scrollStore, "setup", modifier = modifier) {
         SetupLegacyImport(onImportInstalled, onImportBytes)
+        MenuSection(stringResource(R.string.setup_chooser_title)) {
+            MenuBody {
+                Text(stringResource(R.string.setup_chooser_body), style = MaterialTheme.typography.bodyLarge)
+            }
+            SetupRow(R.string.setup_apps, appCount > 0, onPickApps)
+        }
         MenuSection(stringResource(R.string.menu_section_setup)) {
             MenuBody { Text(stringResource(R.string.setup_body), style = MaterialTheme.typography.bodyLarge) }
             SetupRow(R.string.setup_listener, listenerOn) { SetupChecks.openListener(context) }
@@ -112,7 +118,6 @@ fun SetupScreen(
             }
             permLauncher.launch(perm)
         }
-        SetupRow(R.string.setup_apps, appCount > 0, onPickApps)
         }
         MenuSection(stringResource(R.string.nav_silence)) {
             MenuLink(

@@ -50,6 +50,8 @@
     <string name="dashboard_master">Announcements</string>
     <string name="announcer_title">Announcer</string>
     <string name="tts_title">Voice</string>
+    <string name="tts_engine_retrying">Text-to-speech failed to start — retrying once…</string>
+    <string name="tts_engine_failed">No working text-to-speech engine. Open Voice settings or install a TTS engine, then try again.</string>
     <string name="menu_section_master">Master</string>
     <string name="menu_section_hear">Hear</string>
     <string name="menu_section_log">History and reminders</string>
@@ -69,6 +71,8 @@
     <string name="dashboard_open_setup">Permissions and battery</string>
     <string name="setup_title">Welcome — turn on what OpenShouter needs</string>
     <string name="setup_body">Each button opens a system screen. Unrestricted battery and exact alarms keep hourly shouts on time after the phone sleeps.</string>
+    <string name="setup_chooser_title">Which alerts get spoken</string>
+    <string name="setup_chooser_body">OpenShouter only speaks apps you pick. Nothing is read aloud until you choose at least one app. That chooser is the product: allow Messages or your bank, leave games silent. Calls, power, and calendar have their own toggles under Announcer after setup.</string>
     <string name="setup_continue">Continue</string>
     <string name="setup_activate">Activate</string>
     <string name="setup_activated">Activated</string>
@@ -92,6 +96,8 @@
     <string name="dashboard_grant_background">Allow background location for geofences</string>
     <string name="dashboard_background_rationale">Background location is used only to silence announcements inside saved Home or Work fences. It is requested separately after fine location.</string>
     <string name="nav_rules">Apps to shout</string>
+    <string name="apps_mute_help">Turn both switches off to mute an app. Muted apps stay listed so you can unmute later. Quiet hours mute everything globally.</string>
+    <string name="nav_quiet">Quiet hours</string>
     <string name="nav_announcer">Mute, quiet hours, audio</string>
     <string name="nav_places">Geofence places</string>
     <string name="nav_history">Announcement history</string>
@@ -239,6 +245,7 @@
     <string name="history_reason_filter">text filter</string>
     <string name="history_reason_gate">device or quiet gate</string>
     <string name="history_reason_importance">below importance</string>
+    <string name="history_reason_muted">app muted</string>
     <string name="filters_ignore_empty">Ignore empty notifications</string>
     <string name="filters_ignore_group">Ignore stacked group summaries</string>
     <string name="filters_ignore_repeats">Ignore identical repeats</string>

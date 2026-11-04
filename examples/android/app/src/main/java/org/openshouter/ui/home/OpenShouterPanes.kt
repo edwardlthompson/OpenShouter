@@ -38,6 +38,7 @@ import org.openshouter.time.TimeShoutScreen
 import org.openshouter.data.SoundLeakEntity
 import org.openshouter.notification.NotificationChannelSettings
 import org.openshouter.oem.OemScreen
+import org.openshouter.tts.TtsBindPhase
 import org.openshouter.ui.menu.MenuScrollStore
 import org.openshouter.ui.silence.SilenceScreen
 
@@ -56,6 +57,7 @@ fun OpenShouterPanes(
     installedApps: List<InstalledApp>,
     showSpoken: Boolean,
     showSetup: Boolean,
+    ttsBindPhase: TtsBindPhase = TtsBindPhase.Ready,
     ep: OpenShouterEntryPoint,
     scope: CoroutineScope,
     onPane: (Pane) -> Unit,
@@ -82,9 +84,11 @@ fun OpenShouterPanes(
         pane == Pane.Home -> DashboardScreen(
             announcerEnabled = settings.announcerEnabled,
             onAnnouncerChange = { on -> scope.launch { ep.settings().setEnabled(on) } },
+            ttsBindPhase = ttsBindPhase,
             onOpenSetup = { onPane(Pane.Setup) },
             onOpenRules = { onPane(Pane.Rules) },
             onOpenAnnouncerSettings = { onPane(Pane.Announcer) },
+            onOpenQuietHours = { onPane(Pane.Quiet) },
             onOpenHistory = { onPane(Pane.History) },
             onOpenFilters = { onPane(Pane.Filters) },
             onOpenTts = { onPane(Pane.Tts) },

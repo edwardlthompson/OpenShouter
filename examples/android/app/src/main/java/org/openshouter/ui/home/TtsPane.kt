@@ -49,10 +49,12 @@ fun TtsPane(
         languages = ep.tts().languageTags(settings.ttsPlayback.voice.engine),
         voices = ep.tts().voices(settings.ttsPlayback.voice.engine),
         engineGen = ep.tts().engineGen,
+        bindPhase = ep.tts().bindPhase,
         loadLanguages = { ep.tts().languageTags(settings.ttsPlayback.voice.engine) },
         loadVoices = { ep.tts().voices(settings.ttsPlayback.voice.engine) },
         engines = ep.tts().installedEngines(),
         downloads = ep.tts().downloadOffers(),
+        onRetryBind = { ep.tts().warmup(settings.ttsPlayback.voice.engine) },
         onOpenUrl = { url ->
             if (!url.startsWith("https://")) return@TtsSettingsScreen
             runCatching {

@@ -12,9 +12,11 @@ class AppSpeakPolicyTest {
     }
 
     @Test
-    fun bothOffIsSilent() {
+    fun bothOffIsMutedNotMissing() {
         val rule = AppSpeakRule("a.b", speakAppName = false, speakNotification = false)
-        assertEquals(null, AppSpeakPolicy.ruleFor("a.b", mapOf("a.b" to rule)))
+        assertEquals(rule, AppSpeakPolicy.ruleFor("a.b", mapOf("a.b" to rule)))
+        assertEquals(true, AppSpeakPolicy.isMuted(rule))
+        assertEquals(false, AppSpeakPolicy.allowsSpeak(rule))
     }
 
     @Test

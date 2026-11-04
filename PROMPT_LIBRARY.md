@@ -186,9 +186,11 @@ After merging a Release Please release PR or tagging vX.Y.Z:
 **Prompt:**
 
 ```
-Run scripts/simulate-template-upgrade.sh before marking Sprint M2 complete.
-If it fails, follow docs/UPGRADING_FROM_TEMPLATE.md cherry-pick table and fix
-validate-bootstrap or validate-template-index gaps before bumping .template-version.
+On this template repo, run scripts/simulate-template-upgrade.sh (or /upgrade).
+On a child repo, run /upgrade (check-template-updates + check-template-gaps) and
+write a Plan only — never overwrite Sacred files. Follow docs/UPGRADING_FROM_TEMPLATE.md.
+If the sim fails, fix validate-bootstrap or validate-template-index gaps before
+bumping .template-version.
 Use action.yml in downstream repos: uses: owner/agent-project-bootstrap/.github/actions/validate-bootstrap@main
 (or path: ./ with action.yml at repo root for this template).
 
@@ -237,7 +239,9 @@ For BUILD_PLAN sprints: maximize agent_count; run check-build-plan-parallel.sh b
 
 ```
 Read @docs/CURSOR_MODES.md and INITIALIZATION_PROMPT.md Section 7b.
-Collect runtime evidence first (command output, CI log URL, repro steps).
+Read .cursor/last-feature-gate.json first (failed_stage, log_tail, human_hint).
+Read .cursor/agent-progress.json strikes — halt if >= 3 (evidence summary, not a fourth guess).
+If the JSON is missing: collect command output, CI log URL, repro steps.
 Check KNOWLEDGE_BASE.md and docs/FOR_AGENTS.md Failure Playbook.
 Confirm repro locally before editing code. Switch to Agent Mode to apply fix.
 
@@ -274,18 +278,51 @@ Write CODE_REVIEW.md from CODE_REVIEW.md.example; add BUILD_PLAN sprint; execute
 **Prompt:**
 
 ```
-Execute @.cursor/commands/dependabot.md — triage alerts/PRs; KB-007 npm overrides when needed.
+Execute @.cursor/commands/dependabot.md — leftover GitHub alerts/PRs after /update-deps; KB-007 npm overrides when needed.
+
+```
+
+## Entry 23b — Update deps (`/update-deps`)
+
+**Slash command:** `.cursor/commands/update-deps.md`
+
+**Prompt:**
+
+```
+Execute @.cursor/commands/update-deps.md — local dry-run, audit, patch/minor apply. Prefer depsonar MCP; else upd CLI. Do not git push.
+
+```
+
+## Entry 23c — Best-of-N (`/best-of-n`)
+
+**Slash command:** `.cursor/commands/best-of-n.md`
+
+**Prompt:**
+
+```
+Execute @.cursor/commands/best-of-n.md — local worktree model race; cap N by RAM; one Ollama server; never git push.
+
+```
+
+## Entry 23d — Local emulator (`/emulator`)
+
+**Slash command:** `.cursor/commands/emulator.md`
+
+**Prompt:**
+
+```
+Execute @.cursor/commands/emulator.md — local AOSP instrumented tests; skip if no SDK; never git push or adb reboot.
 
 ```
 
 ## Entry 24 — Pre-release batch (`/prerelease`)
 
-**Slash command:** `.cursor/commands/prerelease.md` · See also Entries 3, 10, Codex review.
+**Slash command:** `.cursor/commands/prerelease.md` · See also Entries 3, 10.
 
 **Prompt:**
 
 ```
-Execute @.cursor/commands/prerelease.md — prerelease-autofix, optional Codex (/codex-review), hard pre-release-gate; zero Critical/High before /push. Used by /ship.
+Execute @.cursor/commands/prerelease.md — if /ship already ran /update-deps, audit-only; else full /update-deps. Then release-please-dry, prerelease-autofix, pre-release-gate --local. Used by /ship.
 
 ```
 
@@ -293,10 +330,12 @@ Execute @.cursor/commands/prerelease.md — prerelease-autofix, optional Codex (
 
 **Slash command:** `.cursor/commands/codex-review.md` · Docs: `docs/CODEX_REVIEW.md`
 
+Advanced/optional. Not first-time. Not part of `/ship`. Beginners: use Cline.
+
 **Prompt:**
 
 ```
-Execute @.cursor/commands/codex-review.md — optional Codex read-only review → CODE_REVIEW.md → BUILD_PLAN Critical/High → /fix. Skip if no OPENAI_API_KEY/CLI.
+Execute @.cursor/commands/codex-review.md — advanced optional Codex read-only review → CODE_REVIEW.md → BUILD_PLAN Critical/High → /fix. Skip if no OPENAI_API_KEY/CLI. Not required.
 
 ```
 
@@ -388,14 +427,15 @@ Execute @.cursor/commands/docs.md — readme health, markdown tables, file encod
 
 ```
 
-## Entry 33 — Upgrade sim (`/upgrade`)
+## Entry 33 — Upgrade (`/upgrade`)
 
-**Slash command:** `.cursor/commands/upgrade.md` · See also Entry 16.
+**Slash command:** `.cursor/commands/upgrade.md` · See also Entry 16. Other IDEs: `docs/help/UPGRADE.md`.
 
 **Prompt:**
 
 ```
-Execute @.cursor/commands/upgrade.md — simulate-template-upgrade.sh.
+Execute @.cursor/commands/upgrade.md — template: simulate-template-upgrade.sh;
+child: check-template-gaps Plan only (refuse do all).
 
 ```
 
@@ -494,7 +534,7 @@ Execute @.cursor/commands/debug.md — defect investigation; not the same as /au
 **Prompt:**
 
 ```
-Execute @.cursor/commands/bootstrap.md — init → prune → setup → gates.
+Execute @.cursor/commands/bootstrap.md — init → prune → setup → gates, then Welcome Tour.
 
 ```
 
@@ -516,7 +556,7 @@ Execute @.cursor/commands/verify.md — docs → gates → ci.
 **Prompt:**
 
 ```
-Execute @.cursor/commands/build.md — autonomous BUILD_PLAN sprint chain; no user approval; chains until HUMAN/ADB block or all AGENT/AUTO complete.
+Execute @.cursor/commands/build.md — autonomous BUILD_PLAN sprint chain; no user approval; wrap-up smoke → gates → mandatory /cleanup → show slim BUILD_PLAN; chains until HUMAN/ADB block or all AGENT/AUTO complete.
 
 ```
 
@@ -527,7 +567,7 @@ Execute @.cursor/commands/build.md — autonomous BUILD_PLAN sprint chain; no us
 **Prompt:**
 
 ```
-Execute @.cursor/commands/ship.md — prerelease → push → regress; grants git push approval.
+Execute @.cursor/commands/ship.md — update-deps → prerelease → push → regress; grants git push approval.
 
 ```
 
@@ -538,7 +578,7 @@ Execute @.cursor/commands/ship.md — prerelease → push → regress; grants gi
 **Prompt:**
 
 ```
-Execute @.cursor/commands/maintain.md — radar → triage → dependabot → audit.
+Execute @.cursor/commands/maintain.md — radar → triage → update-deps → dependabot → audit.
 
 ```
 
@@ -549,6 +589,17 @@ Execute @.cursor/commands/maintain.md — radar → triage → dependabot → au
 **Prompt:**
 
 ```
-Execute @.cursor/commands/cleanup.md — archive completed BUILD_PLAN rows and sync COMPLETED_TASKS when sprint is fully ✅.
+Execute @.cursor/commands/cleanup.md — archive completed BUILD_PLAN rows and sync COMPLETED_TASKS when sprint is fully ✅ (always chained at end of /build; may also run alone).
+
+```
+
+## Entry 48 — Coach (`/coach`)
+
+**Slash command:** `.cursor/commands/coach.md`
+
+**Prompt:**
+
+```
+Execute @.cursor/commands/coach.md — project health, next BUILD_PLAN action, and industry why.
 
 ```

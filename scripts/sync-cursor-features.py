@@ -107,7 +107,7 @@ def generate_help(root: Path, tier: str) -> None:
         ("Sandbox (optional)", "`.cursor/sandbox.json.example`", "both"),
         ("Plugin pack", "`.cursor-plugin/plugin.json` + `scripts/pack-cursor-plugin.*`", "both"),
         ("CLI (opt-in)", "`.github/workflow-examples/cursor-agent.yml`", "both"),
-        ("Codex review (opt-in)", "`.github/workflow-examples/codex-review.yml`", "both"),
+        ("Codex review (advanced/optional, not first-time)", "`.github/workflow-examples/codex-review.yml`", "both"),
         ("GitHub + depsonar MCP (optional)", "`.cursor/mcp.foss.example`", "foss"),
         ("Feature radar", "`scripts/cursor-feature-radar.sh`", "both"),
     ]
@@ -195,7 +195,9 @@ def sync(root: Path, tier: str, copy_commercial: bool, patch_init: bool = False)
 
     foss_rule = root / ".cursor/rules/foss-compliance.mdc"
     commercial_rule = root / ".cursor/rules/commercial-compliance.mdc"
-    set_rule_always_apply(foss_rule, tier == "foss")
+    # FOSS law lives in AGENTS/main; keep foss-compliance on-demand to cut tokens.
+    # Commercial tier still flips commercial-compliance alwaysApply on.
+    set_rule_always_apply(foss_rule, False)
     set_rule_always_apply(commercial_rule, tier == "commercial")
 
     if tier == "commercial" and copy_commercial:
