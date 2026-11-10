@@ -24,7 +24,7 @@ Classic Shouter has a **Message** shout (read sender, optional body, unknown-num
 ## Alternatives considered
 
 | Option | Rejected because |
-|--------|------------------|
+| -------- | ------------------ |
 | `READ_SMS` + Telephony SMS inbox | Policy/privacy; contradicts FOSS GitHub-Releases stance and prior non-goal |
 | Skip Message entirely | Drops a primary Shouter screen the user asked to match |
 | Treat all notifications as messages | Collides with App Notification; no sender/known-only rules |
