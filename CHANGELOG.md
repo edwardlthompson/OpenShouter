@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
 ## [1.0.0](https://github.com/edwardlthompson/OpenShouter/compare/v1.13.0...v1.0.0) (2026-11-11)
 
 
@@ -75,8 +77,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * **init:** add Android SDK helpers missing from init_extras ([f5d6d31](https://github.com/edwardlthompson/OpenShouter/commit/f5d6d31133b26c361ee3544c00f4f4b59a2a0ef5))
 * **tts:** bind MediaSession callback to main looper ([#63](https://github.com/edwardlthompson/OpenShouter/issues/63)) ([229709d](https://github.com/edwardlthompson/OpenShouter/commit/229709dafa0e4456332fa9ecf52621460cffc7e1))
 * **tts:** retry failed engine bind once with visible status ([ce2a502](https://github.com/edwardlthompson/OpenShouter/commit/ce2a502541fa4f1690d29aa084d20b0e96a0124e))
-
-## [Unreleased]
 
 ## [1.6.0](https://github.com/edwardlthompson/OpenShouter/compare/v1.5.1...v1.6.0) (2026-11-04)
 
