@@ -29,7 +29,7 @@ The original Shouter-style *behavior* (Home/Work silent or announce modes) is in
 ## Alternatives Considered
 
 | Option | Rejected because |
-|--------|------------------|
+| -------- | ------------------ |
 | `play-services-location` GeofencingClient | Proprietary; Module A / FOSS violation |
 | microG as a runtime dependency | Extra user setup; not hermetic FOSS in our APK |
 | Skip geofencing entirely | Drops a stated Shouter parity feature |

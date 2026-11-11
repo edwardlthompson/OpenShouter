@@ -26,7 +26,7 @@ Cloud Agents, Grok Bots, and wide parallel Cloud lanes burn Cursor tokens even w
 ### Critique
 
 | Issue | Resolution |
-|-------|------------|
+| ------- | ------------ |
 | Lean leaves stale Cloud lane rows | Conversion rewrites open CLOUD→LOCAL; empty cloud lane stub remains valid |
 | Missing JSON mid-session | Treat as balanced; `/status` prints the effective mode |
 | Always-on injection bloat | One-line `agent-mode.mdc`; ADR-0009 diet unchanged |
