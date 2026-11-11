@@ -6,6 +6,76 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.0](https://github.com/edwardlthompson/OpenShouter/compare/v1.13.0...v1.0.0) (2026-11-11)
+
+
+### chore
+
+* **release:** prepare v1.0.0 release ([75a976e](https://github.com/edwardlthompson/OpenShouter/commit/75a976e02a6e6e6621b307caed2fd34760aecfe3))
+
+
+### Added
+
+* **android:** add per-channel app name cooldown ([e2c0c33](https://github.com/edwardlthompson/OpenShouter/commit/e2c0c333cca62ddd777174fae8003b6764e1e944))
+* **android:** add per-channel app name cooldown ([324c238](https://github.com/edwardlthompson/OpenShouter/commit/324c23812ef24f47dd84757faedd83d1df279131))
+* **android:** add spoken clock styles for time shout ([e34b388](https://github.com/edwardlthompson/OpenShouter/commit/e34b3882bea308162656144884af8ae557987c64))
+* **android:** add voice quality dropdowns and engine catalog ([423fbce](https://github.com/edwardlthompson/OpenShouter/commit/423fbcefea3746bb6d51ede2ef51e84cc6cb64a5))
+* **android:** import classic Shouter settings ([6ed7985](https://github.com/edwardlthompson/OpenShouter/commit/6ed7985ef47459bd0b8f6c4ff7f7b20047181efd))
+* **android:** open Settings from dashboard with menu chrome ([74fe06e](https://github.com/edwardlthompson/OpenShouter/commit/74fe06e688cd65abdba89c986e3e667713130180))
+* **android:** open Settings from dashboard with menu chrome ([7284b7c](https://github.com/edwardlthompson/OpenShouter/commit/7284b7c0ada9fdc884044d24089443e776a85f61))
+* **android:** open Settings from dashboard with menu chrome ([#31](https://github.com/edwardlthompson/OpenShouter/issues/31)) ([74fe06e](https://github.com/edwardlthompson/OpenShouter/commit/74fe06e688cd65abdba89c986e3e667713130180))
+* **android:** prepare v0.2.6 release ([06a0bc1](https://github.com/edwardlthompson/OpenShouter/commit/06a0bc1a82426057e09d32b8abcddb09d9f6a861))
+* **android:** prepare v0.4.0 release ([59c15e2](https://github.com/edwardlthompson/OpenShouter/commit/59c15e27a0722b8bbf05ef1ec58f314d3dccb680))
+* **android:** record gate misses and add French pack ([f757e09](https://github.com/edwardlthompson/OpenShouter/commit/f757e0998e6b44fcd057538d390aac483aada298))
+* **android:** record time and other shouts in history ([31f6413](https://github.com/edwardlthompson/OpenShouter/commit/31f6413aa84ea65d5cf0654382feb2a6d537a64b))
+* **android:** record time and other shouts in history ([65ae869](https://github.com/edwardlthompson/OpenShouter/commit/65ae869e5267f3fa86d2ef21fb06d3c7b0e5a4bd))
+* **android:** silence competing notification sounds ([ae13f39](https://github.com/edwardlthompson/OpenShouter/commit/ae13f39af99f4aad5e3e2fb07170dcb132ca17b0))
+* **android:** speak VoIP incoming calls once by default ([66584d0](https://github.com/edwardlthompson/OpenShouter/commit/66584d049048b49eda0f41d9e744d3bc7497f72b))
+* **android:** sun and moon alarm redesign with number wheels, math unlock challenge, and sound picker ([1cf9108](https://github.com/edwardlthompson/OpenShouter/commit/1cf91088d5b542262df1d6334a2bbe4f6e6b9f16))
+* **android:** tap history to mute app or notification channel ([#30](https://github.com/edwardlthompson/OpenShouter/issues/30)) ([c4bbe40](https://github.com/edwardlthompson/OpenShouter/commit/c4bbe400d56a1b9a0f6ad851626ab0f823f25803))
+* **android:** tighten apps-to-shout and backup limits ([1cb14b1](https://github.com/edwardlthompson/OpenShouter/commit/1cb14b1faec1b6db9e1957af3deb74ab05fd7be7))
+* **announce:** persist per-app mute and surface quiet hours ([a427144](https://github.com/edwardlthompson/OpenShouter/commit/a4271443248057080bc9e0be56c1c0575af9917a))
+* **openshouter:** prepare v0.2.0 release ([c832a1e](https://github.com/edwardlthompson/OpenShouter/commit/c832a1eb0188111ff4a89cc339f1b7779a1e0f03))
+* **release:** sign FOSS APKs with release keystore ([580e05f](https://github.com/edwardlthompson/OpenShouter/commit/580e05f4f01075c3dc1d10ea4c2871ba5e69b40d))
+* **setup:** explain which alerts get spoken on first run ([c5652c7](https://github.com/edwardlthompson/OpenShouter/commit/c5652c74f604ea5423275443216a579c93cb0cf5))
+
+
+### Fixed
+
+* add Sprint 22 parallel_exception for BUILD_PLAN gate ([b7f0414](https://github.com/edwardlthompson/OpenShouter/commit/b7f0414325bb173b2b1585052a35fc5c4b38acc6))
+* **android:** add F-Droid changelog for versionCode 31 ([253e938](https://github.com/edwardlthompson/OpenShouter/commit/253e938a66187002153496d02c7f634c46872f6b))
+* **android:** add F-Droid changelog for versionCode 33 ([0395251](https://github.com/edwardlthompson/OpenShouter/commit/0395251d399a196e767700fe869d7ceec584db7c))
+* **android:** announce ringing and WhatsApp calls ([7b6f017](https://github.com/edwardlthompson/OpenShouter/commit/7b6f017da11bf8bd8103ed911106fc861b24c6ce))
+* **android:** auto media stream in Android Auto ([72dcbc6](https://github.com/edwardlthompson/OpenShouter/commit/72dcbc6e2983730fd1e0e208938b8144301d693f))
+* **android:** dismiss theme dropdown before leaving settings ([d13638f](https://github.com/edwardlthompson/OpenShouter/commit/d13638f434ce29f074775e0543807c1a46b2c59d))
+* **android:** do not crash on first launch without phone permission ([b0ac163](https://github.com/edwardlthompson/OpenShouter/commit/b0ac163f10c8cf6a1d14d73baac87f293928e1d8))
+* **android:** keep a single Settings title on the settings pane ([b0d57d6](https://github.com/edwardlthompson/OpenShouter/commit/b0d57d674b0e08c2f0782b37b9894af20a35a8eb))
+* **android:** keep calendar Instances column arrays non-null ([71aead5](https://github.com/edwardlthompson/OpenShouter/commit/71aead5f629c0f0cc12c2d2d6a761a0ed4866bd7))
+* **android:** keep hourly shout from ending bedtime ([a8d4b39](https://github.com/edwardlthompson/OpenShouter/commit/a8d4b39ddf3ea43056dc1e915677b266876b5350))
+* **android:** open theme dropdown in settings UI test ([a4c0ae1](https://github.com/edwardlthompson/OpenShouter/commit/a4c0ae13a212a694971621a8e2e6ac6bfd94c1f8))
+* **android:** play TTS on Android Auto head unit ([82e4d31](https://github.com/edwardlthompson/OpenShouter/commit/82e4d313ca6687620d3aaf0b6934119916f0c0e5))
+* **android:** prepare v0.2.1 release ([ba5bd4f](https://github.com/edwardlthompson/OpenShouter/commit/ba5bd4f5645bc76c196e4c19f039bc573d54ad5b))
+* **android:** prepare v0.2.2 release ([1698525](https://github.com/edwardlthompson/OpenShouter/commit/169852570eac9b0db35b954ffa6ce2754050ccf5))
+* **android:** prepare v0.2.3 release ([5c083ec](https://github.com/edwardlthompson/OpenShouter/commit/5c083ec0796216b4858da8ae0a482260726874fa))
+* **android:** prepare v0.2.4 release ([03807cd](https://github.com/edwardlthompson/OpenShouter/commit/03807cd49abecd516b9781095b160995720aa154))
+* **android:** prepare v0.2.5 release ([7587943](https://github.com/edwardlthompson/OpenShouter/commit/7587943edc3c5283770946dbfca39c56af9c5314))
+* **android:** put App name cooldown on the Announcer menu ([8bbb3da](https://github.com/edwardlthompson/OpenShouter/commit/8bbb3da0889587249f6ef5989fe640295a003bd9))
+* **android:** respect silent mode for incoming call shouts ([9aabe31](https://github.com/edwardlthompson/OpenShouter/commit/9aabe31378a8c15e78a8bdaa628e640457ac097d))
+* **android:** restore es/fr string parity for 1.6.0 UI copy ([3a75980](https://github.com/edwardlthompson/OpenShouter/commit/3a75980823bb576a11f891c65cca6c87010dee4e))
+* **android:** speak 24-hour time in military style ([4f62f22](https://github.com/edwardlthompson/OpenShouter/commit/4f62f2223207950ae58627ac34f5a8a71fbf7fb8))
+* **android:** speak upcoming calendar events after grant ([95e5230](https://github.com/edwardlthompson/OpenShouter/commit/95e5230f19e15f80ab39c09415ebe74508647d65))
+* **android:** speak upcoming calendar events after grant ([c535597](https://github.com/edwardlthompson/OpenShouter/commit/c535597db639f54acfc88cb4532cb2d5aa2f9eea))
+* **android:** stop call announce loop after mid-ring answer ([0f956ac](https://github.com/edwardlthompson/OpenShouter/commit/0f956ac99878a3d5ff4e0c18673d3936c96ff032))
+* **android:** tolerate missing About assets in unit tests ([ae0c29b](https://github.com/edwardlthompson/OpenShouter/commit/ae0c29b025b6fdeaa918a2e3885e1767bb4cf3c1))
+* **changelog:** keep empty Unreleased heading on the 1.1.0 PR ([a211993](https://github.com/edwardlthompson/OpenShouter/commit/a2119935676d841673d468107013ff4c44f544fc))
+* **ci:** build CodeQL language matrix from stack presence ([abc8256](https://github.com/edwardlthompson/OpenShouter/commit/abc82562289be43b511739068719ce46767d0ea3))
+* **ci:** fix shellcheck SC2015 in release workflow ([8c0e127](https://github.com/edwardlthompson/OpenShouter/commit/8c0e127462e4f107aee2a676054c5117b834f1c5))
+* **ci:** setup Android SDK and Java 17 for Feature Gate job ([69ca963](https://github.com/edwardlthompson/OpenShouter/commit/69ca963d93f897484afdc43742911a2dea621b93))
+* **ci:** unblock pruned-android Feature Gate and product tag releases ([43344b9](https://github.com/edwardlthompson/OpenShouter/commit/43344b93a5b0c63096e7ff61f8510ea1ed03b3d8))
+* **init:** add Android SDK helpers missing from init_extras ([f5d6d31](https://github.com/edwardlthompson/OpenShouter/commit/f5d6d31133b26c361ee3544c00f4f4b59a2a0ef5))
+* **tts:** bind MediaSession callback to main looper ([#63](https://github.com/edwardlthompson/OpenShouter/issues/63)) ([229709d](https://github.com/edwardlthompson/OpenShouter/commit/229709dafa0e4456332fa9ecf52621460cffc7e1))
+* **tts:** retry failed engine bind once with visible status ([ce2a502](https://github.com/edwardlthompson/OpenShouter/commit/ce2a502541fa4f1690d29aa084d20b0e96a0124e))
+
 ## [Unreleased]
 
 ## [1.6.0](https://github.com/edwardlthompson/OpenShouter/compare/v1.5.1...v1.6.0) (2026-11-04)
