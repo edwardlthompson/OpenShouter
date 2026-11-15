@@ -13,5 +13,5 @@ A Cursor planning agent should review these items and fold the useful ones into 
 
 **Tasks for the planning agent**
 
-- [ ] Check alert capture with Android 17 QPR2 notification filters — New status-bar filters could affect which notifications are spoken. Label: `[ADB]` · Priority: P2 · https://www.androidauthority.com/android-17-qpr2-stable-3733645/
+- [x] Check alert capture with Android 17 QPR2 notification filters — New status-bar filters could affect which notifications are spoken. Label: `[ADB]` · Priority: P2 · https://www.androidauthority.com/android-17-qpr2-stable-3733645/ (synced to BUILD_PLAN)
 - [ ] Smoke-test Kotlin 2.5.0-RC and bump Gradle wrapper — Catches compiler regressions before stable. Label: `[AGENT][LOCAL]` · Priority: P3 · https://github.com/JetBrains/kotlin/releases/tag/v2.5.0-RC
