@@ -41,11 +41,12 @@ android {
     }
 
     signingConfigs {
-        create("release") {
+        // maybeCreate: F-Droid strips this block; findByName/maybeCreate below still compile.
+        maybeCreate("release").apply {
             val storePath = signingProp(
                 listOf("GOLDENPATH_UPLOAD_STORE_FILE", "RELEASE_STORE_FILE"),
                 "storeFile",
-            ) ?: return@create
+            ) ?: return@apply
             storeFile = rootProject.file(storePath)
             storePassword = signingProp(
                 listOf("GOLDENPATH_UPLOAD_STORE_PASSWORD", "RELEASE_STORE_PASSWORD"),
@@ -70,7 +71,8 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro",
             )
-            val releaseSigning = signingConfigs.getByName("release")
+            val releaseSigning = signingConfigs.findByName("release")
+                ?: signingConfigs.maybeCreate("release")
             if (releaseSigning.storeFile?.isFile == true) {
                 signingConfig = releaseSigning
             }

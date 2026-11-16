@@ -8,6 +8,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+* **fdroid:** repo-root Fastlane metadata (title, descriptions, changelogs, icon, phone screenshots)
+
+### Fixed
+
+* **build:** release `signingConfig` uses `findByName`/`maybeCreate` so F-Droid can strip it
+
 ## [1.6.0](https://github.com/edwardlthompson/OpenShouter/compare/v1.5.1...v1.6.0) (2026-11-04)
 
 ### Added

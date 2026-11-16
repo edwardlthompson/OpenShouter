@@ -59,6 +59,14 @@ class AndroidRuntimeBudgetTests(unittest.TestCase):
         text = GRADLE_PROPS.read_text(encoding="utf-8")
         self.assertNotIn("android.enableR8.fullMode=false", text.replace(" ", ""))
 
+    def test_release_signing_survives_fdroid_strip(self) -> None:
+        if not APP_GRADLE.is_file():
+            self.skipTest("android example pruned")
+        text = APP_GRADLE.read_text(encoding="utf-8")
+        self.assertNotIn('signingConfigs.getByName("release")', text)
+        self.assertIn('findByName("release")', text)
+        self.assertIn('maybeCreate("release")', text)
+
 
 if __name__ == "__main__":
     unittest.main()
