@@ -70,6 +70,8 @@ Rationale: reproducibility is a **gate**, not a binary warehouse. Ship binaries 
 | GitHub Releases | Your upload (or debug for CI proofs) | Re-attach the previous tag's APK / AAB |
 | F-Droid | F-Droid builders | Previous suggested version in the recipe |
 | Play (optional) | Play App Signing after upload | Play Console → prior release; keep the same upload key |
+
+`examples/android/app/build.gradle.kts` uses `signingConfigs.findByName("release")` / `maybeCreate("release")` so F-Droid can strip the `signingConfigs` block without a `prebuild` sed. Local upload signing still applies when `GOLDENPATH_UPLOAD_STORE_FILE` points at a real keystore.
 ## Rollback
 
 1. Identify the last known-good tag (GitHub Release).

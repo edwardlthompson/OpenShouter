@@ -7,6 +7,7 @@ ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 cd "$ROOT"
 
 META="$ROOT/examples/android/metadata/en-US"
+FASTLANE="$ROOT/fastlane/metadata/android/en-US"
 GRADLE="$ROOT/examples/android/app/build.gradle.kts"
 ERRORS=0
 
@@ -56,6 +57,44 @@ if [ -f "$ROOT/LICENSE" ]; then
   ok "root LICENSE present (MIT for template)"
 else
   fail "missing root LICENSE"
+fi
+
+if [ ! -d "$FASTLANE" ]; then
+  fail "missing $FASTLANE (F-Droid scrapes repo-root fastlane/)"
+else
+  ok "repo-root fastlane metadata present"
+fi
+
+for f in title.txt short_description.txt full_description.txt; do
+  if [ ! -s "$FASTLANE/$f" ]; then
+    fail "missing or empty $FASTLANE/$f"
+  else
+    ok "fastlane $f present"
+  fi
+done
+
+if [ -n "${VERSION_CODE:-}" ]; then
+  if [ ! -s "$FASTLANE/changelogs/${VERSION_CODE}.txt" ]; then
+    fail "missing fastlane changelog $FASTLANE/changelogs/${VERSION_CODE}.txt"
+  else
+    ok "fastlane changelog for versionCode ${VERSION_CODE}"
+  fi
+fi
+
+if [ ! -f "$FASTLANE/images/icon.png" ]; then
+  fail "missing $FASTLANE/images/icon.png"
+else
+  ok "fastlane icon.png present"
+fi
+
+shot_count=0
+if [ -d "$FASTLANE/images/phoneScreenshots" ]; then
+  shot_count="$(find "$FASTLANE/images/phoneScreenshots" -maxdepth 1 -type f -name '*.png' | wc -l | tr -d ' ')"
+fi
+if [ "${shot_count:-0}" -lt 1 ]; then
+  fail "missing $FASTLANE/images/phoneScreenshots/*.png"
+else
+  ok "fastlane phoneScreenshots (${shot_count} png)"
 fi
 
 if [ -d "$ROOT/examples/android/fastlane/metadata/android/en-US" ]; then

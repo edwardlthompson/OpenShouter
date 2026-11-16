@@ -1,3 +1,3 @@
 # Store listing images
 
-Add GitHub Release / social preview assets when ready (icon, feature graphic). Do not commit large binaries unless intentional.
+F-Droid scrapes repo-root `fastlane/metadata/android/en-US/images/` (icon + phoneScreenshots). Do not commit large binaries unless intentional.
