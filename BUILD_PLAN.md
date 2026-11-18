@@ -493,3 +493,20 @@ Not a checklist. Monday cron / `/maintain` owns standing chores; do not park ope
 | Sprints 0–13 HUMAN confirmations | Complete | `COMPLETED_TASKS.md` |
 | Sprint 11 app speak list | Complete | `COMPLETED_TASKS.md` |
 | Template maintainer sprints (v0.9.0–v0.17.0) | Complete (upstream) | `COMPLETED_TASKS.md` (provenance from agent-project-bootstrap) |
+
+### Open PRs (synced)
+
+> Auto-managed. Do not hand-edit inside the markers.
+
+<!-- open-prs-sync:begin -->
+_No open Dependabot or Release Please PRs._
+<!-- open-prs-sync:end -->
+
+### Template gaps (synced)
+
+> Auto-managed. Do not hand-edit inside the markers.
+
+<!-- template-gaps-sync:begin -->
+_No template gaps._
+<!-- template-gaps-sync:end -->
+
