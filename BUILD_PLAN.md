@@ -409,7 +409,15 @@ Named gaps from `/upgrade` Plan (compare base `v1.5.0...v1.12.0`).
 ### Human & device (after automation)
 
 - 🔲 [HUMAN] Approve CI workflow merge (#7) and AGENTS.md merge (#15) before `/push`
-- 🔲 [ADB] Check alert capture with Android 17 QPR2 notification filters (news P2, 2026-11-13) https://www.androidauthority.com/android-17-qpr2-stable-3733645/
+
+### Sprint News — News Bot follow-ups
+
+<!-- parallel_exception: independent news follow-ups; run sequentially -->
+
+#### Human & device (after automation)
+
+1. 🔲 [ADB] Check alert capture with Android 17 QPR2 notification filters (news P2, 2026-11-13) https://www.androidauthority.com/android-17-qpr2-stable-3733645/
+
 
 ---
 
