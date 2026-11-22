@@ -4,4 +4,4 @@ That helps people who cannot see a screen, or cannot read what is on it. It also
 
 You still get looping caller ID, battery and power alerts, mute gestures (shake, flip, screen on/off), quiet hours, headset-only mode, and on-device geofences.
 
-FOSS. No Google Play Services. No tracking. MIT licensed. Download APKs from GitHub Releases only — there is no Play Store or F-Droid listing.
+FOSS. No Google Play Services. No tracking. MIT licensed.

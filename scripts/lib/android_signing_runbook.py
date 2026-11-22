@@ -68,6 +68,15 @@ def check(root: Path) -> list[str]:
             errors.append("app/build.gradle.kts must read GOLDENPATH_UPLOAD_STORE_FILE")
         if 'storePassword = "' in gradle or "storePassword = '" in gradle:
             errors.append("app/build.gradle.kts must not hardcode storePassword")
+        if 'signingConfigs.getByName("release")' in gradle:
+            errors.append(
+                'app/build.gradle.kts must not use getByName("release") '
+                "(F-Droid strips signingConfigs)",
+            )
+        if 'findByName("release")' not in gradle:
+            errors.append('app/build.gradle.kts must use signingConfigs.findByName("release")')
+        if 'maybeCreate("release")' not in gradle:
+            errors.append('app/build.gradle.kts must use signingConfigs.maybeCreate("release")')
     ignore = _read(root, ".gitignore")
     for pattern in KEY_GLOBS:
         if pattern not in ignore:

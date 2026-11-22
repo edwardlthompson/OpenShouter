@@ -17,6 +17,13 @@
 
 ## Entries
 
+### 2026-11-16 — F-Droid source-side metadata
+- **Status:** Accepted
+- **Context:** fdroiddata fork branch `fdroid/org.openshouter` is lint-clean and built 1.6.0 / 33, but YAML still carries Summary/Description and a `prebuild` sed because Fastlane lived under `examples/android/fastlane/` and `getByName("release")` fails after F-Droid strips `signingConfigs`.
+- **Decision:** Canonical Triple-T Fastlane at repo-root `fastlane/`; keep nested copies as a pointer. Phone screenshots are real UI frames from `docs/images/demo.gif`. Release signing uses `findByName`/`maybeCreate`. Do not retag `v1.6.0` (already matches versionName 1.6.0 / versionCode 33 at `cfadb197`).
+- **Alternatives considered:** Leave YAML workaround (rejected: F-Droid reviewers want root Fastlane). Invented mockup screenshots (rejected). Retag `v1.6.0` onto this commit (rejected: never move published tags).
+- **Consequences:** Next tagged app version can drop YAML Summary/Description and the signing `prebuild` sed.
+
 ### 2026-10-05 — /ship v1.5.1
 - **Status:** Accepted
 - **Context:** Incoming call TTS shouted while the phone was on silent. CALL had been hard-exempt from silent/vibrate since KB-023.

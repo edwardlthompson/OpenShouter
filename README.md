@@ -16,7 +16,7 @@
   <img src="https://img.shields.io/badge/license-MIT-2ea043?style=flat-square" alt="MIT" />
   <img src="https://img.shields.io/badge/FOSS-no_tracking-656d76?style=flat-square" alt="FOSS" />
   <img src="https://img.shields.io/badge/status-active-e94560?style=flat-square" alt="status" />
-  <img src="https://img.shields.io/badge/template-1.12.0-0969da?style=flat-square" alt="template" />
+  <img src="https://img.shields.io/badge/template-1.13.0-0969da?style=flat-square" alt="template" />
   <a href="https://github.com/edwardlthompson/OpenShouter/actions/workflows/ci.yml"><img src="https://img.shields.io/github/actions/workflow/status/edwardlthompson/OpenShouter/ci.yml?style=flat-square" alt="CI" /></a>
   <img src="https://img.shields.io/badge/AGENT-2ea043?style=flat-square" alt="AGENT" />
   <img src="https://img.shields.io/badge/HUMAN-0969da?style=flat-square" alt="HUMAN" />
