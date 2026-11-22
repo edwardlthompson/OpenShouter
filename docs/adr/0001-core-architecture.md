@@ -13,7 +13,7 @@ OpenShouter is a long-lived Android accessibility/utility app with many event so
 **Selected pattern:** Clean Architecture with MVVM at the UI boundary.
 
 | Layer | Responsibility | Android types allowed |
-|-------|----------------|------------------------|
+| ------- | ---------------- | ------------------------ |
 | Domain | Pure use cases and models (`SpokenEvent`, `AnnouncementGate`, format strings) | None (JVM unit tests) |
 | Data | Room, DataStore, system listeners as adapters | Room, DataStore, platform callbacks behind interfaces |
 | Presentation | Jetpack Compose + ViewModels | Compose, Hilt ViewModel, Navigation |
@@ -35,7 +35,7 @@ OpenShouter is a long-lived Android accessibility/utility app with many event so
 ## Alternatives Considered
 
 | Pattern | Rejected because |
-|---------|------------------|
+| --------- | ------------------ |
 | Hexagonal only | Extra port/adapter ceremony for a single Android delivery surface |
 | MVC Activities | Poor fit for Compose + multi-service event bus |
 | Koin | Runtime graph; Hilt is the AndroidX default and still FOSS |
