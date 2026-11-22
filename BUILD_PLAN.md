@@ -1,7 +1,7 @@
 # Build Plan
 
 <!-- remaining-tally -->
-**Remaining:** AGENT 0 · LOCAL 0 · CLOUD 0 · AUTO 0 · HUMAN 3 · ADB 3 · **6 open**
+**Remaining:** AGENT 2 · LOCAL 2 · CLOUD 0 · AUTO 0 · HUMAN 4 · ADB 3 · **9 open**
 <!-- /remaining-tally -->
 > OpenShouter task board with owner labels. **Completed sprints:** `COMPLETED_TASKS.md`.
 > Scaffolded from [agent-project-bootstrap](https://github.com/edwardlthompson/agent-project-bootstrap) v0.17.0.
@@ -409,7 +409,19 @@ Named gaps from `/upgrade` Plan (compare base `v1.5.0...v1.12.0`).
 ### Human & device (after automation)
 
 - 🔲 [HUMAN] Approve CI workflow merge (#7) and AGENTS.md merge (#15) before `/push`
-- 🔲 [ADB] Check alert capture with Android 17 QPR2 notification filters (news P2, 2026-11-13) https://www.androidauthority.com/android-17-qpr2-stable-3733645/
+
+### Sprint News — News Bot follow-ups
+
+<!-- parallel_exception: independent news follow-ups; run sequentially -->
+
+1. 🔲 [AGENT][LOCAL] Bump Compose BOM 2026.06.01 → 2026.11.01 (Compose 1.13 / Material3 1.5.0; needs Kotlin 2.2+ and compileSdk 37.1, check AGP) and fix Slider/RangeSlider call sites (`onValueChange` now required); fix 1 Slider/RangeSlider file(s) — scope: examples/android/ (news P2, 2026-11-19) https://developer.android.com/blog/posts/jetpack-compose-november-2026-release
+2. 🔲 [AGENT][LOCAL] Bump the Gradle wrapper 9.7.0 → 9.9.2 and commit the regenerated wrapper jar and distributionSha256Sum (4 High security fixes: SFTP host keys, snapshot dependency verification, TestKit temp dir, daemon registry, also gets the 9.9.1 Critical version-catalog fix) — scope: examples/android/gradle/wrapper/ (news P2, 2026-11-20) https://docs.gradle.org/9.9.2/release-notes.html
+
+#### Human & device (after automation)
+
+1. 🔲 [ADB] Check alert capture with Android 17 QPR2 notification filters (news P2, 2026-11-13) https://www.androidauthority.com/android-17-qpr2-stable-3733645/
+2. 🔲 [HUMAN] Decide on Android developer verification before January 2027: register package name(s) and signing-key SHA-256 in an Android Developer Console account, or add an advanced-flow install note to the README (news P2, 2026-11-20) https://developer.android.com/blog/posts/android-developer-verification-2027
+
 
 ---
 
@@ -493,3 +505,20 @@ Not a checklist. Monday cron / `/maintain` owns standing chores; do not park ope
 | Sprints 0–13 HUMAN confirmations | Complete | `COMPLETED_TASKS.md` |
 | Sprint 11 app speak list | Complete | `COMPLETED_TASKS.md` |
 | Template maintainer sprints (v0.9.0–v0.17.0) | Complete (upstream) | `COMPLETED_TASKS.md` (provenance from agent-project-bootstrap) |
+
+### Open PRs (synced)
+
+> Auto-managed. Do not hand-edit inside the markers.
+
+<!-- open-prs-sync:begin -->
+_No open Dependabot or Release Please PRs._
+<!-- open-prs-sync:end -->
+
+### Template gaps (synced)
+
+> Auto-managed. Do not hand-edit inside the markers.
+
+<!-- template-gaps-sync:begin -->
+_No template gaps._
+<!-- template-gaps-sync:end -->
+
